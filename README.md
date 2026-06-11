@@ -1,1 +1,1 @@
-# SkillLabsLeanP
+# SkillLabsLean
