@@ -13,43 +13,47 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* UKT Corporate Design – Karminrot · Anthrazit · Mattgold */
-  --bg:#f0f0f0; --backdrop:#e6e6e6; --surface:#ffffff; --surface2:#f8f8f8;
-  --ink:#1e1e1e; --ink2:#4a4a4a; --ink3:#909090;
-  --line:rgba(0,0,0,.08); --line2:rgba(0,0,0,.16);
-  --brand:#a51931; --brand-d:#861427;
+  /* UKT Corporate Design · Blau #454b6a · Gold #baa874 · Cremeweiß #f7f5f2 */
+  --bg:#f4f1ec; --backdrop:#e9e4d9; --surface:#ffffff; --surface2:#f8f6f1;
+  --ink:#232a38; --ink2:#454b6a; --ink3:#9ea1b9;
+  --line:rgba(35,42,56,.09); --line2:rgba(35,42,56,.18);
+  --brand:#454b6a; --brand-d:#232a38;
+  --gold:#baa874;  --gold-d:#948357;
 
-  --self:#2e7d32; --self-bg:#e8f5e9; --self-ed:#a5d6a7;
-  --con:#a4610f;  --con-bg:#fff3e0;  --con-ed:#ffcc80;
-  --bra:#1565c0;  --bra-bg:#e3f2fd;  --bra-ed:#90caf9;
-  --mat:#6244bd;  --mat-bg:#ede7f6;  --mat-ed:#ce93d8;
-  --saf:#c62828;  --saf-bg:#ffebee;  --saf-ed:#ef9a9a;
-  --mix:#546e7a;  --mix-bg:#eceff1;  --mix-ed:#b0bec5;
+  /* Minttürkis · Gold Dunkel · Blau · Blaugrün · Signalrot · Blau Hell1 */
+  --self:#47877a;  --self-bg:#e7f3f0;  --self-ed:#a8d0cb;
+  --con:#8a7248;   --con-bg:#f5efe2;   --con-ed:#ccb87c;
+  --bra:#454b6a;   --bra-bg:#eaecf5;   --bra-ed:#aaadcc;
+  --mat:#006b95;   --mat-bg:#e2f2f8;   --mat-ed:#8dcce3;
+  --saf:#c00d47;   --saf-bg:#fce7ee;   --saf-ed:#f098b6;
+  --mix:#74799d;   --mix-bg:#eeeef5;   --mix-ed:#bec0d6;
 
   --r:12px; --r-lg:18px; --r-sm:8px;
-  --shadow:0 1px 3px rgba(43,43,43,.06), 0 16px 40px -18px rgba(43,43,43,.22);
+  --shadow:0 1px 3px rgba(35,42,56,.07), 0 16px 40px -18px rgba(35,42,56,.18);
   --font:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
 }
 @media(prefers-color-scheme:dark){:root{
-  --bg:#1a1212; --backdrop:#120c0c; --surface:#231818; --surface2:#2e1f1f;
-  --ink:#f0eaea; --ink2:#b09898; --ink3:#7a6060;
-  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.16);
-  --brand:#d4465e; --brand-d:#e8697d;
-  --self:#4caf50; --self-bg:#1b3a1c; --self-ed:#2e5e2f;
-  --con:#ffb74d;  --con-bg:#3e2a10;  --con-ed:#6b4820;
-  --bra:#64b5f6;  --bra-bg:#0d2540;  --bra-ed:#1a3f6b;
-  --mat:#b39ddb;  --mat-bg:#1e1535;  --mat-ed:#3d2b62;
-  --saf:#ef9a9a;  --saf-bg:#3b1111;  --saf-ed:#6b2020;
-  --mix:#90a4ae;  --mix-bg:#1e2a2e;  --mix-ed:#37474f;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 16px 40px -18px rgba(0,0,0,.65);
+  --bg:#191d28; --backdrop:#11141e; --surface:#222738; --surface2:#2b3048;
+  --ink:#ddd8c8; --ink2:#9ea1b9; --ink3:#6a6e8e;
+  --line:rgba(221,216,200,.08); --line2:rgba(221,216,200,.16);
+  --brand:#74799d; --brand-d:#9ea1b9;
+  --gold:#d2c6a4;  --gold-d:#baa874;
+
+  --self:#66abb7;  --self-bg:#122830;  --self-ed:#234e5a;
+  --con:#baa874;   --con-bg:#26201a;   --con-ed:#463a28;
+  --bra:#9ea1b9;   --bra-bg:#1c2038;   --bra-ed:#323860;
+  --mat:#acd8e9;   --mat-bg:#0c2335;   --mat-ed:#183e5e;
+  --saf:#e06082;   --saf-bg:#2b0f1d;   --saf-ed:#521d34;
+  --mix:#9ea1b9;   --mix-bg:#222536;   --mix-ed:#383c5e;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 16px 40px -18px rgba(0,0,0,.6);
 }}
 html{-webkit-text-size-adjust:100%}
 body{font-family:var(--font);color:var(--ink);min-height:100vh;line-height:1.5;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
   background:
-    radial-gradient(ellipse 80% 40% at 50% -5%, color-mix(in srgb, var(--brand) 7%, transparent), transparent),
-    radial-gradient(circle, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px) 0 0 / 26px 26px,
+    radial-gradient(ellipse 80% 40% at 50% -5%, color-mix(in srgb, var(--gold) 10%, transparent), transparent),
+    radial-gradient(circle, color-mix(in srgb, var(--ink) 3%, transparent) 1px, transparent 1px) 0 0 / 26px 26px,
     linear-gradient(180deg, var(--bg) 0%, var(--backdrop) 100%);
   display:flex;flex-direction:column;align-items:center;padding:clamp(0px,3vw,30px) clamp(0px,3vw,24px) 60px}
 button{font-family:inherit;color:inherit;cursor:pointer;border:none;background:none;-webkit-tap-highlight-color:transparent}
@@ -65,7 +69,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:none;background:n
 .brand{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;font-weight:600;
   color:var(--ink2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:13px;white-space:nowrap;
   background:var(--surface2);border:1px solid var(--line);border-radius:99px;padding:6px 13px 6px 10px}
-.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 20%,transparent)}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 25%,transparent)}
 h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-height:1.12}
 .lede{font-size:15px;color:var(--ink2);margin-top:7px;max-width:42ch;text-wrap:pretty}
 
