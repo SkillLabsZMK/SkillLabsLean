@@ -120,6 +120,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
 .hot{position:absolute;border:1.5px solid var(--line2);border-radius:9px;background:var(--surface);
   font-size:9px;font-weight:600;color:var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;
   padding:2px;line-height:1.2;transition:.14s;box-shadow:0 1px 2px rgba(21,32,28,.06)}
+.hot-v{writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap}
 .hot:hover{border-color:var(--brand);background:var(--self-bg);color:var(--brand-d);z-index:2;
   box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 16%,transparent)}
 .plan-cap{font-size:13px;color:var(--ink3);text-align:center;margin-top:12px}
@@ -4072,19 +4073,19 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
 
   // Grundriss-Hotspots: Position (x/y) und Größe (w/h) jedes Raumes in Prozent (CSS left/top/width/height)
   const PLAN = [
-    {"id":"phantomicum","short":"Phan-\ntomicum","x":2,"y":4,"w":14,"h":90},
-    {"id":"technicum",  "short":"Techni-\ncum",   "x":84,"y":4,"w":14,"h":90},
-    {"id":"e6",         "short":"E6",             "x":17,"y":4, "w":10,"h":43},
-    {"id":"koordi",     "short":"Koordi.",        "x":27,"y":4, "w":13,"h":43},
-    {"id":"druck",      "short":"Druck",          "x":41,"y":4, "w":10,"h":43},
-    {"id":"cad",        "short":"CAD",            "x":52,"y":4, "w":10,"h":43},
-    {"id":"cam",        "short":"CAM",            "x":63,"y":4, "w":10,"h":43},
-    {"id":"giessen",    "short":"Gießen",         "x":74,"y":4, "w":9, "h":43},
-    {"id":"seminar3",   "short":"SR 3",           "x":17,"y":51,"w":12,"h":43},
-    {"id":"seminar2",   "short":"SR 2",           "x":30,"y":51,"w":10,"h":43},
-    {"id":"seminar1",   "short":"SR 1",           "x":41,"y":51,"w":10,"h":43},
-    {"id":"besprechung","short":"Bespr.",         "x":52,"y":51,"w":10,"h":43},
-    {"id":"gips",       "short":"Gipsen",         "x":63,"y":51,"w":20,"h":43}
+    {"id":"phantomicum","v":true,"x":2, "y":4, "w":7, "h":90},
+    {"id":"technicum",  "v":true,"x":91,"y":4, "w":7, "h":90},
+    {"id":"e6",         "x":10,"y":4, "w":12,"h":43},
+    {"id":"koordi",     "x":23,"y":4, "w":16,"h":43},
+    {"id":"druck",      "x":40,"y":4, "w":12,"h":43},
+    {"id":"cad",        "x":53,"y":4, "w":12,"h":43},
+    {"id":"cam",        "x":66,"y":4, "w":12,"h":43},
+    {"id":"giessen",    "x":79,"y":4, "w":11,"h":43},
+    {"id":"seminar3",   "x":10,"y":51,"w":16,"h":43},
+    {"id":"seminar2",   "x":27,"y":51,"w":12,"h":43},
+    {"id":"seminar1",   "x":40,"y":51,"w":12,"h":43},
+    {"id":"besprechung","x":53,"y":51,"w":14,"h":43},
+    {"id":"gips",       "x":68,"y":51,"w":22,"h":43}
   ];
 
 
@@ -4410,7 +4411,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
       h += `<div class="plan"><span class="plan-label">[ Grundriss Skill Labs — Platzhalter, echten Plan später einsetzen ]</span>`;
       PLAN.forEach(p => {
         const r = roomById(p.id);
-        h += `<button class="hot" data-act="room" data-room="${p.id}" style="left:${p.x}%;top:${p.y}%;width:${p.w}%;height:${p.h}%">${esc(p.short || r.name)}</button>`;
+        h += `<button class="hot${p.v ? ' hot-v' : ''}" data-act="room" data-room="${p.id}" style="left:${p.x}%;top:${p.y}%;width:${p.w}%;height:${p.h}%">${esc(r.name)}</button>`;
       });
       h += `</div><p class="plan-cap">Räume antippen um die richtige Ansprechperson zu finden.</p>`;
       h += `<div class="sec-label">Themen ohne Raum</div><div class="area-list">`;
