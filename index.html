@@ -166,7 +166,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
 .t-self{color:var(--self)} .t-con{color:var(--con)} .t-bra{color:var(--bra)} .t-mat{color:var(--mat)} .t-saf{color:var(--saf)}
 @media(max-width:430px){.dev-tag{display:none}}
 
-/* ---- legacy dots (kept for backwards compatibility) ---- */
+/* ---- legacy status dots (kept for DOM backwards compatibility) ---- */
 .rdot{flex:0 0 auto;width:11px;height:11px;border-radius:50%;border:2px solid}
 .d-self{background:var(--self-bg);border-color:var(--self)} .d-con{background:var(--con-bg);border-color:var(--con)}
 .d-bra{background:var(--bra-bg);border-color:var(--bra)} .d-mat{background:var(--mat-bg);border-color:var(--mat)}
@@ -190,7 +190,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
   display:flex;gap:10px;align-items:flex-start}
 .warn-box::before{content:'⚠';font-size:17px;flex:0 0 auto;line-height:1.3}
 
-/* ---- verdict card (farbige Ergebnis-Karte je nach Status) ---- */
+/* ---- verdict card (farbige Ergebnis-Karte: v-self · v-con · v-bra · v-mat) ---- */
 .verdict{border-radius:var(--r-lg);border:1.5px solid;padding:20px 20px 18px;margin-bottom:12px;position:relative;overflow:hidden}
 .verdict::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px}
 .v-self{background:var(--self-bg);border-color:var(--self-ed)} .v-self::before{background:var(--self)}
@@ -236,7 +236,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
   border-radius:11px;border:1px solid var(--line)}
 .escape:hover{background:var(--surface2);color:var(--ink2);border-color:var(--line2)}
 
-/* ---- choice block (Mehrfachauswahl / Fallunterscheidung) ---- */
+/* ---- choice block (Fallunterscheidung: mehrere Optionen als Button-Liste) ---- */
 .choice-block{margin-bottom:12px}
 .choice-q{font-size:19px;font-weight:600;margin-bottom:6px;line-height:1.28;letter-spacing:-.01em}
 .choice-hint{font-size:14px;color:var(--ink2);margin-bottom:14px;line-height:1.5}
@@ -245,13 +245,13 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
   border-radius:var(--r);padding:15px 16px;text-align:left;font-size:15px;font-weight:500;transition:.14s;min-height:58px}
 .opt:hover{border-color:var(--brand);transform:translateY(-1px);box-shadow:0 6px 14px -9px rgba(21,32,28,.3)}
 
-/* ---- foot buttons (Zurück + Neu starten) ---- */
+/* ---- foot buttons (Seitenende: Zurück + Neu starten) ---- */
 .foot-btns{display:flex;gap:9px;margin-top:20px}
 .fb{flex:1;border:1px solid var(--line2);border-radius:var(--r);padding:13px;font-size:14px;font-weight:600;color:var(--ink2);background:var(--surface);transition:.14s}
 .fb:hover{border-color:var(--brand);color:var(--brand)}
 .fb-ghost{background:transparent}
 
-/* ---- manuals / Selbsthilfe (PDF-Anleitungen je Gerät) ---- */
+/* ---- manuals section (PDF-Anleitungen & Selbsthilfe je Gerät) ---- */
 .manuals-sec{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:15px 16px 14px}
 .manuals-head{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:11px}
 .manuals-head .m-ico{font-size:15px}
@@ -264,23 +264,23 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
 .manual-link .ml-meta{flex:0 0 auto;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--brand);
   background:color-mix(in srgb,var(--brand) 11%,transparent);border-radius:7px;padding:4px 9px}
 
-/* ---- home topbar (Segmented-Control: Räume / Geräte / Material) ---- */
+/* ---- home topbar (Segmented-Control Räume / Geräte / Material + Suche-Icon) ---- */
 .topbar{display:flex;gap:9px;align-items:stretch;margin-bottom:18px}
 .topbar .seg{flex:1;margin-bottom:0}
 .search-icon{flex:0 0 auto;width:52px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);
   color:var(--brand);font-size:21px;display:flex;align-items:center;justify-content:center;transition:.14s;box-shadow:0 1px 3px rgba(21,32,28,.06)}
 .search-icon:hover{border-color:var(--brand);background:var(--self-bg)}
 
-/* ---- Gerät/Problem suchen (Geräte-Tab, inline filter) ---- */
+/* ---- inline Geräte-Suche (Filter innerhalb des Geräte-Tabs) ---- */
 .devsearch{width:100%;display:flex;align-items:center;gap:11px;background:var(--surface);border:1.5px solid var(--line2);
   border-radius:var(--r-lg);padding:14px 16px;font-size:15px;color:var(--ink3);text-align:left;margin-bottom:14px;transition:.14s}
 .devsearch:hover{border-color:var(--brand);box-shadow:0 0 0 4px color-mix(in srgb,var(--brand) 9%,transparent)}
 .devsearch .mag{font-size:18px;color:var(--brand)}
 
-/* ---- einzelner Zurück-Button (Unterseiten ohne topnav) ---- */
+/* ---- solo Zurück-Button (Unterseiten ohne persistente Navbar) ---- */
 .back-solo{margin-bottom:14px}
 
-/* ---- ausklappbare Banner (Notfall + Sicherheitsbestimmungen, Startseite) ---- */
+/* ---- ausklappbare Banner (Notfall-Banner + § Sicherheitsbestimmungen, Startseite) ---- */
 .emerg{border:1.5px solid var(--saf-ed);background:var(--saf-bg);border-radius:var(--r-lg);margin-bottom:12px;overflow:hidden;transition:.14s}
 .emerg-bar{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;text-align:left}
 .emerg-ic{flex:0 0 auto;width:34px;height:34px;border-radius:11px;background:var(--saf);color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;line-height:1}
@@ -318,7 +318,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
 .putz-tbl tr.on td{background:var(--self-bg);color:var(--self)}
 .putz-tbl tr.on td.day{color:var(--self);font-weight:700}
 
-/* ---- Seitenfu&szlig; (Disclaimer + Herausgeber) ---- */
+/* ---- Seitenfu&szlig; (Disclaimer, Herausgeber, Versionsnummer) ---- */
 .page-foot{width:100%;max-width:600px;margin:20px auto 0;text-align:center;font-family:var(--mono);font-size:10.5px;color:var(--ink3);line-height:1.7;opacity:.85}
 </style>
 </head>
@@ -328,7 +328,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
 <script>
 /* Skill Labs Finder — content model (Planner content + restored rich interactions) */
 (function () {
-  // Ansprechpartner-Verzeichnis: Schlüssel → Name + Kontakthinweise
+  // Ansprechpartner-Verzeichnis: Schlüssel (z.B. "abx", "wzm") → Name + Kontakthinweise
   const CONTACTS = {
   "abx": {
     "name": "Technischer Koordinator Skill Labs",
@@ -384,7 +384,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
   }
 };
 
-  // Raumliste: jeder Raum enthält ein Array von Geräten/Themen mit zugehörigem Entscheidungsbaum
+  // Raumliste: jeder Raum enthält id, name, access-Hinweis und ein devices-Array mit Entscheidungsbäumen
   const ROOMS = [
  {
   "id": "seminar1",
@@ -3192,7 +3192,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
  }
 ];
 
-  // Themenbereiche ohne festen Raum (LEAN, Qualifizierung, Gebäude & Infrastruktur)
+  // Themenbereiche ohne festen Raum (LEAN / 3D-Druck, Qualifizierung, Gebäude & Infrastruktur)
   const AREAS = [
  {
   "id": "lean",
@@ -3638,11 +3638,12 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
  }
 ];
 
-  // Grundriss-Hotspots: Position und Größe jedes Raumes als prozentuale CSS-Koordinaten
+  // Grundriss-Hotspots: Position (x/y) und Größe (w/h) jedes Raumes in Prozent (CSS left/top/width/height)
   const PLAN = [{"id":"seminar1","x":6,"y":16,"w":27,"h":17},{"id":"seminar2","x":35,"y":16,"w":27,"h":17},{"id":"seminar3","x":64,"y":16,"w":30,"h":17},{"id":"besprechung","x":6,"y":36,"w":27,"h":17},{"id":"phantomicum","x":35,"y":36,"w":27,"h":17},{"id":"technicum","x":64,"y":36,"w":30,"h":17},{"id":"gips","x":6,"y":56,"w":21,"h":17},{"id":"giessen","x":29,"y":56,"w":21,"h":17},{"id":"cad","x":52,"y":56,"w":20,"h":17},{"id":"cam","x":74,"y":56,"w":20,"h":17},{"id":"koordi","x":6,"y":76,"w":34,"h":17},{"id":"druck","x":42,"y":76,"w":24,"h":17},{"id":"e6","x":68,"y":76,"w":26,"h":17}];
 
 
-  // ---- Sicherheit · Notfall · Putzplan (portiert aus V-alt) ----
+  // ---- Sicherheit · Notfall · Putzplan ----
+  // Notfallinfos: Ausrüstungsstandort, Notruf-Text, Unfallmelde-Portal-URL
   const EMERGENCY = {
     kit: ['Notfallkoffer', 'Verbandskasten', 'Defibrillator (AED)', 'Augendusche'],
     standort: 'vor dem Raum Koordination Skill Labs (6.405 · 6.406)',
@@ -3653,6 +3654,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     portal: 'https://informer.med.uni-tuebingen.de/ukt/app/infopilot/eacts.asp?s=530000,-1'
   };
 
+  // Sicherheitsbestimmungen: nummerierte Liste, wird als <ol> auf der Regeln-Seite ausgegeben
   const SAFETY_RULES = [
     'Lange Haare sind hochzubinden, Schmuck, (Ehe-)Ringe und Armbanduhren sind abzulegen. Getragen wird geschlossenes, flaches Schuhwerk sowie eine das gesamte Bein bedeckende schwerentflammbare Hose (z.B. Jeans).',
     'Alle im Kursraum Anwesenden müssen auf ein gepflegtes Äußeres achten (sauberer Kittel/Kasack, lange Hosen, saubere gepflegte Hände – unlackierte Fingernägel, nicht länger als die Fingerkuppen, lt. TRBA 250). Die Grundsätze des klinischen und hygienischen Arbeitens gelten bei allen Arbeitsschritten.',
@@ -3681,8 +3683,11 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
   const RULES_NOTE = 'Wiederholtes Verstoßen gegen die Kursordnung, diese Sicherheitsbestimmungen, unverantwortliches Verhalten und Missachten der Verhaltensmaßregeln führen zum Ausschluss von der aktiven Teilnahme an der praktischen Lehr- und Lernsituation.';
 
   // ---- Putzplan ----
+  // Wochentage (Mo–Fr) als Array, wird für Segmented-Control verwendet
   const DAYS = [{ key: 'Mo', label: 'Montag' }, { key: 'Di', label: 'Dienstag' }, { key: 'Mi', label: 'Mittwoch' }, { key: 'Do', label: 'Donnerstag' }, { key: 'Fr', label: 'Freitag' }];
+  // Platzgruppen (A/B/C) mit Platznummern-Bereichen
   const GROUPS = [{ key: 'A', label: '22–27' }, { key: 'B', label: '28–33' }, { key: 'C', label: '34–40' }];
+  // Rotationsplan: Wochentag → welche Gruppe putzt Saal / Gips / Kunststoff+Guss
   const ROTATION = {
     Mo: { saal: 'A', gips: 'B', kunst: 'C' },
     Di: { saal: 'C', gips: 'A', kunst: 'B' },
@@ -3690,13 +3695,16 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     Do: { saal: 'A', gips: 'B', kunst: 'C' },
     Fr: { saal: 'C', gips: 'A', kunst: 'B' },
   };
+  // Reinigungsbereiche: Schlüssel (saal / gips / kunst) → Bereichsname + Schritt-für-Schritt-Anleitung
   const PUTZ_AREAS = {
     saal: { name: 'Saal (Technicum + Phantomicum)', steps: ['Waschbecken reinigen und abtrocknen', 'Funktionsflächen feucht wischen, danach abtrocknen', 'Boden saugen und ggf. feucht wischen, Wachsreste entfernen', 'Geräte ausschalten', 'Fenster schließen', 'Lichter aus', 'Rollläden hoch', 'Wischlappen zum Trocknen auslegen/aufhängen', 'Putzutensilien aufräumen, Menge prüfen, ggf. dem Assistenten melden, Papiertücher auffüllen'] },
     gips: { name: 'Gipsküche + Polierraum', steps: ['Montags: zu Kursbeginn alle Haupthähne aufdrehen (Nasstrimmer, Ausbrühgerät, Abdampfgerät)', 'Ggf. Gips auffüllen', 'Poliermotoren reinigen', 'Waschbecken leeren und reinigen', 'Abdampfgeräte reinigen und ausschalten', 'Funktionsflächen feucht wischen und abtrocknen, Metalloberflächen mit Metallreiniger', 'Boden saugen und ggf. feucht wischen', 'Geräte ausschalten, Fenster schließen, Lichter aus, Rollläden hoch', 'Wischlappen zum Trocknen auslegen/aufhängen', 'Putzutensilien aufräumen, Nachschub prüfen, ggf. melden, Papiertücher auffüllen', 'Freitags: alle Haupthähne zudrehen (Nasstrimmer, Ausbrühgerät, Abdampfgerät)'] },
     kunst: { name: 'Kunststoffraum + Gussraum + Mülldienst', steps: ['Wasser aus allen Drucktöpfen ablassen, reinigen, freitags entkalken', 'Sandstrahlgeräte reinigen/aussaugen, neue Frischhaltefolie auf die Glasscheibe', 'Waschbecken reinigen und abtrocknen', 'Funktionsflächen feucht wischen und abtrocknen, Metalloberflächen mit Metallreiniger', 'Boden saugen und ggf. feucht wischen', 'Müll aus allen Räumen halbtags leeren, neue Müllsäcke in jeden Eimer', 'Geräte ausschalten, Fenster schließen, Lichter aus, Rollläden hoch', 'Wischlappen zum Trocknen auslegen/aufhängen', 'Putzutensilien aufräumen, Menge prüfen, ggf. melden, Papiertücher auffüllen'] },
   };
+  // Eigener Arbeitsplatz: Reinigungsschritte, die jeder Studierende täglich ausführt (Technicum + Phantomicum)
   const PUTZ_OWN = ['Eigenen Platz von oben nach unten feucht wischen – nicht vergessen:', 'Absaugscheibe und Absaugung', 'Handstück und Kabel', 'No-Flame (trocken wischen)', 'Lampe (trocken wischen)', 'Schublade', 'Stuhlrollen und Lehne', 'Danach alles abtrocknen', 'Nur Technicum: Mandrell ins Handstück einspannen', 'Nur Technicum: Aufstuhlen', 'Einheit ausschalten', 'Einheit wie in der Anleitung am Platz gereinigt verlassen'];
 
+  // Alle Daten unter einem globalen Namespace gebündelt – von Script 3 (App-Logik) abgerufen
   window.SL_DATA = { CONTACTS, ROOMS, AREAS, PLAN, EMERGENCY, SAFETY_RULES, RULES_NOTE, PUTZ: { DAYS, GROUPS, ROTATION, areas: PUTZ_AREAS, own: PUTZ_OWN } };
 })();
 
@@ -3707,12 +3715,21 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
 
 </script>
 <script>
-/* Skill Labs Finder — app logic (stack-based navigation) */
+/* Skill Labs Finder — app logic (stack-based navigation)
+ *
+ * Architecture: single render() function writes HTML into #app from a stack
+ * of view-state objects.  Navigation is purely additive (push/pop).
+ * All click handling is delegated to a single listener on document via
+ * data-act attributes — no per-element listeners are registered.
+ */
 (function () {
+  // ---- data setup: pull SL_DATA globals + build lookup helpers ----
   const { ROOMS, AREAS, PLAN, EMERGENCY, SAFETY_RULES, RULES_NOTE, PUTZ } = window.SL_DATA;
   const ALL = ROOMS.concat(AREAS);
+  // Quick room lookup used by node renderer and material detail
   const roomById = id => ALL.find(r => r.id === id);
 
+  // ---- search indices ----
   // flat search index — devices + their sub-cases (choice options)
   const nodeStatus = n => {
     if (!n) return 'mixed';
@@ -3735,11 +3752,12 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     }
   }));
 
-  // device-first index (top-level devices only, alphabetical) for the Geräte tab
-  // exclude service/process topics & generic troubleshoots (d.topic) — devices only
+  // device-first index (Geräte-Tab): top-level devices only, alphabetical by name
+  // Excludes service/process topics flagged with d.topic — hardware devices only
   const DEVICE_INDEX = INDEX.filter(d => !d.sub && !d.topic).slice().sort((a, b) => a.name.localeCompare(b.name, 'de'));
 
-  // ---- materials ----
+  // ---- materials setup ----
+  // Group materials by storage location (Lagerort) for the "Nach Lagerort" section
   const MATERIALS = (window.SL_MATERIALS || []).slice();
   const LAGER = [];
   MATERIALS.forEach(m => {
@@ -3754,30 +3772,33 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
   ).slice(0, 40);
 
   // ---- state ----
-  let stack = [{ view: 'home' }];
-  let browseMode = 'plan';
-  let query = '';
-  let searchScope = 'material'; // 'material' (⌕ icon) | 'device' (Räume search)
-  let emergencyOpen = false;
-  let infoOpen = false;
-  let putzDay = '';
-  let putzGroup = '';
-  let refs = []; // per-render node references
+  let stack = [{ view: 'home' }]; // navigation stack — each entry is a view state object
+  let browseMode = 'plan';        // active tab on home: 'plan' | 'devices' | 'materials'
+  let query = '';                 // current search query string
+  let searchScope = 'material';   // 'material' (⌕ icon) | 'device' (Räume search)
+  let emergencyOpen = false;      // Notfall-Banner expanded state
+  let infoOpen = false;           // § Sicherheitsbestimmungen-Banner expanded state
+  let putzDay = '';               // selected Putzplan weekday key
+  let putzGroup = '';             // selected Putzplan group key
+  let refs = [];                  // per-render node references — reset before each render()
 
-  // ---- putzplan helpers ----
+  // ---- Putzplan helpers ----
+  // Pre-select today's weekday; fall back to Monday on weekends
   const defaultDay = () => { const d = new Date().getDay(); return (d >= 1 && d <= 5) ? ['', 'Mo', 'Di', 'Mi', 'Do', 'Fr'][d] : 'Mo'; };
   const dayLabel = k => (PUTZ.DAYS.find(d => d.key === k) || {}).label || k;
   const grpRange = k => (PUTZ.GROUPS.find(g => g.key === k) || {}).label || k;
   const dutyFor = (day, grp) => { const a = PUTZ.ROTATION[day] || {}; return Object.keys(a).find(k => a[k] === grp); };
 
+  // ---- navigation helpers ----
   const top = () => stack[stack.length - 1];
   const push = s => { stack.push(s); render(); window.scrollTo(0, 0); };
   const pop = () => { if (stack.length > 1) { stack.pop(); render(); } };
   const goHome = () => { stack = [{ view: 'home' }]; render(); window.scrollTo(0, 0); };
 
-  // ---- helpers ----
+  // ---- render helpers ----
+  // HTML-escape for safe injection into innerHTML
   const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  // status → icon badge + word (intuitive, learnable colour coding)
+  // Status-Mapping: CSS-Klasse, Glyph und deutsches Label je Gerätestatus
   const STATUS = {
     self:    { cls: 'self', glyph: '✓', label: '' },
     info:    { cls: 'self', glyph: '✓', label: '' },
@@ -3800,7 +3821,10 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     return '›';
   }
 
-  // ---- node renderer (returns HTML; registers click refs) ----
+  // ---- node renderer ----
+  // Recursively renders a decision-tree node into HTML.
+  // Side-effect: pushes clickable targets into refs[] and embeds their index
+  // as data-i on button elements, resolved by the click-delegation handler.
   function renderNode(node, crumb) {
     if (!node) return '';
     if (node.kind === 'success') {
@@ -3898,7 +3922,10 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     return h;
   }
 
-  // ---- screens ----
+  // ---- screen renderers ----
+  // Each view* function returns { html, back, title } consumed by render().
+
+  // Startseite: Notfallbanner, § Sicherheitsbestimmungen, Segmented-Browse (Räume/Geräte/Material)
   function viewHome() {
     let h = `<div class="app-head">
       <div class="brand"><span class="dot"></span> Skill Labs · ZMK Tübingen</div>
@@ -3978,6 +4005,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     return { html: h, back: false, title: '' };
   }
 
+  // Volltext-Suchbildschirm: Geräte- oder Materialsuche je nach searchScope
   function viewSearch() {
     const isMat = searchScope === 'material';
     const q = query.trim().toLowerCase();
@@ -4031,6 +4059,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     return { html: h, back: false, title: '', search: true };
   }
 
+  // Lagerort-Detail: listet alle Materialien eines Lagerortes
   function viewLagerort(s) {
     const items = MATERIALS.filter(m => m.raum === s.loc);
     let h = `<button class="s-back back-solo" data-act="back" aria-label="Zurück">‹</button>`;
@@ -4047,6 +4076,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     return { html: h, back: true };
   }
 
+  // Raumseite: zeigt alle Geräte / Themen des gewählten Raumes als Button-Liste
   function viewRoom(s) {
     const r = roomById(s.roomId);
     let h = `<button class="s-back back-solo" data-act="back" aria-label="Zurück">‹</button>`;
@@ -4064,6 +4094,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     return { html: h, back: true, title: '' };
   }
 
+  // Renders PDF manual links for a device; returns empty string if no manuals
   function manualsHTML(manuals) {
     if (!manuals || !manuals.length) return '';
     let h = `<div class="manuals-sec"><div class="manuals-head"><span class="m-ico">📄</span>Anleitungen &amp; Selbsthilfe</div>`;
@@ -4075,6 +4106,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     return h;
   }
 
+  // Gerät/Thema-Detail: rendert den Entscheidungsbaum-Knoten + optionale PDF-Anleitungen
   function viewTopic(s) {
     const crumb = s.crumb || [];
     let h = `<div class="crumb">${crumb.map(esc).join(' <span class="sep">›</span> ')}</div>`;
@@ -4091,6 +4123,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     return `<ol class="steps">` + arr.map((s, i) => `<li><span class="n">${i + 1}</span><span>${esc(s)}</span></li>`).join('') + `</ol>`;
   }
 
+  // Sicherheitsbestimmungen: nummerierte Regelliste aus SAFETY_RULES + Sanktionshinweis
   function viewRules() {
     let h = `<button class="s-back back-solo" data-act="back" aria-label="Zurück">‹</button>`;
     h += `<div class="crumb">Sicherheit</div><h2 class="room-h">Sicherheitsbestimmungen &amp; Verhaltensregeln</h2>`;
@@ -4101,6 +4134,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     return { html: h, back: true, title: '' };
   }
 
+  // Erzeugt die HTML-Tabelle des Putzplans; hebt den aktiven Tag mit der CSS-Klasse "on" hervor
   function putzTableHTML(activeDay) {
     let h = `<table class="putz-tbl"><thead><tr><th>Tag</th><th>Saal</th><th>Gips + Polieren</th><th>Kunststoff + Guss + Müll</th></tr></thead><tbody>`;
     PUTZ.DAYS.forEach(d => { const a = PUTZ.ROTATION[d.key]; h += `<tr class="${d.key === activeDay ? 'on' : ''}"><td class="day">${d.label}</td><td>${grpRange(a.saal)}</td><td>${grpRange(a.gips)}</td><td>${grpRange(a.kunst)}</td></tr>`; });
@@ -4108,6 +4142,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     return h;
   }
 
+  // Putzplan-Seite: Tag und Gruppe auswählen → persönlichen Reinigungsbereich anzeigen
   function viewPutzplan() {
     const day = putzDay || defaultDay();
     const grp = putzGroup;
@@ -4131,6 +4166,8 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
   }
 
   // ---- main render ----
+  // Dispatches to the correct view* function, writes HTML into #app, and
+  // attaches lightweight inline-search listeners for Geräte- and Material-Tabs.
   function render() {
     refs = [];
     const s = top();
@@ -4180,10 +4217,13 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     }
   }
 
+  // Fallback-Kontakt für "Hat nicht geklappt" auf info-Knoten (kein escalation-Feld vorhanden)
   // escalate-to-koordinator fallback for info nodes
   const KOORD = { kind: 'contact', contact: window.SL_DATA.CONTACTS.abx, desc: 'Wenn die Selbsthilfe nicht weiterhilft.', pills: [] };
 
-  // ---- events ----
+  // ---- event delegation ----
+  // Single click listener on document; dispatches on data-act attribute.
+  // This keeps the HTML renderer free of addEventListener() calls.
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-act]');
     if (!b) return;
@@ -4211,7 +4251,8 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     }
   });
 
-  render();
+  // ---- init ----
+  render(); // initial render on page load
 })();
 
 </script>
