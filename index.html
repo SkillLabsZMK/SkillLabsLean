@@ -1,0 +1,4204 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill Labs Finder · ZMK Tübingen</title>
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" rx="18" fill="#a51931"/><circle cx="50" cy="38" r="13" fill="none" stroke="#f4e0e4" stroke-width="5"/><line x1="59" y1="47" x2="72" y2="60" stroke="#f4e0e4" stroke-width="5" stroke-linecap="round"/></svg>
+</template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* UKT Corporate Design – Karminrot · Anthrazit · Mattgold */
+  --bg:#f0f0f0; --backdrop:#e6e6e6; --surface:#ffffff; --surface2:#f8f8f8;
+  --ink:#1e1e1e; --ink2:#4a4a4a; --ink3:#909090;
+  --line:rgba(0,0,0,.08); --line2:rgba(0,0,0,.16);
+  --brand:#a51931; --brand-d:#861427;
+
+  --self:#2e7d32; --self-bg:#e8f5e9; --self-ed:#a5d6a7;
+  --con:#a4610f;  --con-bg:#fff3e0;  --con-ed:#ffcc80;
+  --bra:#1565c0;  --bra-bg:#e3f2fd;  --bra-ed:#90caf9;
+  --mat:#6244bd;  --mat-bg:#ede7f6;  --mat-ed:#ce93d8;
+  --saf:#c62828;  --saf-bg:#ffebee;  --saf-ed:#ef9a9a;
+  --mix:#546e7a;  --mix-bg:#eceff1;  --mix-ed:#b0bec5;
+
+  --r:12px; --r-lg:18px; --r-sm:8px;
+  --shadow:0 1px 3px rgba(43,43,43,.06), 0 16px 40px -18px rgba(43,43,43,.22);
+  --font:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#1a1212; --backdrop:#120c0c; --surface:#231818; --surface2:#2e1f1f;
+  --ink:#f0eaea; --ink2:#b09898; --ink3:#7a6060;
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.16);
+  --brand:#d4465e; --brand-d:#e8697d;
+  --self:#4caf50; --self-bg:#1b3a1c; --self-ed:#2e5e2f;
+  --con:#ffb74d;  --con-bg:#3e2a10;  --con-ed:#6b4820;
+  --bra:#64b5f6;  --bra-bg:#0d2540;  --bra-ed:#1a3f6b;
+  --mat:#b39ddb;  --mat-bg:#1e1535;  --mat-ed:#3d2b62;
+  --saf:#ef9a9a;  --saf-bg:#3b1111;  --saf-ed:#6b2020;
+  --mix:#90a4ae;  --mix-bg:#1e2a2e;  --mix-ed:#37474f;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 16px 40px -18px rgba(0,0,0,.65);
+}}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font);color:var(--ink);min-height:100vh;line-height:1.5;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% -5%, color-mix(in srgb, var(--brand) 7%, transparent), transparent),
+    radial-gradient(circle, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px) 0 0 / 26px 26px,
+    linear-gradient(180deg, var(--bg) 0%, var(--backdrop) 100%);
+  display:flex;flex-direction:column;align-items:center;padding:clamp(0px,3vw,30px) clamp(0px,3vw,24px) 60px}
+button{font-family:inherit;color:inherit;cursor:pointer;border:none;background:none;-webkit-tap-highlight-color:transparent}
+::selection{background:color-mix(in srgb,var(--brand) 26%,transparent)}
+
+/* ---- app sheet ---- */
+.app{width:100%;max-width:600px;background:var(--surface);border:1px solid var(--line);
+  border-radius:26px;box-shadow:var(--shadow);padding:26px clamp(18px,4vw,30px) 30px;position:relative}
+@media(max-width:520px){.app{border-radius:20px;padding:20px 16px 26px}}
+
+/* ---- home header ---- */
+.app-head{margin-bottom:18px}
+.brand{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  color:var(--ink2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:13px;white-space:nowrap;
+  background:var(--surface2);border:1px solid var(--line);border-radius:99px;padding:6px 13px 6px 10px}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 20%,transparent)}
+h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-height:1.12}
+.lede{font-size:15px;color:var(--ink2);margin-top:7px;max-width:42ch;text-wrap:pretty}
+
+/* ---- search bar (home) ---- */
+.searchbar{width:100%;display:flex;align-items:center;gap:11px;background:var(--surface);border:1.5px solid var(--line2);
+  border-radius:var(--r-lg);padding:15px 17px;font-size:15.5px;color:var(--ink3);text-align:left;margin-bottom:18px;transition:.14s}
+.searchbar:hover{border-color:var(--brand);box-shadow:0 0 0 4px color-mix(in srgb,var(--brand) 9%,transparent)}
+.searchbar .mag{font-size:19px;color:var(--brand)}
+
+/* ---- segmented ---- */
+.seg{display:flex;gap:4px;background:var(--surface2);border:1px solid var(--line);border-radius:var(--r);padding:4px;margin-bottom:18px}
+.grp-row{display:flex;gap:4px;padding:0 4px;margin-bottom:6px}
+.grp-row span{flex:1;text-align:center;font-size:12.5px;font-weight:600;color:var(--ink2)}
+.seg-b{flex:1;padding:11px 8px;border-radius:10px;font-size:14px;font-weight:600;color:var(--ink2);transition:.14s}
+.seg-b:hover{color:var(--ink)}
+.seg-b.on{background:var(--surface);color:var(--brand);box-shadow:0 1px 3px rgba(21,32,28,.14)}
+
+/* ---- room grid ---- */
+.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:520px){.room-grid{grid-template-columns:1fr 1fr 1fr}}
+.room-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:15px 14px;
+  text-align:left;display:flex;flex-direction:column;gap:4px;transition:.14s;min-height:80px;justify-content:center}
+.room-card:hover{border-color:var(--brand);transform:translateY(-2px);box-shadow:0 8px 18px -10px rgba(21,32,28,.3)}
+.rc-name{font-size:15.5px;font-weight:600;line-height:1.25}
+.rc-meta{font-family:var(--mono);font-size:11.5px;color:var(--ink3)}
+.sec-label{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin:22px 0 10px}
+.area-list{display:flex;flex-direction:column;gap:8px}
+.area-row{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:15px;font-weight:500;transition:.14s;min-height:54px}
+.area-row:hover{border-color:var(--brand)}
+.area-row .rc-meta{font-size:12px}
+.ar{color:var(--ink3);font-size:19px;flex:0 0 auto}
+
+/* ---- floor plan ---- */
+.plan{position:relative;width:100%;aspect-ratio:1.5/1;border:1px solid var(--line2);border-radius:var(--r-lg);overflow:hidden;
+  background:
+    linear-gradient(var(--line) 1px,transparent 1px) 0 0/100% 14px,
+    linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/14px 100%,
+    var(--surface2)}
+.plan-label{position:absolute;bottom:8px;left:10px;font-family:var(--mono);font-size:9.5px;color:var(--ink3);opacity:.8;
+  background:color-mix(in srgb,var(--surface) 80%,transparent);padding:2px 6px;border-radius:6px}
+.hot{position:absolute;border:1.5px solid var(--line2);border-radius:9px;background:var(--surface);
+  font-size:12px;font-weight:600;color:var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:3px;line-height:1.15;transition:.14s;box-shadow:0 1px 2px rgba(21,32,28,.06)}
+.hot:hover{border-color:var(--brand);background:var(--self-bg);color:var(--brand-d);z-index:2;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 16%,transparent)}
+.plan-cap{font-size:13px;color:var(--ink3);text-align:center;margin-top:12px}
+
+/* ---- persistent top nav ---- */
+.topnav{display:flex;align-items:center;gap:9px;margin-bottom:18px}
+.s-back{font-size:21px;color:var(--ink2);width:42px;height:42px;border-radius:12px;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;border:1px solid var(--line);background:var(--surface);transition:.14s}
+.s-back:hover{border-color:var(--brand);color:var(--brand)}
+.topsearch{flex:1;display:flex;align-items:center;gap:9px;background:var(--surface2);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:11px 15px;font-size:14.5px;color:var(--ink3);text-align:left;cursor:pointer;transition:.14s;min-height:42px}
+.topsearch:hover{border-color:var(--brand);background:var(--surface)}
+.topsearch .mag{font-size:17px;color:var(--brand)}
+.topsearch .tsx{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---- search screen ---- */
+.search-top{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.s-field{flex:1;display:flex;align-items:center;gap:10px;background:var(--surface);border:1.5px solid var(--brand);
+  border-radius:var(--r-lg);padding:13px 16px;box-shadow:0 0 0 4px color-mix(in srgb,var(--brand) 9%,transparent)}
+.s-field .mag{font-size:18px;color:var(--brand)}
+.s-field input{flex:1;border:none;background:none;font-size:16px;color:var(--ink);outline:none;font-family:inherit}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--surface);border:1px solid var(--line2);border-radius:99px;padding:9px 16px;font-size:13.5px;font-weight:500;color:var(--ink2);transition:.14s}
+.chip:hover{border-color:var(--brand);color:var(--brand)}
+.res-list{display:flex;flex-direction:column;gap:8px}
+.res{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:12px 14px;text-align:left;transition:.14s;min-height:62px}
+.res:hover{border-color:var(--brand)}
+.r-tx{display:flex;flex-direction:column;flex:1;min-width:0;gap:2px}
+.r-name{font-size:15.5px;font-weight:500;line-height:1.25}
+.r-sub{font-size:12.5px;color:var(--ink3)}
+.no-res{font-size:14.5px;color:var(--ink2);padding:20px 4px;text-align:center;background:var(--surface2);border-radius:var(--r)}
+
+/* ---- status icon badges ---- */
+.ico{flex:0 0 auto;width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:700;border:1.5px solid;line-height:1}
+.ico-self{color:var(--self);background:var(--self-bg);border-color:var(--self-ed)}
+.ico-con{color:var(--con);background:var(--con-bg);border-color:var(--con-ed)}
+.ico-bra{color:var(--bra);background:var(--bra-bg);border-color:var(--bra-ed)}
+.ico-mat{color:var(--mat);background:var(--mat-bg);border-color:var(--mat-ed)}
+.ico-saf{color:var(--saf);background:var(--saf-bg);border-color:var(--saf-ed)}
+.ico-mix{color:var(--mix);background:var(--mix-bg);border-color:var(--mix-ed)}
+.dev-tag{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink3);flex:0 0 auto;letter-spacing:.01em}
+.t-self{color:var(--self)} .t-con{color:var(--con)} .t-bra{color:var(--bra)} .t-mat{color:var(--mat)} .t-saf{color:var(--saf)}
+@media(max-width:430px){.dev-tag{display:none}}
+
+/* legacy dots (kept for safety) */
+.rdot{flex:0 0 auto;width:11px;height:11px;border-radius:50%;border:2px solid}
+.d-self{background:var(--self-bg);border-color:var(--self)} .d-con{background:var(--con-bg);border-color:var(--con)}
+.d-bra{background:var(--bra-bg);border-color:var(--bra)} .d-mat{background:var(--mat-bg);border-color:var(--mat)}
+.d-saf{background:var(--saf-bg);border-color:var(--saf)} .d-mix{background:transparent;border-color:var(--ink3)}
+
+/* ---- room screen ---- */
+.crumb{font-family:var(--mono);font-size:11.5px;color:var(--ink3);margin-bottom:9px;line-height:1.5;letter-spacing:.01em}
+.crumb .sep{opacity:.5;margin:0 3px}
+.room-h{font-size:23px;font-weight:600;letter-spacing:-.01em;margin-bottom:14px}
+.note-box{background:var(--surface2);border:1px solid var(--line);border-radius:var(--r);padding:12px 15px;
+  font-size:13.5px;color:var(--ink2);margin-bottom:14px;line-height:1.55}
+.dev-list{display:flex;flex-direction:column;gap:8px}
+.dev{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:12px 14px;text-align:left;transition:.14s;min-height:64px}
+.dev:hover{border-color:var(--brand);transform:translateY(-1px);box-shadow:0 6px 14px -9px rgba(21,32,28,.3)}
+.dev-name{flex:1;font-size:16px;font-weight:500;line-height:1.3}
+
+/* ---- warn box ---- */
+.warn-box{background:var(--saf-bg);border:1px solid var(--saf-ed);border-radius:var(--r);padding:13px 16px;
+  font-size:14px;color:var(--saf);line-height:1.55;margin-bottom:14px;font-weight:500;
+  display:flex;gap:10px;align-items:flex-start}
+.warn-box::before{content:'⚠';font-size:17px;flex:0 0 auto;line-height:1.3}
+
+/* ---- verdict component ---- */
+.verdict{border-radius:var(--r-lg);border:1.5px solid;padding:20px 20px 18px;margin-bottom:12px;position:relative;overflow:hidden}
+.verdict::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px}
+.v-self{background:var(--self-bg);border-color:var(--self-ed)} .v-self::before{background:var(--self)}
+.v-con{background:var(--con-bg);border-color:var(--con-ed)} .v-con::before{background:var(--con)}
+.v-bra{background:var(--bra-bg);border-color:var(--bra-ed)} .v-bra::before{background:var(--bra)}
+.v-mat{background:var(--mat-bg);border-color:var(--mat-ed)} .v-mat::before{background:var(--mat)}
+.v-head{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.v-badge{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+  border:1.5px solid currentColor;border-radius:99px;padding:4px 11px;display:inline-flex;align-items:center;gap:6px}
+.v-kicker{font-size:13.5px;font-weight:600;opacity:.85}
+.v-self .v-head{color:var(--self)} .v-con .v-head{color:var(--con)} .v-bra .v-head{color:var(--bra)} .v-mat .v-head{color:var(--mat)}
+.mat-loc{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--mat);margin-bottom:4px}
+.mat-flag{display:inline-block;font-size:12px;font-weight:600;color:var(--saf);background:var(--saf-bg);border:1px solid var(--saf-ed);border-radius:8px;padding:4px 11px;margin:5px 0 2px}
+.mat-rows{display:flex;flex-direction:column;margin-top:13px}
+.mat-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid color-mix(in srgb,var(--mat) 16%,transparent);font-size:13.5px}
+.mat-row:last-child{border-bottom:none}
+.mat-row .mk{flex:0 0 112px;color:var(--ink2);font-weight:600}
+.mat-row .mv{flex:1;color:var(--ink)}
+.mat-open{display:block;width:100%;text-align:center;margin-top:15px;border:1.5px solid var(--mat);color:var(--mat);
+  border-radius:12px;padding:12px;font-size:14px;font-weight:600;transition:.14s}
+.mat-open:hover{background:color-mix(in srgb,var(--mat) 9%,transparent)}
+.mini-flag{color:var(--saf);font-size:14px;margin:0 2px;flex:0 0 auto}
+.v-name{font-size:19px;font-weight:600;line-height:1.28;margin-bottom:6px;letter-spacing:-.01em}
+.v-desc{font-size:14.5px;color:var(--ink2);line-height:1.6}
+.steps{list-style:none;display:flex;flex-direction:column;gap:11px;margin:15px 0 4px}
+.steps li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.5}
+.steps .n{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--self);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px}
+.v-con .steps .n{background:var(--con)}
+.c-line{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink2);margin-top:9px;line-height:1.5}
+.c-line .ic{flex:0 0 auto;opacity:.75;width:16px;text-align:center}
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.pill{font-family:var(--mono);font-size:11px;font-weight:500;padding:5px 11px;border-radius:99px;
+  background:color-mix(in srgb,currentColor 12%,transparent);color:inherit;opacity:.9}
+.v-btns{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.vbtn{border:1.5px solid currentColor;border-radius:12px;padding:11px 18px;font-size:14.5px;font-weight:600;transition:.14s;flex:1;min-width:130px}
+.v-self .vbtn{color:var(--self)} .v-bra .vbtn{color:var(--bra)}
+.vbtn-fill{color:#fff !important;background:var(--self);border-color:var(--self)}
+.v-bra .vbtn-fill{background:var(--bra);border-color:var(--bra)}
+.vbtn:hover{filter:brightness(.96)}
+.vbtn-fill:hover{filter:brightness(1.06)}
+.escape{display:block;width:100%;text-align:center;font-size:13px;color:var(--ink3);padding:11px;margin-bottom:12px;
+  border-radius:11px;border:1px solid var(--line)}
+.escape:hover{background:var(--surface2);color:var(--ink2);border-color:var(--line2)}
+
+/* ---- choice block ---- */
+.choice-block{margin-bottom:12px}
+.choice-q{font-size:19px;font-weight:600;margin-bottom:6px;line-height:1.28;letter-spacing:-.01em}
+.choice-hint{font-size:14px;color:var(--ink2);margin-bottom:14px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:11px;background:var(--surface);border:1.5px solid var(--line2);
+  border-radius:var(--r);padding:15px 16px;text-align:left;font-size:15px;font-weight:500;transition:.14s;min-height:58px}
+.opt:hover{border-color:var(--brand);transform:translateY(-1px);box-shadow:0 6px 14px -9px rgba(21,32,28,.3)}
+
+/* ---- foot buttons ---- */
+.foot-btns{display:flex;gap:9px;margin-top:20px}
+.fb{flex:1;border:1px solid var(--line2);border-radius:var(--r);padding:13px;font-size:14px;font-weight:600;color:var(--ink2);background:var(--surface);transition:.14s}
+.fb:hover{border-color:var(--brand);color:var(--brand)}
+.fb-ghost{background:transparent}
+
+/* ---- manuals / Selbsthilfe ---- */
+.manuals-sec{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:15px 16px 14px}
+.manuals-head{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:11px}
+.manuals-head .m-ico{font-size:15px}
+.manuals-list{display:flex;flex-direction:column;gap:8px}
+.manual-link{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface2);border:1px solid var(--line);
+  border-radius:11px;padding:12px 14px;transition:.14s}
+.manual-link:hover{border-color:var(--brand);background:var(--self-bg)}
+.manual-link .ml-tx{font-size:14px;font-weight:500;color:var(--ink);line-height:1.35}
+.manual-link:hover .ml-tx{color:var(--brand-d)}
+.manual-link .ml-meta{flex:0 0 auto;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--brand);
+  background:color-mix(in srgb,var(--brand) 11%,transparent);border-radius:7px;padding:4px 9px}
+
+/* ---- home topbar (segmented + material search icon) ---- */
+.topbar{display:flex;gap:9px;align-items:stretch;margin-bottom:18px}
+.topbar .seg{flex:1;margin-bottom:0}
+.search-icon{flex:0 0 auto;width:52px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);
+  color:var(--brand);font-size:21px;display:flex;align-items:center;justify-content:center;transition:.14s;box-shadow:0 1px 3px rgba(21,32,28,.06)}
+.search-icon:hover{border-color:var(--brand);background:var(--self-bg)}
+
+/* ---- device/problem search field (Räume tab) ---- */
+.devsearch{width:100%;display:flex;align-items:center;gap:11px;background:var(--surface);border:1.5px solid var(--line2);
+  border-radius:var(--r-lg);padding:14px 16px;font-size:15px;color:var(--ink3);text-align:left;margin-bottom:14px;transition:.14s}
+.devsearch:hover{border-color:var(--brand);box-shadow:0 0 0 4px color-mix(in srgb,var(--brand) 9%,transparent)}
+.devsearch .mag{font-size:18px;color:var(--brand)}
+
+/* ---- back button (sub-screens, old style) ---- */
+.back-solo{margin-bottom:14px}
+
+/* ---- emergency / info banners (home) ---- */
+.emerg{border:1.5px solid var(--saf-ed);background:var(--saf-bg);border-radius:var(--r-lg);margin-bottom:12px;overflow:hidden;transition:.14s}
+.emerg-bar{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;text-align:left}
+.emerg-ic{flex:0 0 auto;width:34px;height:34px;border-radius:11px;background:var(--saf);color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;line-height:1}
+.emerg-tx{flex:1;min-width:0}
+.emerg-t{display:block;font-size:15px;font-weight:700;color:var(--saf);line-height:1.2}
+.emerg-s{display:block;font-size:12.5px;color:var(--saf);opacity:.82;margin-top:2px}
+.emerg-chev{flex:0 0 auto;color:var(--saf);font-size:13px;transition:transform .2s}
+.emerg.open .emerg-chev{transform:rotate(180deg)}
+.emerg-body{padding:2px 16px 16px;display:flex;flex-direction:column;gap:14px}
+.emerg-sec .eh{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--saf);opacity:.9;margin-bottom:6px}
+.emerg-sec .eb{font-size:14px;color:var(--ink);line-height:1.55}
+.emerg-kit{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:7px}
+.emerg-kit span{font-size:12.5px;font-weight:600;background:var(--saf);color:#fff;border-radius:8px;padding:5px 11px}
+.emerg-link{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#fff;background:var(--saf);border-radius:11px;padding:11px 16px;text-decoration:none;transition:.14s;margin-top:2px}
+.emerg-link:hover{filter:brightness(1.06)}
+.emerg-info{border-color:var(--line2);background:var(--surface2)}
+.emerg-info .emerg-t{color:var(--ink)}
+.emerg-info .emerg-s{color:var(--ink3);opacity:1}
+.emerg-info .emerg-ic{background:var(--brand)}
+.emerg-info .emerg-chev{color:var(--ink3)}
+.emerg-info .emerg-body{gap:9px;padding-top:6px}
+
+/* ---- safety rules screen ---- */
+.rules-list{list-style:none;counter-reset:r;display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.rules-list li{counter-increment:r;display:flex;gap:13px;align-items:flex-start;font-size:14.5px;line-height:1.55;color:var(--ink)}
+.rules-list li::before{content:counter(r);flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--surface2);
+  border:1px solid var(--line);color:var(--ink2);display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:12px;font-weight:600;margin-top:1px}
+
+/* ---- putzplan screen ---- */
+.putz-tbl{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+.putz-tbl th,.putz-tbl td{border:1px solid var(--line);padding:9px 6px;text-align:center}
+.putz-tbl th{background:var(--surface2);color:var(--ink2);font-weight:700;font-family:var(--mono);font-size:10.5px;letter-spacing:.02em}
+.putz-tbl td.day{background:var(--surface2);font-weight:600;color:var(--ink2)}
+.putz-tbl tr.on td{background:var(--self-bg);color:var(--self)}
+.putz-tbl tr.on td.day{color:var(--self);font-weight:700}
+
+.page-foot{width:100%;max-width:600px;margin:20px auto 0;text-align:center;font-family:var(--mono);font-size:10.5px;color:var(--ink3);line-height:1.7;opacity:.85}
+</style>
+</head>
+<body>
+<div id="app" class="app"></div>
+<div class="page-foot"><strong>Alle Angaben ohne Gewähr.</strong><br>Technischer Koordinator Skill Labs · Poliklinik für Zahnärztliche Prothetik · ZMK Tübingen<br>Prototyp · 06/2026</div>
+<script>
+/* Skill Labs Finder — content model (Planner content + restored rich interactions) */
+(function () {
+  const CONTACTS = {
+  "abx": {
+    "name": "Technischer Koordinator Skill Labs",
+    "lines": [
+      "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+    ]
+  },
+  "sek": {
+    "name": "Sekretariat / Koordination Skill Labs",
+    "lines": [
+      "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+    ]
+  },
+  "wzm": {
+    "name": "Werkstatt ZMK",
+    "lines": [
+      "Reparaturauftrag ausfüllen (liegt im Technicum)",
+      "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+      "Techn. Koordinator in cc setzen"
+    ]
+  },
+  "it": {
+    "name": "IT-Service Tal",
+    "lines": [
+      "Serviceportal oder Telefon – Telefonliste ZMK"
+    ]
+  },
+  "av": {
+    "name": "AV-Medien",
+    "lines": [
+      "Mit Einweisung → direkt kontaktieren",
+      "Ohne Einweisung → zuerst Techn. Koordinator"
+    ]
+  },
+  "druck": {
+    "name": "3D-Druck Mailbox",
+    "lines": [
+      "3DDruck@med.uni-tuebingen.de",
+      "STL-Datei + kurze Beschreibung mitschicken"
+    ]
+  },
+  "morgan": {
+    "name": "Druckerwartung · Firma Morgenstern",
+    "lines": [
+      "Kontaktdaten direkt am Gerät"
+    ]
+  },
+  "kollege": {
+    "name": "Zahnärztlicher Kollege",
+    "lines": [
+      "Zuständigen zahnärztlichen Kollegen ansprechen"
+    ]
+  }
+};
+
+  const ROOMS = [
+ {
+  "id": "seminar1",
+  "name": "Seminar 1",
+  "devices": [
+   {
+    "name": "Medienpanel / Raumsteuerung",
+    "status": "branch",
+    "node": {
+     "kind": "branch",
+     "header": "Einweisung",
+     "question": "Hast du eine Einweisung in das Medienpanel erhalten?",
+     "yesLabel": "Ja",
+     "noLabel": "Nein",
+     "yes": {
+      "kind": "info",
+      "title": "Medienpanel – selbst bedienen",
+      "desc": "Kein Grund zur Panik – du kannst das Medienpanel selbstständig bedienen. Bei technischen Defekten → AV-Medien."
+     },
+     "no": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen"
+       ]
+      },
+      "desc": "Bitte um eine Einweisung, bevor du das Panel nutzt.",
+      "pills": [
+       "Einweisung erforderlich"
+      ]
+     }
+    }
+   },
+   {
+    "name": "ClickShare",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "ClickShare",
+     "steps": [
+      "ClickShare in USB Eingang vom Laptop einstecken",
+      "ClickShare wie USB-Stick im Explorer öffnen und die Windows-App starten",
+      "Bildschirm freigeben (App oder Button drücken)",
+      "Kein Bild? App schließen, neu starten, erneut verbinden, USB wechseln",
+      "Ist die richtige Quelle auf dem Medienpanel ausgewählt"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "IT-Service Tal",
+       "lines": [
+        "Serviceportal oder Telefon – Telefonliste ZMK",
+        "Falls nötig in CC / 2. Stelle: AV-Medien"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Mikrofon (drahtlos)",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Mikrofon (drahtlos)",
+     "steps": [
+      "Akku prüfen – ist das Mikrofon geladen?",
+      "Empfänger eingeschaltet?",
+      "Richtiger Eingang am Medienpanel ausgewählt?",
+      "Lautstärke am Panel aufgedreht?",
+      "Wenn Mikro nicht reagiert, aufschrauben und die Batterie neu einsetzen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "IT-Service Tal",
+       "lines": [
+        "Serviceportal oder Telefon – Telefonliste ZMK",
+        "Falls nötig in CC / 2. Stelle: AV-Medien"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Labcam / Demokamera",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Labcam / Demokamera",
+     "steps": [
+      "Kamerasteuermodul eingeschaltet? (silberne Box - Firma RIETH.)",
+      "Schutzdeckel von der Kamera entfernt?",
+      "Signal am Medienpanel korrekt zugewiesen?",
+      "Bild nur auf Bildschirm angezeig? Switch unter dem Tisch rechts auf Input 2 schalten.",
+      "- Für Dozenten PC auf Input 1 zurückschalten -"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "IT-Service Tal",
+       "lines": [
+        "Serviceportal oder Telefon – Telefonliste ZMK",
+        "Falls nötig in CC / 2. Stelle: AV-Medien"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Trennwände – Räume kombinieren/teilen",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Trennwände – Räume kombinieren/teilen",
+     "steps": [
+      "Die Seminarräume 1, 2 und 3 lassen sich über die Trennwände zu einem großen Raum verbinden oder einzeln nutzen. Die Kurbel liegt für gewöhnlich in einem der Medienkoffer in SR1 oder SR3.",
+      "Erklärvideo auf Q:\"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Buchung / Zugang",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Buchung / Zugang",
+     "steps": [
+      "Verfügbarkeit im Routineraster / Google Kalender/Moses Med prüfen",
+      "Freien Termin anfragen",
+      "Zugang über die zuständige Stelle klären"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Sekretariat / Koordination Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Medienpanel (Extron)",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Medienpanel (Extron)",
+     "desc": "Buttons reagieren nicht -  in SR1 & SR2 ausschalten, dann in SR1 Einschalten (ca. 90 Sekunden)",
+     "steps": [
+      "Medienpanel in SR1 & SR2 ausschalten, dann in SR1 Einschalten (ca. 90 Sekunden)",
+      "Cave: Nach Benutzung immer Ausschalten."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Beamer Seminarraum",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Beamer Seminarraum",
+     "desc": "Beamer zeigt kein Bild",
+     "steps": [
+      "Ist der Projektor am Medienpanel eingeschalten?",
+      "Ist Bild Aus/Ein aktiviert (rot oder grün)",
+      "Ist die Bildquelle korrekt ausgewählt?"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "IT-Service Tal",
+       "lines": [
+        "Serviceportal oder Telefon – Telefonliste ZMK",
+        "Falls nötig in CC / 2. Stelle: AV-Medien"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Klimatisierung",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Klimatisierung",
+     "desc": "Zu kalt · Zu warm",
+     "steps": [
+      "Die Klimaanalage lässt sich über  den Regler neben der Tür regeln.",
+      "Die Mittelstellung entspricht 24 °C.",
+      "Schneemann: 21 °C.",
+      "Sonne: 27 °C.",
+      "Die Regelung der Raumtemperatur erfolgt nur bei geschlossenen Fenstern & Tür.",
+      "Nach der automatischer Abschaltung der Anlage um 16:30 (Mond), lässt sich diese durch Drücken des Männchen wieder aktivieren."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ]
+ },
+ {
+  "id": "seminar2",
+  "name": "Seminar 2",
+  "devices": [
+   {
+    "name": "Trennwände – Räume kombinieren/teilen",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Trennwände – Räume kombinieren/teilen",
+     "steps": [
+      "Die Seminarräume 1, 2 und 3 lassen sich über die Trennwände zu einem großen Raum verbinden oder einzeln nutzen. Die Kurbel liegt für gewöhnlich in einem der Medienkoffer in SR1 oder SR3.",
+      "Erklärvideo auf Q:\"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Ausstattung – analoger Raum",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "info",
+     "title": "Ausstattung – analoger Raum",
+     "steps": [
+      "Seminar 2 ist analog ausgestattet: Metaplan-Wand und Flipchart. Keine fest installierte AV-Technik.",
+      "In diesem Raum befindet sich ein zusätzlicher Lautsprecher, welcher sich vomm Medienpanel SR3 steuern lässt."
+     ]
+    }
+   },
+   {
+    "name": "Buchung / Zugang",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Buchung / Zugang",
+     "steps": [
+      "Verfügbarkeit im Routineraster / Google Kalender/Moses Med prüfen",
+      "Freien Termin anfragen",
+      "Zugang über die zuständige Stelle klären"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Sekretariat / Koordination Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ],
+  "access": "Analog ausgestatteter Raum (Metaplan/Flipchart) – keine fest installierte AV-Technik."
+ },
+ {
+  "id": "seminar3",
+  "name": "Seminar 3",
+  "devices": [
+   {
+    "name": "Medienpanel / Raumsteuerung",
+    "status": "branch",
+    "node": {
+     "kind": "branch",
+     "header": "Einweisung",
+     "question": "Hast du eine Einweisung in das Medienpanel erhalten?",
+     "yesLabel": "Ja",
+     "noLabel": "Nein",
+     "yes": {
+      "kind": "info",
+      "title": "Medienpanel – selbst bedienen",
+      "desc": "Kein Grund zur Panik – du kannst das Medienpanel selbstständig bedienen. Bei technischen Defekten → AV-Medien."
+     },
+     "no": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen"
+       ]
+      },
+      "desc": "Bitte um eine Einweisung, bevor du das Panel nutzt.",
+      "pills": [
+       "Einweisung erforderlich"
+      ]
+     }
+    }
+   },
+   {
+    "name": "ClickShare",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "ClickShare",
+     "steps": [
+      "ClickShare in USB Eingang vom Laptop einstecken",
+      "ClickShare wie USB-Stick im Explorer öffnen und die Windows-App starten",
+      "Bildschirm freigeben (App oder Button drücken)",
+      "Kein Bild? App schließen, neu starten, erneut verbinden, USB wechseln",
+      "Ist die richtige Quelle auf dem Medienpanel ausgewählt"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "IT-Service Tal",
+       "lines": [
+        "Serviceportal oder Telefon – Telefonliste ZMK",
+        "Falls nötig in CC / 2. Stelle: AV-Medien"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Mikrofon (drahtlos)",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Mikrofon (drahtlos)",
+     "steps": [
+      "Akku prüfen – ist das Mikrofon geladen?",
+      "Empfänger eingeschaltet?",
+      "Richtiger Eingang am Medienpanel ausgewählt?",
+      "Lautstärke am Panel aufgedreht?",
+      "Wenn Mikro nicht reagiert, aufschrauben und die Batterie neu einsetzen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "IT-Service Tal",
+       "lines": [
+        "Serviceportal oder Telefon – Telefonliste ZMK",
+        "Falls nötig in CC / 2. Stelle: AV-Medien"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "KI-Tracking-Kamera",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "KI-Tracking-Kamera",
+     "steps": [
+      "Steuerung erfolgt über den Button \"360° Kamera\" auf dem Medienpanel.",
+      "Es muss die Richtige Quelle unter Projektion ausgewählt sein."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Patientenkamera",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Patientenkamera",
+     "steps": [
+      "Akkus liegen auf Dozenten PC in SR 1 und sollten nach Benutzung dort geladen werden.",
+      "Akku in die Kamera einsetzen und Kamera seitlich einschalten.",
+      "Signal über Medienpanel richtige zuweisen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "IT-Service Tal",
+       "lines": [
+        "Serviceportal oder Telefon – Telefonliste ZMK",
+        "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Aufnahme über AV-Netz",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Aufnahme über AV-Netz",
+     "steps": [
+      "Seminar 3 ist über das AV-Netz zur Aufnahme angebunden. Aufnahme über das Medienpanel starten."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: AV-Medien"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Trennwände – Räume kombinieren/teilen",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "info",
+     "title": "Trennwände – Räume kombinieren/teilen",
+     "steps": [
+      "Die Seminarräume 1, 2 und 3 lassen sich über die Trennwände zu einem großen Raum verbinden oder einzeln nutzen. Erklärvideo auf Q:\"
+     ]
+    }
+   },
+   {
+    "name": "Kamera / Medientechnik defekt",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Kamera / Medientechnik defekt",
+     "steps": [
+      "Gerät über das Medienpanel kurz aus- und wieder einschalten",
+      "Kabel- und Signalverbindung am Panel prüfen"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "AV-Medien",
+       "lines": [
+        "Mit Einweisung → direkt kontaktieren",
+        "Ohne Einweisung → zuerst Techn. Koordinator"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Buchung / Zugang",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Buchung / Zugang",
+     "steps": [
+      "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+      "Freien Termin eintragen bzw. anfragen",
+      "Zugang über die zuständige Stelle klären"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Sekretariat / Koordination Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ]
+ },
+ {
+  "id": "technicum",
+  "name": "Technicum",
+  "devices": [
+   {
+    "name": "Hotty Wax Station",
+    "manuals": [{"label": "Renfert – Teil 1", "path": "manuals/technicum/hotty-renfert-1.pdf"}, {"label": "Renfert – Teil 2", "path": "manuals/technicum/hotty-renfert-2.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Hotty Wax Station (Wachsbad)",
+     "steps": [
+      "Temperatur je nach Wachstyp einstellen – mind. 10 Min. vorheizen lassen.",
+      "Nur zugelassene Dentalwachse verwenden.",
+      "Instrumente im Gerät reinigen bevor die Arbeit beginnt.",
+      "Nach Gebrauch: Gerät ausschalten, keine Wachsreste im Becken lassen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Intraoralscanner",
+    "manuals": [{"label": "Ceramill Map DRS", "path": "manuals/technicum/ios-ceramill-map-drs.pdf"}, {"label": "Connection Kit (Kurzanleitung)", "path": "manuals/technicum/ios-connection-kit.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Intraoralscanner (bei Nutzung)",
+     "steps": [
+      "Nur während aktiver Nutzung im Raum verfügbar.",
+      "Bedienung nach IOS-Einweisung – Gebrauchsanweisung beachten."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Sirona SIM Intego Bench",
+    "manuals": [{"label": "GBA Sim Bench", "path": "manuals/technicum/sirona-sim-bench.pdf"}, {"label": "Sirotorque L+ (Winkelstück)", "path": "manuals/technicum/sirona-sirotorque-l-plus.pdf"}, {"label": "Phantomkopf PK-2", "path": "manuals/technicum/sirona-phantomkopf-pk2.pdf"}, {"label": "Pflege & Reinigung", "path": "manuals/technicum/sirona-care-cleaning.pdf"}, {"label": "Reinigungsmittel", "path": "manuals/technicum/sirona-reinigungsmittel.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Sirona SIM Intego Bench",
+     "steps": [
+      "Fußschalter prüfen – eingesteckt und im richtigen Modus?",
+      "Handstück einsetzen bis es hörbar einrastet.",
+      "Wasser / Luft kommt nicht? Absperrventil am Gerät öffnen.",
+      "Licht defekt? Handstücklampe prüfen (fest einschrauben).",
+      "Gerät reagiert gar nicht? Hauptschalter an der Rückseite prüfen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Medienpanel / Raumsteuerung",
+    "status": "branch",
+    "node": {
+     "kind": "branch",
+     "header": "Einweisung",
+     "question": "Hast du eine Einweisung in das Medienpanel erhalten?",
+     "yesLabel": "Ja",
+     "noLabel": "Nein",
+     "yes": {
+      "kind": "info",
+      "title": "Medienpanel – selbst bedienen",
+      "desc": "Kein Grund zur Panik – du kannst das Medienpanel selbstständig bedienen. Bei technischen Defekten → AV-Medien."
+     },
+     "no": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen"
+       ]
+      },
+      "desc": "Bitte um eine Einweisung, bevor du das Panel nutzt.",
+      "pills": [
+       "Einweisung erforderlich"
+      ]
+     }
+    }
+   },
+   {
+    "name": "Trockenabsaugung",
+    "status": "mixed",
+    "node": {
+     "kind": "choice",
+     "title": "Trockenabsaugung – was ist los?",
+     "desc": "Steuerung im Raum „Besprechung Lehrende“.",
+     "options": [
+      {
+       "label": "Läuft nicht / kein Sog",
+       "node": {
+        "kind": "self",
+        "title": "Anschluss & Status prüfen",
+        "steps": [
+         "Schlauchverbindung am Arbeitsplatz prüfen – korrekt eingesteckt?",
+         "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“."
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "System einschalten lassen",
+          "lines": [
+           "Aufsicht / Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen",
+           "Nur sie dürfen das System ein- und ausschalten"
+          ]
+         },
+         "desc": "",
+         "pills": [
+          "Nur Aufsichten"
+         ]
+        }
+       }
+      },
+      {
+       "label": "Saugleistung schwach",
+       "node": {
+        "kind": "info",
+        "title": "Powermodus aktivieren",
+        "desc": "Powermodus im Raum „Besprechung Lehrende“ aktivieren – läuft dann 15 Minuten.",
+        "steps": [
+         "Knopf am System 3 Sekunden gedrückt halten",
+         "Powermodus läuft 15 Minuten"
+        ]
+       }
+      },
+      {
+       "label": "Nach Feierabend ausschalten",
+       "node": {
+        "kind": "contact",
+        "contact": {
+         "name": "Aufsicht / Assistenzarzt Skill Labs",
+         "lines": [
+          "Im Raum „Besprechung Lehrende“ ansprechen"
+         ]
+        },
+        "desc": "Nur Aufsichten / Assistenzärzte dürfen das System aus- und einschalten.",
+        "pills": [
+         "Nur Aufsichten"
+        ]
+       }
+      },
+      {
+       "label": "Buttons blinken blau / Defekt",
+       "node": {
+        "kind": "contact",
+        "contact": {
+         "name": "Werkstatt ZMK",
+         "lines": [
+          "Reparaturauftrag ausfüllen (liegt im Technicum)",
+          "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+          "Techn. Koordinator in cc setzen"
+         ]
+        },
+        "desc": "Die Anzeige nach 150 Betriebsstunden ist kein Defekt. Bei echtem Defekt → Werkstatt ZMK.",
+        "pills": [
+         "Werkstatt ZMK"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "name": "Noflame Plus",
+    "manuals": [{"label": "Bedienungsanleitung", "path": "manuals/technicum/noflame-plus.pdf"}],
+    "status": "mixed",
+    "node": {
+     "kind": "choice",
+     "title": "Noflame Plus – wie blinkt die LED?",
+     "options": [
+      {
+       "label": "Schnell (0,2 s) – Sensor irritiert",
+       "node": {
+        "kind": "info",
+        "title": "Sensor zurücksetzen",
+        "steps": [
+         "Instrument aus der Spulenöffnung nehmen",
+         "Gerät aus- und wieder einschalten"
+        ]
+       }
+      },
+      {
+       "label": "Mittel (0,5 s) – Lüfter blockiert",
+       "node": {
+        "kind": "self",
+        "title": "Lüftungsschlitze prüfen",
+        "steps": [
+         "Lüftungsschlitze freiräumen",
+         "Gerät aus- und wieder einschalten"
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "Werkstatt ZMK",
+          "lines": [
+           "Reparaturauftrag ausfüllen (liegt im Technicum)",
+           "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+           "Techn. Koordinator in cc setzen"
+          ]
+         },
+         "desc": "Hilft das nicht.",
+         "pills": []
+        }
+       }
+      },
+      {
+       "label": "Langsam (1 s) – Übertemperatur",
+       "node": {
+        "kind": "self",
+        "title": "Gerät abkühlen lassen",
+        "steps": [
+         "Gerät ausschalten",
+         "Einige Minuten abkühlen lassen",
+         "Neu starten"
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "Werkstatt ZMK",
+          "lines": [
+           "Reparaturauftrag ausfüllen (liegt im Technicum)",
+           "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+           "Techn. Koordinator in cc setzen"
+          ]
+         },
+         "desc": "Tritt der Fehler erneut auf.",
+         "pills": []
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "name": "QUATTROcare",
+    "manuals": [{"label": "GA QUATTROcare Plus", "path": "manuals/technicum/quattrocare-plus.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "QUATTROcare",
+     "steps": [
+      "Ersatzkartuschen bei den Aufsichten. Kartuschen können selbst gewechselt werden."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Demokamera",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Demokamera",
+     "steps": [
+      "Kamerasteuermodul eingeschaltet? (silberne Box - Firma RIETH.)",
+      "Schutzdeckel von der Kamera entfernt?",
+      "Signal am Medienpanel korrekt zugewiesen?",
+      "Bild nur auf Bildschirm angezeig? Switch unter dem Tisch rechts auf Input 2 schalten.",
+      "- Für Dozenten PC auf Input 1 zurückschalten -"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung erforderlich",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator – Einweisung anfordern",
+        "Falls nötig in CC / 2. Stelle: IT-Service Tal"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Bildschirme schwarz",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Bildschirme schwarz",
+     "steps": [
+      "Am Medienpanel richtiges Signal ausgewählt?",
+      "Signal neu zuweisen.",
+      "Bildschirm am Panel aus- und wieder einschalten"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: IT-Service Tal"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Notschalter ausgelöst",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Notschalter ausgelöst",
+     "steps": [
+      "Prüfen ob der Auslösegrund behoben ist",
+      "Notschalter wieder eindrücken / zurücksetzen",
+      "Geräte neu starten"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Gerät defekt melden",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Gerät defekt melden",
+     "steps": [
+      "Gerät außer Betrieb nehmen und kennzeichnen",
+      "Reparaturauftrag ausfüllen (liegt im Technicum)",
+      "Defekt mit kurzer Beschreibung melden"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Werkstatt ZMK",
+       "lines": [
+        "Reparaturauftrag ausfüllen (liegt im Technicum)",
+        "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+        "Techn. Koordinator in cc setzen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Buchung / Zugang",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Buchung / Zugang",
+     "steps": [
+      "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+      "Freien Termin eintragen bzw. anfragen",
+      "Zugang über die zuständige Stelle klären"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Sekretariat / Koordination Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Handstück",
+    "manuals": [{"label": "Sicherheitshinweise (Zubler)", "path": "manuals/technicum/handstueck-zubler-sicherheit.pdf"}, {"label": "Drehrichtung für Linkshänder", "path": "manuals/technicum/handstueck-drehrichtung-linkshaender.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Handstück",
+     "desc": "Fehler F5 · Handstück dreht links",
+     "steps": [
+      "Fehler F5: Kniesteuerung komplettausschalten (10s warten)",
+      "Linkslauf: Gerät ist im Linkbetrieb!",
+      "Am Netzschalter (11) ausschalten",
+      "Rechtslauftaste T4 (Plustaste) gedrückt halten",
+      "Dabei Netzschalter wieder einschalten",
+      "LED T3 aus = Rechtslauf aktiv"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Präpchecker / Dental Teacher",
+    "manuals": [{"label": "Short Manual (Student)", "path": "manuals/technicum/dental-teacher-short-manual.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Präpchecker / Dental Teacher",
+     "steps": [
+      "Demopräps sind hinterlegt.",
+      "Einweisung durch Kurs"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Pentamix 3",
+    "manuals": [{"label": "GBA Pentamix 3", "path": "manuals/technicum/pentamix3.pdf"}],
+    "status": "contact",
+    "node": {
+     "kind": "contact",
+     "contact": {
+      "name": "Aufsichten / Ärzte im Raum",
+      "lines": [
+       "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+       "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+      ]
+     },
+     "desc": "",
+     "pills": []
+    }
+   },
+   {
+    "name": "Mikroskop (Leica A60)",
+    "status": "contact",
+    "node": {
+     "kind": "contact",
+     "contact": {
+      "name": "Assistenzarzt Skill Labs",
+      "lines": [
+       "Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen"
+      ]
+     },
+     "desc": "",
+     "pills": []
+    }
+   }
+  ]
+ },
+ {
+  "id": "phantomicum",
+  "name": "Phantomicum",
+  "devices": [
+   {
+    "name": "Arbeitsplatzkamera",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Arbeitsplatzkamera",
+     "steps": [
+      "Kamera einschalten, USB-Verbindung zum Rechner prüfen.",
+      "Richtige Kameraquelle in der Software auswählen.",
+      "Kein Bild? Software neu starten, Kabel neu einstecken."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Assistenzarzt Skill Labs oder Techn. Koordinator",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Intraoralscanner",
+    "manuals": [{"label": "Ceramill Map DRS", "path": "manuals/phantomicum/ios-ceramill-map-drs.pdf"}, {"label": "Connection Kit (Kurzanleitung)", "path": "manuals/phantomicum/ios-connection-kit.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Intraoralscanner (bei Nutzung)",
+     "steps": [
+      "Nur während aktiver Nutzung im Raum verfügbar.",
+      "Bedienung nach IOS-Einweisung – Gebrauchsanweisung beachten."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Pentamix 3",
+    "manuals": [{"label": "GBA Pentamix 3", "path": "manuals/phantomicum/pentamix3.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Pentamix 3",
+     "steps": [
+      "Bedienung im Kurs nach Einführung selbstständig."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Medienpanel / Raumsteuerung",
+    "status": "branch",
+    "node": {
+     "kind": "branch",
+     "header": "Einweisung",
+     "question": "Hast du eine Einweisung in das Medienpanel erhalten?",
+     "yesLabel": "Ja",
+     "noLabel": "Nein",
+     "yes": {
+      "kind": "info",
+      "title": "Medienpanel – selbst bedienen",
+      "desc": "Kein Grund zur Panik – du kannst das Medienpanel selbstständig bedienen. Bei technischen Defekten → AV-Medien."
+     },
+     "no": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen"
+       ]
+      },
+      "desc": "Bitte um eine Einweisung, bevor du das Panel nutzt.",
+      "pills": [
+       "Einweisung erforderlich"
+      ]
+     }
+    }
+   },
+   {
+    "name": "Behandlungseinheit / Turbine / Handstück",
+    "status": "mixed",
+    "node": {
+     "kind": "choice",
+     "title": "Behandlungseinheit – was funktioniert nicht?",
+     "options": [
+      {
+       "label": "Turbine / Handstück defekt",
+       "node": {
+        "kind": "self",
+        "title": "Turbine / Handstück defekt",
+        "steps": [
+         "Ist die Behandlungseinheit eingeschaltet?",
+         "Druckluft- und Wasser-Haupthahn geöffnet?",
+         "Handstück/Turbine korrekt aufgesteckt und eingerastet?",
+         "Einheit kurz aus- und wieder einschalten"
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "Aufsichten / Ärzte im Raum",
+          "lines": [
+           "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+           "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+          ]
+         },
+         "desc": "",
+         "pills": []
+        }
+       }
+      },
+      {
+       "label": "Licht funktioniert nicht",
+       "node": {
+        "kind": "self",
+        "title": "Licht an Einheit funktioniert nicht",
+        "steps": [
+         "Lichtschalter an der Einheit betätigt?",
+         "Helligkeit am Bedienfeld geprüft?",
+         "Einheit aus- und wieder einschalten"
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "Aufsichten / Ärzte im Raum",
+          "lines": [
+           "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+           "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+          ]
+         },
+         "desc": "",
+         "pills": []
+        }
+       }
+      },
+      {
+       "label": "Wasser / Luft kommt nicht",
+       "node": {
+        "kind": "self",
+        "title": "Wasser / Luft kommt nicht",
+        "steps": [
+         "Haupthahn für Wasser und Druckluft geöffnet?",
+         "Fußanlasser betätigt?",
+         "Schläuche korrekt angeschlossen und nicht geknickt?"
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "Aufsichten / Ärzte im Raum",
+          "lines": [
+           "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+           "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+          ]
+         },
+         "desc": "",
+         "pills": []
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "name": "QUATTROcare",
+    "manuals": [{"label": "GA QUATTROcare Plus", "path": "manuals/phantomicum/quattrocare-plus.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "QUATTROcare",
+     "steps": [
+      "Ersatzkartuschen bei den Aufsichten. Handstückpflege durch Studierende selbst."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Sekretariat / Koordination Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Cavex Alginate Mixer",
+    "manuals": [{"label": "IFU (EN)", "path": "manuals/phantomicum/cavex-alginate-mixer-ii-en.pdf"}, {"label": "Protokoll CaM II (EN)", "path": "manuals/phantomicum/cavex-cam-ii-protocol.pdf"}, {"label": "Anleitung (DE)", "path": "manuals/phantomicum/cavex-alginate-mixer-ii-de.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Cavex Alginate Mixer",
+     "steps": [
+      "Bedienung im Kurs nach Einführung durch Aufsichten selbstständig."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Buchung / Zugang",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Buchung / Zugang",
+     "steps": [
+      "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+      "Freien Termin eintragen bzw. anfragen",
+      "Zugang über die zuständige Stelle klären"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Sekretariat / Koordination Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ]
+ },
+ {
+  "id": "gips",
+  "name": "Gipsen & Polieren",
+  "devices": [
+   {
+    "name": "Absaugbox BIOSTEAM Center",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/biosteam-center.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Absaugbox BIOSTEAM Center",
+     "steps": [
+      "Hauptschalter drücken – Gerät läuft sobald Absaugung aktiv ist (hörbar).",
+      "Schlauch auf Knickstellen oder Verstopfungen prüfen.",
+      "Saugleistung schwach? Filter / Sieb prüfen und ggf. reinigen.",
+      "Wasserbehälter entleeren wenn Füllstand-Anzeige leuchtet."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Steamy Mini (Abdampfer)",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/steamy-mini.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Steamy Mini (Abdampfer)",
+     "steps": [
+      "Wassertank befüllen (destilliertes Wasser – nur bei abgekühltem Gerät).",
+      "Aufheizzeit abwarten – ca. 3–5 Min. bis Betriebsdruck erreicht ist.",
+      "Düse verstopft? Nadel aus dem Zubehör vorsichtig durchstecken.",
+      "Nach Gebrauch: Ausschalten, Restdampf ablassen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Trockentrimmer",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/trockentrimmer.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Trockentrimmer",
+     "steps": [
+      "Hauptschalter prüfen – Absaugung muss laufen (hörbar), erst dann trimmen.",
+      "Modell flach und gerade aufsetzen, gleichmäßigen Druck ausüben – nicht verkanten.",
+      "Sollte das Schleifband verrutscht sein bitte nicht selbst reparieren."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Erkoform 3d motion",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/erkoform-3d-motion.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Erkoform 3d motion",
+     "steps": [
+      "Folientyp und -stärke laut Kursanleitung wählen (Aufkleber am Gerät beachten).",
+      "Folie sorgfältig einspannen – Rahmen gleichmäßig und fest schließen.",
+      "Temperatur und Druck je nach Material einstellen.",
+      "Folie reißt? Temperatur oder Foliendicke prüfen, ggf. neu einspannen.",
+      "Nach Abkühlung Modell entnehmen, Folie vorsichtig abtrennen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Giroform",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/giroform.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Giroform",
+     "steps": [
+      "Nur nach erfolgter Einweisung verwenden.",
+      "Stiftposition nach Kursanleitung wählen – Stifte korrekt einsetzen und sichern.",
+      "Modell in Artikulator einsetzen: Index-Stifte korrekt ausrichten und einrasten lassen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Smartbox X2",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/smartbox-x2.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Smartbox X2",
+     "steps": [
+      "Wasser einfüllen, Gerät einschalten – Vorheizzeit ca. 5 Min. abwarten.",
+      "Küvette einlegen, Deckel fest verschließen – O-Ring auf Sauberkeit prüfen.",
+      "Druck und Zeit gemäß Kursanleitung einstellen.",
+      "Nach Ende: Druck über Ablassventil langsam ablassen, erst dann öffnen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Smartmix",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/smartmix.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Smartmix",
+     "steps": [
+      "Schüssel und Paddel korrekt einsetzen und verriegeln.",
+      "Wasser-Pulver-Verhältnis nach Anleitung abmessen (Messbecher verwenden).",
+      "Mischzeit je nach Material einstellen (Gips ca. 30–45 s, Alginat ca. 45–60 s).",
+      "Nach Gebrauch Schüssel und Paddel sofort reinigen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Polierbox",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/polierbox.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Polierbox",
+     "steps": [
+      "Absaugung einschalten – Schalter am Gerät oder Fußpedal prüfen.",
+      "Drehzahl am Handstück je nach Werkstück wählen.",
+      "Saugleistung schwach? Filterbeutel / Sieb prüfen und ggf. reinigen.",
+      "Handstück und Schleifkörper nach Nutzung reinigen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Trockenabsaugung",
+    "status": "mixed",
+    "node": {
+     "kind": "choice",
+     "title": "Trockenabsaugung – was ist los?",
+     "desc": "Steuerung im Raum „Besprechung Lehrende“.",
+     "options": [
+      {
+       "label": "Läuft nicht / kein Sog",
+       "node": {
+        "kind": "self",
+        "title": "Anschluss & Status prüfen",
+        "steps": [
+         "Schlauchverbindung am Arbeitsplatz prüfen – korrekt eingesteckt?",
+         "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“."
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "System einschalten lassen",
+          "lines": [
+           "Aufsicht / Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen",
+           "Nur sie dürfen das System ein- und ausschalten"
+          ]
+         },
+         "desc": "",
+         "pills": [
+          "Nur Aufsichten"
+         ]
+        }
+       }
+      },
+      {
+       "label": "Saugleistung schwach",
+       "node": {
+        "kind": "info",
+        "title": "Powermodus aktivieren",
+        "desc": "Powermodus im Raum „Besprechung Lehrende“ aktivieren – läuft dann 15 Minuten.",
+        "steps": [
+         "Knopf am System 3 Sekunden gedrückt halten",
+         "Powermodus läuft 15 Minuten"
+        ]
+       }
+      },
+      {
+       "label": "Nach Feierabend ausschalten",
+       "node": {
+        "kind": "contact",
+        "contact": {
+         "name": "Aufsicht / Assistenzarzt Skill Labs",
+         "lines": [
+          "Im Raum „Besprechung Lehrende“ ansprechen"
+         ]
+        },
+        "desc": "Nur Aufsichten / Assistenzärzte dürfen das System aus- und einschalten.",
+        "pills": [
+         "Nur Aufsichten"
+        ]
+       }
+      },
+      {
+       "label": "Buttons blinken blau / Defekt",
+       "node": {
+        "kind": "contact",
+        "contact": {
+         "name": "Werkstatt ZMK",
+         "lines": [
+          "Reparaturauftrag ausfüllen (liegt im Technicum)",
+          "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+          "Techn. Koordinator in cc setzen"
+         ]
+        },
+        "desc": "Die Anzeige nach 150 Betriebsstunden ist kein Defekt. Bei echtem Defekt → Werkstatt ZMK.",
+        "pills": [
+         "Werkstatt ZMK"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "name": "Abdampfgerät D-S100A",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/abdampfer-d-s100a.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Abdampfgerät D-S100A",
+     "steps": [
+      "Wasserhahn aufgedreht?",
+      "Wasserstand im zweiten Abdampfer prüfen – ggf. nachfüllen"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Gipstrimmer HSS-88",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/gipstrimmer-hss-88.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Gipstrimmer HSS-88",
+     "steps": [
+      "Ist der Wasserhahn aufgedreht? Das ist der häufigste Grund."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Rüttler",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/ruettler.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Rüttler",
+     "steps": [
+      "Ein/Aus-Schalter und Intensitätsregler prüfen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Elmasonic S (Ultraschall)",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/elmasonic-s.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Elmasonic S (Ultraschall)",
+     "steps": [
+      "Wasser bis zur Markierung nachfüllen, dann neu starten."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Erkoform 3d+",
+    "manuals": [{"label": "Gebrauchsanweisung", "path": "manuals/gips/erkoform-3d-plus.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Erkoform 3d+",
+     "steps": [
+      "Nur nach erfolgter Einweisung bedienen",
+      "Folie und Einstellungen nach Kursanleitung wählen",
+      "Bei Unsicherheit Einweisung anfordern"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Gerät defekt melden",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Gerät defekt melden",
+     "steps": [
+      "Gerät außer Betrieb nehmen und kennzeichnen",
+      "Reparaturauftrag ausfüllen (liegt im Technicum)",
+      "Defekt mit kurzer Beschreibung melden"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ],
+  "access": "Zugang im Kurs – Einweisung durch Aufsichten / Ärzte."
+ },
+ {
+  "id": "giessen",
+  "name": "Gießen & Strahlen",
+  "devices": [
+   {
+    "name": "Augenspülstation",
+    "status": "safety",
+    "node": {
+     "kind": "safety",
+     "warn": "Bei Spritzern ins Auge sofort ausgiebig mit der Augenspülstation spülen (mind. 30 s) und Lehrpersonal informieren.",
+     "inner": {
+      "kind": "self",
+      "title": "Augenspülstation",
+      "steps": [
+       "Standort: im Raum Gießen & Strahlen. Betroffenes Auge sofort und ausgiebig spülen, Augenlid offen halten. Anschließend Lehrpersonal informieren und – außer bei Bagatelle – Unfallmeldung ausfüllen. Station stets frei zugänglich halten; Verfallsdatum der Spülflaschen beachten.",
+       "Keine Gewähr der Angaben"
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "Sekretariat / Koordination Skill Labs",
+        "lines": [
+         "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
+         "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
+     }
+    }
+   },
+   {
+    "name": "Trockenabsaugung",
+    "status": "mixed",
+    "node": {
+     "kind": "choice",
+     "title": "Trockenabsaugung – was ist los?",
+     "desc": "Steuerung im Raum „Besprechung Lehrende“.",
+     "options": [
+      {
+       "label": "Läuft nicht / kein Sog",
+       "node": {
+        "kind": "self",
+        "title": "Anschluss & Status prüfen",
+        "steps": [
+         "Schlauchverbindung am Arbeitsplatz prüfen – korrekt eingesteckt?",
+         "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“."
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "System einschalten lassen",
+          "lines": [
+           "Aufsicht / Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen",
+           "Nur sie dürfen das System ein- und ausschalten"
+          ]
+         },
+         "desc": "",
+         "pills": [
+          "Nur Aufsichten"
+         ]
+        }
+       }
+      },
+      {
+       "label": "Saugleistung schwach",
+       "node": {
+        "kind": "info",
+        "title": "Powermodus aktivieren",
+        "desc": "Powermodus im Raum „Besprechung Lehrende“ aktivieren – läuft dann 15 Minuten.",
+        "steps": [
+         "Knopf am System 3 Sekunden gedrückt halten",
+         "Powermodus läuft 15 Minuten"
+        ]
+       }
+      },
+      {
+       "label": "Nach Feierabend ausschalten",
+       "node": {
+        "kind": "contact",
+        "contact": {
+         "name": "Aufsicht / Assistenzarzt Skill Labs",
+         "lines": [
+          "Im Raum „Besprechung Lehrende“ ansprechen"
+         ]
+        },
+        "desc": "Nur Aufsichten / Assistenzärzte dürfen das System aus- und einschalten.",
+        "pills": [
+         "Nur Aufsichten"
+        ]
+       }
+      },
+      {
+       "label": "Buttons blinken blau / Defekt",
+       "node": {
+        "kind": "contact",
+        "contact": {
+         "name": "Werkstatt ZMK",
+         "lines": [
+          "Reparaturauftrag ausfüllen (liegt im Technicum)",
+          "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+          "Techn. Koordinator in cc setzen"
+         ]
+        },
+        "desc": "Die Anzeige nach 150 Betriebsstunden ist kein Defekt. Bei echtem Defekt → Werkstatt ZMK.",
+        "pills": [
+         "Werkstatt ZMK"
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "name": "eyevolution max",
+    "manuals": [{"label": "Bedienungsanleitung", "path": "manuals/giessen/eyevolution-max.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "eyevolution max",
+     "steps": [
+      "Ein/Aus-Schalter prüfen, Gerät neu starten. Am Strom angeschlossen?",
+      "Programm nach Kursanleitung anpassen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Sandstrahl BA9001",
+    "manuals": [{"label": "Betriebsanleitung", "path": "manuals/giessen/sandstrahl-ba9001.pdf"}],
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Sandstrahl BA9001",
+     "steps": [
+      "Druckluftanschluss prüfen – ist der Hahn geöffnet?",
+      "Düse vorsichtig nach Kursanleitung reinigen.",
+      "Sand nach Kursanleitung nachfüllen.",
+      "Kabinenfenster von innen reinigen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Drucktopf",
+    "status": "safety",
+    "node": {
+     "kind": "safety",
+     "warn": "Den Drucktopf niemals ohne vollständige Einweisung öffnen – immer erst Druck vollständig ablassen!",
+     "inner": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Gerät defekt melden",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Gerät defekt melden",
+     "steps": [
+      "Gerät außer Betrieb nehmen und kennzeichnen",
+      "Reparaturauftrag ausfüllen (liegt im Technicum)",
+      "Defekt mit kurzer Beschreibung melden"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ],
+  "access": "Zugang im Kurs – Einweisung durch Aufsichten / Ärzte."
+ },
+ {
+  "id": "koordi",
+  "name": "Sekretariat / Koordination",
+  "devices": [
+   {
+    "name": "IO Scanner / Ceramill Map DRS",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "IO Scanner / Ceramill Map DRS",
+     "steps": [
+      "Siehe laminierte Anleitung.",
+      "Scanner-Status prüfen (eingeschaltet, angemeldet)"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "IT-Service Tal",
+       "lines": [
+        "Serviceportal oder Telefon – Telefonliste ZMK",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "KANBAN-Bestellung aufgeben",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "KANBAN-Bestellung aufgeben",
+     "steps": [
+      "Karte an der KANBAN-Station im Sekretariat/ Koordination einlegen.",
+      "Bearbeitung erfolgt automatisch."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Sekretariat / Koordination Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ]
+ },
+ {
+  "id": "druck",
+  "name": "Papier & Druck",
+  "devices": [
+   {
+    "name": "Drucker",
+    "status": "mixed",
+    "node": {
+     "kind": "choice",
+     "title": "Drucker – was ist das Problem?",
+     "options": [
+      {
+       "label": "Papierstau",
+       "node": {
+        "kind": "self",
+        "title": "Drucker – Papierstau",
+        "steps": [
+         "Papierstau kann selbst behoben werden – Anleitung am Gerät."
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "IT-Service Tal",
+          "lines": [
+           "Serviceportal oder Telefon – Telefonliste ZMK",
+           "Falls nötig in CC / 2. Stelle: Druckerwartung · Firma Morgenstern"
+          ]
+         },
+         "desc": "",
+         "pills": []
+        }
+       }
+      },
+      {
+       "label": "Toner leer",
+       "node": {
+        "kind": "self",
+        "title": "Drucker – Toner leer",
+        "steps": [
+         "Tonerbestellung läuft automatisch. Kein Handlungsbedarf."
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "IT-Service Tal",
+          "lines": [
+           "Serviceportal oder Telefon – Telefonliste ZMK",
+           "Falls nötig in CC / 2. Stelle: Druckerwartung · Firma Morgenstern"
+          ]
+         },
+         "desc": "",
+         "pills": []
+        }
+       }
+      },
+      {
+       "label": "Offline / Netzwerk",
+       "node": {
+        "kind": "self",
+        "title": "Drucker – offline / Netzwerk",
+        "steps": [
+         "Drucker aus- und wieder einschalten",
+         "Am PC: Drucker ZM11 hinzufügen über 90_Wartung im Windows Menü"
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "IT-Service Tal",
+          "lines": [
+           "Serviceportal oder Telefon – Telefonliste ZMK"
+          ]
+         },
+         "desc": "",
+         "pills": []
+        }
+       }
+      },
+      {
+       "label": "Technischer Defekt",
+       "node": {
+        "kind": "self",
+        "title": "Drucker – technischer Defekt",
+        "steps": [
+         "Drucker aus- und wieder einschalten",
+         "Fehlermeldung am Display notieren",
+         "Hält der Defekt an → Druckerwartung melden"
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "IT-Service Tal",
+          "lines": [
+           "Serviceportal oder Telefon – Telefonliste ZMK",
+           "Falls nötig in CC / 2. Stelle: Druckerwartung · Firma Morgenstern"
+          ]
+         },
+         "desc": "",
+         "pills": []
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "name": "Demoboxen",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Demoboxen",
+     "steps": [
+      "Nur für den Prothetik-Kurs vorgesehen",
+      "Entnahme/Rückgabe mit der Koordination abstimmen"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Assistenzarzt Skill Labs",
+       "lines": [
+        "Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ]
+ },
+ {
+  "id": "besprechung",
+  "name": "Besprechung Lehrende",
+  "devices": [
+   {
+    "name": "Küche & Kaffee",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Küche & Kaffee",
+     "steps": [
+      "Mikrowelle, Kühlschrank und Kaffeevollautomat für Lehrende. Spül- und Reinigungsdienst für Tisch/Theke beachten – Organisation durch das Prothetik-Team."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Assistenzarzt Skill Labs",
+       "lines": [
+        "Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen",
+        "Falls nötig in CC / 2. Stelle: Sekretariat / Koordination Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ],
+  "access": "Aufenthalts-/Besprechungsraum der Lehrenden. Hier wird u. a. die Trockenabsaugung gesteuert."
+ },
+ {
+  "id": "cad",
+  "name": "CAD-Raum",
+  "devices": [
+   {
+    "name": "3D-Scanner Pritimirror",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "3D-Scanner Pritimirror",
+     "steps": [
+      "Software starten, Scanner einschalten – grüne Status-LED abwarten.",
+      "Kalibrierung prüfen – Software meldet bei veralteter Kalibrierung.",
+      "Scanfläche sauber halten – Staubpartikel verfälschen das Ergebnis.",
+      "Modell fest positionieren – Bewegung während des Scans vermeiden."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Creality Scan Ferret",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Creality Scan Ferret",
+     "steps": [
+      "USB-Kabel fest einstecken – Treiber werden beim ersten Start installiert.",
+      "Scanner parallel zur Oberfläche halten, gleichmäßig und ruhig bewegen.",
+      "Tracking verloren? Scan pausieren, Gerät näher an Oberfläche führen, neu starten."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Laborscanner Ceramill Map 300",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Laborscanner Ceramill Map 300",
+     "steps": [
+      "Software öffnen (Ceramill Map), Scanner einschalten – Verbindung abwarten.",
+      "Modell auf den Scantisch legen – Referenzpunkte nicht verdecken.",
+      "Kalibrierung: bei Aufforderung Kalibriermodell verwenden."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Haptic Pen (Geomagic Touch X)",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Haptic Pen (Geomagic Touch X)",
+     "steps": [
+      "Gerät per USB anschließen, dann Software starten (nicht umgekehrt).",
+      "Arm in Ruheposition (Dock) halten beim Starten der Software.",
+      "Bewegungsbereich frei halten – Kabel nicht knicken oder verknoten.",
+      "Kalibrierung: Anweisungen in der Software folgen wenn aufgefordert."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Medienpanel / Raumsteuerung",
+    "status": "branch",
+    "node": {
+     "kind": "branch",
+     "header": "Einweisung",
+     "question": "Hast du eine Einweisung in das Medienpanel erhalten?",
+     "yesLabel": "Ja",
+     "noLabel": "Nein",
+     "yes": {
+      "kind": "info",
+      "title": "Medienpanel – selbst bedienen",
+      "desc": "Kein Grund zur Panik – du kannst das Medienpanel selbstständig bedienen. Bei technischen Defekten → AV-Medien."
+     },
+     "no": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen"
+       ]
+      },
+      "desc": "Bitte um eine Einweisung, bevor du das Panel nutzt.",
+      "pills": [
+       "Einweisung erforderlich"
+      ]
+     }
+    }
+   },
+   {
+    "name": "Software startet nicht",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Software startet nicht",
+     "steps": [
+      "PC neu starten",
+      "Software neu starten",
+      "Lizenzserver erreichbar?",
+      "Netzwerkverbindung prüfen (ist eine Eingabe der Proxydaten notwendig?)"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: IT-Service Tal"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Lizenz nicht verfügbar",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Lizenz nicht verfügbar",
+     "steps": [
+      "PC neu starten",
+      "Prüfen ob die Netzwerk-/Serververbindung steht",
+      "Software schließen und erneut öffnen"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "IT-Service Tal",
+       "lines": [
+        "Serviceportal oder Telefon – Telefonliste ZMK",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "3D-Maus (3Dconnexion)",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "3D-Maus (3Dconnexion)",
+     "steps": [
+      "USB-Stecker neu einstecken",
+      "Anderen USB-Port testen",
+      "Prüfen ob die 3Dconnexion-Software/Treiber läuft"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: IT-Service Tal"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Prusa Mini (3×)",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Prusa Mini (3×)",
+     "steps": [
+      "Druckbett sauber und nivelliert?",
+      "Filament vorhanden und korrekt eingezogen?",
+      "Druckauftrag erneut senden"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "3D-Druck Mailbox",
+       "lines": [
+        "3DDruck@med.uni-tuebingen.de",
+        "STL-Datei + kurze Beschreibung mitschicken",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "IT / Netzwerkproblem",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "IT / Netzwerkproblem",
+     "steps": [
+      "PC neu starten",
+      "Netzwerkkabel / Verbindung prüfen",
+      "Über Windowsmenü auf 90_Wartung und dann Gruppenrichtlinie abrufen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "IT-Service Tal",
+       "lines": [
+        "Serviceportal oder Telefon – Telefonliste ZMK"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Buchung / Zugang",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Buchung / Zugang",
+     "steps": [
+      "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+      "Freien Termin eintragen bzw. anfragen",
+      "Zugang über die zuständige Stelle klären"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Sekretariat / Koordination Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ],
+  "access": "Zugang nach Rücksprache mit Techn. Koordinator oder Sekretariat."
+ },
+ {
+  "id": "cam",
+  "name": "CAM-Raum",
+  "devices": [
+   {
+    "name": "Ceramill Matik (Fräsmaschine)",
+    "status": "safety",
+    "node": {
+     "kind": "safety",
+     "warn": "Nur eingewiesene Personen dürfen die Ceramill Matik bedienen.",
+     "inner": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Aufsichten / Ärzte im Raum"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Ceramill Therm3 (Sinterofen)",
+    "status": "safety",
+    "node": {
+     "kind": "safety",
+     "warn": "Nur eingewiesene Assistenzärzte dürfen den Sinterofen bedienen.",
+     "inner": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Aufsichten / Ärzte im Raum"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "xTool S1 Laser",
+    "status": "safety",
+    "node": {
+     "kind": "safety",
+     "warn": "Schutzbrille Pflicht! Laser darf ausschließlich vom Techn. Koordinator bedient werden.",
+     "inner": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Formlabs / Form Wash / Form Cure",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Formlabs / Form Wash / Form Cure",
+     "steps": [
+      "Resin vorhanden, Tank sauber?",
+      "Wash-/Cure-Zeiten nach Anleitung einstellen",
+      "Für Druckaufträge: 3D-Druck-Mailbox kontaktieren"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Aufsichten / Ärzte im Raum"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Bambu Lab / Prusa Mini",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Bambu Lab / Prusa Mini",
+     "steps": [
+      "Druckbett sauber & nivelliert, Filament eingezogen?",
+      "Druckauftrag erneut senden",
+      "Für Druckaufträge: 3D-Druck-Mailbox kontaktieren"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "KANBAN-Bestellung aufgeben",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "KANBAN-Bestellung aufgeben",
+     "steps": [
+      "Karte ausfüllen und an KANBAN Station im Sekretariat/Koordination Skill Labs einlegen"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Gefahrstoffentsorgung (IPA)",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Gefahrstoffentsorgung (IPA)",
+     "steps": [
+      "Anmeldeformular Sonderabfälle ausfüllen (Anzahl / Art)",
+      "Formular freitags an die Sonderabfall-Mailbox senden (Abholung dienstags)",
+      "Etiketten bedrucken (IPA = halogenfreie Lösungsmittel)",
+      "Kanister bekleben: UN-Nr. horizontal, Gefahrstoffkleber Spitze nach oben",
+      "Kanister in Gefahrstoffcontainer OS8/LFB (Pfortenschlüssel im Sekretariat)",
+      "Leere Kanister: ausdampfen, Symbol durchstreichen, ohne Deckel in gelben Sack"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "IT / Software",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "IT / Software",
+     "steps": [
+      "PC neu starten",
+      "An-/Abmeldung und Netzwerkverbindung prüfen",
+      "Hält das Problem an → IT-Service Tal"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "IT-Service Tal",
+       "lines": [
+        "Serviceportal oder Telefon – Telefonliste ZMK",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Unfall / Notfall",
+    "topic": true,
+    "status": "safety",
+    "node": {
+     "kind": "safety",
+     "warn": "Bei Verletzungen: Ärzte im Haus rufen, bei Bedarf Notarzt. SOP Unfallanzeige UKT beachten. Vorgesetzten informieren. Auge sofort an der Augendusche spülen, dabei aufhalten. Danach Arzt aufsuchen. Feuerlöscher: 1× Schaum. CO₂ bei Elektronik- und Flüssigkeitsbränden. Fluchtwege freihalten.",
+     "inner": {
+      "kind": "contact",
+      "contact": {
+       "name": "Sofortmaßnahme",
+       "lines": [
+        "Ärzte im Haus rufen, bei Bedarf Notarzt",
+        "SOP Unfallanzeige UKT beachten",
+        "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Buchung / Zugang",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Buchung / Zugang",
+     "steps": [
+      "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+      "Freien Termin eintragen bzw. anfragen",
+      "Zugang über die zuständige Stelle klären"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Sekretariat / Koordination Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ],
+  "warn": "Laborkittel, Schutzbrille und geschlossene Schuhe Pflicht. Nicht alleine im Labor arbeiten."
+ },
+ {
+  "id": "e6",
+  "name": "Flur E6 · Monitor",
+  "devices": [
+   {
+    "name": "Monitor zeigt nichts",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Monitor zeigt nichts",
+     "steps": [
+      "Monitor eingeschaltet?",
+      "Strom- und HDMI-Kabel geprüft?"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Kalender wird nicht angezeigt",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Kalender wird nicht angezeigt",
+     "steps": [
+      "Bitte melden!"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Technischer Defekt",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Technischer Defekt",
+     "steps": [
+      "Bitte melden"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ],
+  "access": "Bei allen Problemen bitte immer den Techn. Koordinator informieren."
+ }
+];
+
+  const AREAS = [
+ {
+  "id": "lean",
+  "name": "LEAN · 3D-Druck · KANBAN",
+  "devices": [
+   {
+    "name": "3D-Druck-Anfrage stellen",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "3D-Druck-Anfrage stellen",
+     "steps": [
+      "STL-Datei vorbereiten (geschlossenes Volumen, korrekte Größe)",
+      "Kurze Beschreibung + gewünschtes Material angeben",
+      "An die 3D-Druck-Mailbox senden"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "3D-Druck Mailbox",
+       "lines": [
+        "3DDruck@med.uni-tuebingen.de",
+        "STL-Datei + kurze Beschreibung mitschicken"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "KANBAN – Materialbestellung",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "KANBAN – Materialbestellung",
+     "steps": [
+      "Karte ausfüllen und in der KANBAN-Station in der Koordination einlegen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Haptic Device / 3D-Eingabestift",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Haptic Device / 3D-Eingabestift",
+     "steps": [
+      "USB-/Stromverbindung prüfen",
+      "Software/Treiber gestartet?",
+      "Bei Defekt → Techn. Koordinator"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung erforderlich",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator – Einweisung anfordern",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ]
+ },
+ {
+  "id": "qual",
+  "name": "Qualifizierung · Einweisung",
+  "devices": [
+   {
+    "name": "CAD/CAM Sicherheitseinweisung",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "CAD/CAM Sicherheitseinweisung",
+     "steps": [
+      "Termin für die Einweisung erfragen",
+      "Ohne Einweisung keine Gerätenutzung"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Intraoralscanner (IOS) Einweisung",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Intraoralscanner (IOS) Einweisung",
+     "steps": [
+      "Einweisungstermin erfragen",
+      "Scanner erst nach Einweisung verwenden"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Design-Prozess 4./5. Fachsemester",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Design-Prozess 4./5. Fachsemester",
+     "steps": [
+      "Kursunterlagen / Ablauf prüfen",
+      "Bei Fragen zuständigen zahnärztlichen Kollegen ansprechen"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Zahnärztlicher Kollege",
+       "lines": [
+        "Zuständigen zahnärztlichen Kollegen ansprechen"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Schulungsvideos / Kompetenzmatrix",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Schulungsvideos / Kompetenzmatrix",
+     "steps": [
+      "Auf ILIAS nach Schulungsvideos & Kompetenzmatrix suchen",
+      "Vor Gerätenutzung relevante Videos ansehen"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Slicing / Nesting für Kurse",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Slicing / Nesting für Kurse",
+     "steps": [
+      "Software/Vorlage nach Kursanleitung nutzen",
+      "Bei Fragen Techn. Koordinator ansprechen"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Aufsichten / Ärzte im Raum",
+       "lines": [
+        "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Medientechnik",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Medientechnik · Einweisung",
+     "steps": [
+      "Einweisung in das Medienpanel / die Medientechnik erfragen",
+      "Ohne Einweisung das Medienpanel nicht selbstständig bedienen"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung anfordern",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ]
+ },
+ {
+  "id": "gebaeude",
+  "name": "Gebäude & Infrastruktur",
+  "devices": [
+   {
+    "name": "Wasser",
+    "topic": true,
+    "status": "mixed",
+    "node": {
+     "kind": "branch",
+     "q": "Rohrbruch oder akuter Wassernotfall?",
+     "yesLabel": "Ja – Notfall",
+     "noLabel": "Nein – kein Wasser / Störung",
+     "yes": {
+      "kind": "safety",
+      "warn": "Hauptabsperrventil schließen, Bereich sichern.",
+      "inner": {
+       "kind": "contact",
+       "contact": {
+        "name": "Sofort melden – alle Stellen erreichbar",
+        "lines": [
+         "TBA – Technisches Betriebsamt: 77171",
+         "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
+         "Technischer Koordinator Skill Labs – direkt ansprechen"
+        ]
+       },
+       "desc": "",
+       "pills": ["Notfall"]
+      }
+     },
+     "no": {
+      "kind": "self",
+      "title": "Wasser – Störung melden",
+      "steps": [
+       "Betroffenen Bereich / Raum notieren.",
+       "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "Zuständige Stellen",
+        "lines": [
+         "TBA – Technisches Betriebsamt: 77171",
+         "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+         "Technischer Koordinator Skill Labs – direkt ansprechen"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
+     }
+    }
+   },
+   {
+    "name": "Strom / Elektrik",
+    "topic": true,
+    "status": "mixed",
+    "node": {
+     "kind": "branch",
+     "q": "Kompletter Stromausfall im Bereich?",
+     "yesLabel": "Ja – Ausfall",
+     "noLabel": "Nein – Einzelgerät / Steckdose",
+     "yes": {
+      "kind": "safety",
+      "warn": "Geräte ausschalten, Bereich verlassen wenn nötig.",
+      "inner": {
+       "kind": "contact",
+       "contact": {
+        "name": "Sofort melden – alle Stellen erreichbar",
+        "lines": [
+         "TBA – Technisches Betriebsamt: 77171",
+         "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
+         "Technischer Koordinator Skill Labs – direkt ansprechen"
+        ]
+       },
+       "desc": "",
+       "pills": ["Notfall"]
+      }
+     },
+     "no": {
+      "kind": "self",
+      "title": "Strom – Störung melden",
+      "steps": [
+       "Sicherungskasten prüfen – ist eine Sicherung ausgelöst?",
+       "Betroffenen Bereich / Gerät notieren.",
+       "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "Zuständige Stellen",
+        "lines": [
+         "TBA – Technisches Betriebsamt: 77171",
+         "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+         "Technischer Koordinator Skill Labs – direkt ansprechen"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
+     }
+    }
+   },
+   {
+    "name": "Klimatisierung / Lüftung",
+    "topic": true,
+    "status": "contact",
+    "node": {
+     "kind": "self",
+     "title": "Klimatisierung / Lüftung – Störung melden",
+     "steps": [
+      "Betroffenen Raum und Art der Störung notieren (keine Kühlung, kein Luftstrom, Lärm, …).",
+      "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Zuständige Stellen",
+       "lines": [
+        "TBA – Technisches Betriebsamt: 77171",
+        "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+        "Technischer Koordinator Skill Labs – direkt ansprechen"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Aufzug",
+    "topic": true,
+    "status": "mixed",
+    "node": {
+     "kind": "branch",
+     "q": "Person im Aufzug eingeschlossen?",
+     "yesLabel": "Ja – Person eingeschlossen",
+     "noLabel": "Nein – Aufzug defekt / außer Betrieb",
+     "yes": {
+      "kind": "safety",
+      "warn": "Ruhe bewahren – Person beruhigen, Notruf im Aufzug betätigen.",
+      "inner": {
+       "kind": "contact",
+       "contact": {
+        "name": "Sofort melden – alle Stellen erreichbar",
+        "lines": [
+         "Notrufknopf im Aufzug betätigen (direkte Verbindung zur Aufzugswartung)",
+         "TBA – Technisches Betriebsamt: 77171",
+         "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
+         "Technischer Koordinator Skill Labs – direkt ansprechen",
+         "Notruf 112 wenn keine andere Hilfe erreichbar"
+        ]
+       },
+       "desc": "",
+       "pills": ["Notruf"]
+      }
+     },
+     "no": {
+      "kind": "self",
+      "title": "Aufzug – Defekt melden",
+      "steps": [
+       "Aufzug außer Betrieb kennzeichnen (Hinweis an der Tür).",
+       "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "Zuständige Stellen",
+        "lines": [
+         "TBA – Technisches Betriebsamt: 77171",
+         "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+         "Technischer Koordinator Skill Labs – direkt ansprechen"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
+     }
+    }
+   },
+   {
+    "name": "Allgemeiner Defekt (Tür, Schloss, Mobiliar …)",
+    "topic": true,
+    "status": "contact",
+    "node": {
+     "kind": "self",
+     "title": "Allgemeiner Defekt melden",
+     "steps": [
+      "Defekt und genauen Ort (Raum, Tür, Möbel) kurz notieren.",
+      "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Zuständige Stellen",
+       "lines": [
+        "TBA – Technisches Betriebsamt: 77171",
+        "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+        "Technischer Koordinator Skill Labs – direkt ansprechen"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   }
+  ]
+ }
+];
+
+  const PLAN = [{"id":"seminar1","x":6,"y":16,"w":27,"h":17},{"id":"seminar2","x":35,"y":16,"w":27,"h":17},{"id":"seminar3","x":64,"y":16,"w":30,"h":17},{"id":"besprechung","x":6,"y":36,"w":27,"h":17},{"id":"phantomicum","x":35,"y":36,"w":27,"h":17},{"id":"technicum","x":64,"y":36,"w":30,"h":17},{"id":"gips","x":6,"y":56,"w":21,"h":17},{"id":"giessen","x":29,"y":56,"w":21,"h":17},{"id":"cad","x":52,"y":56,"w":20,"h":17},{"id":"cam","x":74,"y":56,"w":20,"h":17},{"id":"koordi","x":6,"y":76,"w":34,"h":17},{"id":"druck","x":42,"y":76,"w":24,"h":17},{"id":"e6","x":68,"y":76,"w":26,"h":17}];
+
+
+  // ---- Sicherheit · Notfall · Putzplan (portiert aus V-alt) ----
+  const EMERGENCY = {
+    kit: ['Notfallkoffer', 'Verbandskasten', 'Defibrillator (AED)', 'Augendusche'],
+    standort: 'vor dem Raum Koordination Skill Labs (6.405 · 6.406)',
+    augendusche: 'im Raum Gießen & Strahlen',
+    notruf: 'Notruf 112 · Ärzte im Haus rufen, bei Bedarf Notarzt. Anschließend Vorgesetzte informieren.',
+    bagatell: 'Bagatellverletzungen nur in das Verbandsbuch eintragen, keine Meldung notwendig.',
+    portalLabel: 'Unfallmeldung öffnen',
+    portal: 'https://informer.med.uni-tuebingen.de/ukt/app/infopilot/eacts.asp?s=530000,-1'
+  };
+
+  const SAFETY_RULES = [
+    'Lange Haare sind hochzubinden, Schmuck, (Ehe-)Ringe und Armbanduhren sind abzulegen. Getragen wird geschlossenes, flaches Schuhwerk sowie eine das gesamte Bein bedeckende schwerentflammbare Hose (z.B. Jeans).',
+    'Alle im Kursraum Anwesenden müssen auf ein gepflegtes Äußeres achten (sauberer Kittel/Kasack, lange Hosen, saubere gepflegte Hände – unlackierte Fingernägel, nicht länger als die Fingerkuppen, lt. TRBA 250). Die Grundsätze des klinischen und hygienischen Arbeitens gelten bei allen Arbeitsschritten.',
+    'Besonders beim Arbeiten am Phantomkopf (DSE) ist die Patientensimulation zu bedenken und das Maß einer minimalinvasiven und zweckmäßigen Behandlung nicht zu überschreiten (z.B. ist das Anheben der Gingivamaske untersagt).',
+    'Bei der Arbeit in Kurs- und Funktionsräumen ist eine Gesundheitsgefährdung durch Lärm, Staub, Dämpfe sowie Splitter-/Partikelflug möglich. Daher sind Schutzbrille, Schutzscheibe, Mundschutz (FFP1) und Gehörschutz beim Ausführen entsprechender Arbeiten während der gesamten Arbeitszeit zu tragen.',
+    'Smartphones/Handys/Tablets verbleiben im Spind.',
+    'Die Kameras im Phantomicum sind auf Phantomkopf und Behandler ausgerichtet und dürfen zu keiner Zeit in Position und Einstellung verändert oder abgedeckt werden.',
+    'Lagerung und Verzehr von Lebensmitteln/Getränken sind in den Kurssälen nicht erlaubt.',
+    'Das Tragen von Mützen o.ä. ist in den Kurssälen nicht erlaubt.',
+    'In der gesamten Vorklinik und im Eingangsbereich herrscht Rauchverbot (Rauchmelder!).',
+    'Mutwilliges Beschädigen der Einrichtung führt zum sofortigen Kursausschluss mit Fehlversuch. Reparaturkosten gehen zu Lasten des Kursteilnehmers.',
+    'Das Bekleben/Beschriften der Spinde des Lehr- und Forschungsbaus wird als mutwilliges Beschädigen geahndet (siehe Punkt 10).',
+    'Schäden und Verlust von Instrumentarium oder Laboreinrichtung sind unmittelbar mündlich und schriftlich der Kursleitung anzuzeigen.',
+    'Auf beweglichen Anteilen der Arbeitsplätze (z.B. Schwebetisch der DSE) sind außer Grundinstrumentarium und Bohrerset keine weiteren Materialien, insbesondere keine Flüssigkeiten, zu lagern.',
+    'Jeder Studierende benötigt einen Kasack. Im Technicum und Phantomicum ist zusätzlich ein sauberer klinischer Arbeitsmantel zu tragen. Ärmel sind maximal halbarm-lang und schwerentflammbar. Am Mantel/Kasack sind Namensschild, Kugelschreiber und Bleistift zu tragen.',
+    'Bei Nichtgebrauch hängen die Arbeitsmäntel/Kasacks an den Haltern in den Spinden; am Wochenende zum Waschen und Bügeln mit nach Hause nehmen.',
+    'Straßenkleidung und Taschen/Rucksäcke sind im verschlossenen Spind aufzubewahren – nicht in Kurs-/Funktionsräumen oder im Gang. Fundstücke werden entfernt und nach einer Woche entsorgt.',
+    'Zu Arbeitstagende den Arbeitsplatz inkl. Stuhl gründlich (feucht, gemäß Pflegeanleitung von oben bis unten) reinigen. Ins Technikhandstück (K9, K12) ein gerades Mandrell o.ä. einspannen und im Aufbewahrungsfach lagern. Das No-Flame nur mit intaktem Einsatz verwenden; dieser ist täglich zu reinigen und auf Unversehrtheit zu prüfen.',
+    'Notausgänge sind freizuhalten. Türen und Fenster am Kurstagende schließen, Lichter ausschalten.',
+    'Arbeits- und Wegeunfälle oder Verletzungen infolge der Kursaktivitäten sind zum Schutz des Betroffenen (Versicherung) unverzüglich dem Lehrpersonal mitzuteilen.',
+    'Spitzer und scharfer Abfall (z.B. Skalpellklingen) gehört nicht in den Restmüll, sondern in den dafür vorgesehenen gelben Kunststoffbehälter. Verletzungen werden nach Anmeldung beim Lehrpersonal im Verbandsbuch dokumentiert.',
+    'Eine eingetretene Schwangerschaft sollte zum Schutz von Kursteilnehmerin und ungeborenem Kind umgehend der Kursleitung mitgeteilt werden, damit Schutzmaßnahmen eingeleitet werden können (es gilt die ärztliche Schweigepflicht).',
+    'Jeder Studierende ist verpflichtet, auf ILIAS die Sicherheitsdatenblätter und Anleitungen (PDF, Video oder Bild) vor dem Gebrauch der Materialien und Geräte zu lesen.',
+    'Den Anweisungen des Lehrpersonals ist stets Folge zu leisten.',
+  ];
+  const RULES_NOTE = 'Wiederholtes Verstoßen gegen die Kursordnung, diese Sicherheitsbestimmungen, unverantwortliches Verhalten und Missachten der Verhaltensmaßregeln führen zum Ausschluss von der aktiven Teilnahme an der praktischen Lehr- und Lernsituation.';
+
+  // ---- Putzplan ----
+  const DAYS = [{ key: 'Mo', label: 'Montag' }, { key: 'Di', label: 'Dienstag' }, { key: 'Mi', label: 'Mittwoch' }, { key: 'Do', label: 'Donnerstag' }, { key: 'Fr', label: 'Freitag' }];
+  const GROUPS = [{ key: 'A', label: '22–27' }, { key: 'B', label: '28–33' }, { key: 'C', label: '34–40' }];
+  const ROTATION = {
+    Mo: { saal: 'A', gips: 'B', kunst: 'C' },
+    Di: { saal: 'C', gips: 'A', kunst: 'B' },
+    Mi: { saal: 'B', gips: 'C', kunst: 'A' },
+    Do: { saal: 'A', gips: 'B', kunst: 'C' },
+    Fr: { saal: 'C', gips: 'A', kunst: 'B' },
+  };
+  const PUTZ_AREAS = {
+    saal: { name: 'Saal (Technicum + Phantomicum)', steps: ['Waschbecken reinigen und abtrocknen', 'Funktionsflächen feucht wischen, danach abtrocknen', 'Boden saugen und ggf. feucht wischen, Wachsreste entfernen', 'Geräte ausschalten', 'Fenster schließen', 'Lichter aus', 'Rollläden hoch', 'Wischlappen zum Trocknen auslegen/aufhängen', 'Putzutensilien aufräumen, Menge prüfen, ggf. dem Assistenten melden, Papiertücher auffüllen'] },
+    gips: { name: 'Gipsküche + Polierraum', steps: ['Montags: zu Kursbeginn alle Haupthähne aufdrehen (Nasstrimmer, Ausbrühgerät, Abdampfgerät)', 'Ggf. Gips auffüllen', 'Poliermotoren reinigen', 'Waschbecken leeren und reinigen', 'Abdampfgeräte reinigen und ausschalten', 'Funktionsflächen feucht wischen und abtrocknen, Metalloberflächen mit Metallreiniger', 'Boden saugen und ggf. feucht wischen', 'Geräte ausschalten, Fenster schließen, Lichter aus, Rollläden hoch', 'Wischlappen zum Trocknen auslegen/aufhängen', 'Putzutensilien aufräumen, Nachschub prüfen, ggf. melden, Papiertücher auffüllen', 'Freitags: alle Haupthähne zudrehen (Nasstrimmer, Ausbrühgerät, Abdampfgerät)'] },
+    kunst: { name: 'Kunststoffraum + Gussraum + Mülldienst', steps: ['Wasser aus allen Drucktöpfen ablassen, reinigen, freitags entkalken', 'Sandstrahlgeräte reinigen/aussaugen, neue Frischhaltefolie auf die Glasscheibe', 'Waschbecken reinigen und abtrocknen', 'Funktionsflächen feucht wischen und abtrocknen, Metalloberflächen mit Metallreiniger', 'Boden saugen und ggf. feucht wischen', 'Müll aus allen Räumen halbtags leeren, neue Müllsäcke in jeden Eimer', 'Geräte ausschalten, Fenster schließen, Lichter aus, Rollläden hoch', 'Wischlappen zum Trocknen auslegen/aufhängen', 'Putzutensilien aufräumen, Menge prüfen, ggf. melden, Papiertücher auffüllen'] },
+  };
+  const PUTZ_OWN = ['Eigenen Platz von oben nach unten feucht wischen – nicht vergessen:', 'Absaugscheibe und Absaugung', 'Handstück und Kabel', 'No-Flame (trocken wischen)', 'Lampe (trocken wischen)', 'Schublade', 'Stuhlrollen und Lehne', 'Danach alles abtrocknen', 'Nur Technicum: Mandrell ins Handstück einspannen', 'Nur Technicum: Aufstuhlen', 'Einheit ausschalten', 'Einheit wie in der Anleitung am Platz gereinigt verlassen'];
+
+  window.SL_DATA = { CONTACTS, ROOMS, AREAS, PLAN, EMERGENCY, SAFETY_RULES, RULES_NOTE, PUTZ: { DAYS, GROUPS, ROTATION, areas: PUTZ_AREAS, own: PUTZ_OWN } };
+})();
+
+</script>
+<script>
+/* Skill Labs Finder — materials (auto-generated, cleaned) */
+window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Formlabs","kdnr":"","art":"RS-CFG-DMBE-03","med":false,"flammable":false,"note":""},{"name":"Rigid 10K V1, 1l","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Formlabs","kdnr":"","art":"RS-F2-RG10-01","med":false,"flammable":false,"note":""},{"name":"Draft V2, 1l","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Formlabs","kdnr":"","art":"RS-F2-DRGR-02","med":false,"flammable":false,"note":""},{"name":"Dental LT Clear V2, 1l","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Formlabs","kdnr":"","art":"RS-F2-DLCL-02","med":true,"flammable":false,"note":""},{"name":"PLA Vanilla White - 1,75 mm, 1 kg","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Prusa","kdnr":"","art":"PRM-PLA-WHT-1000","med":false,"flammable":false,"note":""},{"name":"PLA (versch. Farben) - 1,75 mm, 1 kg","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"2 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Prusa","kdnr":"","art":"PRM-PLA","med":false,"flammable":false,"note":""},{"name":"ASA (versch. Farben) - 1,75 mm, 0,85 kg","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"2 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Prusa","kdnr":"","art":"PRM-ASA","med":false,"flammable":false,"note":""},{"name":"PETG (versch. Farben) – 1,75 mm, 1 kg","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"2 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Prusa","kdnr":"","art":"PRM-PETG","med":false,"flammable":false,"note":""},{"name":"Filterband Cleanstream SET","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"3 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"181203","med":false,"flammable":false,"note":""},{"name":"Filterkerze Matik","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"2 PAK","kanban":"2 PAK","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"4204356","med":false,"flammable":false,"note":""},{"name":"Kühlschmierst. Cooling Liquid","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"3 Stk.","kanban":"3 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"178650-NTR","med":false,"flammable":false,"note":""},{"name":"Augenspülflasche Plum NaCl, 500ml","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"Gießen & Strahlen","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Carl Roth GmbH & Co. KG","kdnr":"","art":"4604","med":true,"flammable":false,"note":""},{"name":"Mundschutz Monoart Pro 3 blau Gummizug, 50 Stück","raum":"Papier & Druck","roomId":"koordi","verwendung":"Phantomicum und Technicum","order":"3 Stk.","kanban":"3 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"353214","med":true,"flammable":false,"note":""},{"name":"Glasreiniger, 500 ml","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"Gießen & Strahlen, Gipsküche, Phantomicum und Technicum","order":"12 Stk.","kanban":"6 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"1000677","med":false,"flammable":false,"note":""},{"name":"Papiertücher Interfold - Advanced","raum":"VK Gipsküche","roomId":"gips","verwendung":"Gießen & Strahlen, Gipsküche, Phantomicum und Technicum","order":"3 KAR","kanban":"1 KAR","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"62201691","med":false,"flammable":false,"note":""},{"name":"Namensschilder Studierende Atlantis/PC","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"60 Stk.","kanban":"60 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Infoplus","kdnr":"","art":"NNA101T30-A","med":false,"flammable":false,"note":"Im Schrank"},{"name":"Verpackungsbecher eckig 250 ml","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"200 Stk.","kanban":"200 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Ofterdinger & Sailer GmBH","kdnr":"","art":"541424","med":false,"flammable":false,"note":"Fleischsalatschälchen!"},{"name":"Deckel für Verpackungsbecher eckig 250 ml","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"100 Stk.","kanban":"100 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Ofterdinger & Sailer GmBH","kdnr":"","art":"541301","med":false,"flammable":false,"note":"Fleischsalatschälchen - Deckel!"},{"name":"Müllsäcke blau, LDPE 160 Liter","raum":"Gipsküche","roomId":"gips","verwendung":"Gießen & Strahlen, Gipsküche, Phantomicum und Technicum","order":"1 KAR","kanban":"1 KAR","besteller":"Sekr. Skill-Labs","supplier":"Fa. Helmut Brosch, Winterbach","kdnr":"","art":"801.300","med":false,"flammable":false,"note":""},{"name":"Kopierpapier A4 weiß 80 gr., 500 Blatt","raum":"Papier & Druck","roomId":"koordi","verwendung":"","order":"2 KAR","kanban":"1 KAR","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"5003320","med":false,"flammable":false,"note":"500 Blatt = 1 PAC, 1 KAR/ 1VE = 5 PAC"},{"name":"Reinig.-Allzwecktuch rosa 38 x 38 cm","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"Phantomicum","order":"4 VE","kanban":"10 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"1000106","med":false,"flammable":false,"note":"1 VE=10 Stück"},{"name":"Reinig.-Allzwecktuch gelb 38 x 38 cm","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"Technicum","order":"4 VE","kanban":"10 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"62200332","med":false,"flammable":false,"note":"1 VE=10 Stück"},{"name":"Reinig.-Allzwecktuch blau 38 x 38 cm","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"Gießen & Strahlen, Gipsküche","order":"4 VE","kanban":"10 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"1000067","med":false,"flammable":false,"note":"1 VE=10 Stück"},{"name":"Reinig. Topfreiniger GVS gelb/schwarz 7x9cm","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"Gießen & Strahlen, Gipsküche, Phantomicum und Technicum","order":"10 Stk.","kanban":"10 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"1000184","med":false,"flammable":false,"note":""},{"name":"Nierenschale 1 x Pappe grau: 60720402","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"2 VE","kanban":"20 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"61354648","med":false,"flammable":false,"note":"1 VE=20 Stück"},{"name":"Pflaster Leukoflex transp. 2,5 cm; 0113200","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 VE","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"61353394","med":false,"flammable":false,"note":"1 VE=12 Stück"},{"name":"Haush.-Bedarf Trinkbecher Pappe 200 ml","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"","order":"1 VE","kanban":"50 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"20556775","med":false,"flammable":false,"note":"1 VE = 50 Stück"},{"name":"Haut Waschlotion Sensiva 500 ml; 114006","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"Gießen & Strahlen, Gipsküche, Phantomicum und Technicum","order":"1 VE","kanban":"5 Fl.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"61300824","med":false,"flammable":false,"note":"1 VE =20 Flaschen"},{"name":"Nasskreppservietten Mimola 37 x 37, 1000 Stk","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"2 KAR","kanban":"1 KAR","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"303388","med":false,"flammable":false,"note":"1 Kart.=1000 Stück"},{"name":"QUATTROcare Plus Spray 2140P, 500 ml Ds","raum":"Gipsküche (Gefahrstoffschrank)","roomId":"gips","verwendung":"Technicum und Phantomicum","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"332456","med":false,"flammable":true,"note":""},{"name":"Rundbürste Kunststoffkern Ziegenhaar 32 / 90 mm","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"464834","med":false,"flammable":false,"note":""},{"name":"Ethanol 99 %, vergällt mit MEK + Bitrex + IPA","raum":"Gipsküche (Gefahrstoffschrank)","roomId":"gips","verwendung":"Technicum","order":"5 Stk.","kanban":"2 Stk.","besteller":"","supplier":"","kdnr":"","art":"ETO-1000-99-1","med":false,"flammable":true,"note":""},{"name":"Isopropanol 99,7 %, Propan-2-ol, Kanister 5l","raum":"3D Druck / Fräsen (Gefahrstoffschrank)","roomId":"cam","verwendung":"","order":"5 Stk.","kanban":"2 Stk.","besteller":"","supplier":"","kdnr":"","art":"ISOP-5000-100-1","med":false,"flammable":true,"note":""},{"name":"ZI Sinterkugel 200g","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1 Stk.","kanban":"0 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"178311","med":false,"flammable":false,"note":"nur bei Bedarf bestellen"},{"name":"Interd. Keile Gelb 829/40","raum":"Papier & Druck","roomId":"koordi","verwendung":"Technicum und Phantomicum","order":"1 VE","kanban":"1 VE","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"411977","med":true,"flammable":false,"note":"1 VE=1000 Stück"},{"name":"Ultrapak Cleancut Gr. 3 rot/weiss","raum":"Papier & Druck","roomId":"koordi","verwendung":"Technicum und Phantomicum","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"436324","med":true,"flammable":false,"note":""},{"name":"Utility WaxStrips eckig rot 4,8 mm","raum":"Papier & Druck","roomId":"koordi","verwendung":"Technicum und Phantomicum","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"381404","med":true,"flammable":false,"note":""},{"name":"Protemp 4 A3 Refill Pa","raum":"Papier & Druck","roomId":"koordi","verwendung":"Technicum und Phantomicum","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"331961","med":true,"flammable":false,"note":""},{"name":"PLULINE A-Käppchenfolie 0,60x42mm","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 VE","kanban":"1 VE","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"789006","med":false,"flammable":false,"note":"1 VE=100 Stück"},{"name":"Corundpapier Kö 150 SC 30Mtr. RI","raum":"Papier & Druck","roomId":"koordi","verwendung":"Technicum und Phantomicum","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"313333","med":false,"flammable":false,"note":""},{"name":"PLURASIL ADHÄSIV SILIKON, 10ml. Fl.","raum":"Gipsküche (Gefahrstoffschrank)","roomId":"gips","verwendung":"Technicum und Phantomicum","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"788721","med":true,"flammable":true,"note":""},{"name":"PLUSIL PUTTY FAST, 2x380ml","raum":"Phantomicum","roomId":"phantomicum","verwendung":"","order":"6 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"818795","med":true,"flammable":false,"note":"nur vor Prüfungsphase Z2 bestellen, wegen Haltbarkeit"},{"name":"Arti STAR 20 kg","raum":"Archiv / Lager","roomId":null,"verwendung":"2x in Gipsküche","order":"3 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"725242","med":false,"flammable":false,"note":""},{"name":"Vanille STAR Hartgips Typ 3","raum":"Archiv / Lager","roomId":null,"verwendung":"2x in Gipsküche","order":"3 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"725241","med":false,"flammable":false,"note":""},{"name":"Giroform HM Pinbohrer konisch","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"580005","med":false,"flammable":false,"note":""},{"name":"Dappenbecher Einweg weiß 50 Stk.","raum":"Papier & Druck","roomId":"koordi","verwendung":"Technicum und Phantomicum","order":"1 VE","kanban":"1 VE","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"789121","med":false,"flammable":false,"note":"1VE=50 Stück"},{"name":"Gips-Ex 5 Ltr. Kanister","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"365774","med":false,"flammable":false,"note":"wird umgefüllt in kleine Flaschen"},{"name":"Einmalpinsel für Primer","raum":"Papier & Druck","roomId":"koordi","verwendung":"Technicum und Phantomicum","order":"1 VE","kanban":"1 VE","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"707957","med":false,"flammable":false,"note":"1VE=400 Stück"},{"name":"Steribim Plus, 10 kg","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"784911","med":false,"flammable":false,"note":""},{"name":"Polierpaste universal, 100 ml","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"413187","med":false,"flammable":false,"note":""},{"name":"PLULINE SEKUNDENKLEBER mittelviskos,10 g Flasche","raum":"Technicum","roomId":"technicum","verwendung":"","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"788926","med":false,"flammable":false,"note":""},{"name":"O-Spray blau, 75 ml. Fl","raum":"Papier & Druck","roomId":"koordi","verwendung":"Technicum und Phantomicum","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"386223","med":true,"flammable":false,"note":""},{"name":"Pappkartons f. Aufbew. Prüfungsarbeiten,","raum":"Papier & Druck","roomId":"koordi","verwendung":"","order":"100 Stk.","kanban":"100 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Karton.eu","kdnr":"","art":"008","med":false,"flammable":false,"note":"200x150x100mm, einwellige Kartons"},{"name":"Corundpapier Kö 600 SC 30Mtr. RI","raum":"Papier & Druck","roomId":"koordi","verwendung":"Technicum und Phantomicum","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"313333","med":false,"flammable":false,"note":""},{"name":"Kopierpapier A3 weiß 80g, 500 Blatt","raum":"Papier & Druck","roomId":"koordi","verwendung":"","order":"1 KAR","kanban":"1 PAK","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"5003008","med":false,"flammable":false,"note":"500 Blatt = 1 PAC, 1 KAR/ 1VE = 5 PAC"},{"name":"PRIMUS Goldbraun 5KG Spezialstumpfgips Typ 4","raum":"Archiv / Lager","roomId":null,"verwendung":"2x in Gipsküche","order":"3 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"1309050","med":false,"flammable":false,"note":""},{"name":"Plusil Light Body fast (2 x 50 ml)","raum":"Phantomicum","roomId":"phantomicum","verwendung":"","order":"6 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"818799","med":true,"flammable":false,"note":"nur vor Prüfungsphase Z2 bestellen, wegen Haltbarkeit"},{"name":"Utility WaxStrips eckig rot 4,8 mm","raum":"Phantomicum","roomId":"phantomicum","verwendung":"Technicum und Phantomicum","order":"2 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"381404","med":true,"flammable":false,"note":""},{"name":"Ceramill Airstream Filterbeutel (5Skt)","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1 PAK","kanban":"0 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"178610","med":false,"flammable":false,"note":""},{"name":"Ceramill Airstream Microfilter","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1 Stk.","kanban":"0 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"178611","med":false,"flammable":false,"note":""},{"name":"Roto RFID 2.5 mm PMMA/Wachs","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"5 Stk.","kanban":"5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"760668","med":false,"flammable":false,"note":""},{"name":"Roto RFID 1 mm PMMA/Wachs","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"5 Stk.","kanban":"5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"760669","med":false,"flammable":false,"note":""},{"name":"Roto RFID 0.6 mm PMMA/Wachs","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"5 Stk.","kanban":"5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"760670","med":false,"flammable":false,"note":""},{"name":"Roto RFID 2.5 mm Zi","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"5 Stk.","kanban":"5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"760660","med":false,"flammable":false,"note":""},{"name":"Roto RFID 1.0 mm Zi","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"5 Stk.","kanban":"5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"760661","med":false,"flammable":false,"note":""},{"name":"Roto RFID 0.6 mm Zi","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"5 Stk.","kanban":"5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"760662","med":false,"flammable":false,"note":""},{"name":"Roto RFID 0.3 mm Zi","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"5 Stk.","kanban":"5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"760663","med":false,"flammable":false,"note":""},{"name":"pH-Fix 7.9-9.8","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1 Stk.","kanban":"2 Streifen","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"92170","med":false,"flammable":false,"note":"ggf. direkt von Macherey-Nagel bestellen"},{"name":"Quantofix Nitrat/Nitrite","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1 Stk.","kanban":"2 Streifen","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"178653","med":false,"flammable":false,"note":"ggf direkt von Quantofix (91313)"},{"name":"IQ Economy Kopierpapier,A6, 80g, weiß,","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"11.150.159","med":false,"flammable":false,"note":"500 Blatt/Packung KANBAN PAPIER"},{"name":"Lyreco Laminierfolie, A6, 250 µm, 2 x 125 µm, glanz,","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1PAK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"15.204.233","med":false,"flammable":false,"note":"100 Stück/Packung KANBAN FOLIE"},{"name":"FABER-CASTELL Multimark OHPwasserfest, Schwarz 0,6","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"5 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"236.961","med":false,"flammable":false,"note":""},{"name":"Form 3L Resin Tank V3","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Formlabs","kdnr":"","art":"RT-F3L-03","med":false,"flammable":false,"note":""},{"name":"Form 3L Build Platform","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1 Stk.","kanban":"0 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Formlabs","kdnr":"","art":"BP-F3L-01","med":false,"flammable":false,"note":"bestellen wenn alte Platform beschädigt; Achtung neue Version checken"},{"name":"Handsch.Nitr.Guard L unst.;9205534","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"3 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"62204387","med":false,"flammable":false,"note":""},{"name":"Handsch.Nitr.Guard unst.M;9205526","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"3 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"62204386","med":false,"flammable":false,"note":""},{"name":"Handsch.Nitr.Guard S unst.;9205518","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"3 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"62204385","med":false,"flammable":false,"note":""},{"name":"Yeti-Lube","raum":"Technicum","roomId":"technicum","verwendung":"","order":"5 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"753517","med":false,"flammable":false,"note":""},{"name":"Die Hardener","raum":"Technicum","roomId":"technicum","verwendung":"","order":"3 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"754094","med":false,"flammable":true,"note":""},{"name":"Durolan Stumpflack","raum":"Technicum","roomId":"technicum","verwendung":"","order":"5 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"325908","med":false,"flammable":true,"note":""},{"name":"Silikonspray","raum":"Gipsküche (Gefahrstoffschrank)","roomId":"gips","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"448152","med":false,"flammable":true,"note":""},{"name":"Pluraclean+ orange","raum":"Gipsküche (Gefahrstoffschrank)","roomId":"gips","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"810678","med":false,"flammable":true,"note":""},{"name":"Aesthetic Blue Monomer","raum":"Gipsküche (Gefahrstoffschrank)","roomId":"gips","verwendung":"","order":"1 Stk.","kanban":"0.5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"704242","med":false,"flammable":true,"note":""},{"name":"Pluline Suntray Löffelmaterial","raum":"Technicum","roomId":"technicum","verwendung":"","order":"2 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"790247","med":true,"flammable":false,"note":""},{"name":"Reinig.Scheuermittel Rilan flüssig 750ml","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"","order":"2 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"1000073","med":false,"flammable":false,"note":""},{"name":"Metapol. 84341","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"","order":"2 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"61800601","med":false,"flammable":false,"note":""},{"name":"Aesthetic Blue Polymer","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"","order":"1 Stk.","kanban":"0.5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"704878","med":false,"flammable":false,"note":""},{"name":"Silikon- und Wachsentspanner","raum":"Gipsküche (Gefahrstoffschrank)","roomId":"gips","verwendung":"","order":"2 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"468723","med":false,"flammable":true,"note":""},{"name":"Isofix 2000 Isoliermittel","raum":"Gipsküche (Gefahrstoffschrank)","roomId":"gips","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"321336","med":false,"flammable":true,"note":""},{"name":"Wachs-Ex","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"1 Stk.","kanban":"0,25 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"369949","med":false,"flammable":false,"note":""},{"name":"Hanel Folie 12 µ PET einseitig 22 mm rot, 25 m","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"752629","med":true,"flammable":false,"note":""},{"name":"Hanel Folie 12 µ PET einseitig 22 mm schwarz, 25 m","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"752628","med":true,"flammable":false,"note":""},{"name":"Hanel Folie 12 µ PET einseitig 22 mm grün, 25 m","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"752640","med":true,"flammable":false,"note":""},{"name":"Proxi-Floss Zahnseide gewachst, 182 m Spender","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"806243","med":true,"flammable":false,"note":""},{"name":"No Flame Einsätze","raum":"VK Papier & Druck","roomId":"koordi","verwendung":"","order":"1 Pack.","kanban":"6 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"116210","med":false,"flammable":false,"note":""},{"name":"Omnident Wachsdraht blau/hart 4mm","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 Stk.","kanban":"0,5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"789035","med":false,"flammable":false,"note":""},{"name":"PLULINE WACHSDRAHT grün 3,00 mm, 250 g Rolle","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 Stk.","kanban":"0,5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"789030","med":false,"flammable":false,"note":""},{"name":"PLULINE WACHSDRAHT dunkelblau 5,00 mm, 250 g Rolle","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 Stk.","kanban":"0,5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"789047","med":false,"flammable":false,"note":""},{"name":"GEO-Dip Tauchwachs gelb, 200 g","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 Stk.","kanban":"0,25 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"363607","med":false,"flammable":false,"note":""},{"name":"Rosa WACHSplatten Std. 1,50 mm, 500 g Packung","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 Pack.","kanban":"10 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"789044","med":false,"flammable":false,"note":""},{"name":"Einmalskalpell Swann Morton Nr. 11 steril, 10 Stück","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 Pack.","kanban":"1 Pack.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"368236","med":true,"flammable":false,"note":""},{"name":"Einmalskalpell Swann Morton Nr. 12 steril, 10 Stück","raum":"Technicum","roomId":"technicum","verwendung":"","order":"1 Pack.","kanban":"1 Pack.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"368239","med":true,"flammable":false,"note":""},{"name":"STARPAK Frischhaltefolie, 30 Meter","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"3 Pack.","kanban":"2 Pack.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"14110","med":false,"flammable":false,"note":""},{"name":"Erkodent Füllgranulat gerundet, Edelstahl Tiefziehgerät","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"4 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"405619","med":false,"flammable":false,"note":""},{"name":"Leinenschwabbel Kunststoffkern 100 mm, Stück","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"5 Stk.","kanban":"3 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"300583","med":false,"flammable":false,"note":""},{"name":"Giroform Sekundärplatten, 50 Stück","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"1 Pack.","kanban":"10 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"576750","med":false,"flammable":false,"note":""},{"name":"Giroform Sockelplatten, 100 Stück","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"1 Pack.","kanban":"10 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"580008","med":false,"flammable":false,"note":""},{"name":"3+1 Blue Eco Lab Putty, 2 x 800 g","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"1 Pack.","kanban":"1 Pack.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"385527","med":false,"flammable":false,"note":""},{"name":"Roth Wasser demineralisiert, nicht steril, 10 Liter","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"3 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"3175.1","med":false,"flammable":false,"note":"Ganz viel im Archiv/Lager!!!"},{"name":"Bombastus Citronen-Säure","raum":"Papier & Druck","roomId":"koordi","verwendung":"","order":"1 Stk.","kanban":"0.25 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"70620101","med":false,"flammable":false,"note":""},{"name":"BegoSol HE","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"","order":"1 Stk.","kanban":"0.5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"334018","med":false,"flammable":false,"note":""},{"name":"Dentsply Sirona Gussküvetten-Einlagen, 200 Streifen","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"","order":"1 Stk.","kanban":"0,25","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"40831","med":false,"flammable":false,"note":""},{"name":"Omni Dent Cera Blast Feinstrahlperlen 50µm","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"","order":"1 Pack.","kanban":"1 Pack.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"88171","med":false,"flammable":false,"note":""},{"name":"Omni Dent Alustral 110 µm","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"","order":"1 Pack.","kanban":"1 Pack.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"78326","med":false,"flammable":false,"note":""},{"name":"Toppits® Alu-Folie im Abreißkarton, normalbreit","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"54058","med":false,"flammable":false,"note":""},{"name":"Bombastus Vaseline, weiss, 100 ml","raum":"Gießen & Strahlen","roomId":"giessen","verwendung":"","order":"1 Stk.","kanban":"1 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"80048101","med":true,"flammable":false,"note":""},{"name":"Erkodent Erkodur mit Unterziehfolie rund 120 x 1,50 mm klar, 50 Stück","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"1 Pack.","kanban":"10 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"365049","med":false,"flammable":false,"note":""},{"name":"Erkodent Erkodur mit Unterziehfolie rund 125 x 1,00 mm klar, 20 Stück","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"1 Pack.","kanban":"10 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"362221","med":false,"flammable":false,"note":""},{"name":"Giroform Pins für Sockelplatten, 1000 Stück","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"1 Pack.","kanban":"20 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"580014","med":false,"flammable":false,"note":""},{"name":"Giroform putty, 5 kg","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"2 Pack.","kanban":"1 Pack.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"576465","med":false,"flammable":false,"note":""},{"name":"Abfallsack WMR Gelber Sack 120L 800x1000mm","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1 ROL","kanban":"0 ROL","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"60900521","med":false,"flammable":false,"note":"KANBAN unter Müllsack in Müllbehälter"},{"name":"Abfallsack WMR Restmüll HDPE 120L grau 900x950mm","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1 ROL","kanban":"0 ROL","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"62002364","art":"60900611","med":false,"flammable":false,"note":"KANBAN unter Müllsack in Müllbehälter"},{"name":"Classic Latex Handschuhe S, 100 Stück","raum":"Papier & Druck","roomId":"koordi","verwendung":"","order":"4stk.","kanban":"2stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"1102","art":"432731","med":true,"flammable":false,"note":""},{"name":"Classic Latex Handschuhe M, 100 Stück","raum":"Papier & Druck","roomId":"koordi","verwendung":"","order":"4stk.","kanban":"2stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"1103","art":"452116","med":true,"flammable":false,"note":""},{"name":"Classic Latex Handschuhe L, 100 Stück","raum":"Papier & Druck","roomId":"koordi","verwendung":"","order":"4stk.","kanban":"2stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"1104","art":"475879","med":true,"flammable":false,"note":""},{"name":"Classic Latex Handschuhe XS, 100 Stück","raum":"Papier & Druck","roomId":"koordi","verwendung":"","order":"4stk.","kanban":"2stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"1101","art":"369791","med":true,"flammable":false,"note":""},{"name":"Laminiertaschen A4, 100 Stk. 2*125µm","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1stk.","kanban":"1stk.","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"6.469.431","med":false,"flammable":false,"note":""},{"name":"Brother Schriftband TZE-231, 12mm,schwarz auf weiß","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"5 Stück","kanban":"1 Stück","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"185.873","med":false,"flammable":false,"note":""},{"name":"Batterien AAA VARTA 1.5 V","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"6.729.587","med":false,"flammable":false,"note":""},{"name":"Batterien AA Energizer 1.5 V","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"5.391.969","med":false,"flammable":false,"note":""},{"name":"Tribos Prothesenzähne SMA OK, SMA UK, L5, R14","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"je 70","kanban":"je 70","besteller":"Sekr. Skill-Labs","supplier":"Tribos","kdnr":"","art":"","med":false,"flammable":false,"note":"nach Bedarf vor Semesterbeginn und Prüfung"},{"name":"Frasaco Prüfungszähne","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"je 35","kanban":"je 35","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"","med":false,"flammable":false,"note":"nach Bedarf vor Semesterbeginn und Prüfung. 17, 16, 14, 13, 12, 11, 21, 33, 34, 35, 36, 37"},{"name":"tesapack® Ultra Strong, PVC, braun","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"2 Stück","kanban":"1 Stück","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"483.656","med":false,"flammable":false,"note":""},{"name":"Lyreco Standard-Ordner 50 mm","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"3 Stück","kanban":"3 Stück","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"1.077.193","med":false,"flammable":false,"note":""},{"name":"Lyreco Standard-Ordner 80 mm","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"3 Stück","kanban":"3 Stück","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"1.077.103","med":false,"flammable":false,"note":""},{"name":"Trennstreifen Ordner, blau, 24*10,5 cm","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"3.534.221","med":false,"flammable":false,"note":"100 Stück = 1 PCK"},{"name":"Blankoregister Budget, Trennblätter bunt ( 6 Farben)","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"5 Stück","kanban":"5 Stück","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"2.519.164","med":false,"flammable":false,"note":""},{"name":"Staple Cartridge Lexmark Drucker (3/PCK)","raum":"Papier & Druck","roomId":"koordi","verwendung":"","order":"1 Stück","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Morgenstern ID/611691G","kdnr":"","art":"PN25A0013","med":false,"flammable":false,"note":"Bestellung per Mail direkt unter "},{"name":"Tackernadeln Novus Tacker 26/6","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"1.088.023","med":false,"flammable":false,"note":"1000 Stück = 1 PCK"},{"name":"Kugelschreiber blau","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"nach Bedarf","kanban":"30 Stück","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"8.146.416","med":false,"flammable":false,"note":"insgesamt 30 Stück notwendig"},{"name":"StickyNotes klein 40 mm x 50 mm, 100 blatt, gelb","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"103.687","med":false,"flammable":false,"note":"12 Stück = 1 PCK"},{"name":"BIC Boardmarker 1751 Velleda,","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"993.465","med":false,"flammable":false,"note":"Keilspitze, Strichstärke: 3,7-5,5mm, 4er Etui"},{"name":"Büroklammern, 32mm, verzinkt, 1000 Stück","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"217.019","med":false,"flammable":false,"note":"100 Stück = 1 PCK"},{"name":"Edding Lackmarker 750, Rundspitze,","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"2 Stück","kanban":"1 Stück","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"231.782","med":false,"flammable":false,"note":"Strichstärke: 2-4mm, schwarz"},{"name":"tesafilm® transparent schmal","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"1.492.494","med":false,"flammable":false,"note":""},{"name":"StickyNotes groß 75 mm x 75 mm,","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"15.947.161","med":false,"flammable":false,"note":"12 Stück = 1 PCK"},{"name":"Trennblatt neutral RC A4, grau","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"2.660.889","med":false,"flammable":false,"note":"100 Stück = 1 PCK"},{"name":"Heftstreifen weiß","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"1 PCK","kanban":"1 PCK","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"145.168","med":false,"flammable":false,"note":"25 Stück = 1 PCK"},{"name":"Omnident Mundspiegel Rhodium 12 Stk./Pck. Nr. 4 plan 22 mm","raum":"VK Papier & Druck","roomId":"koordi","verwendung":"","order":"1pck","kanban":"3 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Omni Dent","kdnr":"","art":"70895","med":false,"flammable":false,"note":""},{"name":"Splitex Konterplatten weiß, 10 Stk./Pck.","raum":"VK Gipsküche","roomId":"gips","verwendung":"","order":"2pck","kanban":"1pck","besteller":"Sekr. Skill-Labs","supplier":"Amann Girrbach GmbH/ 188880","kdnr":"","art":"216230","med":false,"flammable":false,"note":""},{"name":"HANEL Shimstockfolie 8 um 8mm x 5m","raum":"VK Phantomicum","roomId":"phantomicum","verwendung":"","order":"1stk.","kanban":"1stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"480180","art":"76569","med":false,"flammable":false,"note":""},{"name":"Hanel Folie 12 um einseitig 22 mm, weiß, 25 m","raum":"VK Phantomicum","roomId":"phantomicum","verwendung":"","order":"1stk.","kanban":"1stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"","art":"","med":false,"flammable":false,"note":"online aktuell nicht auffindbar"},{"name":"Polierbürste MK Ziegen 23 / 49 mm","raum":"Gipsküche","roomId":"gips","verwendung":"","order":"3 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"","kdnr":"115733","art":"793453","med":false,"flammable":false,"note":""},{"name":"A4-Druckbogen mit Etiketten für Namensschilder","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"20 Stk.","kanban":"2 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Fa. Infoplus","kdnr":"","art":"NSS000104","med":false,"flammable":false,"note":""},{"name":"Briefumschläge DIN lang ohne Fenster","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"25 Stk.","kanban":"5 Stk.","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"1.134.715","med":false,"flammable":false,"note":""},{"name":"Standardordner schmal, 50mm, blau","raum":"Papier & Druck","roomId":"koordi","verwendung":"","order":"4 Stk.","kanban":"3Stk.","besteller":"Sekr. Skill-Labs","supplier":"Lyreco","kdnr":"","art":"1.077.171","med":false,"flammable":false,"note":""},{"name":"Textmarker gelb","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"3","kanban":"1","besteller":"","supplier":"Lyreco","kdnr":"","art":"150.601","med":false,"flammable":false,"note":""},{"name":"Textmarker orange","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"3","kanban":"1","besteller":"","supplier":"Lyreco","kdnr":"","art":"150.942","med":false,"flammable":false,"note":""},{"name":"Textmarker grün","raum":"Sekretariat Skill Labs","roomId":"koordi","verwendung":"","order":"3","kanban":"1","besteller":"","supplier":"Lyreco","kdnr":"","art":"150.827","med":false,"flammable":false,"note":""},{"name":"Form 3 Resin Tank V2.1","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1","kanban":"0","besteller":"","supplier":"Formlabs","kdnr":"","art":"RT-F3-02-01","med":false,"flammable":false,"note":""},{"name":"Form 3L Build Platform 2L","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1","kanban":"0","besteller":"","supplier":"Formlabs","kdnr":"","art":"BP-F3L-02","med":false,"flammable":false,"note":""},{"name":"Form 3 Build Platform 2","raum":"3D Druck / Fräsen","roomId":"cam","verwendung":"","order":"1","kanban":"0","besteller":"","supplier":"Formlabs","kdnr":"","art":"BP-F3-02-01","med":false,"flammable":false,"note":""}];
+
+</script>
+<script>
+/* Skill Labs Finder — app logic (stack-based navigation) */
+(function () {
+  const { ROOMS, AREAS, PLAN, EMERGENCY, SAFETY_RULES, RULES_NOTE, PUTZ } = window.SL_DATA;
+  const ALL = ROOMS.concat(AREAS);
+  const roomById = id => ALL.find(r => r.id === id);
+
+  // flat search index — devices + their sub-cases (choice options)
+  const nodeStatus = n => {
+    if (!n) return 'mixed';
+    if (n.kind === 'self' || n.kind === 'info') return 'self';
+    if (n.kind === 'contact') return 'contact';
+    if (n.kind === 'branch') return 'branch';
+    if (n.kind === 'choice') return 'mixed';
+    if (n.kind === 'safety') return n.inner && n.inner.kind === 'choice' ? 'safety' : nodeStatus(n.inner);
+    return 'mixed';
+  };
+  const INDEX = [];
+  ALL.forEach(r => r.devices.forEach(d => {
+    INDEX.push({ name: d.name, status: d.status, node: d.node, room: r.name, roomId: r.id, topic: !!d.topic, manuals: d.manuals || null, crumb: [r.name, d.name] });
+    const inner = d.node && d.node.kind === 'safety' ? d.node.inner : d.node;
+    if (inner && inner.kind === 'choice') {
+      inner.options.forEach(o => INDEX.push({
+        name: o.label, status: nodeStatus(o.node), node: o.node, room: r.name, roomId: r.id,
+        sub: d.name, crumb: [r.name, d.name, o.label]
+      }));
+    }
+  }));
+
+  // device-first index (top-level devices only, alphabetical) for the Geräte tab
+  // exclude service/process topics & generic troubleshoots (d.topic) — devices only
+  const DEVICE_INDEX = INDEX.filter(d => !d.sub && !d.topic).slice().sort((a, b) => a.name.localeCompare(b.name, 'de'));
+
+  // ---- materials ----
+  const MATERIALS = (window.SL_MATERIALS || []).slice();
+  const LAGER = [];
+  MATERIALS.forEach(m => {
+    let g = LAGER.find(x => x.loc === m.raum);
+    if (!g) { g = { loc: m.raum, items: [] }; LAGER.push(g); }
+    g.items.push(m);
+  });
+  LAGER.sort((a, b) => b.items.length - a.items.length);
+  const MAT_INDEX = MATERIALS.slice().sort((a, b) => a.name.localeCompare(b.name, 'de'));
+  const matSearch = q => MATERIALS.filter(m =>
+    (m.name + ' ' + m.supplier + ' ' + m.art + ' ' + m.raum + ' ' + m.verwendung + ' ' + (m.kdnr || '')).toLowerCase().includes(q)
+  ).slice(0, 40);
+
+  // ---- state ----
+  let stack = [{ view: 'home' }];
+  let browseMode = 'plan';
+  let query = '';
+  let searchScope = 'material'; // 'material' (⌕ icon) | 'device' (Räume search)
+  let emergencyOpen = false;
+  let infoOpen = false;
+  let putzDay = '';
+  let putzGroup = '';
+  let refs = []; // per-render node references
+
+  // ---- putzplan helpers ----
+  const defaultDay = () => { const d = new Date().getDay(); return (d >= 1 && d <= 5) ? ['', 'Mo', 'Di', 'Mi', 'Do', 'Fr'][d] : 'Mo'; };
+  const dayLabel = k => (PUTZ.DAYS.find(d => d.key === k) || {}).label || k;
+  const grpRange = k => (PUTZ.GROUPS.find(g => g.key === k) || {}).label || k;
+  const dutyFor = (day, grp) => { const a = PUTZ.ROTATION[day] || {}; return Object.keys(a).find(k => a[k] === grp); };
+
+  const top = () => stack[stack.length - 1];
+  const push = s => { stack.push(s); render(); window.scrollTo(0, 0); };
+  const pop = () => { if (stack.length > 1) { stack.pop(); render(); } };
+  const goHome = () => { stack = [{ view: 'home' }]; render(); window.scrollTo(0, 0); };
+
+  // ---- helpers ----
+  const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  // status → icon badge + word (intuitive, learnable colour coding)
+  const STATUS = {
+    self:    { cls: 'self', glyph: '✓', label: '' },
+    info:    { cls: 'self', glyph: '✓', label: '' },
+    contact: { cls: 'con',  glyph: '☎', label: 'Kontakt' },
+    branch:  { cls: 'bra',  glyph: '?', label: 'Einweisung' },
+    mixed:   { cls: 'mix',  glyph: '☰', label: 'Mehrere Fälle' },
+    safety:  { cls: 'saf',  glyph: '!', label: 'Vorsicht' },
+    material:{ cls: 'mat',  glyph: '▣', label: 'Material' }
+  };
+  const stMeta = st => STATUS[st] || STATUS.mixed;
+  const icoBadge = st => { const m = stMeta(st); return `<span class="ico ico-${m.cls}">${m.glyph}</span>`; };
+  const statusTag = st => { const m = stMeta(st); return `<span class="dev-tag t-${m.cls}">${m.label}</span>`; };
+  const matBadge = '<span class="ico ico-mat">▣</span>';
+
+  function lineIcon(t) {
+    if (t.includes('@')) return '✉';
+    if (t.startsWith('http')) return '↗';
+    if (/telefon|☎|mobil|portal/i.test(t)) return '☎';
+    if (/formular|auftrag|karte|kanister|etikett/i.test(t)) return '▢';
+    return '›';
+  }
+
+  // ---- node renderer (returns HTML; registers click refs) ----
+  function renderNode(node, crumb) {
+    if (!node) return '';
+    if (node.kind === 'success') {
+      return `<div class="verdict v-self">
+        <div class="v-head"><span class="v-badge">✓ erledigt</span><span class="v-kicker">Problem gelöst</span></div>
+        <div class="v-name">Gut gemacht!</div>
+        <div class="v-desc">Falls das Problem erneut auftritt, bitte den Techn. Koordinator informieren.</div>
+      </div>`;
+    }
+    if (node.kind === 'self' || node.kind === 'info') {
+      const isInfo = node.kind === 'info';
+      let h = `<div class="verdict v-self">
+        <div class="v-head"><span class="v-badge">✓ selbst</span><span class="v-kicker">${isInfo ? 'Das geht selbst' : 'Das kannst du selbst'}</span></div>
+        <div class="v-name">${esc(node.title)}</div>`;
+      if (node.desc) h += `<div class="v-desc">${esc(node.desc)}</div>`;
+      if (node.steps && node.steps.length) {
+        h += `<ol class="steps">` + node.steps.map((s, i) => `<li><span class="n">${i + 1}</span><span>${esc(s)}</span></li>`).join('') + `</ol>`;
+      }
+      // actions
+      const okI = refs.push({ node: { kind: 'success' }, crumb: crumb.concat('Gelöst') }) - 1;
+      h += `<div class="v-btns">`;
+      h += `<button class="vbtn vbtn-fill" data-act="go" data-i="${okI}">Hat geklappt ✓</button>`;
+      if (!isInfo && node.escalation) {
+        const failI = refs.push({ node: node.escalation, crumb: crumb.concat('Ansprechpartner finden') }) - 1;
+        h += `<button class="vbtn" data-act="go" data-i="${failI}">Ansprechpartner finden</button>`;
+      }
+      h += `</div></div>`;
+      if (isInfo) h += `<button class="escape" data-act="esc-koord">Trotzdem ein Problem? → Techn. Koordinator</button>`;
+      return h;
+    }
+    if (node.kind === 'contact') {
+      const c = node.contact;
+      let h = `<div class="verdict v-con">
+        <div class="v-head"><span class="v-badge">☎ Kontakt</span><span class="v-kicker">Wende dich an</span></div>
+        <div class="v-name">${esc(c.name)}</div>`;
+      if (node.desc) h += `<div class="v-desc">${esc(node.desc)}</div>`;
+      (c.lines || []).forEach(t => {
+        h += `<div class="c-line"><span class="ic">${lineIcon(t)}</span><span>${esc(t)}</span></div>`;
+      });
+      if (node.pills && node.pills.length) h += `<div class="pills">` + node.pills.map(p => `<span class="pill">${esc(p)}</span>`).join('') + `</div>`;
+      h += `</div>`;
+      return h;
+    }
+    if (node.kind === 'branch') {
+      const yI = refs.push({ node: node.yes, crumb: crumb.concat(node.yesLabel) }) - 1;
+      const nI = refs.push({ node: node.no, crumb: crumb.concat(node.noLabel) }) - 1;
+      return `<div class="verdict v-bra">
+        <div class="v-head"><span class="v-badge">? ${esc(node.header)}</span></div>
+        <div class="v-name">${esc(node.question)}</div>
+        <div class="v-btns">
+          <button class="vbtn vbtn-fill" data-act="go" data-i="${yI}">${esc(node.yesLabel)}</button>
+          <button class="vbtn" data-act="go" data-i="${nI}">${esc(node.noLabel)}</button>
+        </div></div>`;
+    }
+    if (node.kind === 'choice') {
+      let h = `<div class="choice-block">`;
+      if (node.title) h += `<div class="choice-q">${esc(node.title)}</div>`;
+      if (node.desc) h += `<div class="choice-hint">${esc(node.desc)}</div>`;
+      h += `<div class="opts">`;
+      node.options.forEach(o => {
+        const i = refs.push({ node: o.node, crumb: crumb.concat(o.label) }) - 1;
+        h += `<button class="opt" data-act="go" data-i="${i}"><span>${esc(o.label)}</span><span class="ar">›</span></button>`;
+      });
+      h += `</div></div>`;
+      return h;
+    }
+    if (node.kind === 'safety') {
+      let h = `<div class="warn-box">${esc(node.warn)}</div>`;
+      h += renderNode(node.inner, crumb);
+      return h;
+    }
+    if (node.kind === 'material') return renderMaterial(node.mat);
+    return '';
+  }
+
+  function renderMaterial(m) {
+    let h = `<div class="verdict v-mat">
+      <div class="v-head"><span class="v-badge">▣ Material</span><span class="v-kicker">Lagerort</span></div>
+      <div class="mat-loc">📍 ${esc(m.raum)}</div>
+      <div class="v-name">${esc(m.name)}</div>`;
+    if (m.flammable) h += `<div class="mat-flag">⚠ Entflammbar · Gefahrstoff</div>`;
+    const row = (k, v) => v ? `<div class="mat-row"><span class="mk">${k}</span><span class="mv">${esc(v)}</span></div>` : '';
+    h += `<div class="mat-rows">`;
+    h += row('Verwendung', m.verwendung);
+    h += row('Bestell-Menge', m.order);
+    h += row('Kanban-Menge', m.kanban);
+    h += row('Besteller', m.besteller);
+    h += row('Lieferant', m.supplier || (m.kdnr ? 'Dental Bauer · Kd-Nr. ' + m.kdnr : ''));
+    h += row('Artikel-Nr.', m.art);
+    if (m.med) h += row('Med. Produkt', 'Ja');
+    h += row('Hinweis', m.note);
+    h += `</div>`;
+    if (m.roomId) { const r = roomById(m.roomId); if (r) h += `<button class="mat-open" data-act="room" data-room="${m.roomId}">Raum öffnen: ${esc(r.name)} ›</button>`; }
+    h += `</div>`;
+    return h;
+  }
+
+  // ---- screens ----
+  function viewHome() {
+    let h = `<div class="app-head">
+      <div class="brand"><span class="dot"></span> Skill Labs · ZMK Tübingen</div>
+      <h1>Wer hilft mir weiter?</h1>
+      <p class="lede">Wähle einen Raum auf dem Plan – oder such gezielt nach Gerät &amp; Material.</p>
+    </div>`;
+
+    // ---- Notfallbanner ----
+    h += `<div class="emerg${emergencyOpen ? ' open' : ''}">`;
+    h += `<button class="emerg-bar" data-act="toggle-emerg" aria-expanded="${emergencyOpen}"><span class="emerg-ic">+</span><span class="emerg-tx"><span class="emerg-t">Unfall / Notfälle</span><span class="emerg-s">Notfallausrüstung, Notruf &amp; Unfallmeldung</span></span><span class="emerg-chev">▾</span></button>`;
+    if (emergencyOpen) {
+      h += `<div class="emerg-body">
+        <div class="emerg-sec"><div class="eh">Notfallausrüstung</div><div class="emerg-kit">` + EMERGENCY.kit.map(k => `<span>${esc(k)}</span>`).join('') + `</div><div class="eb">Standort: <strong>${esc(EMERGENCY.standort)}</strong>. Augendusche: <strong>${esc(EMERGENCY.augendusche)}</strong>.</div></div>
+        <div class="emerg-sec"><div class="eh">Im Notfall</div><div class="eb">${esc(EMERGENCY.notruf)}</div></div>
+        <div class="emerg-sec"><div class="eh">Bagatellverletzungen</div><div class="eb">${esc(EMERGENCY.bagatell)}</div></div>
+        <div class="emerg-sec"><div class="eh">Unfallmeldung</div><div class="eb" style="margin-bottom:9px">Jeden Unfall über das UKT-Meldeportal (InfoPilot) dokumentieren:</div><a class="emerg-link" href="${EMERGENCY.portal}" target="_blank" rel="noopener">↗ ${esc(EMERGENCY.portalLabel)}</a></div>
+      </div>`;
+    }
+    h += `</div>`;
+
+    // ---- § banner: Sicherheitsbestimmungen & Putzplan ----
+    h += `<div class="emerg emerg-info${infoOpen ? ' open' : ''}">`;
+    h += `<button class="emerg-bar" data-act="toggle-info" aria-expanded="${infoOpen}"><span class="emerg-ic">§</span><span class="emerg-tx"><span class="emerg-t">Sicherheitsbestimmungen &amp; Putzplan</span><span class="emerg-s">Vor Kursbeginn lesen · Reinigungsdienst nachschlagen</span></span><span class="emerg-chev">▾</span></button>`;
+    if (infoOpen) {
+      h += `<div class="emerg-body"><button class="opt" data-act="open-rules"><span>Sicherheitsbestimmungen &amp; Verhaltensregeln</span><span class="ar">›</span></button><button class="opt" data-act="open-putz"><span>Putzplan – wer putzt was?</span><span class="ar">›</span></button></div>`;
+    }
+    h += `</div>`;
+
+    // ---- topbar: segmented browse ----
+    h += `<div class="topbar"><div class="seg">
+      <button class="seg-b ${browseMode === 'plan' ? 'on' : ''}" data-act="browse" data-mode="plan">Räume</button>
+      <button class="seg-b ${browseMode === 'devices' ? 'on' : ''}" data-act="browse" data-mode="devices">Geräte</button>
+      <button class="seg-b ${browseMode === 'materials' ? 'on' : ''}" data-act="browse" data-mode="materials">Material</button>
+    </div></div>`;
+    if (browseMode === 'plan') {
+      h += `<div class="plan"><span class="plan-label">[ Grundriss Skill Labs — Platzhalter, echten Plan später einsetzen ]</span>`;
+      PLAN.forEach(p => {
+        const r = roomById(p.id);
+        h += `<button class="hot" data-act="room" data-room="${p.id}" style="left:${p.x}%;top:${p.y}%;width:${p.w}%;height:${p.h}%">${esc(r.name)}</button>`;
+      });
+      h += `</div><p class="plan-cap">Räume antippen um die richtige Ansprechperson zu finden.</p>`;
+      h += `<div class="sec-label">Themen ohne Raum</div><div class="area-list">`;
+      AREAS.forEach(r => { h += `<button class="area-row" data-act="room" data-room="${r.id}"><span>${esc(r.name)}</span><span class="ar">›</span></button>`; });
+      h += `</div>`;
+    } else if (browseMode === 'devices') {
+      h += `<div class="devsearch"><span class="mag">⌕</span><input id="devInput" type="text" placeholder="Gerät suchen…" autocomplete="off"></div>`;
+      h += `<div class="sec-label" id="devCount">${DEVICE_INDEX.length} Geräte · alphabetisch</div>`;
+      h += `<div class="res-list" id="devList">`;
+      DEVICE_INDEX.forEach(d => {
+        const i = refs.push({ node: d.node, crumb: d.crumb, manuals: d.manuals }) - 1;
+        h += `<button class="res" data-act="go" data-i="${i}" data-search="${esc((d.name + ' ' + d.room).toLowerCase())}">
+          ${icoBadge(d.status)}
+          <span class="r-tx"><span class="r-name">${esc(d.name)}</span><span class="r-sub">📍 ${esc(d.room)}</span></span>
+          ${statusTag(d.status)}
+          <span class="ar">›</span></button>`;
+      });
+      h += `</div>`;
+    } else {
+      h += `<div class="note-box">Bei in mehreren Räumen verwendeten Materialien (Bsp.: Putzutensilien, Gips) gibt es einen zentralen Lagerort, an welchem die Räume aufgefüllt werden können. Dieser ist in dieser App angegeben. In den Schränken und Schubladen der jeweiligen Räume befindet sich die Verbrauchsmenge an Material.</div>`;
+      h += `<div class="devsearch"><span class="mag">⌕</span><input id="matInput" type="text" placeholder="Material suchen…" autocomplete="off"></div>`;
+      h += `<div class="sec-label" id="matCount">${MAT_INDEX.length} Materialien · alphabetisch</div>`;
+      h += `<div class="res-list" id="matList">`;
+      MAT_INDEX.forEach(m => {
+        const i = refs.push({ node: { kind: 'material', mat: m }, crumb: ['Material', m.name] }) - 1;
+        const key = (m.name + ' ' + (m.supplier || '') + ' ' + (m.art || '') + ' ' + (m.raum || '') + ' ' + (m.verwendung || '') + ' ' + (m.kdnr || '')).toLowerCase();
+        h += `<button class="res" data-act="go" data-i="${i}" data-search="${esc(key)}">
+          ${matBadge}
+          <span class="r-tx"><span class="r-name">${esc(m.name)}</span><span class="r-sub">📍 ${esc(m.raum)}${m.flammable ? ' · ⚠' : ''}</span></span>
+          ${statusTag('material')}
+          <span class="ar">›</span></button>`;
+      });
+      h += `</div>`;
+      h += `<div class="sec-label">Nach Lagerort</div><div class="area-list">`;
+      LAGER.forEach(g => { h += `<button class="area-row" data-act="loc" data-loc="${esc(g.loc)}"><span>${esc(g.loc)}</span><span class="rc-meta">${g.items.length}</span></button>`; });
+      h += `</div>`;
+    }
+    return { html: h, back: false, title: '' };
+  }
+
+  function viewSearch() {
+    const isMat = searchScope === 'material';
+    const q = query.trim().toLowerCase();
+    let results = [], mres = [];
+    if (q) {
+      if (isMat) mres = matSearch(q);
+      else results = INDEX.filter(d => (d.name + ' ' + d.room).toLowerCase().includes(q)).slice(0, 30);
+    }
+    const ph = isMat ? 'Material suchen…' : 'Gerät oder Problem suchen…';
+    let h = `<div class="search-top">
+      <button class="s-back" data-act="back">‹</button>
+      <div class="s-field"><span class="mag">⌕</span><input id="sInput" type="text" placeholder="${ph}" value="${esc(query)}" autocomplete="off"></div>
+    </div>`;
+    if (!q) {
+      const chips = isMat
+        ? ['PLA', 'Wachs', 'Gips', 'Handschuhe', 'Mundschutz', 'Papier', 'Reiniger', 'Formlabs']
+        : ['ClickShare', 'Absaugung', 'Kniegerät', 'Noflame', 'Mikrofon', 'Drucker', 'Sandstrahl', 'Drucktopf'];
+      h += `<div class="sec-label">${isMat ? 'Häufig gesucht · Material' : 'Häufig gesucht · Geräte'}</div><div class="chips">`;
+      chips.forEach(c => { h += `<button class="chip" data-act="chip" data-q="${esc(c)}">${esc(c)}</button>`; });
+      h += `</div>`;
+    } else if (isMat) {
+      if (!mres.length) h += `<div class="no-res">Kein Material gefunden. Versuch ein anderes Wort.</div>`;
+      else {
+        h += `<div class="sec-label">Materialien · ${mres.length}</div><div class="res-list">`;
+        mres.forEach(m => {
+          const i = refs.push({ node: { kind: 'material', mat: m }, crumb: ['Material', m.name] }) - 1;
+          h += `<button class="res" data-act="go" data-i="${i}">
+            ${matBadge}
+            <span class="r-tx"><span class="r-name">${esc(m.name)}</span><span class="r-sub">📍 ${esc(m.raum)}${m.flammable ? ' · ⚠' : ''}</span></span>
+            ${statusTag('material')}
+            <span class="ar">›</span></button>`;
+        });
+        h += `</div>`;
+      }
+    } else {
+      if (!results.length) h += `<div class="no-res">Nichts gefunden. Versuch ein anderes Wort oder wähle einen Raum auf dem Plan.</div>`;
+      else {
+        h += `<div class="sec-label">Räume & Geräte · ${results.length}</div><div class="res-list">`;
+        results.forEach(d => {
+          const i = refs.push({ node: d.node, crumb: d.crumb, manuals: d.manuals }) - 1;
+          const sub = d.sub ? `${esc(d.room)} · ${esc(d.sub)}` : esc(d.room);
+          h += `<button class="res" data-act="go" data-i="${i}">
+            ${icoBadge(d.status)}
+            <span class="r-tx"><span class="r-name">${esc(d.name)}</span><span class="r-sub">${sub}</span></span>
+            ${statusTag(d.status)}
+            <span class="ar">›</span></button>`;
+        });
+        h += `</div>`;
+      }
+    }
+    return { html: h, back: false, title: '', search: true };
+  }
+
+  function viewLagerort(s) {
+    const items = MATERIALS.filter(m => m.raum === s.loc);
+    let h = `<button class="s-back back-solo" data-act="back" aria-label="Zurück">‹</button>`;
+    h += `<div class="crumb">Material <span class="sep">›</span> ${esc(s.loc)}</div><h2 class="room-h">${esc(s.loc)}</h2>`;
+    h += `<div class="note-box">Lagerort · ${items.length} Materialien</div>`;
+    h += `<div class="dev-list">`;
+    items.forEach(m => {
+      const i = refs.push({ node: { kind: 'material', mat: m }, crumb: [s.loc, m.name] }) - 1;
+      h += `<button class="dev" data-act="go" data-i="${i}">
+        ${matBadge}
+        <span class="dev-name">${esc(m.name)}</span>${m.flammable ? '<span class="mini-flag">⚠</span>' : ''}<span class="ar">›</span></button>`;
+    });
+    h += `</div>`;
+    return { html: h, back: true };
+  }
+
+  function viewRoom(s) {
+    const r = roomById(s.roomId);
+    let h = `<button class="s-back back-solo" data-act="back" aria-label="Zurück">‹</button>`;
+    h += `<div class="crumb">${esc(r.name)}</div><h2 class="room-h">${esc(r.name)}</h2>`;
+    if (r.access) h += `<div class="note-box">${esc(r.access)}</div>`;
+    if (r.warn) h += `<div class="warn-box">${esc(r.warn)}</div>`;
+    h += `<div class="dev-list">`;
+    r.devices.forEach(d => {
+      const i = refs.push({ node: d.node, crumb: [r.name, d.name], manuals: d.manuals }) - 1;
+      h += `<button class="dev" data-act="go" data-i="${i}">
+        ${icoBadge(d.status)}
+        <span class="dev-name">${esc(d.name)}</span>${statusTag(d.status)}<span class="ar">›</span></button>`;
+    });
+    h += `</div>`;
+    return { html: h, back: true, title: '' };
+  }
+
+  function manualsHTML(manuals) {
+    if (!manuals || !manuals.length) return '';
+    let h = `<div class="manuals-sec"><div class="manuals-head"><span class="m-ico">📄</span>Anleitungen &amp; Selbsthilfe</div>`;
+    h += `<div class="manuals-list">`;
+    manuals.forEach(m => {
+      h += `<a class="manual-link" href="${esc(m.path)}" target="_blank" rel="noopener"><span class="ml-tx">${esc(m.label)}</span><span class="ml-meta">PDF ↗</span></a>`;
+    });
+    h += `</div></div>`;
+    return h;
+  }
+
+  function viewTopic(s) {
+    const crumb = s.crumb || [];
+    let h = `<div class="crumb">${crumb.map(esc).join(' <span class="sep">›</span> ')}</div>`;
+    h += renderNode(s.node, crumb);
+    h += manualsHTML(s.manuals);
+    h += `<div class="foot-btns">`;
+    h += `<button class="fb" data-act="back">‹ Zurück</button>`;
+    h += `<button class="fb fb-ghost" data-act="home">Neu starten</button>`;
+    h += `</div>`;
+    return { html: h, back: true, title: '' };
+  }
+
+  function stepsHTML(arr) {
+    return `<ol class="steps">` + arr.map((s, i) => `<li><span class="n">${i + 1}</span><span>${esc(s)}</span></li>`).join('') + `</ol>`;
+  }
+
+  function viewRules() {
+    let h = `<button class="s-back back-solo" data-act="back" aria-label="Zurück">‹</button>`;
+    h += `<div class="crumb">Sicherheit</div><h2 class="room-h">Sicherheitsbestimmungen &amp; Verhaltensregeln</h2>`;
+    h += `<div class="note-box">Diese Sicherheitsbestimmungen und Verhaltensmaßregeln gelten in allen Räumen, in denen Studierende arbeiten. Sie werden vor Kursbeginn von jedem Studierenden unterschrieben (Ergänzung zur Kursordnung).</div>`;
+    h += `<ol class="rules-list">` + SAFETY_RULES.map(r => `<li><span>${esc(r)}</span></li>`).join('') + `</ol>`;
+    h += `<div class="warn-box" style="margin-top:16px">${esc(RULES_NOTE)}</div>`;
+    h += `<div class="foot-btns"><button class="fb" data-act="back">‹ Zurück</button><button class="fb fb-ghost" data-act="home">Startseite</button></div>`;
+    return { html: h, back: true, title: '' };
+  }
+
+  function putzTableHTML(activeDay) {
+    let h = `<table class="putz-tbl"><thead><tr><th>Tag</th><th>Saal</th><th>Gips + Polieren</th><th>Kunststoff + Guss + Müll</th></tr></thead><tbody>`;
+    PUTZ.DAYS.forEach(d => { const a = PUTZ.ROTATION[d.key]; h += `<tr class="${d.key === activeDay ? 'on' : ''}"><td class="day">${d.label}</td><td>${grpRange(a.saal)}</td><td>${grpRange(a.gips)}</td><td>${grpRange(a.kunst)}</td></tr>`; });
+    h += `</tbody></table>`;
+    return h;
+  }
+
+  function viewPutzplan() {
+    const day = putzDay || defaultDay();
+    const grp = putzGroup;
+    let h = `<button class="s-back back-solo" data-act="back" aria-label="Zurück">‹</button>`;
+    h += `<div class="crumb">Putzplan</div><h2 class="room-h">Putzplan</h2>`;
+    h += `<div class="note-box">Jeder reinigt täglich den <strong>eigenen Platz</strong>. Zusätzlich übernimmt deine Platzgruppe je nach Wochentag einen <strong>Reinigungsbereich</strong>.</div>`;
+    h += `<div class="sec-label">Wochentag</div><div class="seg">` + PUTZ.DAYS.map(d => `<button class="seg-b ${d.key === day ? 'on' : ''}" data-act="putz-day" data-day="${d.key}">${d.key}</button>`).join('') + `</div>`;
+    h += `<div class="sec-label">Deine Gruppe / Dein Platz (NR.)</div>`;
+    h += `<div class="grp-row">` + PUTZ.GROUPS.map((g, i) => `<span>Gruppe ${i + 1}</span>`).join('') + `</div>`;
+    h += `<div class="seg">` + PUTZ.GROUPS.map(g => `<button class="seg-b ${g.key === grp ? 'on' : ''}" data-act="putz-grp" data-grp="${g.key}">${g.label}</button>`).join('') + `</div>`;
+    if (grp) {
+      const area = PUTZ.areas[dutyFor(day, grp)];
+      h += `<div class="verdict v-self" style="margin-top:14px"><div class="v-head"><span class="v-badge">${dayLabel(day)}</span><span class="v-kicker">Dein Bereich · Plätze ${grpRange(grp)}</span></div><div class="v-name">${esc(area.name)}</div>` + stepsHTML(area.steps) + `</div>`;
+    } else {
+      h += `<div class="no-res">Wähle deine Platzgruppe, um deinen Reinigungsbereich zu sehen.</div>`;
+    }
+    h += `<div class="verdict v-self"><div class="v-head"><span class="v-badge">immer</span><span class="v-kicker">Eigener Arbeitsplatz</span></div><div class="v-name">Eigenen Platz reinigen (Technicum + Phantomicum)</div>` + stepsHTML(PUTZ.own) + `</div>`;
+    h += `<div class="warn-box">Nach Erledigen aller Punkte Räume und Plätze ca. 10 Minuten vor Kursende beim Assistenten zur Abnahme vorzeigen!</div>`;
+    h += `<div class="foot-btns"><button class="fb" data-act="back">‹ Zurück</button><button class="fb fb-ghost" data-act="home">Startseite</button></div>`;
+    return { html: h, back: true, title: '' };
+  }
+
+  // ---- main render ----
+  function render() {
+    refs = [];
+    const s = top();
+    let out;
+    if (s.view === 'home') out = viewHome();
+    else if (s.view === 'search') out = viewSearch();
+    else if (s.view === 'room') out = viewRoom(s);
+    else if (s.view === 'lagerort') out = viewLagerort(s);
+    else if (s.view === 'rules') out = viewRules();
+    else if (s.view === 'putzplan') out = viewPutzplan();
+    else if (s.view === 'topic') out = viewTopic(s);
+    const app = document.getElementById('app');
+    app.className = 'app view-' + s.view;
+    app.innerHTML = out.html;
+    if (out.search) {
+      const inp = document.getElementById('sInput');
+      if (inp) { inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length);
+        inp.addEventListener('input', e => { query = e.target.value; render(); }); }
+    }
+    const di = document.getElementById('devInput');
+    if (di) {
+      di.addEventListener('input', () => {
+        const q = di.value.trim().toLowerCase();
+        let n = 0;
+        document.querySelectorAll('#devList .res').forEach(row => {
+          const m = !q || (row.dataset.search || '').includes(q);
+          row.style.display = m ? '' : 'none';
+          if (m) n++;
+        });
+        const cnt = document.getElementById('devCount');
+        if (cnt) cnt.textContent = q ? (n + ' Treffer') : (DEVICE_INDEX.length + ' Geräte · alphabetisch');
+      });
+    }
+    const mi = document.getElementById('matInput');
+    if (mi) {
+      mi.addEventListener('input', () => {
+        const q = mi.value.trim().toLowerCase();
+        let n = 0;
+        document.querySelectorAll('#matList .res').forEach(row => {
+          const m = !q || (row.dataset.search || '').includes(q);
+          row.style.display = m ? '' : 'none';
+          if (m) n++;
+        });
+        const cnt = document.getElementById('matCount');
+        if (cnt) cnt.textContent = q ? (n + ' Treffer') : (MAT_INDEX.length + ' Materialien · alphabetisch');
+      });
+    }
+  }
+
+  // escalate-to-koordinator fallback for info nodes
+  const KOORD = { kind: 'contact', contact: window.SL_DATA.CONTACTS.abx, desc: 'Wenn die Selbsthilfe nicht weiterhilft.', pills: [] };
+
+  // ---- events ----
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]');
+    if (!b) return;
+    const act = b.dataset.act;
+    if (act === 'open-search') { searchScope = b.dataset.scope || 'material'; query = ''; push({ view: 'search' }); }
+    else if (act === 'browse') { browseMode = b.dataset.mode; render(); }
+    else if (act === 'toggle-emerg') { emergencyOpen = !emergencyOpen; render(); }
+    else if (act === 'toggle-info') { infoOpen = !infoOpen; render(); }
+    else if (act === 'open-rules') { push({ view: 'rules' }); }
+    else if (act === 'open-putz') { push({ view: 'putzplan' }); }
+    else if (act === 'putz-day') { putzDay = b.dataset.day; render(); }
+    else if (act === 'putz-grp') { putzGroup = b.dataset.grp; render(); }
+    else if (act === 'room') { push({ view: 'room', roomId: b.dataset.room }); }
+    else if (act === 'back') { pop(); }
+    else if (act === 'home') { goHome(); }
+    else if (act === 'chip') { query = b.dataset.q; render(); }
+    else if (act === 'loc') { push({ view: 'lagerort', loc: b.dataset.loc }); }
+    else if (act === 'esc-koord') {
+      const c = (top().crumb || []).concat('Techn. Koordinator');
+      push({ view: 'topic', node: KOORD, crumb: c });
+    }
+    else if (act === 'go') {
+      const r = refs[+b.dataset.i];
+      if (r) push({ view: 'topic', node: r.node, crumb: r.crumb, manuals: r.manuals });
+    }
+  });
+
+  render();
+})();
+
+</script>
+</body>
+</html>
