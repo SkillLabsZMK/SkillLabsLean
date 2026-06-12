@@ -3404,83 +3404,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
    }
   ],
   "warn": "Laborkittel, Schutzbrille und geschlossene Schuhe Pflicht. Nicht alleine im Labor arbeiten."
- },
- {
-  "id": "e6",
-  "name": "Flur E6 · Monitor",
-  "devices": [
-   {
-    "name": "Monitor zeigt nichts",
-    "topic": true,
-    "status": "self",
-    "node": {
-     "kind": "self",
-     "title": "Monitor zeigt nichts",
-     "steps": [
-      "Monitor eingeschaltet?",
-      "Strom- und HDMI-Kabel geprüft?"
-     ],
-     "escalation": {
-      "kind": "contact",
-      "contact": {
-       "name": "Technischer Koordinator Skill Labs",
-       "lines": [
-        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
-       ]
-      },
-      "desc": "",
-      "pills": []
-     }
-    }
-   },
-   {
-    "name": "Kalender wird nicht angezeigt",
-    "topic": true,
-    "status": "self",
-    "node": {
-     "kind": "self",
-     "title": "Kalender wird nicht angezeigt",
-     "steps": [
-      "Bitte melden!"
-     ],
-     "escalation": {
-      "kind": "contact",
-      "contact": {
-       "name": "Technischer Koordinator Skill Labs",
-       "lines": [
-        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
-       ]
-      },
-      "desc": "",
-      "pills": []
-     }
-    }
-   },
-   {
-    "name": "Technischer Defekt",
-    "topic": true,
-    "status": "self",
-    "node": {
-     "kind": "self",
-     "title": "Technischer Defekt",
-     "steps": [
-      "Bitte melden"
-     ],
-     "escalation": {
-      "kind": "contact",
-      "contact": {
-       "name": "Technischer Koordinator Skill Labs",
-       "lines": [
-        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
-       ]
-      },
-      "desc": "",
-      "pills": []
-     }
-    }
-   }
-  ],
-  "access": "Bei allen Problemen bitte immer den Techn. Koordinator informieren."
  }
 ];
 
@@ -4066,6 +3989,53 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
       }
      }
     }
+   },
+   {
+    "name": "Flur E6 · Monitor – kein Bild",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Flur E6 · Monitor – kein Bild",
+     "steps": [
+      "Monitor eingeschaltet?",
+      "Strom- und HDMI-Kabel geprüft?"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Flur E6 · Kalender wird nicht angezeigt",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Flur E6 · Kalender wird nicht angezeigt",
+     "steps": [
+      "Bitte melden!"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
    }
   ]
  }
@@ -4075,15 +4045,14 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
   const PLAN = [
     {"id":"phantomicum","v":true,"x":2, "y":4, "w":7, "h":90},
     {"id":"technicum",  "v":true,"x":91,"y":4, "w":7, "h":90},
-    {"id":"e6",         "x":10,"y":4, "w":12,"h":43},
-    {"id":"koordi",     "x":23,"y":4, "w":16,"h":43},
-    {"id":"druck",      "x":40,"y":4, "w":12,"h":43},
-    {"id":"cad",        "x":53,"y":4, "w":12,"h":43},
-    {"id":"cam",        "x":66,"y":4, "w":12,"h":43},
-    {"id":"giessen",    "x":79,"y":4, "w":11,"h":43},
-    {"id":"seminar3",   "x":10,"y":51,"w":16,"h":43},
-    {"id":"seminar2",   "x":27,"y":51,"w":12,"h":43},
-    {"id":"seminar1",   "x":40,"y":51,"w":12,"h":43},
+    {"id":"koordi",     "x":10,"y":4, "w":16,"h":43},
+    {"id":"druck",      "x":27,"y":4, "w":13,"h":43},
+    {"id":"cad",        "x":41,"y":4, "w":13,"h":43},
+    {"id":"cam",        "x":55,"y":4, "w":13,"h":43},
+    {"id":"giessen",    "x":69,"y":4, "w":21,"h":43},
+    {"id":"seminar3",   "x":10,"y":51,"w":13,"h":43},
+    {"id":"seminar2",   "x":24,"y":51,"w":13,"h":43},
+    {"id":"seminar1",   "x":38,"y":51,"w":13,"h":43},
     {"id":"besprechung","x":53,"y":51,"w":14,"h":43},
     {"id":"gips",       "x":68,"y":51,"w":22,"h":43}
   ];
