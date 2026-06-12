@@ -629,6 +629,60 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
       "pills": []
      }
     }
+   },
+   {
+    "name": "PC / Workstation – Funktionsstörung",
+    "status": "branch",
+    "node": {
+     "kind": "branch",
+     "header": "Art des Problems",
+     "question": "PC hängt oder lässt sich nicht starten?",
+     "yesLabel": "Ja – eingefroren / kein Start",
+     "noLabel": "Nein – anderes Problem",
+     "yes": {
+      "kind": "self",
+      "title": "PC neu starten",
+      "steps": [
+       "Alle Anwendungen schließen (falls möglich).",
+       "PC über das Startmenü neu starten – nicht den Netzstecker ziehen.",
+       "Falls kein Neustart möglich: Powerknopf 5 Sek. gedrückt halten.",
+       "Nach Neustart prüfen, ob das Problem behoben ist."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "IT-Service Tal",
+        "lines": [
+         "Serviceportal oder Telefon – Telefonliste ZMK",
+         "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
+     },
+     "no": {
+      "kind": "self",
+      "title": "Einfache Checks durchführen",
+      "steps": [
+       "Kabel und Stecker prüfen (Monitor, Netzwerk, Strom).",
+       "Neustart versuchen.",
+       "Fehlermeldung notieren und Screenshot erstellen."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "IT-Service Tal",
+        "lines": [
+         "Serviceportal oder Telefon – Telefonliste ZMK",
+         "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
+     }
+    }
    }
   ]
  },
@@ -692,6 +746,33 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
        "name": "Sekretariat / Koordination Skill Labs",
        "lines": [
         "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Gipsabscheider",
+    "topic": true,
+    "status": "contact",
+    "node": {
+     "kind": "self",
+     "title": "Gipsabscheider – Wartung / Störung",
+     "steps": [
+      "Gerät nicht selbst öffnen oder entleeren.",
+      "Füllstand / Störmeldung notieren.",
+      "Werkstatt ZMK oder Technischen Koordinator informieren."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Werkstatt ZMK",
+       "lines": [
+        "Reparaturauftrag ausfüllen (liegt im Technicum)",
+        "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+        "Techn. Koordinator in cc setzen"
        ]
       },
       "desc": "",
@@ -921,6 +1002,60 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
       },
       "desc": "",
       "pills": []
+     }
+    }
+   },
+   {
+    "name": "PC / Workstation – Funktionsstörung",
+    "status": "branch",
+    "node": {
+     "kind": "branch",
+     "header": "Art des Problems",
+     "question": "PC hängt oder lässt sich nicht starten?",
+     "yesLabel": "Ja – eingefroren / kein Start",
+     "noLabel": "Nein – anderes Problem",
+     "yes": {
+      "kind": "self",
+      "title": "PC neu starten",
+      "steps": [
+       "Alle Anwendungen schließen (falls möglich).",
+       "PC über das Startmenü neu starten – nicht den Netzstecker ziehen.",
+       "Falls kein Neustart möglich: Powerknopf 5 Sek. gedrückt halten.",
+       "Nach Neustart prüfen, ob das Problem behoben ist."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "IT-Service Tal",
+        "lines": [
+         "Serviceportal oder Telefon – Telefonliste ZMK",
+         "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
+     },
+     "no": {
+      "kind": "self",
+      "title": "Einfache Checks durchführen",
+      "steps": [
+       "Kabel und Stecker prüfen (Monitor, Netzwerk, Strom).",
+       "Neustart versuchen.",
+       "Fehlermeldung notieren und Screenshot erstellen."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "IT-Service Tal",
+        "lines": [
+         "Serviceportal oder Telefon – Telefonliste ZMK",
+         "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
      }
     }
    }
@@ -1432,6 +1567,60 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
      "desc": "",
      "pills": []
     }
+   },
+   {
+    "name": "PC / Workstation – Funktionsstörung",
+    "status": "branch",
+    "node": {
+     "kind": "branch",
+     "header": "Art des Problems",
+     "question": "PC hängt oder lässt sich nicht starten?",
+     "yesLabel": "Ja – eingefroren / kein Start",
+     "noLabel": "Nein – anderes Problem",
+     "yes": {
+      "kind": "self",
+      "title": "PC neu starten",
+      "steps": [
+       "Alle Anwendungen schließen (falls möglich).",
+       "PC über das Startmenü neu starten – nicht den Netzstecker ziehen.",
+       "Falls kein Neustart möglich: Powerknopf 5 Sek. gedrückt halten.",
+       "Nach Neustart prüfen, ob das Problem behoben ist."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "IT-Service Tal",
+        "lines": [
+         "Serviceportal oder Telefon – Telefonliste ZMK",
+         "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
+     },
+     "no": {
+      "kind": "self",
+      "title": "Einfache Checks durchführen",
+      "steps": [
+       "Kabel und Stecker prüfen (Monitor, Netzwerk, Strom).",
+       "Neustart versuchen.",
+       "Fehlermeldung notieren und Screenshot erstellen."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "IT-Service Tal",
+        "lines": [
+         "Serviceportal oder Telefon – Telefonliste ZMK",
+         "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
+     }
+    }
    }
   ]
  },
@@ -1694,6 +1883,60 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
       },
       "desc": "",
       "pills": []
+     }
+    }
+   },
+   {
+    "name": "PC / Workstation – Funktionsstörung",
+    "status": "branch",
+    "node": {
+     "kind": "branch",
+     "header": "Art des Problems",
+     "question": "PC hängt oder lässt sich nicht starten?",
+     "yesLabel": "Ja – eingefroren / kein Start",
+     "noLabel": "Nein – anderes Problem",
+     "yes": {
+      "kind": "self",
+      "title": "PC neu starten",
+      "steps": [
+       "Alle Anwendungen schließen (falls möglich).",
+       "PC über das Startmenü neu starten – nicht den Netzstecker ziehen.",
+       "Falls kein Neustart möglich: Powerknopf 5 Sek. gedrückt halten.",
+       "Nach Neustart prüfen, ob das Problem behoben ist."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "IT-Service Tal",
+        "lines": [
+         "Serviceportal oder Telefon – Telefonliste ZMK",
+         "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
+     },
+     "no": {
+      "kind": "self",
+      "title": "Einfache Checks durchführen",
+      "steps": [
+       "Kabel und Stecker prüfen (Monitor, Netzwerk, Strom).",
+       "Neustart versuchen.",
+       "Fehlermeldung notieren und Screenshot erstellen."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "IT-Service Tal",
+        "lines": [
+         "Serviceportal oder Telefon – Telefonliste ZMK",
+         "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
      }
     }
    }
@@ -2419,6 +2662,31 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
       "pills": []
      }
     }
+   },
+   {
+    "name": "Laptops für Aufsichten",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Laptops für Aufsichten",
+     "steps": [
+      "Laptop im Sekretariat Skill Labs abholen.",
+      "Einschalten und auf Funktionsfähigkeit prüfen.",
+      "Nach dem Einsatz laden und zurückgeben."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
    }
   ]
  },
@@ -2516,6 +2784,29 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           "lines": [
            "Serviceportal oder Telefon – Telefonliste ZMK",
            "Falls nötig in CC / 2. Stelle: Druckerwartung · Firma Morgenstern"
+          ]
+         },
+         "desc": "",
+         "pills": []
+        }
+       }
+      },
+      {
+       "label": "Drucker im Account fehlt",
+       "node": {
+        "kind": "self",
+        "title": "Netzwerkdrucker im Benutzerkonto einrichten",
+        "steps": [
+         "Windows Startmenü öffnen → Ordner 90_Wartung.",
+         "Drucker ZM11 (oder gewünschten Drucker) aus der Liste auswählen und installieren.",
+         "Nach Installation: Drucker ggf. als Standard festlegen."
+        ],
+        "escalation": {
+         "kind": "contact",
+         "contact": {
+          "name": "IT-Service Tal",
+          "lines": [
+           "Serviceportal oder Telefon – Telefonliste ZMK"
           ]
          },
          "desc": "",
@@ -3631,6 +3922,121 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
       },
       "desc": "",
       "pills": []
+     }
+    }
+   },
+   {
+    "name": "Britta Wasserspender",
+    "topic": true,
+    "status": "contact",
+    "node": {
+     "kind": "self",
+     "title": "Britta Wasserspender – Störung / Filterwechsel",
+     "steps": [
+      "Gerät ausschalten.",
+      "Art der Störung notieren (kein Wasser, Filterwechsel fällig, Leck, ...).",
+      "Technischen Koordinator oder Sekretariat informieren."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Brandschutztür",
+    "topic": true,
+    "status": "mixed",
+    "node": {
+     "kind": "branch",
+     "q": "Tür blockiert / schließt nicht vollständig – akuter Sicherheitsmangel?",
+     "yesLabel": "Ja – Sicherheitsmangel",
+     "noLabel": "Nein – allgemeines Problem",
+     "yes": {
+      "kind": "safety",
+      "warn": "Brandschutztür nicht blockieren – Fluchtweg und Brandabschnitt müssen frei bleiben.",
+      "inner": {
+       "kind": "contact",
+       "contact": {
+        "name": "Sofort melden",
+        "lines": [
+         "TBA – Technisches Betriebsamt: 77171",
+         "Werkstatt ZMK – Telefonliste ZMK",
+         "Technischer Koordinator Skill Labs – direkt ansprechen"
+        ]
+       },
+       "desc": "",
+       "pills": ["Sicherheit"]
+      }
+     },
+     "no": {
+      "kind": "self",
+      "title": "Brandschutztür – Störung melden",
+      "steps": [
+       "Art des Problems notieren (schließt nicht vollständig, Geräusch, beschädigt, ...).",
+       "TBA oder Werkstatt ZMK informieren."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "Zuständige Stellen",
+        "lines": [
+         "TBA – Technisches Betriebsamt: 77171",
+         "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
+     }
+    }
+   },
+   {
+    "name": "Primion Schließsystem (Kartenzugang)",
+    "topic": true,
+    "status": "branch",
+    "node": {
+     "kind": "branch",
+     "q": "Zugang verweigert oder technischer Defekt?",
+     "yesLabel": "Zugang verweigert / fehlende Berechtigung",
+     "noLabel": "Technischer Defekt / Gerät reagiert nicht",
+     "yes": {
+      "kind": "contact",
+      "contact": {
+       "name": "Sekretariat / Koordination Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+       ]
+      },
+      "desc": "Zugangsberechtigung wird über das Sekretariat beantragt.",
+      "pills": []
+     },
+     "no": {
+      "kind": "self",
+      "title": "Schließsystem – Defekt melden",
+      "steps": [
+       "Betroffenen Raum und Art des Defekts notieren.",
+       "TBA oder IT-Service informieren."
+      ],
+      "escalation": {
+       "kind": "contact",
+       "contact": {
+        "name": "Zuständige Stellen",
+        "lines": [
+         "TBA – Technisches Betriebsamt: 77171",
+         "IT-Service Tal – Serviceportal oder Telefon – Telefonliste ZMK"
+        ]
+       },
+       "desc": "",
+       "pills": []
+      }
      }
     }
    }
