@@ -4043,18 +4043,18 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
 
   // Grundriss-Hotspots: Position (x/y) und Größe (w/h) jedes Raumes in Prozent (CSS left/top/width/height)
   const PLAN = [
-    {"id":"phantomicum","x":2, "y":2,  "w":96,"h":8 },
-    {"id":"technicum",  "x":2, "y":90, "w":96,"h":8 },
-    {"id":"seminar3",   "x":2, "y":12, "w":47,"h":12},
-    {"id":"seminar2",   "x":2, "y":25, "w":47,"h":12},
-    {"id":"seminar1",   "x":2, "y":38, "w":47,"h":12},
-    {"id":"besprechung","short":"Bespr.\nLehrende","x":2,"y":51,"w":47,"h":12},
-    {"id":"gips",       "x":2, "y":64, "w":47,"h":12},
-    {"id":"giessen",    "x":2, "y":77, "w":47,"h":11},
-    {"id":"cad",        "x":51,"y":12, "w":47,"h":18},
-    {"id":"cam",        "x":51,"y":31, "w":47,"h":18},
-    {"id":"koordi",     "x":51,"y":50, "w":47,"h":18},
-    {"id":"druck",      "x":51,"y":69, "w":47,"h":19}
+    {"id":"phantomicum","x":2, "y":2,  "w":96,"h":16},
+    {"id":"technicum",  "x":2, "y":82, "w":96,"h":16},
+    {"id":"seminar3",   "x":2, "y":20, "w":47,"h":9 },
+    {"id":"seminar2",   "x":2, "y":30, "w":47,"h":9 },
+    {"id":"seminar1",   "x":2, "y":40, "w":47,"h":9 },
+    {"id":"besprechung","short":"Bespr.\nLehrende","x":2,"y":50,"w":47,"h":9 },
+    {"id":"gips",       "x":2, "y":60, "w":47,"h":10},
+    {"id":"giessen",    "x":2, "y":71, "w":47,"h":9 },
+    {"id":"cad",        "x":51,"y":20, "w":47,"h":14},
+    {"id":"cam",        "x":51,"y":35, "w":47,"h":15},
+    {"id":"koordi",     "x":51,"y":51, "w":47,"h":14},
+    {"id":"druck",      "x":51,"y":66, "w":47,"h":14}
   ];
 
 
@@ -4362,14 +4362,6 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     }
     h += `</div>`;
 
-    // ---- § banner: Sicherheitsbestimmungen & Putzplan ----
-    h += `<div class="emerg emerg-info${infoOpen ? ' open' : ''}">`;
-    h += `<button class="emerg-bar" data-act="toggle-info" aria-expanded="${infoOpen}"><span class="emerg-ic">§</span><span class="emerg-tx"><span class="emerg-t">Sicherheitsbestimmungen &amp; Putzplan</span><span class="emerg-s">Vor Kursbeginn lesen · Reinigungsdienst nachschlagen</span></span><span class="emerg-chev">▾</span></button>`;
-    if (infoOpen) {
-      h += `<div class="emerg-body"><button class="opt" data-act="open-rules"><span>Sicherheitsbestimmungen &amp; Verhaltensregeln</span><span class="ar">›</span></button><button class="opt" data-act="open-putz"><span>Putzplan – wer putzt was?</span><span class="ar">›</span></button></div>`;
-    }
-    h += `</div>`;
-
     // ---- topbar: segmented browse ----
     h += `<div class="topbar"><div class="seg">
       <button class="seg-b ${browseMode === 'plan' ? 'on' : ''}" data-act="browse" data-mode="plan">Räume</button>
@@ -4418,6 +4410,15 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
       LAGER.forEach(g => { h += `<button class="area-row" data-act="loc" data-loc="${esc(g.loc)}"><span>${esc(g.loc)}</span><span class="rc-meta">${g.items.length}</span></button>`; });
       h += `</div>`;
     }
+
+    // ---- § banner: Sicherheitsbestimmungen & Putzplan ----
+    h += `<div class="emerg emerg-info${infoOpen ? ' open' : ''}">`;
+    h += `<button class="emerg-bar" data-act="toggle-info" aria-expanded="${infoOpen}"><span class="emerg-ic">§</span><span class="emerg-tx"><span class="emerg-t">Sicherheitsbestimmungen &amp; Putzplan</span><span class="emerg-s">Vor Kursbeginn lesen · Reinigungsdienst nachschlagen</span></span><span class="emerg-chev">▾</span></button>`;
+    if (infoOpen) {
+      h += `<div class="emerg-body"><button class="opt" data-act="open-rules"><span>Sicherheitsbestimmungen &amp; Verhaltensregeln</span><span class="ar">›</span></button><button class="opt" data-act="open-putz"><span>Putzplan – wer putzt was?</span><span class="ar">›</span></button></div>`;
+    }
+    h += `</div>`;
+
     return { html: h, back: false, title: '' };
   }
 
