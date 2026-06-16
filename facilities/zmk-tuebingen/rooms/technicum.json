@@ -1,0 +1,631 @@
+{
+  "id": "technicum",
+  "name": "Technicum",
+  "devices": [
+    {
+      "name": "Hotty Wax Station",
+      "manuals": [
+        {
+          "label": "Renfert – Teil 1",
+          "path": "manuals/technicum/hotty-renfert-1.pdf"
+        },
+        {
+          "label": "Renfert – Teil 2",
+          "path": "manuals/technicum/hotty-renfert-2.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Hotty Wax Station (Wachsbad)",
+        "steps": [
+          "Temperatur je nach Wachstyp einstellen – mind. 10 Min. vorheizen lassen.",
+          "Nur zugelassene Dentalwachse verwenden.",
+          "Instrumente im Gerät reinigen, bevor die Arbeit beginnt.",
+          "Nach Gebrauch: Gerät ausschalten, keine Wachsreste im Becken lassen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Intraoralscanner",
+      "manuals": [
+        {
+          "label": "Ceramill Map DRS",
+          "path": "manuals/technicum/ios-ceramill-map-drs.pdf"
+        },
+        {
+          "label": "Connection Kit (Kurzanleitung)",
+          "path": "manuals/technicum/ios-connection-kit.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Intraoralscanner (bei Nutzung)",
+        "steps": [
+          "Nur während aktiver Nutzung im Raum verfügbar.",
+          "Bedienung nach IOS-Einweisung – Gebrauchsanweisung beachten."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Sirona SIM Intego Bench",
+      "manuals": [
+        {
+          "label": "GBA Sim Bench",
+          "path": "manuals/technicum/sirona-sim-bench.pdf"
+        },
+        {
+          "label": "Sirotorque L+ (Winkelstück)",
+          "path": "manuals/technicum/sirona-sirotorque-l-plus.pdf"
+        },
+        {
+          "label": "Phantomkopf PK-2",
+          "path": "manuals/technicum/sirona-phantomkopf-pk2.pdf"
+        },
+        {
+          "label": "Pflege & Reinigung",
+          "path": "manuals/technicum/sirona-care-cleaning.pdf"
+        },
+        {
+          "label": "Reinigungsmittel",
+          "path": "manuals/technicum/sirona-reinigungsmittel.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Sirona SIM Intego Bench",
+        "steps": [
+          "Fußschalter prüfen – eingesteckt und im richtigen Modus?",
+          "Handstück einsetzen bis es hörbar einrastet.",
+          "Wasser / Luft kommt nicht? Absperrventil am Gerät öffnen.",
+          "Licht defekt? Handstücklampe prüfen (fest einschrauben).",
+          "Gerät reagiert gar nicht? Hauptschalter an der Rückseite prüfen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Medienpanel / Raumsteuerung",
+      "status": "branch",
+      "node": {
+        "kind": "branch",
+        "header": "Einweisung",
+        "question": "Hast du eine Einweisung in das Medienpanel erhalten?",
+        "yesLabel": "Ja",
+        "noLabel": "Nein",
+        "yes": {
+          "kind": "info",
+          "title": "Medienpanel – selbst bedienen",
+          "desc": "Kein Grund zur Panik – du kannst das Medienpanel selbstständig bedienen. Bei technischen Defekten → AV-Medien."
+        },
+        "no": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen"
+            ]
+          },
+          "desc": "Bitte um eine Einweisung, bevor du das Panel nutzt.",
+          "pills": [
+            "Einweisung erforderlich"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Trockenabsaugung",
+      "status": "mixed",
+      "node": {
+        "kind": "choice",
+        "title": "Trockenabsaugung – was ist los?",
+        "desc": "Steuerung im Raum „Besprechung Lehrende“.",
+        "options": [
+          {
+            "label": "Läuft nicht / kein Sog",
+            "node": {
+              "kind": "self",
+              "title": "Anschluss & Status prüfen",
+              "steps": [
+                "Schlauchverbindung am Arbeitsplatz prüfen – korrekt eingesteckt?",
+                "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“."
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "System einschalten lassen",
+                  "lines": [
+                    "Aufsicht / Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen",
+                    "Nur sie dürfen das System ein- und ausschalten"
+                  ]
+                },
+                "desc": "",
+                "pills": [
+                  "Nur Aufsichten"
+                ]
+              }
+            }
+          },
+          {
+            "label": "Saugleistung schwach",
+            "node": {
+              "kind": "info",
+              "title": "Powermodus aktivieren",
+              "desc": "Powermodus im Raum „Besprechung Lehrende“ aktivieren – läuft dann 15 Minuten.",
+              "steps": [
+                "Knopf am System 3 Sekunden gedrückt halten",
+                "Powermodus läuft 15 Minuten"
+              ]
+            }
+          },
+          {
+            "label": "Nach Feierabend ausschalten",
+            "node": {
+              "kind": "contact",
+              "contact": {
+                "name": "Aufsicht / Assistenzarzt Skill Labs",
+                "lines": [
+                  "Im Raum „Besprechung Lehrende“ ansprechen"
+                ]
+              },
+              "desc": "Nur Aufsichten / Assistenzärzte dürfen das System aus- und einschalten.",
+              "pills": [
+                "Nur Aufsichten"
+              ]
+            }
+          },
+          {
+            "label": "Buttons blinken blau / Defekt",
+            "node": {
+              "kind": "contact",
+              "contact": {
+                "name": "Werkstatt ZMK",
+                "lines": [
+                  "Reparaturauftrag ausfüllen (liegt im Technicum)",
+                  "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+                  "Techn. Koordinator in cc setzen"
+                ]
+              },
+              "desc": "Die Anzeige nach 150 Betriebsstunden ist kein Defekt. Bei echtem Defekt → Werkstatt ZMK.",
+              "pills": [
+                "Werkstatt ZMK"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Noflame Plus",
+      "manuals": [
+        {
+          "label": "Bedienungsanleitung",
+          "path": "manuals/technicum/noflame-plus.pdf"
+        }
+      ],
+      "status": "mixed",
+      "node": {
+        "kind": "choice",
+        "title": "Noflame Plus – wie blinkt die LED?",
+        "options": [
+          {
+            "label": "Schnell (0,2 s) – Sensor irritiert",
+            "node": {
+              "kind": "info",
+              "title": "Sensor zurücksetzen",
+              "steps": [
+                "Instrument aus der Spulenöffnung nehmen",
+                "Gerät aus- und wieder einschalten"
+              ]
+            }
+          },
+          {
+            "label": "Mittel (0,5 s) – Lüfter blockiert",
+            "node": {
+              "kind": "self",
+              "title": "Lüftungsschlitze prüfen",
+              "steps": [
+                "Lüftungsschlitze freiräumen",
+                "Gerät aus- und wieder einschalten"
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "Werkstatt ZMK",
+                  "lines": [
+                    "Reparaturauftrag ausfüllen (liegt im Technicum)",
+                    "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+                    "Techn. Koordinator in cc setzen"
+                  ]
+                },
+                "desc": "Hilft das nicht weiter.",
+                "pills": []
+              }
+            }
+          },
+          {
+            "label": "Langsam (1 s) – Übertemperatur",
+            "node": {
+              "kind": "self",
+              "title": "Gerät abkühlen lassen",
+              "steps": [
+                "Gerät ausschalten",
+                "Einige Minuten abkühlen lassen",
+                "Neu starten"
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "Werkstatt ZMK",
+                  "lines": [
+                    "Reparaturauftrag ausfüllen (liegt im Technicum)",
+                    "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+                    "Techn. Koordinator in cc setzen"
+                  ]
+                },
+                "desc": "Tritt der Fehler erneut auf.",
+                "pills": []
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "QUATTROcare",
+      "manuals": [
+        {
+          "label": "GA QUATTROcare Plus",
+          "path": "manuals/technicum/quattrocare-plus.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "QUATTROcare",
+        "steps": [
+          "Ersatzkartuschen bei den Aufsichten. Kartuschen können selbst gewechselt werden."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Demokamera",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Demokamera",
+        "steps": [
+          "Kamerasteuermodul eingeschaltet? (silberne Box - Firma RIETH.)",
+          "Schutzdeckel von der Kamera entfernt?",
+          "Signal am Medienpanel korrekt zugewiesen?",
+          "Bild nur auf dem Bildschirm angezeigt? Switch unter dem Tisch rechts auf Input 2 schalten.",
+          "- Für Dozenten PC auf Input 1 zurückschalten -"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung erforderlich",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator – Einweisung anfordern",
+              "Falls nötig in CC / 2. Stelle: IT-Service Tal"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Bildschirme schwarz",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Bildschirme schwarz",
+        "steps": [
+          "Am Medienpanel richtiges Signal ausgewählt?",
+          "Signal neu zuweisen.",
+          "Bildschirm am Panel aus- und wieder einschalten"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: IT-Service Tal"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Notschalter ausgelöst",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Notschalter ausgelöst",
+        "steps": [
+          "Prüfen ob der Auslösegrund behoben ist",
+          "Notschalter wieder eindrücken / zurücksetzen",
+          "Geräte neu starten"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Gerät defekt melden",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Gerät defekt melden",
+        "steps": [
+          "Gerät außer Betrieb nehmen und kennzeichnen",
+          "Reparaturauftrag ausfüllen (liegt im Technicum)",
+          "Defekt mit kurzer Beschreibung melden"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Werkstatt ZMK",
+            "lines": [
+              "Reparaturauftrag ausfüllen (liegt im Technicum)",
+              "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+              "Techn. Koordinator in cc setzen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Buchung / Zugang",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Buchung / Zugang",
+        "steps": [
+          "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+          "Freien Termin eintragen bzw. anfragen",
+          "Zugang über die zuständige Stelle klären"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Sekretariat / Koordination Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Handstück",
+      "manuals": [
+        {
+          "label": "Sicherheitshinweise (Zubler)",
+          "path": "manuals/technicum/handstueck-zubler-sicherheit.pdf"
+        },
+        {
+          "label": "Drehrichtung für Linkshänder",
+          "path": "manuals/technicum/handstueck-drehrichtung-linkshaender.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Handstück",
+        "desc": "Fehler F5 · Handstück dreht links",
+        "steps": [
+          "Fehler F5: Kniesteuerung komplett ausschalten (10s warten)",
+          "Linkslauf: Gerät ist im Linksbetrieb!",
+          "Am Netzschalter (11) ausschalten",
+          "Rechtslauftaste T4 (Plustaste) gedrückt halten",
+          "Dabei Netzschalter wieder einschalten",
+          "LED T3 aus = Rechtslauf aktiv"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Präpchecker / Dental Teacher",
+      "manuals": [
+        {
+          "label": "Short Manual (Student)",
+          "path": "manuals/technicum/dental-teacher-short-manual.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Präpchecker / Dental Teacher",
+        "steps": [
+          "Demopräps sind hinterlegt.",
+          "Einweisung durch Kurs"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Pentamix 3",
+      "manuals": [
+        {
+          "label": "GBA Pentamix 3",
+          "path": "manuals/technicum/pentamix3.pdf"
+        }
+      ],
+      "status": "contact",
+      "node": {
+        "kind": "contact",
+        "contact": {
+          "name": "Aufsichten / Ärzte im Raum",
+          "lines": [
+            "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+            "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+          ]
+        },
+        "desc": "",
+        "pills": []
+      }
+    },
+    {
+      "name": "Mikroskop (Leica A60)",
+      "status": "contact",
+      "node": {
+        "kind": "contact",
+        "contact": {
+          "name": "Assistenzarzt Skill Labs",
+          "lines": [
+            "Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen"
+          ]
+        },
+        "desc": "",
+        "pills": []
+      }
+    },
+    {
+      "name": "PC / Workstation – Funktionsstörung",
+      "status": "branch",
+      "node": {
+        "kind": "branch",
+        "header": "Art des Problems",
+        "question": "PC hängt oder lässt sich nicht starten?",
+        "yesLabel": "Ja – eingefroren / kein Start",
+        "noLabel": "Nein – anderes Problem",
+        "yes": {
+          "kind": "self",
+          "title": "PC neu starten",
+          "steps": [
+            "Alle Anwendungen schließen (falls möglich).",
+            "PC über das Startmenü neu starten – nicht den Netzstecker ziehen.",
+            "Falls kein Neustart möglich: Powerknopf 5 Sek. gedrückt halten.",
+            "Nach Neustart prüfen, ob das Problem behoben ist."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "IT-Service Tal",
+              "lines": [
+                "Serviceportal oder Telefon – Telefonliste ZMK",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        },
+        "no": {
+          "kind": "self",
+          "title": "Einfache Checks durchführen",
+          "steps": [
+            "Kabel und Stecker prüfen (Monitor, Netzwerk, Strom).",
+            "Neustart versuchen.",
+            "Fehlermeldung notieren und Screenshot erstellen."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "IT-Service Tal",
+              "lines": [
+                "Serviceportal oder Telefon – Telefonliste ZMK",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      }
+    }
+  ]
+}

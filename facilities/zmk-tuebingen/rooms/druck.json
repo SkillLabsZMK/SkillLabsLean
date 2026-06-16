@@ -1,0 +1,153 @@
+{
+  "id": "druck",
+  "name": "Papier & Druck",
+  "devices": [
+    {
+      "name": "Drucker",
+      "status": "mixed",
+      "node": {
+        "kind": "choice",
+        "title": "Drucker – was ist das Problem?",
+        "options": [
+          {
+            "label": "Papierstau",
+            "node": {
+              "kind": "self",
+              "title": "Drucker – Papierstau",
+              "steps": [
+                "Papierstau kann selbst behoben werden – Anleitung am Gerät."
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "IT-Service Tal",
+                  "lines": [
+                    "Serviceportal oder Telefon – Telefonliste ZMK",
+                    "Falls nötig in CC / 2. Stelle: Druckerwartung · Firma Morgenstern"
+                  ]
+                },
+                "desc": "",
+                "pills": []
+              }
+            }
+          },
+          {
+            "label": "Toner leer",
+            "node": {
+              "kind": "self",
+              "title": "Drucker – Toner leer",
+              "steps": [
+                "Tonerbestellung läuft automatisch. Kein Handlungsbedarf."
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "IT-Service Tal",
+                  "lines": [
+                    "Serviceportal oder Telefon – Telefonliste ZMK",
+                    "Falls nötig in CC / 2. Stelle: Druckerwartung · Firma Morgenstern"
+                  ]
+                },
+                "desc": "",
+                "pills": []
+              }
+            }
+          },
+          {
+            "label": "Offline / Netzwerk",
+            "node": {
+              "kind": "self",
+              "title": "Drucker – offline / Netzwerk",
+              "steps": [
+                "Drucker aus- und wieder einschalten",
+                "Am PC: Drucker ZM11 hinzufügen über 90_Wartung im Windows Menü"
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "IT-Service Tal",
+                  "lines": [
+                    "Serviceportal oder Telefon – Telefonliste ZMK"
+                  ]
+                },
+                "desc": "",
+                "pills": []
+              }
+            }
+          },
+          {
+            "label": "Technischer Defekt",
+            "node": {
+              "kind": "self",
+              "title": "Drucker – technischer Defekt",
+              "steps": [
+                "Drucker aus- und wieder einschalten",
+                "Fehlermeldung am Display notieren",
+                "Hält der Defekt an → Druckerwartung melden"
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "IT-Service Tal",
+                  "lines": [
+                    "Serviceportal oder Telefon – Telefonliste ZMK",
+                    "Falls nötig in CC / 2. Stelle: Druckerwartung · Firma Morgenstern"
+                  ]
+                },
+                "desc": "",
+                "pills": []
+              }
+            }
+          },
+          {
+            "label": "Drucker im Account fehlt",
+            "node": {
+              "kind": "self",
+              "title": "Netzwerkdrucker im Benutzerkonto einrichten",
+              "steps": [
+                "Windows Startmenü öffnen → Ordner 90_Wartung.",
+                "Drucker ZM11 (oder gewünschten Drucker) aus der Liste auswählen und installieren.",
+                "Nach Installation: Drucker ggf. als Standard festlegen."
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "IT-Service Tal",
+                  "lines": [
+                    "Serviceportal oder Telefon – Telefonliste ZMK"
+                  ]
+                },
+                "desc": "",
+                "pills": []
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Demoboxen",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Demoboxen",
+        "steps": [
+          "Nur für den Prothetik-Kurs vorgesehen",
+          "Entnahme/Rückgabe mit der Koordination abstimmen"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Assistenzarzt Skill Labs",
+            "lines": [
+              "Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    }
+  ]
+}

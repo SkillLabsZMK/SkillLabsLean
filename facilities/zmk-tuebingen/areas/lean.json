@@ -1,0 +1,106 @@
+{
+  "id": "lean",
+  "name": "LEAN · 3D-Druck · KANBAN",
+  "devices": [
+    {
+      "name": "3D-Druck-Anfrage stellen",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "3D-Druck-Anfrage stellen",
+        "steps": [
+          "STL-Datei vorbereiten (geschlossenes Volumen, korrekte Größe)",
+          "Kurze Beschreibung + gewünschtes Material angeben",
+          "An die 3D-Druck-Mailbox senden"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "3D-Druck Mailbox",
+            "lines": [
+              "3DDruck@med.uni-tuebingen.de",
+              "STL-Datei + kurze Beschreibung mitschicken"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Haptic Device / 3D-Eingabestift",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Haptic Device / 3D-Eingabestift",
+        "steps": [
+          "USB-/Stromverbindung prüfen",
+          "Software/Treiber gestartet?",
+          "Bei Defekt → Techn. Koordinator"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung erforderlich",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator – Einweisung anfordern",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Einweisung KanbanSlides Excel",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Einweisung KanbanSlides Excel",
+        "steps": [
+          "Einweisung beim Technischen Koordinator anfordern.",
+          "Zugriff auf die KanbanSlides Excel-Datei klären."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "KANBAN Materialverwaltung",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "KANBAN Materialverwaltung",
+        "steps": [
+          "Bestände prüfen und KANBAN-Karten nachfüllen.",
+          "Bestellungen über das KANBAN-System aufgeben.",
+          "Bei Fragen zur Verwaltung Technischen Koordinator ansprechen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "id": "qual",
+  "name": "Qualifizierung · Einweisung",
+  "devices": [
+    {
+      "name": "CAD/CAM Sicherheitseinweisung",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "CAD/CAM Sicherheitseinweisung",
+        "steps": [
+          "Termin für die Einweisung erfragen",
+          "Ohne Einweisung keine Gerätenutzung"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Intraoralscanner (IOS) Einweisung",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Intraoralscanner (IOS) Einweisung",
+        "steps": [
+          "Einweisungstermin erfragen",
+          "Scanner erst nach Einweisung verwenden"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Design-Prozess 4./5. Fachsemester",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Design-Prozess 4./5. Fachsemester",
+        "steps": [
+          "Kursunterlagen / Ablauf prüfen",
+          "Bei Fragen zuständigen zahnärztlichen Kollegen ansprechen"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Zahnärztlicher Kollege",
+            "lines": [
+              "Zuständigen zahnärztlichen Kollegen ansprechen"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Schulungsvideos / Kompetenzmatrix",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Schulungsvideos / Kompetenzmatrix",
+        "steps": [
+          "Auf ILIAS nach Schulungsvideos & Kompetenzmatrix suchen",
+          "Vor Gerätenutzung relevante Videos ansehen"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Slicing / Nesting für Kurse",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Slicing / Nesting für Kurse",
+        "steps": [
+          "Software/Vorlage nach Kursanleitung nutzen",
+          "Bei Fragen Techn. Koordinator ansprechen"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Medientechnik",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Medientechnik · Einweisung",
+        "steps": [
+          "Einweisung in das Medienpanel / die Medientechnik erfragen",
+          "Ohne Einweisung das Medienpanel nicht selbstständig bedienen"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    }
+  ]
+}

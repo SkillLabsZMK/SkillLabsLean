@@ -1,0 +1,31 @@
+{
+  "id": "besprechung",
+  "name": "Besprechung Lehrende",
+  "devices": [
+    {
+      "name": "Küche & Kaffee",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Küche & Kaffee",
+        "steps": [
+          "Mikrowelle, Kühlschrank und Kaffeevollautomat für Lehrende. Spül- und Reinigungsdienst für Tisch/Theke beachten – Organisation durch das Prothetik-Team."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Assistenzarzt Skill Labs",
+            "lines": [
+              "Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen",
+              "Falls nötig in CC / 2. Stelle: Sekretariat / Koordination Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    }
+  ],
+  "access": "Aufenthalts-/Besprechungsraum der Lehrenden. Hier wird u. a. die Trockenabsaugung gesteuert."
+}

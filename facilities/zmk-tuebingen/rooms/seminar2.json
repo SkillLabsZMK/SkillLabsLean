@@ -1,0 +1,70 @@
+{
+  "id": "seminar2",
+  "name": "Seminar 2",
+  "devices": [
+    {
+      "name": "Trennwände – Räume kombinieren/teilen",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Trennwände – Räume kombinieren/teilen",
+        "steps": [
+          "Die Seminarräume 1, 2 und 3 lassen sich über die Trennwände zu einem großen Raum verbinden oder einzeln nutzen. Die Kurbel liegt für gewöhnlich in einem der Medienkoffer in SR1 oder SR3.",
+          "Erklärvideo auf Q:\\"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Ausstattung – analoger Raum",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "info",
+        "title": "Ausstattung – analoger Raum",
+        "steps": [
+          "Seminar 2 ist analog ausgestattet: Metaplan-Wand und Flipchart. Keine fest installierte AV-Technik.",
+          "In diesem Raum befindet sich ein zusätzlicher Lautsprecher, welcher sich vom Medienpanel SR3 steuern lässt."
+        ]
+      }
+    },
+    {
+      "name": "Buchung / Zugang",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Buchung / Zugang",
+        "steps": [
+          "Verfügbarkeit im Routineraster / Google Kalender/Moses Med prüfen",
+          "Freien Termin anfragen",
+          "Zugang über die zuständige Stelle klären"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Sekretariat / Koordination Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    }
+  ],
+  "access": "Analog ausgestatteter Raum (Metaplan/Flipchart) – keine fest installierte AV-Technik."
+}

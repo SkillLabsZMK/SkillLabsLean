@@ -1,0 +1,80 @@
+{
+  "id": "koordi",
+  "name": "Sekretariat / Koordination",
+  "devices": [
+    {
+      "name": "IO Scanner / Ceramill Map DRS",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "IO Scanner / Ceramill Map DRS",
+        "steps": [
+          "Siehe laminierte Anleitung.",
+          "Scanner-Status prüfen (eingeschaltet, angemeldet)"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "IT-Service Tal",
+            "lines": [
+              "Serviceportal oder Telefon – Telefonliste ZMK",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "KANBAN-Bestellung aufgeben",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "KANBAN-Bestellung aufgeben",
+        "steps": [
+          "Karte an der KANBAN-Station im Sekretariat/ Koordination einlegen.",
+          "Bearbeitung erfolgt automatisch."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Sekretariat / Koordination Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Laptops für Aufsichten",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Laptops für Aufsichten",
+        "steps": [
+          "Laptop im Sekretariat Skill Labs abholen.",
+          "Einschalten und auf Funktionsfähigkeit prüfen.",
+          "Nach dem Einsatz laden und zurückgeben."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    }
+  ]
+}

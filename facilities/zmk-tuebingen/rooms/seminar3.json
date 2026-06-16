@@ -1,0 +1,278 @@
+{
+  "id": "seminar3",
+  "name": "Seminar 3",
+  "devices": [
+    {
+      "name": "Medienpanel / Raumsteuerung",
+      "status": "branch",
+      "node": {
+        "kind": "branch",
+        "header": "Einweisung",
+        "question": "Hast du eine Einweisung in das Medienpanel erhalten?",
+        "yesLabel": "Ja",
+        "noLabel": "Nein",
+        "yes": {
+          "kind": "info",
+          "title": "Medienpanel – selbst bedienen",
+          "desc": "Kein Grund zur Panik – du kannst das Medienpanel selbstständig bedienen. Bei technischen Defekten → AV-Medien."
+        },
+        "no": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen"
+            ]
+          },
+          "desc": "Bitte um eine Einweisung, bevor du das Panel nutzt.",
+          "pills": [
+            "Einweisung erforderlich"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ClickShare",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "ClickShare",
+        "steps": [
+          "ClickShare in den USB-Eingang vom Laptop einstecken",
+          "ClickShare wie USB-Stick im Explorer öffnen und die Windows-App starten",
+          "Bildschirm freigeben (App oder Button drücken)",
+          "Kein Bild? App schließen, neu starten, erneut verbinden, USB wechseln",
+          "Ist die richtige Quelle auf dem Medienpanel ausgewählt?"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "IT-Service Tal",
+            "lines": [
+              "Serviceportal oder Telefon – Telefonliste ZMK",
+              "Falls nötig in CC / 2. Stelle: AV-Medien"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Mikrofon (drahtlos)",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Mikrofon (drahtlos)",
+        "steps": [
+          "Akku prüfen – ist das Mikrofon geladen?",
+          "Empfänger eingeschaltet?",
+          "Richtiger Eingang am Medienpanel ausgewählt?",
+          "Lautstärke am Panel aufgedreht?",
+          "Wenn Mikro nicht reagiert, aufschrauben und die Batterie neu einsetzen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "IT-Service Tal",
+            "lines": [
+              "Serviceportal oder Telefon – Telefonliste ZMK",
+              "Falls nötig in CC / 2. Stelle: AV-Medien"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "KI-Tracking-Kamera",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "KI-Tracking-Kamera",
+        "steps": [
+          "Steuerung erfolgt über den Button \"360° Kamera\" auf dem Medienpanel.",
+          "Es muss die richtige Quelle unter Projektion ausgewählt sein."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Patientenkamera",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Patientenkamera",
+        "steps": [
+          "Akkus liegen auf Dozenten PC in SR 1 und sollten nach Benutzung dort geladen werden.",
+          "Akku in die Kamera einsetzen und Kamera seitlich einschalten.",
+          "Signal über das Medienpanel richtig zuweisen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "IT-Service Tal",
+            "lines": [
+              "Serviceportal oder Telefon – Telefonliste ZMK",
+              "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Aufnahme über AV-Netz",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Aufnahme über AV-Netz",
+        "steps": [
+          "Seminar 3 ist über das AV-Netz zur Aufnahme angebunden. Aufnahme über das Medienpanel starten."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: AV-Medien"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Trennwände – Räume kombinieren/teilen",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "info",
+        "title": "Trennwände – Räume kombinieren/teilen",
+        "steps": [
+          "Die Seminarräume 1, 2 und 3 lassen sich über die Trennwände zu einem großen Raum verbinden oder einzeln nutzen. Erklärvideo auf Q:\\"
+        ]
+      }
+    },
+    {
+      "name": "Kamera / Medientechnik defekt",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Kamera / Medientechnik defekt",
+        "steps": [
+          "Gerät über das Medienpanel kurz aus- und wieder einschalten",
+          "Kabel- und Signalverbindung am Panel prüfen"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "AV-Medien",
+            "lines": [
+              "Mit Einweisung → direkt kontaktieren",
+              "Ohne Einweisung → zuerst Techn. Koordinator"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Buchung / Zugang",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Buchung / Zugang",
+        "steps": [
+          "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+          "Freien Termin eintragen bzw. anfragen",
+          "Zugang über die zuständige Stelle klären"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Sekretariat / Koordination Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "PC / Workstation – Funktionsstörung",
+      "status": "branch",
+      "node": {
+        "kind": "branch",
+        "header": "Art des Problems",
+        "question": "PC hängt oder lässt sich nicht starten?",
+        "yesLabel": "Ja – eingefroren / kein Start",
+        "noLabel": "Nein – anderes Problem",
+        "yes": {
+          "kind": "self",
+          "title": "PC neu starten",
+          "steps": [
+            "Alle Anwendungen schließen (falls möglich).",
+            "PC über das Startmenü neu starten – nicht den Netzstecker ziehen.",
+            "Falls kein Neustart möglich: Powerknopf 5 Sek. gedrückt halten.",
+            "Nach Neustart prüfen, ob das Problem behoben ist."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "IT-Service Tal",
+              "lines": [
+                "Serviceportal oder Telefon – Telefonliste ZMK",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        },
+        "no": {
+          "kind": "self",
+          "title": "Einfache Checks durchführen",
+          "steps": [
+            "Kabel und Stecker prüfen (Monitor, Netzwerk, Strom).",
+            "Neustart versuchen.",
+            "Fehlermeldung notieren und Screenshot erstellen."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "IT-Service Tal",
+              "lines": [
+                "Serviceportal oder Telefon – Telefonliste ZMK",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,288 @@
+{
+  "id": "cad",
+  "name": "CAD-Raum",
+  "devices": [
+    {
+      "name": "3D-Scanner Pritimirror",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "3D-Scanner Pritimirror",
+        "steps": [
+          "Software starten, Scanner einschalten – grüne Status-LED abwarten.",
+          "Kalibrierung prüfen – Software meldet bei veralteter Kalibrierung.",
+          "Scanfläche sauber halten – Staubpartikel verfälschen das Ergebnis.",
+          "Modell fest positionieren – Bewegung während des Scans vermeiden."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Creality Scan Ferret",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Creality Scan Ferret",
+        "steps": [
+          "USB-Kabel fest einstecken – Treiber werden beim ersten Start installiert.",
+          "Scanner parallel zur Oberfläche halten, gleichmäßig und ruhig bewegen.",
+          "Tracking verloren? Scan pausieren, Gerät näher an Oberfläche führen, neu starten."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Laborscanner Ceramill Map 300",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Laborscanner Ceramill Map 300",
+        "steps": [
+          "Software öffnen (Ceramill Map), Scanner einschalten – Verbindung abwarten.",
+          "Modell auf den Scantisch legen – Referenzpunkte nicht verdecken.",
+          "Kalibrierung: bei Aufforderung Kalibriermodell verwenden."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Haptic Pen (Geomagic Touch X)",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Haptic Pen (Geomagic Touch X)",
+        "steps": [
+          "Gerät per USB anschließen, dann Software starten (nicht umgekehrt).",
+          "Arm in Ruheposition (Dock) halten beim Starten der Software.",
+          "Bewegungsbereich frei halten – Kabel nicht knicken oder verknoten.",
+          "Kalibrierung: Anweisungen in der Software folgen wenn aufgefordert."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Medienpanel / Raumsteuerung",
+      "status": "branch",
+      "node": {
+        "kind": "branch",
+        "header": "Einweisung",
+        "question": "Hast du eine Einweisung in das Medienpanel erhalten?",
+        "yesLabel": "Ja",
+        "noLabel": "Nein",
+        "yes": {
+          "kind": "info",
+          "title": "Medienpanel – selbst bedienen",
+          "desc": "Kein Grund zur Panik – du kannst das Medienpanel selbstständig bedienen. Bei technischen Defekten → AV-Medien."
+        },
+        "no": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen"
+            ]
+          },
+          "desc": "Bitte um eine Einweisung, bevor du das Panel nutzt.",
+          "pills": [
+            "Einweisung erforderlich"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Software startet nicht",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Software startet nicht",
+        "steps": [
+          "PC neu starten",
+          "Software neu starten",
+          "Lizenzserver erreichbar?",
+          "Netzwerkverbindung prüfen (ist eine Eingabe der Proxydaten notwendig?)"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: IT-Service Tal"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Lizenz nicht verfügbar",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Lizenz nicht verfügbar",
+        "steps": [
+          "PC neu starten",
+          "Prüfen ob die Netzwerk-/Serververbindung steht",
+          "Software schließen und erneut öffnen"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "IT-Service Tal",
+            "lines": [
+              "Serviceportal oder Telefon – Telefonliste ZMK",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "3D-Maus (3Dconnexion)",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "3D-Maus (3Dconnexion)",
+        "steps": [
+          "USB-Stecker neu einstecken",
+          "Anderen USB-Port testen",
+          "Prüfen ob die 3Dconnexion-Software/Treiber läuft"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: IT-Service Tal"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Prusa Mini (3×)",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Prusa Mini (3×)",
+        "steps": [
+          "Druckbett sauber und nivelliert?",
+          "Filament vorhanden und korrekt eingezogen?",
+          "Druckauftrag erneut senden"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "3D-Druck Mailbox",
+            "lines": [
+              "3DDruck@med.uni-tuebingen.de",
+              "STL-Datei + kurze Beschreibung mitschicken",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "IT / Netzwerkproblem",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "IT / Netzwerkproblem",
+        "steps": [
+          "PC neu starten",
+          "Netzwerkkabel / Verbindung prüfen",
+          "Über Windows-Menü auf 90_Wartung und dann Gruppenrichtlinie abrufen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "IT-Service Tal",
+            "lines": [
+              "Serviceportal oder Telefon – Telefonliste ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Buchung / Zugang",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Buchung / Zugang",
+        "steps": [
+          "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+          "Freien Termin eintragen bzw. anfragen",
+          "Zugang über die zuständige Stelle klären"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Sekretariat / Koordination Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    }
+  ],
+  "access": "Zugang nach Rücksprache mit Techn. Koordinator oder Sekretariat."
+}

@@ -1,0 +1,350 @@
+{
+  "id": "phantomicum",
+  "name": "Phantomicum",
+  "devices": [
+    {
+      "name": "Arbeitsplatzkamera",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Arbeitsplatzkamera",
+        "steps": [
+          "Kamera einschalten, USB-Verbindung zum Rechner prüfen.",
+          "Richtige Kameraquelle in der Software auswählen.",
+          "Kein Bild? Software neu starten, Kabel neu einstecken."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Assistenzarzt Skill Labs oder Techn. Koordinator",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Intraoralscanner",
+      "manuals": [
+        {
+          "label": "Ceramill Map DRS",
+          "path": "manuals/phantomicum/ios-ceramill-map-drs.pdf"
+        },
+        {
+          "label": "Connection Kit (Kurzanleitung)",
+          "path": "manuals/phantomicum/ios-connection-kit.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Intraoralscanner (bei Nutzung)",
+        "steps": [
+          "Nur während aktiver Nutzung im Raum verfügbar.",
+          "Bedienung nach IOS-Einweisung – Gebrauchsanweisung beachten."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Pentamix 3",
+      "manuals": [
+        {
+          "label": "GBA Pentamix 3",
+          "path": "manuals/phantomicum/pentamix3.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Pentamix 3",
+        "steps": [
+          "Bedienung im Kurs nach Einführung selbstständig."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Medienpanel / Raumsteuerung",
+      "status": "branch",
+      "node": {
+        "kind": "branch",
+        "header": "Einweisung",
+        "question": "Hast du eine Einweisung in das Medienpanel erhalten?",
+        "yesLabel": "Ja",
+        "noLabel": "Nein",
+        "yes": {
+          "kind": "info",
+          "title": "Medienpanel – selbst bedienen",
+          "desc": "Kein Grund zur Panik – du kannst das Medienpanel selbstständig bedienen. Bei technischen Defekten → AV-Medien."
+        },
+        "no": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen"
+            ]
+          },
+          "desc": "Bitte um eine Einweisung, bevor du das Panel nutzt.",
+          "pills": [
+            "Einweisung erforderlich"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Behandlungseinheit / Turbine / Handstück",
+      "status": "mixed",
+      "node": {
+        "kind": "choice",
+        "title": "Behandlungseinheit – was funktioniert nicht?",
+        "options": [
+          {
+            "label": "Turbine / Handstück defekt",
+            "node": {
+              "kind": "self",
+              "title": "Turbine / Handstück defekt",
+              "steps": [
+                "Ist die Behandlungseinheit eingeschaltet?",
+                "Druckluft- und Wasser-Haupthahn geöffnet?",
+                "Handstück/Turbine korrekt aufgesteckt und eingerastet?",
+                "Einheit kurz aus- und wieder einschalten"
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "Aufsichten / Ärzte im Raum",
+                  "lines": [
+                    "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+                    "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+                  ]
+                },
+                "desc": "",
+                "pills": []
+              }
+            }
+          },
+          {
+            "label": "Licht funktioniert nicht",
+            "node": {
+              "kind": "self",
+              "title": "Licht an Einheit funktioniert nicht",
+              "steps": [
+                "Lichtschalter an der Einheit betätigt?",
+                "Helligkeit am Bedienfeld geprüft?",
+                "Einheit aus- und wieder einschalten"
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "Aufsichten / Ärzte im Raum",
+                  "lines": [
+                    "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+                    "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+                  ]
+                },
+                "desc": "",
+                "pills": []
+              }
+            }
+          },
+          {
+            "label": "Wasser / Luft kommt nicht",
+            "node": {
+              "kind": "self",
+              "title": "Wasser / Luft kommt nicht",
+              "steps": [
+                "Haupthahn für Wasser und Druckluft geöffnet?",
+                "Fußanlasser betätigt?",
+                "Schläuche korrekt angeschlossen und nicht geknickt?"
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "Aufsichten / Ärzte im Raum",
+                  "lines": [
+                    "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+                    "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+                  ]
+                },
+                "desc": "",
+                "pills": []
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "QUATTROcare",
+      "manuals": [
+        {
+          "label": "GA QUATTROcare Plus",
+          "path": "manuals/phantomicum/quattrocare-plus.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "QUATTROcare",
+        "steps": [
+          "Ersatzkartuschen bei den Aufsichten. Handstückpflege durch Studierende selbst."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Sekretariat / Koordination Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Cavex Alginate Mixer",
+      "manuals": [
+        {
+          "label": "IFU (EN)",
+          "path": "manuals/phantomicum/cavex-alginate-mixer-ii-en.pdf"
+        },
+        {
+          "label": "Protokoll CaM II (EN)",
+          "path": "manuals/phantomicum/cavex-cam-ii-protocol.pdf"
+        },
+        {
+          "label": "Anleitung (DE)",
+          "path": "manuals/phantomicum/cavex-alginate-mixer-ii-de.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Cavex Alginate Mixer",
+        "steps": [
+          "Bedienung im Kurs nach Einführung durch Aufsichten selbstständig."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Buchung / Zugang",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Buchung / Zugang",
+        "steps": [
+          "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+          "Freien Termin eintragen bzw. anfragen",
+          "Zugang über die zuständige Stelle klären"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Sekretariat / Koordination Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "PC / Workstation – Funktionsstörung",
+      "status": "branch",
+      "node": {
+        "kind": "branch",
+        "header": "Art des Problems",
+        "question": "PC hängt oder lässt sich nicht starten?",
+        "yesLabel": "Ja – eingefroren / kein Start",
+        "noLabel": "Nein – anderes Problem",
+        "yes": {
+          "kind": "self",
+          "title": "PC neu starten",
+          "steps": [
+            "Alle Anwendungen schließen (falls möglich).",
+            "PC über das Startmenü neu starten – nicht den Netzstecker ziehen.",
+            "Falls kein Neustart möglich: Powerknopf 5 Sek. gedrückt halten.",
+            "Nach Neustart prüfen, ob das Problem behoben ist."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "IT-Service Tal",
+              "lines": [
+                "Serviceportal oder Telefon – Telefonliste ZMK",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        },
+        "no": {
+          "kind": "self",
+          "title": "Einfache Checks durchführen",
+          "steps": [
+            "Kabel und Stecker prüfen (Monitor, Netzwerk, Strom).",
+            "Neustart versuchen.",
+            "Fehlermeldung notieren und Screenshot erstellen."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "IT-Service Tal",
+              "lines": [
+                "Serviceportal oder Telefon – Telefonliste ZMK",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      }
+    }
+  ]
+}

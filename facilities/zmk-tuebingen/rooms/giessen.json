@@ -1,0 +1,225 @@
+{
+  "id": "giessen",
+  "name": "Gießen & Strahlen",
+  "devices": [
+    {
+      "name": "Augenspülstation",
+      "status": "safety",
+      "node": {
+        "kind": "safety",
+        "warn": "Bei Spritzern ins Auge sofort ausgiebig mit der Augenspülstation spülen (mind. 30 s) und Lehrpersonal informieren.",
+        "inner": {
+          "kind": "self",
+          "title": "Augenspülstation",
+          "steps": [
+            "Standort: im Raum Gießen & Strahlen. Betroffenes Auge sofort und ausgiebig spülen, Augenlid offen halten. Anschließend Lehrpersonal informieren und – außer bei Bagatelle – Unfallmeldung ausfüllen. Station stets frei zugänglich halten; Verfallsdatum der Spülflaschen beachten.",
+            "Keine Gewähr der Angaben"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sekretariat / Koordination Skill Labs",
+              "lines": [
+                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
+                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      }
+    },
+    {
+      "name": "Trockenabsaugung",
+      "status": "mixed",
+      "node": {
+        "kind": "choice",
+        "title": "Trockenabsaugung – was ist los?",
+        "desc": "Steuerung im Raum „Besprechung Lehrende“.",
+        "options": [
+          {
+            "label": "Läuft nicht / kein Sog",
+            "node": {
+              "kind": "self",
+              "title": "Anschluss & Status prüfen",
+              "steps": [
+                "Schlauchverbindung am Arbeitsplatz prüfen – korrekt eingesteckt?",
+                "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“."
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "System einschalten lassen",
+                  "lines": [
+                    "Aufsicht / Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen",
+                    "Nur sie dürfen das System ein- und ausschalten"
+                  ]
+                },
+                "desc": "",
+                "pills": [
+                  "Nur Aufsichten"
+                ]
+              }
+            }
+          },
+          {
+            "label": "Saugleistung schwach",
+            "node": {
+              "kind": "info",
+              "title": "Powermodus aktivieren",
+              "desc": "Powermodus im Raum „Besprechung Lehrende“ aktivieren – läuft dann 15 Minuten.",
+              "steps": [
+                "Knopf am System 3 Sekunden gedrückt halten",
+                "Powermodus läuft 15 Minuten"
+              ]
+            }
+          },
+          {
+            "label": "Nach Feierabend ausschalten",
+            "node": {
+              "kind": "contact",
+              "contact": {
+                "name": "Aufsicht / Assistenzarzt Skill Labs",
+                "lines": [
+                  "Im Raum „Besprechung Lehrende“ ansprechen"
+                ]
+              },
+              "desc": "Nur Aufsichten / Assistenzärzte dürfen das System aus- und einschalten.",
+              "pills": [
+                "Nur Aufsichten"
+              ]
+            }
+          },
+          {
+            "label": "Buttons blinken blau / Defekt",
+            "node": {
+              "kind": "contact",
+              "contact": {
+                "name": "Werkstatt ZMK",
+                "lines": [
+                  "Reparaturauftrag ausfüllen (liegt im Technicum)",
+                  "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+                  "Techn. Koordinator in cc setzen"
+                ]
+              },
+              "desc": "Die Anzeige nach 150 Betriebsstunden ist kein Defekt. Bei echtem Defekt → Werkstatt ZMK.",
+              "pills": [
+                "Werkstatt ZMK"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "eyevolution max",
+      "manuals": [
+        {
+          "label": "Bedienungsanleitung",
+          "path": "manuals/giessen/eyevolution-max.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "eyevolution max",
+        "steps": [
+          "Ein/Aus-Schalter prüfen, Gerät neu starten. Am Strom angeschlossen?",
+          "Programm nach Kursanleitung anpassen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Sandstrahl BA9001",
+      "manuals": [
+        {
+          "label": "Betriebsanleitung",
+          "path": "manuals/giessen/sandstrahl-ba9001.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Sandstrahl BA9001",
+        "steps": [
+          "Druckluftanschluss prüfen – ist der Hahn geöffnet?",
+          "Düse vorsichtig nach Kursanleitung reinigen.",
+          "Sand nach Kursanleitung nachfüllen.",
+          "Kabinenfenster von innen reinigen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Drucktopf",
+      "status": "safety",
+      "node": {
+        "kind": "safety",
+        "warn": "Den Drucktopf niemals ohne vollständige Einweisung öffnen – immer erst Druck vollständig ablassen!",
+        "inner": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Gerät defekt melden",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Gerät defekt melden",
+        "steps": [
+          "Gerät außer Betrieb nehmen und kennzeichnen",
+          "Reparaturauftrag ausfüllen (liegt im Technicum)",
+          "Defekt mit kurzer Beschreibung melden"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    }
+  ],
+  "access": "Zugang im Kurs – Einweisung durch Aufsichten / Ärzte."
+}

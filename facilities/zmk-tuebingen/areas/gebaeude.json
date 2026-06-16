@@ -1,0 +1,378 @@
+{
+  "id": "gebaeude",
+  "name": "Gebäude & Infrastruktur",
+  "devices": [
+    {
+      "name": "Wasser",
+      "topic": true,
+      "status": "mixed",
+      "node": {
+        "kind": "branch",
+        "q": "Rohrbruch oder akuter Wassernotfall?",
+        "yesLabel": "Ja – Notfall",
+        "noLabel": "Nein – kein Wasser / Störung",
+        "yes": {
+          "kind": "safety",
+          "warn": "Hauptabsperrventil schließen, Bereich sichern.",
+          "inner": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sofort melden – alle Stellen erreichbar",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
+            },
+            "desc": "",
+            "pills": [
+              "Notfall"
+            ]
+          }
+        },
+        "no": {
+          "kind": "self",
+          "title": "Wasser – Störung melden",
+          "steps": [
+            "Betroffenen Bereich / Raum notieren.",
+            "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Zuständige Stellen",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      }
+    },
+    {
+      "name": "Strom / Elektrik",
+      "topic": true,
+      "status": "mixed",
+      "node": {
+        "kind": "branch",
+        "q": "Kompletter Stromausfall im Bereich?",
+        "yesLabel": "Ja – Ausfall",
+        "noLabel": "Nein – Einzelgerät / Steckdose",
+        "yes": {
+          "kind": "safety",
+          "warn": "Geräte ausschalten, Bereich verlassen wenn nötig.",
+          "inner": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sofort melden – alle Stellen erreichbar",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
+            },
+            "desc": "",
+            "pills": [
+              "Notfall"
+            ]
+          }
+        },
+        "no": {
+          "kind": "self",
+          "title": "Strom – Störung melden",
+          "steps": [
+            "Sicherungskasten prüfen – ist eine Sicherung ausgelöst?",
+            "Betroffenen Bereich / Gerät notieren.",
+            "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Zuständige Stellen",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      }
+    },
+    {
+      "name": "Klimatisierung / Lüftung",
+      "topic": true,
+      "status": "contact",
+      "node": {
+        "kind": "self",
+        "title": "Klimatisierung / Lüftung – Störung melden",
+        "steps": [
+          "Betroffenen Raum und Art der Störung notieren (keine Kühlung, kein Luftstrom, Lärm, …).",
+          "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Zuständige Stellen",
+            "lines": [
+              "TBA – Technisches Betriebsamt: 77171",
+              "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+              "Technischer Koordinator Skill Labs – direkt ansprechen"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Aufzug",
+      "topic": true,
+      "status": "mixed",
+      "node": {
+        "kind": "branch",
+        "q": "Person im Aufzug eingeschlossen?",
+        "yesLabel": "Ja – Person eingeschlossen",
+        "noLabel": "Nein – Aufzug defekt / außer Betrieb",
+        "yes": {
+          "kind": "safety",
+          "warn": "Ruhe bewahren – Person beruhigen, Notruf im Aufzug betätigen.",
+          "inner": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sofort melden – alle Stellen erreichbar",
+              "lines": [
+                "Notrufknopf im Aufzug betätigen (direkte Verbindung zur Aufzugswartung)",
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
+                "Technischer Koordinator Skill Labs – direkt ansprechen",
+                "Notruf 112 wenn keine andere Hilfe erreichbar"
+              ]
+            },
+            "desc": "",
+            "pills": [
+              "Notruf"
+            ]
+          }
+        },
+        "no": {
+          "kind": "self",
+          "title": "Aufzug – Defekt melden",
+          "steps": [
+            "Aufzug außer Betrieb kennzeichnen (Hinweis an der Tür).",
+            "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Zuständige Stellen",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      }
+    },
+    {
+      "name": "Allgemeiner Defekt (Tür, Schloss, Mobiliar …)",
+      "topic": true,
+      "status": "contact",
+      "node": {
+        "kind": "self",
+        "title": "Allgemeiner Defekt melden",
+        "steps": [
+          "Defekt und genauen Ort (Raum, Tür, Möbel) kurz notieren.",
+          "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Zuständige Stellen",
+            "lines": [
+              "TBA – Technisches Betriebsamt: 77171",
+              "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+              "Technischer Koordinator Skill Labs – direkt ansprechen"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Britta Wasserspender",
+      "topic": true,
+      "status": "contact",
+      "node": {
+        "kind": "self",
+        "title": "Britta Wasserspender – Störung / Filterwechsel",
+        "steps": [
+          "Gerät ausschalten.",
+          "Art der Störung notieren (kein Wasser, Filterwechsel fällig, Leck, ...).",
+          "Technischen Koordinator oder Sekretariat informieren."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Brandschutztür",
+      "topic": true,
+      "status": "mixed",
+      "node": {
+        "kind": "branch",
+        "q": "Tür blockiert / schließt nicht vollständig – akuter Sicherheitsmangel?",
+        "yesLabel": "Ja – Sicherheitsmangel",
+        "noLabel": "Nein – allgemeines Problem",
+        "yes": {
+          "kind": "safety",
+          "warn": "Brandschutztür nicht blockieren – Fluchtweg und Brandabschnitt müssen frei bleiben.",
+          "inner": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sofort melden",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Telefonliste ZMK",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
+            },
+            "desc": "",
+            "pills": [
+              "Sicherheit"
+            ]
+          }
+        },
+        "no": {
+          "kind": "self",
+          "title": "Brandschutztür – Störung melden",
+          "steps": [
+            "Art des Problems notieren (schließt nicht vollständig, Geräusch, beschädigt, ...).",
+            "TBA oder Werkstatt ZMK informieren."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Zuständige Stellen",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      }
+    },
+    {
+      "name": "Primion Schließsystem (Kartenzugang)",
+      "topic": true,
+      "status": "branch",
+      "node": {
+        "kind": "branch",
+        "q": "Zugang verweigert oder technischer Defekt?",
+        "yesLabel": "Zugang verweigert / fehlende Berechtigung",
+        "noLabel": "Technischer Defekt / Gerät reagiert nicht",
+        "yes": {
+          "kind": "contact",
+          "contact": {
+            "name": "Sekretariat / Koordination Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+            ]
+          },
+          "desc": "Zugangsberechtigung wird über das Sekretariat beantragt.",
+          "pills": []
+        },
+        "no": {
+          "kind": "self",
+          "title": "Schließsystem – Defekt melden",
+          "steps": [
+            "Betroffenen Raum und Art des Defekts notieren.",
+            "TBA oder IT-Service informieren."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Zuständige Stellen",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "IT-Service Tal – Serviceportal oder Telefon – Telefonliste ZMK"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      }
+    },
+    {
+      "name": "Flur E6 · Monitor – kein Bild",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Flur E6 · Monitor – kein Bild",
+        "steps": [
+          "Monitor eingeschaltet?",
+          "Strom- und HDMI-Kabel geprüft?"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Flur E6 · Kalender wird nicht angezeigt",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Flur E6 · Kalender wird nicht angezeigt",
+        "steps": [
+          "Bitte melden!"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    }
+  ]
+}

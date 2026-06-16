@@ -1,0 +1,242 @@
+{
+  "id": "cam",
+  "name": "CAM-Raum",
+  "devices": [
+    {
+      "name": "Ceramill Matik (Fräsmaschine)",
+      "status": "safety",
+      "node": {
+        "kind": "safety",
+        "warn": "Nur eingewiesene Personen dürfen die Ceramill Matik bedienen.",
+        "inner": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: Aufsichten / Ärzte im Raum"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Ceramill Therm3 (Sinterofen)",
+      "status": "safety",
+      "node": {
+        "kind": "safety",
+        "warn": "Nur eingewiesene Assistenzärzte dürfen den Sinterofen bedienen.",
+        "inner": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: Aufsichten / Ärzte im Raum"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "xTool S1 Laser",
+      "status": "safety",
+      "node": {
+        "kind": "safety",
+        "warn": "Schutzbrille Pflicht! Laser darf ausschließlich vom Techn. Koordinator bedient werden.",
+        "inner": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Formlabs / Form Wash / Form Cure",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Formlabs / Form Wash / Form Cure",
+        "steps": [
+          "Resin vorhanden, Tank sauber?",
+          "Wash-/Cure-Zeiten nach Anleitung einstellen",
+          "Für Druckaufträge: 3D-Druck-Mailbox kontaktieren"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: Aufsichten / Ärzte im Raum"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Bambu Lab / Prusa Mini",
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Bambu Lab / Prusa Mini",
+        "steps": [
+          "Druckbett sauber & nivelliert, Filament eingezogen?",
+          "Druckauftrag erneut senden",
+          "Für Druckaufträge: 3D-Druck-Mailbox kontaktieren"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "KANBAN-Bestellung aufgeben",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "KANBAN-Bestellung aufgeben",
+        "steps": [
+          "Karte ausfüllen und an KANBAN Station im Sekretariat/Koordination Skill Labs einlegen"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Einweisung anfordern",
+            "lines": [
+              "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Gefahrstoffentsorgung (IPA)",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Gefahrstoffentsorgung (IPA)",
+        "steps": [
+          "Anmeldeformular Sonderabfälle ausfüllen (Anzahl / Art)",
+          "Formular freitags an die Sonderabfall-Mailbox senden (Abholung dienstags)",
+          "Etiketten bedrucken (IPA = halogenfreie Lösungsmittel)",
+          "Kanister bekleben: UN-Nr. horizontal, Gefahrstoffkleber Spitze nach oben",
+          "Kanister in Gefahrstoffcontainer OS8/LFB (Pfortenschlüssel im Sekretariat)",
+          "Leere Kanister: ausdampfen, Symbol durchstreichen, ohne Deckel in gelben Sack"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "IT / Software",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "IT / Software",
+        "steps": [
+          "PC neu starten",
+          "An-/Abmeldung und Netzwerkverbindung prüfen",
+          "Hält das Problem an → IT-Service Tal"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "IT-Service Tal",
+            "lines": [
+              "Serviceportal oder Telefon – Telefonliste ZMK",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Unfall / Notfall",
+      "topic": true,
+      "status": "safety",
+      "node": {
+        "kind": "safety",
+        "warn": "Bei Verletzungen: Ärzte im Haus rufen, bei Bedarf Notarzt. SOP Unfallanzeige UKT beachten. Vorgesetzten informieren. Auge sofort an der Augendusche spülen, dabei aufhalten. Danach Arzt aufsuchen. Feuerlöscher: 1× Schaum. CO₂ bei Elektronik- und Flüssigkeitsbränden. Fluchtwege freihalten.",
+        "inner": {
+          "kind": "contact",
+          "contact": {
+            "name": "Sofortmaßnahme",
+            "lines": [
+              "Ärzte im Haus rufen, bei Bedarf Notarzt",
+              "SOP Unfallanzeige UKT beachten",
+              "Falls nötig in CC / 2. Stelle: Assistenzarzt Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Buchung / Zugang",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Buchung / Zugang",
+        "steps": [
+          "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+          "Freien Termin eintragen bzw. anfragen",
+          "Zugang über die zuständige Stelle klären"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Sekretariat / Koordination Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
+              "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    }
+  ],
+  "warn": "Laborkittel, Schutzbrille und geschlossene Schuhe Pflicht. Nicht alleine im Labor arbeiten."
+}

@@ -1,0 +1,244 @@
+{
+  "facilityId": "zmk-tuebingen",
+  "name": "Skill Labs · ZMK Tübingen",
+  "shortName": "ZMK Tübingen",
+  "pin_hash": "$2b$10$PLACEHOLDER_REPLACE_WITH_BCRYPT_HASH",
+  "plan": [
+    {
+      "id": "phantomicum",
+      "x": 2,
+      "y": 2,
+      "w": 96,
+      "h": 11
+    },
+    {
+      "id": "technicum",
+      "x": 2,
+      "y": 88,
+      "w": 96,
+      "h": 11
+    },
+    {
+      "id": "seminar3",
+      "x": 2,
+      "y": 15,
+      "w": 47,
+      "h": 11
+    },
+    {
+      "id": "seminar2",
+      "x": 2,
+      "y": 27,
+      "w": 47,
+      "h": 11
+    },
+    {
+      "id": "seminar1",
+      "x": 2,
+      "y": 39,
+      "w": 47,
+      "h": 11
+    },
+    {
+      "id": "besprechung",
+      "short": "Bespr.\nLehrende",
+      "x": 2,
+      "y": 51,
+      "w": 47,
+      "h": 11
+    },
+    {
+      "id": "gips",
+      "x": 2,
+      "y": 63,
+      "w": 47,
+      "h": 11
+    },
+    {
+      "id": "giessen",
+      "x": 2,
+      "y": 75,
+      "w": 47,
+      "h": 11
+    },
+    {
+      "id": "cad",
+      "x": 51,
+      "y": 15,
+      "w": 47,
+      "h": 17
+    },
+    {
+      "id": "cam",
+      "x": 51,
+      "y": 33,
+      "w": 47,
+      "h": 17
+    },
+    {
+      "id": "koordi",
+      "x": 51,
+      "y": 51,
+      "w": 47,
+      "h": 17
+    },
+    {
+      "id": "druck",
+      "x": 51,
+      "y": 69,
+      "w": 47,
+      "h": 17
+    }
+  ],
+  "emergency": {
+    "kit": [
+      "Notfallkoffer",
+      "Verbandskasten",
+      "Defibrillator (AED)",
+      "Augendusche"
+    ],
+    "standort": "vor dem Raum Koordination Skill Labs (6.405 · 6.406)",
+    "augendusche": "im Raum Gießen & Strahlen",
+    "notruf": "Notruf 112 · Ärzte im Haus rufen, bei Bedarf Notarzt. Anschließend Vorgesetzte informieren.",
+    "bagatell": "Bagatellverletzungen nur in das Verbandsbuch eintragen, keine Meldung notwendig.",
+    "portalLabel": "Unfallmeldung öffnen",
+    "portal": "https://informer.med.uni-tuebingen.de/ukt/app/infopilot/eacts.asp?s=530000,-1"
+  },
+  "safetyRules": [
+    "Lange Haare sind hochzubinden, Schmuck, (Ehe-)Ringe und Armbanduhren sind abzulegen. Getragen wird geschlossenes, flaches Schuhwerk sowie eine das gesamte Bein bedeckende schwerentflammbare Hose (z.B. Jeans).",
+    "Alle im Kursraum Anwesenden müssen auf ein gepflegtes Äußeres achten (sauberer Kittel/Kasack, lange Hosen, saubere gepflegte Hände – unlackierte Fingernägel, nicht länger als die Fingerkuppen, lt. TRBA 250). Die Grundsätze des klinischen und hygienischen Arbeitens gelten bei allen Arbeitsschritten.",
+    "Besonders beim Arbeiten am Phantomkopf (DSE) ist die Patientensimulation zu bedenken und das Maß einer minimalinvasiven und zweckmäßigen Behandlung nicht zu überschreiten (z.B. ist das Anheben der Gingivamaske untersagt).",
+    "Bei der Arbeit in Kurs- und Funktionsräumen ist eine Gesundheitsgefährdung durch Lärm, Staub, Dämpfe sowie Splitter-/Partikelflug möglich. Daher sind Schutzbrille, Schutzscheibe, Mundschutz (FFP1) und Gehörschutz beim Ausführen entsprechender Arbeiten während der gesamten Arbeitszeit zu tragen.",
+    "Smartphones/Handys/Tablets verbleiben im Spind.",
+    "Die Kameras im Phantomicum sind auf Phantomkopf und Behandler ausgerichtet und dürfen zu keiner Zeit in Position und Einstellung verändert oder abgedeckt werden.",
+    "Lagerung und Verzehr von Lebensmitteln/Getränken sind in den Kurssälen nicht erlaubt.",
+    "Das Tragen von Mützen o.ä. ist in den Kurssälen nicht erlaubt.",
+    "In der gesamten Vorklinik und im Eingangsbereich herrscht Rauchverbot (Rauchmelder!).",
+    "Mutwilliges Beschädigen der Einrichtung führt zum sofortigen Kursausschluss mit Fehlversuch. Reparaturkosten gehen zu Lasten des Kursteilnehmers.",
+    "Das Bekleben/Beschriften der Spinde des Lehr- und Forschungsbaus wird als mutwilliges Beschädigen geahndet (siehe Punkt 10).",
+    "Schäden und Verlust von Instrumentarium oder Laboreinrichtung sind unmittelbar mündlich und schriftlich der Kursleitung anzuzeigen.",
+    "Auf beweglichen Anteilen der Arbeitsplätze (z.B. Schwebetisch der DSE) sind außer Grundinstrumentarium und Bohrerset keine weiteren Materialien, insbesondere keine Flüssigkeiten, zu lagern.",
+    "Jeder Studierende benötigt einen Kasack. Im Technicum und Phantomicum ist zusätzlich ein sauberer klinischer Arbeitsmantel zu tragen. Ärmel sind maximal halbarm-lang und schwerentflammbar. Am Mantel/Kasack sind Namensschild, Kugelschreiber und Bleistift zu tragen.",
+    "Bei Nichtgebrauch hängen die Arbeitsmäntel/Kasacks an den Haltern in den Spinden; am Wochenende zum Waschen und Bügeln mit nach Hause nehmen.",
+    "Straßenkleidung und Taschen/Rucksäcke sind im verschlossenen Spind aufzubewahren – nicht in Kurs-/Funktionsräumen oder im Gang. Fundstücke werden entfernt und nach einer Woche entsorgt.",
+    "Zu Arbeitstagende den Arbeitsplatz inkl. Stuhl gründlich (feucht, gemäß Pflegeanleitung von oben bis unten) reinigen. Ins Technikhandstück (K9, K12) ein gerades Mandrell o.ä. einspannen und im Aufbewahrungsfach lagern. Das No-Flame nur mit intaktem Einsatz verwenden; dieser ist täglich zu reinigen und auf Unversehrtheit zu prüfen.",
+    "Notausgänge sind freizuhalten. Türen und Fenster am Kurstagende schließen, Lichter ausschalten.",
+    "Arbeits- und Wegeunfälle oder Verletzungen infolge der Kursaktivitäten sind zum Schutz des Betroffenen (Versicherung) unverzüglich dem Lehrpersonal mitzuteilen.",
+    "Spitzer und scharfer Abfall (z.B. Skalpellklingen) gehört nicht in den Restmüll, sondern in den dafür vorgesehenen gelben Kunststoffbehälter. Verletzungen werden nach Anmeldung beim Lehrpersonal im Verbandsbuch dokumentiert.",
+    "Eine eingetretene Schwangerschaft sollte zum Schutz von Kursteilnehmerin und ungeborenem Kind umgehend der Kursleitung mitgeteilt werden, damit Schutzmaßnahmen eingeleitet werden können (es gilt die ärztliche Schweigepflicht).",
+    "Jeder Studierende ist verpflichtet, auf ILIAS die Sicherheitsdatenblätter und Anleitungen (PDF, Video oder Bild) vor dem Gebrauch der Materialien und Geräte zu lesen.",
+    "Den Anweisungen des Lehrpersonals ist stets Folge zu leisten."
+  ],
+  "rulesNote": "Wiederholtes Verstoßen gegen die Kursordnung, diese Sicherheitsbestimmungen, unverantwortliches Verhalten und Missachten der Verhaltensmaßregeln führen zum Ausschluss von der aktiven Teilnahme an der praktischen Lehr- und Lernsituation.",
+  "putzplan": {
+    "days": [
+      {
+        "key": "Mo",
+        "label": "Montag"
+      },
+      {
+        "key": "Di",
+        "label": "Dienstag"
+      },
+      {
+        "key": "Mi",
+        "label": "Mittwoch"
+      },
+      {
+        "key": "Do",
+        "label": "Donnerstag"
+      },
+      {
+        "key": "Fr",
+        "label": "Freitag"
+      }
+    ],
+    "groups": [
+      {
+        "key": "A",
+        "label": "22–27"
+      },
+      {
+        "key": "B",
+        "label": "28–33"
+      },
+      {
+        "key": "C",
+        "label": "34–40"
+      }
+    ],
+    "rotation": {
+      "Mo": {
+        "saal": "A",
+        "gips": "B",
+        "kunst": "C"
+      },
+      "Di": {
+        "saal": "C",
+        "gips": "A",
+        "kunst": "B"
+      },
+      "Mi": {
+        "saal": "B",
+        "gips": "C",
+        "kunst": "A"
+      },
+      "Do": {
+        "saal": "A",
+        "gips": "B",
+        "kunst": "C"
+      },
+      "Fr": {
+        "saal": "C",
+        "gips": "A",
+        "kunst": "B"
+      }
+    },
+    "areas": {
+      "saal": {
+        "name": "Saal (Technicum + Phantomicum)",
+        "steps": [
+          "Waschbecken reinigen und abtrocknen",
+          "Funktionsflächen feucht wischen, danach abtrocknen",
+          "Boden saugen und ggf. feucht wischen, Wachsreste entfernen",
+          "Geräte ausschalten",
+          "Fenster schließen",
+          "Lichter aus",
+          "Rollläden hoch",
+          "Wischlappen zum Trocknen auslegen/aufhängen",
+          "Putzutensilien aufräumen, Menge prüfen, ggf. dem Assistenten melden, Papiertücher auffüllen"
+        ]
+      },
+      "gips": {
+        "name": "Gipsküche + Polierraum",
+        "steps": [
+          "Montags: zu Kursbeginn alle Haupthähne aufdrehen (Nasstrimmer, Ausbrühgerät, Abdampfgerät)",
+          "Ggf. Gips auffüllen",
+          "Poliermotoren reinigen",
+          "Waschbecken leeren und reinigen",
+          "Abdampfgeräte reinigen und ausschalten",
+          "Funktionsflächen feucht wischen und abtrocknen, Metalloberflächen mit Metallreiniger",
+          "Boden saugen und ggf. feucht wischen",
+          "Geräte ausschalten, Fenster schließen, Lichter aus, Rollläden hoch",
+          "Wischlappen zum Trocknen auslegen/aufhängen",
+          "Putzutensilien aufräumen, Nachschub prüfen, ggf. melden, Papiertücher auffüllen",
+          "Freitags: alle Haupthähne zudrehen (Nasstrimmer, Ausbrühgerät, Abdampfgerät)"
+        ]
+      },
+      "kunst": {
+        "name": "Kunststoffraum + Gussraum + Mülldienst",
+        "steps": [
+          "Wasser aus allen Drucktöpfen ablassen, reinigen, freitags entkalken",
+          "Sandstrahlgeräte reinigen/aussaugen, neue Frischhaltefolie auf die Glasscheibe",
+          "Waschbecken reinigen und abtrocknen",
+          "Funktionsflächen feucht wischen und abtrocknen, Metalloberflächen mit Metallreiniger",
+          "Boden saugen und ggf. feucht wischen",
+          "Müll aus allen Räumen halbtags leeren, neue Müllsäcke in jeden Eimer",
+          "Geräte ausschalten, Fenster schließen, Lichter aus, Rollläden hoch",
+          "Wischlappen zum Trocknen auslegen/aufhängen",
+          "Putzutensilien aufräumen, Menge prüfen, ggf. melden, Papiertücher auffüllen"
+        ]
+      }
+    }
+  }
+}

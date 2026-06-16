@@ -1,0 +1,545 @@
+{
+  "id": "gips",
+  "name": "Gipsen & Polieren",
+  "devices": [
+    {
+      "name": "Absaugbox BIOSTEAM Center",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/biosteam-center.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Absaugbox BIOSTEAM Center",
+        "steps": [
+          "Hauptschalter drücken – Gerät läuft, sobald Absaugung aktiv ist (hörbar).",
+          "Schlauch auf Knickstellen oder Verstopfungen prüfen.",
+          "Saugleistung schwach? Filter / Sieb prüfen und ggf. reinigen.",
+          "Wasserbehälter entleeren wenn Füllstand-Anzeige leuchtet."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Steamy Mini (Abdampfer)",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/steamy-mini.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Steamy Mini (Abdampfer)",
+        "steps": [
+          "Wassertank befüllen (destilliertes Wasser – nur bei abgekühltem Gerät).",
+          "Aufheizzeit abwarten – ca. 3–5 Min. bis Betriebsdruck erreicht ist.",
+          "Düse verstopft? Nadel aus dem Zubehör vorsichtig durchstecken.",
+          "Nach Gebrauch: Ausschalten, Restdampf ablassen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Trockentrimmer",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/trockentrimmer.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Trockentrimmer",
+        "steps": [
+          "Hauptschalter prüfen – Absaugung muss laufen (hörbar), erst dann trimmen.",
+          "Modell flach und gerade aufsetzen, gleichmäßigen Druck ausüben – nicht verkanten.",
+          "Sollte das Schleifband verrutscht sein, bitte nicht selbst reparieren."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Erkoform 3d motion",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/erkoform-3d-motion.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Erkoform 3d motion",
+        "steps": [
+          "Folientyp und -stärke laut Kursanleitung wählen (Aufkleber am Gerät beachten).",
+          "Folie sorgfältig einspannen – Rahmen gleichmäßig und fest schließen.",
+          "Temperatur und Druck je nach Material einstellen.",
+          "Folie reißt? Temperatur oder Foliendicke prüfen, ggf. neu einspannen.",
+          "Nach Abkühlung Modell entnehmen, Folie vorsichtig abtrennen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Giroform",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/giroform.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Giroform",
+        "steps": [
+          "Nur nach erfolgter Einweisung verwenden.",
+          "Stiftposition nach Kursanleitung wählen – Stifte korrekt einsetzen und sichern.",
+          "Modell in Artikulator einsetzen: Index-Stifte korrekt ausrichten und einrasten lassen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Smartbox X2",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/smartbox-x2.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Smartbox X2",
+        "steps": [
+          "Wasser einfüllen, Gerät einschalten – Vorheizzeit ca. 5 Min. abwarten.",
+          "Küvette einlegen, Deckel fest verschließen – O-Ring auf Sauberkeit prüfen.",
+          "Druck und Zeit gemäß Kursanleitung einstellen.",
+          "Nach Ende: Druck über Ablassventil langsam ablassen, erst dann öffnen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Smartmix",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/smartmix.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Smartmix",
+        "steps": [
+          "Schüssel und Paddel korrekt einsetzen und verriegeln.",
+          "Wasser-Pulver-Verhältnis nach Anleitung abmessen (Messbecher verwenden).",
+          "Mischzeit je nach Material einstellen (Gips ca. 30–45 s, Alginat ca. 45–60 s).",
+          "Nach Gebrauch Schüssel und Paddel sofort reinigen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Polierbox",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/polierbox.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Polierbox",
+        "steps": [
+          "Absaugung einschalten – Schalter am Gerät oder Fußpedal prüfen.",
+          "Drehzahl am Handstück je nach Werkstück wählen.",
+          "Saugleistung schwach? Filterbeutel / Sieb prüfen und ggf. reinigen.",
+          "Handstück und Schleifkörper nach Nutzung reinigen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Trockenabsaugung",
+      "status": "mixed",
+      "node": {
+        "kind": "choice",
+        "title": "Trockenabsaugung – was ist los?",
+        "desc": "Steuerung im Raum „Besprechung Lehrende“.",
+        "options": [
+          {
+            "label": "Läuft nicht / kein Sog",
+            "node": {
+              "kind": "self",
+              "title": "Anschluss & Status prüfen",
+              "steps": [
+                "Schlauchverbindung am Arbeitsplatz prüfen – korrekt eingesteckt?",
+                "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“."
+              ],
+              "escalation": {
+                "kind": "contact",
+                "contact": {
+                  "name": "System einschalten lassen",
+                  "lines": [
+                    "Aufsicht / Assistenzarzt im Raum „Besprechung Lehrende“ ansprechen",
+                    "Nur sie dürfen das System ein- und ausschalten"
+                  ]
+                },
+                "desc": "",
+                "pills": [
+                  "Nur Aufsichten"
+                ]
+              }
+            }
+          },
+          {
+            "label": "Saugleistung schwach",
+            "node": {
+              "kind": "info",
+              "title": "Powermodus aktivieren",
+              "desc": "Powermodus im Raum „Besprechung Lehrende“ aktivieren – läuft dann 15 Minuten.",
+              "steps": [
+                "Knopf am System 3 Sekunden gedrückt halten",
+                "Powermodus läuft 15 Minuten"
+              ]
+            }
+          },
+          {
+            "label": "Nach Feierabend ausschalten",
+            "node": {
+              "kind": "contact",
+              "contact": {
+                "name": "Aufsicht / Assistenzarzt Skill Labs",
+                "lines": [
+                  "Im Raum „Besprechung Lehrende“ ansprechen"
+                ]
+              },
+              "desc": "Nur Aufsichten / Assistenzärzte dürfen das System aus- und einschalten.",
+              "pills": [
+                "Nur Aufsichten"
+              ]
+            }
+          },
+          {
+            "label": "Buttons blinken blau / Defekt",
+            "node": {
+              "kind": "contact",
+              "contact": {
+                "name": "Werkstatt ZMK",
+                "lines": [
+                  "Reparaturauftrag ausfüllen (liegt im Technicum)",
+                  "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+                  "Techn. Koordinator in cc setzen"
+                ]
+              },
+              "desc": "Die Anzeige nach 150 Betriebsstunden ist kein Defekt. Bei echtem Defekt → Werkstatt ZMK.",
+              "pills": [
+                "Werkstatt ZMK"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Abdampfgerät D-S100A",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/abdampfer-d-s100a.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Abdampfgerät D-S100A",
+        "steps": [
+          "Wasserhahn aufgedreht?",
+          "Wasserstand im zweiten Abdampfer prüfen – ggf. nachfüllen"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Gipstrimmer HSS-88",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/gipstrimmer-hss-88.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Gipstrimmer HSS-88",
+        "steps": [
+          "Ist der Wasserhahn aufgedreht? Das ist der häufigste Grund."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Rüttler",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/ruettler.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Rüttler",
+        "steps": [
+          "Ein/Aus-Schalter und Intensitätsregler prüfen."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Elmasonic S (Ultraschall)",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/elmasonic-s.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Elmasonic S (Ultraschall)",
+        "steps": [
+          "Wasser bis zur Markierung nachfüllen, dann neu starten."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Erkoform 3d+",
+      "manuals": [
+        {
+          "label": "Gebrauchsanweisung",
+          "path": "manuals/gips/erkoform-3d-plus.pdf"
+        }
+      ],
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Erkoform 3d+",
+        "steps": [
+          "Nur nach erfolgter Einweisung bedienen",
+          "Folie und Einstellungen nach Kursanleitung wählen",
+          "Bei Unsicherheit Einweisung anfordern"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Gerät defekt melden",
+      "topic": true,
+      "status": "self",
+      "node": {
+        "kind": "self",
+        "title": "Gerät defekt melden",
+        "steps": [
+          "Gerät außer Betrieb nehmen und kennzeichnen",
+          "Reparaturauftrag ausfüllen (liegt im Technicum)",
+          "Defekt mit kurzer Beschreibung melden"
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Aufsichten / Ärzte im Raum",
+            "lines": [
+              "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+              "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    },
+    {
+      "name": "Gipsabscheider",
+      "topic": true,
+      "status": "contact",
+      "node": {
+        "kind": "self",
+        "title": "Gipsabscheider – Wartung / Störung",
+        "steps": [
+          "Gerät nicht selbst öffnen oder entleeren.",
+          "Füllstand / Störmeldung notieren.",
+          "Werkstatt ZMK oder Technischen Koordinator informieren."
+        ],
+        "escalation": {
+          "kind": "contact",
+          "contact": {
+            "name": "Werkstatt ZMK",
+            "lines": [
+              "Reparaturauftrag ausfüllen (liegt im Technicum)",
+              "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+              "Techn. Koordinator in cc setzen"
+            ]
+          },
+          "desc": "",
+          "pills": []
+        }
+      }
+    }
+  ],
+  "access": "Zugang im Kurs – Einweisung durch Aufsichten / Ärzte."
+}
