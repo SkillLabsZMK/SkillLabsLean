@@ -1,0 +1,20 @@
+{
+  "_comment": "Copy this directory to facilities/<your-facility-id>/ and fill in all fields.",
+  "facilityId": "your-facility-id",
+  "name": "Skill Labs · Your Facility Name",
+  "shortName": "Your Facility",
+  "pin_hash": "$2b$10$REPLACE_WITH_BCRYPT_HASH_OF_YOUR_PIN",
+  "_pin_hash_comment": "Generate with: node -e \"const b=require('bcrypt'); b.hash('YOUR_PIN',10).then(console.log)\"",
+  "plan": [],
+  "emergency": {
+    "kit": [],
+    "standort": "",
+    "notruf": "",
+    "bagatell": "",
+    "portalLabel": "",
+    "portal": ""
+  },
+  "safetyRules": [],
+  "rulesNote": "",
+  "putzplan": {}
+}
