@@ -4415,7 +4415,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     }
 
     // ---- 🏢 banner: Gebäude & Infrastruktur ----
-    h += `<div class="emerg emerg-info${gebaeudeOpen ? ' open' : ''}">`;
+    h += `<div class="emerg emerg-info${gebaeudeOpen ? ' open' : ''}" style="margin-top:20px">`;
     h += `<button class="emerg-bar" data-act="toggle-gebaeude" aria-expanded="${gebaeudeOpen}"><span class="emerg-ic">🏢</span><span class="emerg-tx"><span class="emerg-t">Gebäude &amp; Infrastruktur</span><span class="emerg-s">Wasser, Strom, Türen &amp; Gebäudemeldungen</span></span><span class="emerg-chev">▾</span></button>`;
     if (gebaeudeOpen) {
       h += `<div class="emerg-body"><button class="opt" data-act="room" data-room="gebaeude"><span>Gebäude &amp; Infrastruktur</span><span class="ar">›</span></button></div>`;
