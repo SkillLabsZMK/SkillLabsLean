@@ -3439,80 +3439,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
      }
     }
    },
-   {
-    "name": "Haptic Device / 3D-Eingabestift",
-    "status": "self",
-    "node": {
-     "kind": "self",
-     "title": "Haptic Device / 3D-Eingabestift",
-     "steps": [
-      "USB-/Stromverbindung prüfen",
-      "Software/Treiber gestartet?",
-      "Bei Defekt → Techn. Koordinator"
-     ],
-     "escalation": {
-      "kind": "contact",
-      "contact": {
-       "name": "Einweisung erforderlich",
-       "lines": [
-        "Assistenzarzt Skill Labs oder Techn. Koordinator – Einweisung anfordern",
-        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
-       ]
-      },
-      "desc": "",
-      "pills": []
-     }
-    }
-   },
-   {
-    "name": "Einweisung KanbanSlides Excel",
-    "topic": true,
-    "status": "self",
-    "node": {
-     "kind": "self",
-     "title": "Einweisung KanbanSlides Excel",
-     "steps": [
-      "Einweisung beim Technischen Koordinator anfordern.",
-      "Zugriff auf die KanbanSlides Excel-Datei klären."
-     ],
-     "escalation": {
-      "kind": "contact",
-      "contact": {
-       "name": "Technischer Koordinator Skill Labs",
-       "lines": [
-        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
-       ]
-      },
-      "desc": "",
-      "pills": []
-     }
-    }
-   },
-   {
-    "name": "KANBAN Materialverwaltung",
-    "topic": true,
-    "status": "self",
-    "node": {
-     "kind": "self",
-     "title": "KANBAN Materialverwaltung",
-     "steps": [
-      "Bestände prüfen und KANBAN-Karten nachfüllen.",
-      "Bestellungen über das KANBAN-System aufgeben.",
-      "Bei Fragen zur Verwaltung Technischen Koordinator ansprechen."
-     ],
-     "escalation": {
-      "kind": "contact",
-      "contact": {
-       "name": "Technischer Koordinator Skill Labs",
-       "lines": [
-        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
-       ]
-      },
-      "desc": "",
-      "pills": []
-     }
-    }
-   }
   ]
  },
  {
@@ -3660,6 +3586,80 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
        "lines": [
         "Assistenzarzt Skill Labs oder Techn. Koordinator ansprechen",
         "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Haptic Device / 3D-Eingabestift",
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Haptic Device / 3D-Eingabestift",
+     "steps": [
+      "USB-/Stromverbindung prüfen",
+      "Software/Treiber gestartet?",
+      "Bei Defekt → Techn. Koordinator"
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Einweisung erforderlich",
+       "lines": [
+        "Assistenzarzt Skill Labs oder Techn. Koordinator – Einweisung anfordern",
+        "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "Einweisung KanbanSlides Excel",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "Einweisung KanbanSlides Excel",
+     "steps": [
+      "Einweisung beim Technischen Koordinator anfordern.",
+      "Zugriff auf die KanbanSlides Excel-Datei klären."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+       ]
+      },
+      "desc": "",
+      "pills": []
+     }
+    }
+   },
+   {
+    "name": "KANBAN Materialverwaltung",
+    "topic": true,
+    "status": "self",
+    "node": {
+     "kind": "self",
+     "title": "KANBAN Materialverwaltung",
+     "steps": [
+      "Bestände prüfen und KANBAN-Karten nachfüllen.",
+      "Bestellungen über das KANBAN-System aufgeben.",
+      "Bei Fragen zur Verwaltung Technischen Koordinator ansprechen."
+     ],
+     "escalation": {
+      "kind": "contact",
+      "contact": {
+       "name": "Technischer Koordinator Skill Labs",
+       "lines": [
+        "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
        ]
       },
       "desc": "",
@@ -4378,7 +4378,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
       });
       h += `</div><p class="plan-cap">Räume antippen, um die richtige Ansprechperson zu finden.</p>`;
       h += `<div class="sec-label">Themen ohne Raum</div><div class="area-list">`;
-      AREAS.filter(r => r.id !== 'gebaeude' && r.id !== 'qual').forEach(r => { h += `<button class="area-row" data-act="room" data-room="${r.id}"><span>${esc(r.name)}</span><span class="ar">›</span></button>`; });
+      AREAS.filter(r => r.id !== 'gebaeude' && r.id !== 'qual' && r.id !== 'lean').forEach(r => { h += `<button class="area-row" data-act="room" data-room="${r.id}"><span>${esc(r.name)}</span><span class="ar">›</span></button>`; });
       h += `</div>`;
     } else if (browseMode === 'devices') {
       h += `<div class="devsearch"><span class="mag">⌕</span><input id="devInput" type="text" placeholder="Gerät suchen…" autocomplete="off"></div>`;
@@ -4417,7 +4417,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     h += `<div class="emerg emerg-info${qualOpen ? ' open' : ''}">`;
     h += `<button class="emerg-bar" data-act="toggle-qual" aria-expanded="${qualOpen}"><span class="emerg-ic">🎓</span><span class="emerg-tx"><span class="emerg-t">Qualifizierung &amp; Einweisung</span><span class="emerg-s">Einweisungen, Zertifikate &amp; Geräteschulungen</span></span><span class="emerg-chev">▾</span></button>`;
     if (qualOpen) {
-      h += `<div class="emerg-body"><button class="opt" data-act="room" data-room="qual"><span>Qualifizierung &amp; Einweisung</span><span class="ar">›</span></button></div>`;
+      h += `<div class="emerg-body"><button class="opt" data-act="room" data-room="qual"><span>Qualifizierung &amp; Einweisung</span><span class="ar">›</span></button><button class="opt" data-act="open-3dprint"><span>3D-Druck-Anfrage stellen</span><span class="ar">›</span></button></div>`;
     }
     h += `</div>`;
 
@@ -4667,6 +4667,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     else if (act === 'browse') { browseMode = b.dataset.mode; render(); }
     else if (act === 'toggle-emerg') { emergencyOpen = !emergencyOpen; render(); }
     else if (act === 'toggle-qual') { qualOpen = !qualOpen; render(); }
+    else if (act === 'open-3dprint') { const a = ALL.find(r => r.id === 'lean'); const d = a && a.devices[0]; if (d) push({ view: 'topic', node: d.node, crumb: ['3D-Druck-Anfrage stellen'] }); }
     else if (act === 'toggle-gebaeude') { gebaeudeOpen = !gebaeudeOpen; render(); }
     else if (act === 'toggle-info') { infoOpen = !infoOpen; render(); }
     else if (act === 'open-rules') { push({ view: 'rules' }); }
