@@ -4418,7 +4418,13 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     h += `<div class="emerg emerg-info${gebaeudeOpen ? ' open' : ''}" style="margin-top:20px">`;
     h += `<button class="emerg-bar" data-act="toggle-gebaeude" aria-expanded="${gebaeudeOpen}"><span class="emerg-ic">🏢</span><span class="emerg-tx"><span class="emerg-t">Gebäude &amp; Infrastruktur</span><span class="emerg-s">Wasser, Strom, Türen &amp; Gebäudemeldungen</span></span><span class="emerg-chev">▾</span></button>`;
     if (gebaeudeOpen) {
-      h += `<div class="emerg-body"><button class="opt" data-act="room" data-room="gebaeude"><span>Gebäude &amp; Infrastruktur</span><span class="ar">›</span></button></div>`;
+      const gebArea = ALL.find(r => r.id === 'gebaeude');
+      h += `<div class="emerg-body">`;
+      (gebArea ? gebArea.devices : []).forEach(d => {
+        const i = refs.push({ node: d.node, crumb: ['Gebäude & Infrastruktur', d.name], manuals: d.manuals }) - 1;
+        h += `<button class="opt" data-act="go" data-i="${i}"><span>${esc(d.name)}</span><span class="ar">›</span></button>`;
+      });
+      h += `</div>`;
     }
     h += `</div>`;
 
@@ -4434,7 +4440,19 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     h += `<div class="emerg emerg-info${qualOpen ? ' open' : ''}">`;
     h += `<button class="emerg-bar" data-act="toggle-qual" aria-expanded="${qualOpen}"><span class="emerg-ic">🎓</span><span class="emerg-tx"><span class="emerg-t">Qualifizierung &amp; Einweisung</span><span class="emerg-s">Einweisungen, Zertifikate &amp; Geräteschulungen</span></span><span class="emerg-chev">▾</span></button>`;
     if (qualOpen) {
-      h += `<div class="emerg-body"><button class="opt" data-act="room" data-room="qual"><span>Qualifizierung &amp; Einweisung</span><span class="ar">›</span></button><button class="opt" data-act="open-3dprint"><span>3D-Druck-Anfrage stellen</span><span class="ar">›</span></button></div>`;
+      const qualArea = ALL.find(r => r.id === 'qual');
+      const leanArea = ALL.find(r => r.id === 'lean');
+      h += `<div class="emerg-body">`;
+      (qualArea ? qualArea.devices : []).forEach(d => {
+        const i = refs.push({ node: d.node, crumb: ['Qualifizierung & Einweisung', d.name], manuals: d.manuals }) - 1;
+        h += `<button class="opt" data-act="go" data-i="${i}"><span>${esc(d.name)}</span><span class="ar">›</span></button>`;
+      });
+      if (leanArea && leanArea.devices[0]) {
+        const d = leanArea.devices[0];
+        const i = refs.push({ node: d.node, crumb: ['3D-Druck-Anfrage stellen'], manuals: d.manuals }) - 1;
+        h += `<button class="opt" data-act="go" data-i="${i}"><span>${esc(d.name)}</span><span class="ar">›</span></button>`;
+      }
+      h += `</div>`;
     }
     h += `</div>`;
 
@@ -4668,7 +4686,6 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     else if (act === 'browse') { browseMode = b.dataset.mode; render(); }
     else if (act === 'toggle-emerg') { emergencyOpen = !emergencyOpen; render(); }
     else if (act === 'toggle-qual') { qualOpen = !qualOpen; render(); }
-    else if (act === 'open-3dprint') { const a = ALL.find(r => r.id === 'lean'); const d = a && a.devices[0]; if (d) push({ view: 'topic', node: d.node, crumb: ['3D-Druck-Anfrage stellen'] }); }
     else if (act === 'toggle-gebaeude') { gebaeudeOpen = !gebaeudeOpen; render(); }
     else if (act === 'toggle-info') { infoOpen = !infoOpen; render(); }
     else if (act === 'open-rules') { push({ view: 'rules' }); }
