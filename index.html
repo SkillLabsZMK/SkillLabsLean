@@ -4193,6 +4193,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
   let query = '';                 // current search query string
   let searchScope = 'material';   // 'material' (⌕ icon) | 'device' (Räume search)
   let emergencyOpen = false;      // Notfall-Banner expanded state
+  let qualOpen = false;           // Qualifizierung & Einweisung-Banner expanded state
   let gebaeudeOpen = false;       // Gebäude & Infrastruktur-Banner expanded state
   let infoOpen = false;           // § Sicherheitsbestimmungen-Banner expanded state
   let putzDay = '';               // selected Putzplan weekday key
@@ -4377,7 +4378,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
       });
       h += `</div><p class="plan-cap">Räume antippen, um die richtige Ansprechperson zu finden.</p>`;
       h += `<div class="sec-label">Themen ohne Raum</div><div class="area-list">`;
-      AREAS.filter(r => r.id !== 'gebaeude').forEach(r => { h += `<button class="area-row" data-act="room" data-room="${r.id}"><span>${esc(r.name)}</span><span class="ar">›</span></button>`; });
+      AREAS.filter(r => r.id !== 'gebaeude' && r.id !== 'qual').forEach(r => { h += `<button class="area-row" data-act="room" data-room="${r.id}"><span>${esc(r.name)}</span><span class="ar">›</span></button>`; });
       h += `</div>`;
     } else if (browseMode === 'devices') {
       h += `<div class="devsearch"><span class="mag">⌕</span><input id="devInput" type="text" placeholder="Gerät suchen…" autocomplete="off"></div>`;
@@ -4411,6 +4412,14 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
       LAGER.forEach(g => { h += `<button class="area-row" data-act="loc" data-loc="${esc(g.loc)}"><span>${esc(g.loc)}</span><span class="rc-meta">${g.items.length}</span></button>`; });
       h += `</div>`;
     }
+
+    // ---- 🎓 banner: Qualifizierung & Einweisung ----
+    h += `<div class="emerg emerg-info${qualOpen ? ' open' : ''}">`;
+    h += `<button class="emerg-bar" data-act="toggle-qual" aria-expanded="${qualOpen}"><span class="emerg-ic">🎓</span><span class="emerg-tx"><span class="emerg-t">Qualifizierung &amp; Einweisung</span><span class="emerg-s">Einweisungen, Zertifikate &amp; Geräteschulungen</span></span><span class="emerg-chev">▾</span></button>`;
+    if (qualOpen) {
+      h += `<div class="emerg-body"><button class="opt" data-act="room" data-room="qual"><span>Qualifizierung &amp; Einweisung</span><span class="ar">›</span></button></div>`;
+    }
+    h += `</div>`;
 
     // ---- 🏢 banner: Gebäude & Infrastruktur ----
     h += `<div class="emerg emerg-info${gebaeudeOpen ? ' open' : ''}">`;
@@ -4657,6 +4666,7 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     if (act === 'open-search') { searchScope = b.dataset.scope || 'material'; query = ''; push({ view: 'search' }); }
     else if (act === 'browse') { browseMode = b.dataset.mode; render(); }
     else if (act === 'toggle-emerg') { emergencyOpen = !emergencyOpen; render(); }
+    else if (act === 'toggle-qual') { qualOpen = !qualOpen; render(); }
     else if (act === 'toggle-gebaeude') { gebaeudeOpen = !gebaeudeOpen; render(); }
     else if (act === 'toggle-info') { infoOpen = !infoOpen; render(); }
     else if (act === 'open-rules') { push({ view: 'rules' }); }
