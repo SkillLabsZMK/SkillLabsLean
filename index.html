@@ -4413,14 +4413,6 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
       h += `</div>`;
     }
 
-    // ---- 🎓 banner: Qualifizierung & Einweisung ----
-    h += `<div class="emerg emerg-info${qualOpen ? ' open' : ''}">`;
-    h += `<button class="emerg-bar" data-act="toggle-qual" aria-expanded="${qualOpen}"><span class="emerg-ic">🎓</span><span class="emerg-tx"><span class="emerg-t">Qualifizierung &amp; Einweisung</span><span class="emerg-s">Einweisungen, Zertifikate &amp; Geräteschulungen</span></span><span class="emerg-chev">▾</span></button>`;
-    if (qualOpen) {
-      h += `<div class="emerg-body"><button class="opt" data-act="room" data-room="qual"><span>Qualifizierung &amp; Einweisung</span><span class="ar">›</span></button><button class="opt" data-act="open-3dprint"><span>3D-Druck-Anfrage stellen</span><span class="ar">›</span></button></div>`;
-    }
-    h += `</div>`;
-
     // ---- 🏢 banner: Gebäude & Infrastruktur ----
     h += `<div class="emerg emerg-info${gebaeudeOpen ? ' open' : ''}">`;
     h += `<button class="emerg-bar" data-act="toggle-gebaeude" aria-expanded="${gebaeudeOpen}"><span class="emerg-ic">🏢</span><span class="emerg-tx"><span class="emerg-t">Gebäude &amp; Infrastruktur</span><span class="emerg-s">Wasser, Strom, Türen &amp; Gebäudemeldungen</span></span><span class="emerg-chev">▾</span></button>`;
@@ -4434,6 +4426,14 @@ window.SL_MATERIALS = [{"name":"Model V3, 1l","raum":"3D Druck / Fräsen","roomI
     h += `<button class="emerg-bar" data-act="toggle-info" aria-expanded="${infoOpen}"><span class="emerg-ic">§</span><span class="emerg-tx"><span class="emerg-t">Sicherheitsbestimmungen &amp; Putzplan</span><span class="emerg-s">Vor Kursbeginn lesen · Reinigungsdienst nachschlagen</span></span><span class="emerg-chev">▾</span></button>`;
     if (infoOpen) {
       h += `<div class="emerg-body"><button class="opt" data-act="open-rules"><span>Sicherheitsbestimmungen &amp; Verhaltensregeln</span><span class="ar">›</span></button><button class="opt" data-act="open-putz"><span>Putzplan – wer putzt was?</span><span class="ar">›</span></button></div>`;
+    }
+    h += `</div>`;
+
+    // ---- 🎓 banner: Qualifizierung & Einweisung ----
+    h += `<div class="emerg emerg-info${qualOpen ? ' open' : ''}">`;
+    h += `<button class="emerg-bar" data-act="toggle-qual" aria-expanded="${qualOpen}"><span class="emerg-ic">🎓</span><span class="emerg-tx"><span class="emerg-t">Qualifizierung &amp; Einweisung</span><span class="emerg-s">Einweisungen, Zertifikate &amp; Geräteschulungen</span></span><span class="emerg-chev">▾</span></button>`;
+    if (qualOpen) {
+      h += `<div class="emerg-body"><button class="opt" data-act="room" data-room="qual"><span>Qualifizierung &amp; Einweisung</span><span class="ar">›</span></button><button class="opt" data-act="open-3dprint"><span>3D-Druck-Anfrage stellen</span><span class="ar">›</span></button></div>`;
     }
     h += `</div>`;
 
