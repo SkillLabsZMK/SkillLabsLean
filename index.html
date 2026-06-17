@@ -321,6 +321,25 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
 
 /* ---- Seitenfu&szlig; (Disclaimer, Herausgeber, Versionsnummer) ---- */
 .page-foot{width:100%;max-width:600px;margin:20px auto 0;text-align:center;font-family:var(--mono);font-size:10.5px;color:var(--ink3);line-height:1.7;opacity:.85}
+
+/* ---- Feedback button + modal ---- */
+.fb-btn{position:fixed;bottom:22px;right:16px;z-index:800;background:var(--brand);color:#fff;border:none;border-radius:99px;padding:9px 15px 9px 12px;font-size:13px;font-weight:600;font-family:var(--font);display:flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer;opacity:.88;transition:opacity .15s}
+.fb-btn:hover{opacity:1}
+.fb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:900;align-items:flex-end;justify-content:center}
+.fb-overlay.open{display:flex}
+.fb-sheet{background:var(--surface);border-radius:var(--r-lg) var(--r-lg) 0 0;padding:24px 20px 32px;width:100%;max-width:520px;box-shadow:0 -4px 32px rgba(0,0,0,.15)}
+.fb-sheet h3{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.fb-sheet .fb-ctx{font-size:11.5px;color:var(--ink3);font-family:var(--mono);margin-bottom:16px;word-break:break-all}
+.fb-cats{display:flex;gap:8px;margin-bottom:14px}
+.fb-cat{flex:1;padding:9px 4px;border:1.5px solid var(--line2);border-radius:var(--r);background:var(--surface2);font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;text-align:center;transition:.12s}
+.fb-cat.on{border-color:var(--brand);background:var(--bra-bg);color:var(--brand)}
+.fb-sheet input,.fb-sheet textarea{width:100%;border:1.5px solid var(--line2);border-radius:var(--r-sm);padding:10px 12px;font-size:14px;font-family:var(--font);color:var(--ink);background:var(--surface2);margin-bottom:10px;resize:none;outline:none}
+.fb-sheet input:focus,.fb-sheet textarea:focus{border-color:var(--brand)}
+.fb-sheet textarea{height:90px}
+.fb-send{width:100%;padding:13px;background:var(--brand);color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;margin-top:4px}
+.fb-send:disabled{opacity:.5;cursor:default}
+.fb-msg{font-size:13px;min-height:18px;margin-bottom:6px;text-align:center}
+.fb-msg.ok{color:var(--self)}.fb-msg.err{color:var(--saf)}
 </style>
 </head>
 <body>
@@ -4707,6 +4726,124 @@ window.SL_MATERIALS = [{"name": "Model V3, 1l", "raum": "3D Druck / Fräsen", "r
 
   // ---- init ----
   render(); // initial render on page load
+
+  // ---- Feedback widget ----
+  (function () {
+    const REPO    = 'SkillLabsZMK/SkillLabsLean';
+    const PAT     = '__GITHUB_PAT__'; // replace with fine-grained PAT (issues: write)
+    const LABELS  = { bug: 'bug', idea: 'enhancement', improvement: 'improvement' };
+
+    const CATS = [
+      { key: 'bug',         icon: '🐛', label: 'Bug'          },
+      { key: 'idea',        icon: '💡', label: 'Idee'         },
+      { key: 'improvement', icon: '✨', label: 'Verbesserung' },
+    ];
+
+    // Build DOM
+    const btn = document.createElement('button');
+    btn.className = 'fb-btn';
+    btn.innerHTML = '⚑ Feedback';
+    document.body.appendChild(btn);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'fb-overlay';
+    overlay.innerHTML = `
+      <div class="fb-sheet">
+        <h3>Feedback senden</h3>
+        <div class="fb-ctx" id="fb-ctx"></div>
+        <div class="fb-cats" id="fb-cats">
+          ${CATS.map(c => `<button class="fb-cat" data-key="${c.key}">${c.icon} ${c.label}</button>`).join('')}
+        </div>
+        <input id="fb-title" type="text" placeholder="Kurzer Titel (optional)" maxlength="120">
+        <textarea id="fb-desc" placeholder="Was ist aufgefallen? Was fehlt? Was funktioniert nicht?"></textarea>
+        <div class="fb-msg" id="fb-msg"></div>
+        <button class="fb-send" id="fb-send">Absenden</button>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    let activeCat = null;
+
+    function getContext() {
+      const s = stack[stack.length - 1];
+      if (!s) return 'Startseite';
+      if (s.view === 'home') return 'Startseite';
+      if (s.view === 'room') {
+        const r = ALL.find(x => x.id === s.roomId);
+        return r ? r.name : s.roomId;
+      }
+      if (s.crumb && s.crumb.length) return s.crumb.join(' › ');
+      return s.view;
+    }
+
+    function open() {
+      document.getElementById('fb-ctx').textContent = 'Kontext: ' + getContext();
+      document.getElementById('fb-title').value = '';
+      document.getElementById('fb-desc').value = '';
+      document.getElementById('fb-msg').textContent = '';
+      document.getElementById('fb-msg').className = 'fb-msg';
+      document.getElementById('fb-send').disabled = false;
+      activeCat = null;
+      overlay.querySelectorAll('.fb-cat').forEach(b => b.classList.remove('on'));
+      overlay.classList.add('open');
+      setTimeout(() => document.getElementById('fb-desc').focus(), 120);
+    }
+
+    function close() { overlay.classList.remove('open'); }
+
+    btn.addEventListener('click', open);
+    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+
+    overlay.querySelector('#fb-cats').addEventListener('click', e => {
+      const b = e.target.closest('.fb-cat');
+      if (!b) return;
+      activeCat = b.dataset.key;
+      overlay.querySelectorAll('.fb-cat').forEach(x => x.classList.toggle('on', x === b));
+    });
+
+    overlay.querySelector('#fb-send').addEventListener('click', async () => {
+      const title = document.getElementById('fb-title').value.trim();
+      const desc  = document.getElementById('fb-desc').value.trim();
+      const msg   = document.getElementById('fb-msg');
+      const send  = document.getElementById('fb-send');
+
+      if (!desc) { msg.textContent = 'Bitte eine Beschreibung eingeben.'; msg.className = 'fb-msg err'; return; }
+      const cat = CATS.find(c => c.key === activeCat);
+      const issueTitle = title || (cat ? `${cat.icon} ${cat.label}` : '📝 Feedback') + ' · ' + getContext();
+      const body = [
+        cat ? `**Kategorie:** ${cat.icon} ${cat.label}` : '',
+        `**Kontext:** ${getContext()}`,
+        '',
+        desc,
+      ].filter(Boolean).join('\n');
+
+      const labels = cat && LABELS[cat.key] ? [LABELS[cat.key]] : [];
+      send.disabled = true;
+      msg.textContent = 'Wird gesendet…';
+      msg.className = 'fb-msg';
+
+      try {
+        const r = await fetch(`https://api.github.com/repos/${REPO}/issues`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${PAT}`, 'Content-Type': 'application/json', 'X-GitHub-Api-Version': '2022-11-28' },
+          body: JSON.stringify({ title: issueTitle, body, labels }),
+        });
+        if (r.ok) {
+          msg.textContent = '✓ Danke – Feedback eingegangen!';
+          msg.className = 'fb-msg ok';
+          setTimeout(close, 1800);
+        } else {
+          const e = await r.json();
+          msg.textContent = `Fehler: ${e.message || r.status}`;
+          msg.className = 'fb-msg err';
+          send.disabled = false;
+        }
+      } catch (e) {
+        msg.textContent = 'Netzwerkfehler – bitte erneut versuchen.';
+        msg.className = 'fb-msg err';
+        send.disabled = false;
+      }
+    });
+  })();
 })();
 
 </script>
