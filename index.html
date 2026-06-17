@@ -1196,11 +1196,11 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Trockenabsaugung",
+        "name": "Zentralabsaugung / Trockenabsaugung",
         "status": "mixed",
         "node": {
           "kind": "self",
-          "title": "Trockenabsaugung",
+          "title": "Zentralabsaugung / Trockenabsaugung",
           "steps": [
             "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“.",
             "Knopf am System 3 Sekunden gedrückt halten"
@@ -2145,11 +2145,11 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Trockenabsaugung",
+        "name": "Zentralabsaugung / Trockenabsaugung",
         "status": "mixed",
         "node": {
           "kind": "self",
-          "title": "Trockenabsaugung",
+          "title": "Zentralabsaugung / Trockenabsaugung",
           "steps": [
             "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“.",
             "Knopf am System 3 Sekunden gedrückt halten"
@@ -2476,11 +2476,11 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Trockenabsaugung",
+        "name": "Zentralabsaugung / Trockenabsaugung",
         "status": "mixed",
         "node": {
           "kind": "self",
-          "title": "Trockenabsaugung",
+          "title": "Zentralabsaugung / Trockenabsaugung",
           "steps": [
             "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“.",
             "Knopf am System 3 Sekunden gedrückt halten"
@@ -2828,6 +2828,36 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           }
         },
         "manuals": []
+      },
+      {
+        "name": "Zentralabsaugung / Trockenabsaugung",
+        "status": "mixed",
+        "node": {
+          "kind": "self",
+          "title": "Zentralabsaugung / Trockenabsaugung",
+          "steps": [
+            "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“.",
+            "Knopf am System 3 Sekunden gedrückt halten"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Aufsicht / Arzt im Raum „Besprechung Lehrende“ ansprechen",
+                "Nur sie dürfen das System ein- und ausschalten"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": [
+                "Im Raum „Besprechung Lehrende“ anschalten"
+              ]
+            }
+          }
+        }
       }
     ],
     "access": "Aufenthalts-/Besprechungsraum der Lehrenden. Hier wird u. a. die Trockenabsaugung gesteuert."
