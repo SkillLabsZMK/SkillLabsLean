@@ -224,6 +224,8 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
 .c-line{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink2);margin-top:9px;line-height:1.5}
 .c-line .ic{flex:0 0 auto;opacity:.75;width:16px;text-align:center}
 .c-line-2{opacity:.75}
+.direct-steps-head{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--con);opacity:.8;margin-top:18px;margin-bottom:2px}
+.n-con{background:var(--con) !important}
 .ap-boxes{display:flex;gap:10px;margin:10px 0 4px}
 .ap-box{flex:1;min-width:0;background:color-mix(in srgb,var(--con) 10%,transparent);border:1.5px solid color-mix(in srgb,var(--con) 22%,transparent);border-radius:12px;padding:10px 12px}
 .ap-lbl{display:block;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--con);opacity:.8;margin-bottom:3px}
@@ -3785,32 +3787,26 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           "kind": "safety",
           "warn": "Hauptabsperrventil schließen, Bereich sichern.",
           "inner": {
-            "kind": "self",
-            "title": "Wasser",
+            "kind": "direct",
+            "contact": {
+              "name": "Werkstatt ZMK",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
+            },
             "steps": [
               "Betroffenen Bereich / Raum notieren.",
               "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
             ],
-            "escalation": {
-              "kind": "contact",
-              "contact": {
-                "name": "Werkstatt ZMK",
-                "lines": [
-                  "TBA – Technisches Betriebsamt: 77171",
-                  "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
-                  "Technischer Koordinator Skill Labs – direkt ansprechen"
-                ]
-              },
-              "desc": "",
-              "pills": [],
-              "ap2": {
-                "name": "TBA – Technisches Betriebsamt",
-                "lines": [
-                  "TBA – Technisches Betriebsamt: 77171",
-                  "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
-                  "Technischer Koordinator Skill Labs – direkt ansprechen"
-                ]
-              }
+            "ap2": {
+              "name": "TBA – Technisches Betriebsamt",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
             }
           }
         }
@@ -3823,33 +3819,27 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           "kind": "safety",
           "warn": "Geräte ausschalten, Bereich verlassen wenn nötig.",
           "inner": {
-            "kind": "self",
-            "title": "Strom / Elektrik",
+            "kind": "direct",
+            "contact": {
+              "name": "Werkstatt ZMK",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
+            },
             "steps": [
               "Sicherungskasten prüfen – ist eine Sicherung ausgelöst?",
               "Betroffenen Bereich / Gerät notieren.",
               "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
             ],
-            "escalation": {
-              "kind": "contact",
-              "contact": {
-                "name": "Werkstatt ZMK",
-                "lines": [
-                  "TBA – Technisches Betriebsamt: 77171",
-                  "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
-                  "Technischer Koordinator Skill Labs – direkt ansprechen"
-                ]
-              },
-              "desc": "",
-              "pills": [],
-              "ap2": {
-                "name": "TBA – Technisches Betriebsamt",
-                "lines": [
-                  "TBA – Technisches Betriebsamt: 77171",
-                  "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
-                  "Technischer Koordinator Skill Labs – direkt ansprechen"
-                ]
-              }
+            "ap2": {
+              "name": "TBA – Technisches Betriebsamt",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
             }
           }
         }
@@ -3859,28 +3849,22 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         "topic": true,
         "status": "contact",
         "node": {
-          "kind": "self",
-          "title": "Klimatisierung / Lüftung",
+          "kind": "direct",
+          "contact": {
+            "name": "Zuständige Stellen",
+            "lines": [
+              "TBA – Technisches Betriebsamt: 77171",
+              "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+              "Technischer Koordinator Skill Labs – direkt ansprechen"
+            ]
+          },
           "steps": [
             "Betroffenen Raum und Art der Störung notieren (keine Kühlung, kein Luftstrom, Lärm, …).",
             "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
           ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Zuständige Stellen",
-              "lines": [
-                "TBA – Technisches Betriebsamt: 77171",
-                "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
-                "Technischer Koordinator Skill Labs – direkt ansprechen"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "TBA – Technisches Betriebsamt",
-              "lines": []
-            }
+          "ap2": {
+            "name": "TBA – Technisches Betriebsamt",
+            "lines": []
           }
         }
       },
@@ -3892,34 +3876,28 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           "kind": "safety",
           "warn": "Ruhe bewahren – Person beruhigen, Notruf im Aufzug betätigen.",
           "inner": {
-            "kind": "self",
-            "title": "Aufzug",
+            "kind": "direct",
+            "contact": {
+              "name": "Werkstatt ZMK",
+              "lines": [
+                "Notrufknopf im Aufzug betätigen (direkte Verbindung zur Aufzugswartung)",
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
+                "Technischer Koordinator Skill Labs – direkt ansprechen",
+                "Notruf 112 wenn keine andere Hilfe erreichbar"
+              ]
+            },
             "steps": [
               "Aufzug außer Betrieb kennzeichnen (Hinweis an der Tür).",
               "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
             ],
-            "escalation": {
-              "kind": "contact",
-              "contact": {
-                "name": "Werkstatt ZMK",
-                "lines": [
-                  "Notrufknopf im Aufzug betätigen (direkte Verbindung zur Aufzugswartung)",
-                  "TBA – Technisches Betriebsamt: 77171",
-                  "Werkstatt ZMK – Telefonliste ZMK / Mobilnr. bei Dringlichkeit",
-                  "Technischer Koordinator Skill Labs – direkt ansprechen",
-                  "Notruf 112 wenn keine andere Hilfe erreichbar"
-                ]
-              },
-              "desc": "",
-              "pills": [],
-              "ap2": {
-                "name": "TBA – Technisches Betriebsamt",
-                "lines": [
-                  "TBA – Technisches Betriebsamt: 77171",
-                  "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
-                  "Technischer Koordinator Skill Labs – direkt ansprechen"
-                ]
-              }
+            "ap2": {
+              "name": "TBA – Technisches Betriebsamt",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
             }
           }
         }
@@ -3929,28 +3907,22 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         "topic": true,
         "status": "contact",
         "node": {
-          "kind": "self",
-          "title": "Allgemeiner Defekt (Tür, Schloss, Mobiliar …)",
+          "kind": "direct",
+          "contact": {
+            "name": "Zuständige Stellen",
+            "lines": [
+              "TBA – Technisches Betriebsamt: 77171",
+              "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+              "Technischer Koordinator Skill Labs – direkt ansprechen"
+            ]
+          },
           "steps": [
             "Defekt und genauen Ort (Raum, Tür, Möbel) kurz notieren.",
             "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
           ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Zuständige Stellen",
-              "lines": [
-                "TBA – Technisches Betriebsamt: 77171",
-                "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
-                "Technischer Koordinator Skill Labs – direkt ansprechen"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": []
-            }
+          "ap2": {
+            "name": "Werkstatt ZMK",
+            "lines": []
           }
         }
       },
@@ -3959,27 +3931,21 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         "topic": true,
         "status": "contact",
         "node": {
-          "kind": "self",
-          "title": "Britta Wasserspender",
+          "kind": "direct",
+          "contact": {
+            "name": "Werkstatt ZMK",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
           "steps": [
             "Gerät ausschalten.",
             "Art der Störung notieren (kein Wasser, Filterwechsel fällig, Leck, ...).",
             "Technischen Koordinator oder Sekretariat informieren."
           ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Werkstatt ZMK",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Gebäudemanagement",
-              "lines": []
-            }
+          "ap2": {
+            "name": "Gebäudemanagement",
+            "lines": []
           }
         }
       },
@@ -3991,31 +3957,25 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           "kind": "safety",
           "warn": "Brandschutztür nicht blockieren – Fluchtweg und Brandabschnitt müssen frei bleiben.",
           "inner": {
-            "kind": "self",
-            "title": "Brandschutztür",
+            "kind": "direct",
+            "contact": {
+              "name": "Werkstatt ZMK",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Telefonliste ZMK",
+                "Technischer Koordinator Skill Labs – direkt ansprechen"
+              ]
+            },
             "steps": [
               "Art des Problems notieren (schließt nicht vollständig, Geräusch, beschädigt, ...).",
               "TBA oder Werkstatt ZMK informieren."
             ],
-            "escalation": {
-              "kind": "contact",
-              "contact": {
-                "name": "Werkstatt ZMK",
-                "lines": [
-                  "TBA – Technisches Betriebsamt: 77171",
-                  "Werkstatt ZMK – Telefonliste ZMK",
-                  "Technischer Koordinator Skill Labs – direkt ansprechen"
-                ]
-              },
-              "desc": "",
-              "pills": [],
-              "ap2": {
-                "name": "Gebäudemanagement",
-                "lines": [
-                  "TBA – Technisches Betriebsamt: 77171",
-                  "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)"
-                ]
-              }
+            "ap2": {
+              "name": "Gebäudemanagement",
+              "lines": [
+                "TBA – Technisches Betriebsamt: 77171",
+                "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)"
+              ]
             }
           }
         }
@@ -4025,29 +3985,23 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         "topic": true,
         "status": "branch",
         "node": {
-          "kind": "self",
-          "title": "Primion Schließsystem (Kartenzugang)",
+          "kind": "direct",
+          "contact": {
+            "name": "Sekretariat / Koordination Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+            ]
+          },
           "steps": [
             "Betroffenen Raum und Art des Defekts notieren.",
             "TBA oder IT-Service informieren."
           ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Sekretariat / Koordination Skill Labs",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": [
-                "TBA – Technisches Betriebsamt: 77171",
-                "IT-Service Tal – Serviceportal oder Telefon – Telefonliste ZMK"
-              ]
-            }
+          "ap2": {
+            "name": "Werkstatt ZMK",
+            "lines": [
+              "TBA – Technisches Betriebsamt: 77171",
+              "IT-Service Tal – Serviceportal oder Telefon – Telefonliste ZMK"
+            ]
           }
         }
       },
@@ -4056,23 +4010,17 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         "topic": true,
         "status": "self",
         "node": {
-          "kind": "self",
-          "title": "Flur E6 · Monitor – kein Bild",
+          "kind": "direct",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
           "steps": [
             "Monitor eingeschaltet?",
             "Strom- und HDMI-Kabel geprüft?"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Technischer Koordinator Skill Labs",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
+          ]
         }
       },
       {
@@ -4080,22 +4028,16 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         "topic": true,
         "status": "self",
         "node": {
-          "kind": "self",
-          "title": "Flur E6 · Kalender wird nicht angezeigt",
+          "kind": "direct",
+          "contact": {
+            "name": "Technischer Koordinator Skill Labs",
+            "lines": [
+              "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
+            ]
+          },
           "steps": [
             "Bitte melden!"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Technischer Koordinator Skill Labs",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Sekretariat / Koordination"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
+          ]
         }
       }
     ]
@@ -4381,6 +4323,28 @@ window.SL_MATERIALS = [{"name": "Model V3, 1l", "raum": "3D Druck / Fräsen", "r
         h += `<button class="opt" data-act="go" data-i="${i}"><span>${esc(o.label)}</span><span class="ar">›</span></button>`;
       });
       h += `</div></div>`;
+      return h;
+    }
+    if (node.kind === 'direct') {
+      const c = node.contact || {};
+      let h = `<div class="verdict v-con">
+        <div class="v-head"><span class="v-badge">☎ Kontakt</span><span class="v-kicker">Wende dich an</span></div>`;
+      if (node.ap2 && node.ap2.name) {
+        h += `<div class="ap-boxes">
+          <div class="ap-box"><span class="ap-lbl">1. Ansprechpartner</span><span class="ap-nm">${esc(c.name)}</span></div>
+          <div class="ap-box"><span class="ap-lbl">2. Ansprechpartner</span><span class="ap-nm">${esc(node.ap2.name)}</span></div>
+        </div>`;
+        (c.lines || []).forEach(t => { h += `<div class="c-line"><span class="ic">${lineIcon(t)}</span><span>${esc(t)}</span></div>`; });
+        (node.ap2.lines || []).forEach(t => { h += `<div class="c-line c-line-2"><span class="ic">${lineIcon(t)}</span><span>${esc(t)}</span></div>`; });
+      } else if (c.name) {
+        h += `<div class="v-name">${esc(c.name)}</div>`;
+        (c.lines || []).forEach(t => { h += `<div class="c-line"><span class="ic">${lineIcon(t)}</span><span>${esc(t)}</span></div>`; });
+      }
+      if (node.steps && node.steps.length) {
+        h += `<div class="direct-steps-head">Selbsthilfe-Schritte</div>`;
+        h += `<ol class="steps">` + node.steps.map((s, i) => `<li><span class="n n-con">${i + 1}</span><span>${esc(s)}</span></li>`).join('') + `</ol>`;
+      }
+      h += `</div>`;
       return h;
     }
     if (node.kind === 'safety') {
