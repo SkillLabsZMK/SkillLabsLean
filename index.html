@@ -420,8 +420,33 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     "name": "Seminar 1",
     "devices": [
       {
-        "name": "Medienpanel / Raumsteuerung",
+        "name": "Buchung / Zugang",
+        "topic": true,
         "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Buchung / Zugang",
+          "steps": [
+            "Verfügbarkeit im Routineraster / Google Kalender/Moses Med prüfen",
+            "Freien Termin anfragen",
+            "Zugang über die zuständige Stelle klären"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sekretariat / Koordination Skill Labs",
+              "lines": [
+                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      },
+      {
+        "name": "Medienpanel / Raumsteuerung",
+        "status": "branch",
         "node": {
           "kind": "self",
           "title": "Medienpanel / Raumsteuerung",
@@ -654,7 +679,13 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             }
           }
         }
-      },
+      }
+    ]
+  },
+  {
+    "id": "seminar2",
+    "name": "Seminar 2",
+    "devices": [
       {
         "name": "Buchung / Zugang",
         "topic": true,
@@ -679,13 +710,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "pills": []
           }
         }
-      }
-    ]
-  },
-  {
-    "id": "seminar2",
-    "name": "Seminar 2",
-    "devices": [
+      },
       {
         "name": "Ausstattung – Lautsprecher",
         "status": "self",
@@ -736,7 +761,14 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             }
           }
         }
-      },
+      }
+    ],
+    "access": "Analog ausgestatteter Raum (Metaplan/Flipchart) – keine fest installierte AV-Technik."
+  },
+  {
+    "id": "seminar3",
+    "name": "Seminar 3",
+    "devices": [
       {
         "name": "Buchung / Zugang",
         "topic": true,
@@ -745,8 +777,8 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           "kind": "self",
           "title": "Buchung / Zugang",
           "steps": [
-            "Verfügbarkeit im Routineraster / Google Kalender/Moses Med prüfen",
-            "Freien Termin anfragen",
+            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+            "Freien Termin eintragen bzw. anfragen",
             "Zugang über die zuständige Stelle klären"
           ],
           "escalation": {
@@ -761,14 +793,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "pills": []
           }
         }
-      }
-    ],
-    "access": "Analog ausgestatteter Raum (Metaplan/Flipchart) – keine fest installierte AV-Technik."
-  },
-  {
-    "id": "seminar3",
-    "name": "Seminar 3",
-    "devices": [
+      },
       {
         "name": "Medienpanel / Raumsteuerung",
         "status": "branch",
@@ -1018,7 +1043,13 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             }
           }
         }
-      },
+      }
+    ]
+  },
+  {
+    "id": "technicum",
+    "name": "Technicum",
+    "devices": [
       {
         "name": "Buchung / Zugang",
         "topic": true,
@@ -1027,8 +1058,8 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           "kind": "self",
           "title": "Buchung / Zugang",
           "steps": [
-            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
-            "Freien Termin eintragen bzw. anfragen",
+            "Verfügbarkeit im Routineraster / Google Kalender/Moses Med prüfen",
+            "Freien Termin anfragen",
             "Zugang über die zuständige Stelle klären"
           ],
           "escalation": {
@@ -1043,13 +1074,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "pills": []
           }
         }
-      }
-    ]
-  },
-  {
-    "id": "technicum",
-    "name": "Technicum",
-    "devices": [
+      },
       {
         "name": "Medienpanel / Raumsteuerung",
         "status": "branch",
@@ -1559,7 +1584,13 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "pills": []
           }
         }
-      },
+      }
+    ]
+  },
+  {
+    "id": "phantomicum",
+    "name": "Phantomicum",
+    "devices": [
       {
         "name": "Buchung / Zugang",
         "topic": true,
@@ -1568,8 +1599,8 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           "kind": "self",
           "title": "Buchung / Zugang",
           "steps": [
-            "Verfügbarkeit im Routineraster / Google Kalender/Moses Med prüfen",
-            "Freien Termin anfragen",
+            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+            "Freien Termin eintragen bzw. anfragen",
             "Zugang über die zuständige Stelle klären"
           ],
           "escalation": {
@@ -1584,13 +1615,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "pills": []
           }
         }
-      }
-    ]
-  },
-  {
-    "id": "phantomicum",
-    "name": "Phantomicum",
-    "devices": [
+      },
       {
         "name": "Medienpanel / Raumsteuerung",
         "status": "branch",
@@ -1861,31 +1886,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
               "name": "IT-Service Tal",
               "lines": [
                 "Serviceportal oder Telefon – Telefonliste ZMK"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
-        }
-      },
-      {
-        "name": "Buchung / Zugang",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Buchung / Zugang",
-          "steps": [
-            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
-            "Freien Termin eintragen bzw. anfragen",
-            "Zugang über die zuständige Stelle klären"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Sekretariat / Koordination Skill Labs",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
               ]
             },
             "desc": "",
@@ -2871,6 +2871,31 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     "name": "CAD-Raum",
     "devices": [
       {
+        "name": "Buchung / Zugang",
+        "topic": true,
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Buchung / Zugang",
+          "steps": [
+            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+            "Freien Termin eintragen bzw. anfragen",
+            "Zugang über die zuständige Stelle klären"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sekretariat / Koordination Skill Labs",
+              "lines": [
+                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      },
+      {
         "name": "Medienpanel / Raumsteuerung",
         "status": "branch",
         "node": {
@@ -2916,31 +2941,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           }
         },
         "manuals": []
-      },
-      {
-        "name": "Buchung / Zugang",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Buchung / Zugang",
-          "steps": [
-            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
-            "Freien Termin eintragen bzw. anfragen",
-            "Zugang über die zuständige Stelle klären"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Sekretariat / Koordination Skill Labs",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
-        }
       },
       {
         "name": "3D-Scanner Pritimirror",
@@ -3191,6 +3191,32 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     "name": "CAM-Raum",
     "devices": [
       {
+        "name": "Buchung / Zugang",
+        "topic": true,
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Buchung / Zugang",
+          "steps": [
+            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+            "Freien Termin eintragen bzw. anfragen",
+            "Zugang über die zuständige Stelle klären"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sekretariat / Koordination Skill Labs",
+              "lines": [
+                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      },
+      {
         "name": "PC / Workstation – Funktionsstörung",
         "status": "branch",
         "node": {
@@ -3217,32 +3243,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           }
         },
         "manuals": []
-      },
-      {
-        "name": "Buchung / Zugang",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Buchung / Zugang",
-          "steps": [
-            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
-            "Freien Termin eintragen bzw. anfragen",
-            "Zugang über die zuständige Stelle klären"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Sekretariat / Koordination Skill Labs",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
-                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
-        }
       },
       {
         "name": "Ceramill Matik (Fräsmaschine)",

@@ -11,6 +11,7 @@ HTML_PATH = "/home/user/SkillLabsLean/index.html"
 # Canonical order — prefix-matched against device names (case-insensitive).
 # Devices not matching any prefix keep their relative order and sort last.
 CANONICAL = [
+    "Buchung",
     "Medienpanel",
     "ClickShare",
     "Beamer",
@@ -57,7 +58,6 @@ CANONICAL = [
     "Gerät defekt",
     "PC / Workstation",
     "Trennwände",
-    "Buchung",
 ]
 
 def rank(device_name):
