@@ -420,8 +420,33 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     "name": "Seminar 1",
     "devices": [
       {
-        "name": "Medienpanel / Raumsteuerung",
+        "name": "Buchung / Zugang",
+        "topic": true,
         "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Buchung / Zugang",
+          "steps": [
+            "Verfügbarkeit im Routineraster / Google Kalender/Moses Med prüfen",
+            "Freien Termin anfragen",
+            "Zugang über die zuständige Stelle klären"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sekretariat / Koordination Skill Labs",
+              "lines": [
+                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      },
+      {
+        "name": "Medienpanel / Raumsteuerung",
+        "status": "branch",
         "node": {
           "kind": "self",
           "title": "Medienpanel / Raumsteuerung",
@@ -465,6 +490,35 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
               "name": "IT-Service Tal",
               "lines": [
                 "Serviceportal ggf. Emailaddresse hier hinterlegen"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "AV-Medien",
+              "lines": []
+            }
+          }
+        }
+      },
+      {
+        "name": "Beamer Seminarraum",
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Beamer Seminarraum",
+          "steps": [
+            "Ist der Projektor am Medienpanel eingeschaltet?",
+            "Ist Bild Aus/Ein aktiviert (rot oder grün)?",
+            "Ist die Bildquelle korrekt ausgewählt? (4) Windowstaste+P klickenauf Account clicken und Dublizieren/Erweitern auswählen"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "IT-Service Tal",
+              "lines": [
+                "Serviceportal oder Telefon – Telefonliste ZMK",
+                "Falls nötig in CC / 2. Stelle: AV-Medien"
               ]
             },
             "desc": "",
@@ -539,89 +593,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Trennwände – Räume kombinieren/teilen",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Trennwände – Räume kombinieren/teilen",
-          "steps": [
-            "Die Seminarräume 1, 2 und 3 lassen sich über die Trennwände zu einem großen Raum verbinden oder einzeln nutzen. Die Kurbel liegt für gewöhnlich in einem der Medienkoffer in SR1 oder SR3.",
-            "Erklärvideo auf Q:"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Arzt Skill Labs oder Techn. Koordinator ansprechen",
-              "lines": [
-                "Arzt Skill Labs oder Techn. Koordinator ansprechen",
-                "Falls nötig in CC / 2. Stelle: Arzt Skill Labs"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
-        "name": "Buchung / Zugang",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Buchung / Zugang",
-          "steps": [
-            "Verfügbarkeit im Routineraster / Google Kalender/Moses Med prüfen",
-            "Freien Termin anfragen",
-            "Zugang über die zuständige Stelle klären"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Sekretariat / Koordination Skill Labs",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
-        }
-      },
-      {
-        "name": "Beamer Seminarraum",
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Beamer Seminarraum",
-          "steps": [
-            "Ist der Projektor am Medienpanel eingeschaltet?",
-            "Ist Bild Aus/Ein aktiviert (rot oder grün)?",
-            "Ist die Bildquelle korrekt ausgewählt? (4) Windowstaste+P klickenauf Account clicken und Dublizieren/Erweitern auswählen"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "IT-Service Tal",
-              "lines": [
-                "Serviceportal oder Telefon – Telefonliste ZMK",
-                "Falls nötig in CC / 2. Stelle: AV-Medien"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "AV-Medien",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
         "name": "Klimatisierung",
         "status": "self",
         "node": {
@@ -679,13 +650,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "pills": []
           }
         }
-      }
-    ]
-  },
-  {
-    "id": "seminar2",
-    "name": "Seminar 2",
-    "devices": [
+      },
       {
         "name": "Trennwände – Räume kombinieren/teilen",
         "topic": true,
@@ -695,7 +660,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           "title": "Trennwände – Räume kombinieren/teilen",
           "steps": [
             "Die Seminarräume 1, 2 und 3 lassen sich über die Trennwände zu einem großen Raum verbinden oder einzeln nutzen. Die Kurbel liegt für gewöhnlich in einem der Medienkoffer in SR1 oder SR3.",
-            "Erklärvideo auf Q:\\"
+            "Erklärvideo auf Q:"
           ],
           "escalation": {
             "kind": "contact",
@@ -714,7 +679,13 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             }
           }
         }
-      },
+      }
+    ]
+  },
+  {
+    "id": "seminar2",
+    "name": "Seminar 2",
+    "devices": [
       {
         "name": "Buchung / Zugang",
         "topic": true,
@@ -761,6 +732,35 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           }
         },
         "manuals": []
+      },
+      {
+        "name": "Trennwände – Räume kombinieren/teilen",
+        "topic": true,
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Trennwände – Räume kombinieren/teilen",
+          "steps": [
+            "Die Seminarräume 1, 2 und 3 lassen sich über die Trennwände zu einem großen Raum verbinden oder einzeln nutzen. Die Kurbel liegt für gewöhnlich in einem der Medienkoffer in SR1 oder SR3.",
+            "Erklärvideo auf Q:\\"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Arzt Skill Labs oder Techn. Koordinator ansprechen",
+              "lines": [
+                "Arzt Skill Labs oder Techn. Koordinator ansprechen",
+                "Falls nötig in CC / 2. Stelle: Arzt Skill Labs"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        }
       }
     ],
     "access": "Analog ausgestatteter Raum (Metaplan/Flipchart) – keine fest installierte AV-Technik."
@@ -769,6 +769,31 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     "id": "seminar3",
     "name": "Seminar 3",
     "devices": [
+      {
+        "name": "Buchung / Zugang",
+        "topic": true,
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Buchung / Zugang",
+          "steps": [
+            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+            "Freien Termin eintragen bzw. anfragen",
+            "Zugang über die zuständige Stelle klären"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sekretariat / Koordination Skill Labs",
+              "lines": [
+                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      },
       {
         "name": "Medienpanel / Raumsteuerung",
         "status": "branch",
@@ -916,6 +941,35 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
+        "name": "Patientenkamera /",
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Patientenkamera /",
+          "steps": [
+            "Gerät über das Medienpanel kurz aus- und wieder einschalten",
+            "Kabel- und Signalverbindung dewr Kamera prüfen"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "AV-Medien",
+              "lines": [
+                "Mit Einweisung → direkt kontaktieren",
+                "Ohne Einweisung → zuerst Techn. Koordinator"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Arzt Skill Labs oder Techn. Koordinator ansprechen",
+              "lines": []
+            }
+          }
+        },
+        "manuals": []
+      },
+      {
         "name": "Aufnahme über AV-Netz",
         "topic": true,
         "status": "self",
@@ -931,56 +985,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
               "name": "AV-Medien",
               "lines": [
                 "Arzt Skill Labs oder Techn. Koordinator ansprechen"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
-        }
-      },
-      {
-        "name": "Trennwände – Räume kombinieren/teilen",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Trennwände – Räume kombinieren/teilen",
-          "steps": [
-            "Die Seminarräume 1, 2 und 3 lassen sich über die Trennwände zu einem großen Raum verbinden oder einzeln nutzen. Erklärvideo auf Q:\\"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Arzt Skill Labs oder Techn. Koordinator ansprechen",
-              "lines": []
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
-        "name": "Buchung / Zugang",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Buchung / Zugang",
-          "steps": [
-            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
-            "Freien Termin eintragen bzw. anfragen",
-            "Zugang über die zuständige Stelle klären"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Sekretariat / Koordination Skill Labs",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
               ]
             },
             "desc": "",
@@ -1016,70 +1020,20 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Patientenkamera /",
+        "name": "Trennwände – Räume kombinieren/teilen",
+        "topic": true,
         "status": "self",
         "node": {
           "kind": "self",
-          "title": "Patientenkamera /",
+          "title": "Trennwände – Räume kombinieren/teilen",
           "steps": [
-            "Gerät über das Medienpanel kurz aus- und wieder einschalten",
-            "Kabel- und Signalverbindung dewr Kamera prüfen"
+            "Die Seminarräume 1, 2 und 3 lassen sich über die Trennwände zu einem großen Raum verbinden oder einzeln nutzen. Erklärvideo auf Q:\\"
           ],
           "escalation": {
             "kind": "contact",
             "contact": {
-              "name": "AV-Medien",
-              "lines": [
-                "Mit Einweisung → direkt kontaktieren",
-                "Ohne Einweisung → zuerst Techn. Koordinator"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
               "name": "Arzt Skill Labs oder Techn. Koordinator ansprechen",
               "lines": []
-            }
-          }
-        },
-        "manuals": []
-      }
-    ]
-  },
-  {
-    "id": "technicum",
-    "name": "Technicum",
-    "devices": [
-      {
-        "name": "Hotty Wax Station",
-        "manuals": [
-          {
-            "label": "Renfert – Teil 1",
-            "path": "manuals/technicum/hotty-renfert-1.pdf"
-          },
-          {
-            "label": "Renfert – Teil 2",
-            "path": "manuals/technicum/hotty-renfert-2.pdf"
-          }
-        ],
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Hotty Wax Station",
-          "steps": [
-            "Temperatur je nach Wachstyp einstellen – mind. 10 Min. vorheizen lassen.",
-            "Nur zugelassene Dentalwachse verwenden.",
-            "Instrumente im Gerät reinigen, bevor die Arbeit beginnt.",
-            "Nach Gebrauch: Gerät ausschalten und reinigen."
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Aufsichten / Ärzte im Raum",
-              "lines": [
-                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
-                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
-              ]
             },
             "desc": "",
             "pills": [],
@@ -1089,6 +1043,88 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             }
           }
         }
+      }
+    ]
+  },
+  {
+    "id": "technicum",
+    "name": "Technicum",
+    "devices": [
+      {
+        "name": "Buchung / Zugang",
+        "topic": true,
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Buchung / Zugang",
+          "steps": [
+            "Verfügbarkeit im Routineraster / Google Kalender/Moses Med prüfen",
+            "Freien Termin anfragen",
+            "Zugang über die zuständige Stelle klären"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sekretariat / Koordination Skill Labs",
+              "lines": [
+                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      },
+      {
+        "name": "Medienpanel / Raumsteuerung",
+        "status": "branch",
+        "node": {
+          "kind": "contact",
+          "contact": {
+            "name": "IT-Service Tal",
+            "lines": [
+              "Arzt Skill Labs oder Techn. Koordinator ansprechen"
+            ]
+          },
+          "desc": "",
+          "pills": [],
+          "ap2": {
+            "name": "AV-Medien",
+            "lines": []
+          }
+        }
+      },
+      {
+        "name": "Labcam / Demokamera",
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Labcam / Demokamera",
+          "steps": [
+            "Kamerasteuermodul eingeschaltet? (silberne Box - Firma RIETH.)",
+            "Schutzdeckel von der Kamera entfernt?",
+            "Signal am Medienpanel korrekt zugewiesen?",
+            "Bild nur auf dem Bildschirm angezeigt? Switch unter dem Tisch rechts auf Input 2 schalten.",
+            "- Für Dozenten PC, Switch auf Input 1 schalten.-"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "AV-Medien",
+              "lines": [
+                "Serviceportal oder Telefon – Telefonliste ZMK",
+                "Falls nötig in CC / 2. Stelle: AV-Medien"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Technischer Koordinator Skill Labs",
+              "lines": []
+            }
+          }
+        },
+        "manuals": []
       },
       {
         "name": "Intraoralscanner",
@@ -1129,38 +1165,18 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Sirona SIM Intego Bench",
-        "manuals": [
-          {
-            "label": "GBA Sim Bench",
-            "path": "manuals/technicum/sirona-sim-bench.pdf"
-          },
-          {
-            "label": "Sirotorque L+ (Winkelstück)",
-            "path": "manuals/technicum/sirona-sirotorque-l-plus.pdf"
-          },
-          {
-            "label": "Phantomkopf PK-2",
-            "path": "manuals/technicum/sirona-phantomkopf-pk2.pdf"
-          },
-          {
-            "label": "Pflege & Reinigung",
-            "path": "manuals/technicum/sirona-care-cleaning.pdf"
-          },
-          {
-            "label": "Reinigungsmittel",
-            "path": "manuals/technicum/sirona-reinigungsmittel.pdf"
-          }
-        ],
+        "name": "Handstück dreht links",
         "status": "self",
         "node": {
           "kind": "self",
-          "title": "Sirona SIM Intego Bench",
+          "title": "Handstück dreht links",
           "steps": [
-            "Fußschalter prüfen – eingesteckt und im richtigen Modus?",
-            "Handstück einsetzen bis es hörbar einrastet.",
-            "Wasser  kommt nicht?  Drehregler am Motor öffnen (3.1) Luft kommt nicht -> Aufsatz auf verstopfung prüfen→ (4) Licht am Winkelstück geht nicht? fest einstecken und Knopf an der Einheit an?",
-            "Gerät reagiert gar nicht? Hauptschalter prüfen."
+            "Fehler F5: Kniesteuerung komplett ausschalten (10s warten)",
+            "Linkslauf: Gerät ist im Linksbetrieb!",
+            "Am Netzschalter (11) ausschalten",
+            "Rechtslauftaste T4 (Plustaste) gedrückt halten",
+            "Dabei Netzschalter wieder einschalten",
+            "LED T3 aus = Rechtslauf aktiv"
           ],
           "escalation": {
             "kind": "contact",
@@ -1168,7 +1184,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
               "name": "Aufsichten / Ärzte im Raum",
               "lines": [
                 "Zuständige Aufsicht oder Arzt im Raum ansprechen",
-                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
               ]
             },
             "desc": "",
@@ -1178,214 +1194,8 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
               "lines": []
             }
           }
-        }
-      },
-      {
-        "name": "Medienpanel / Raumsteuerung",
-        "status": "branch",
-        "node": {
-          "kind": "contact",
-          "contact": {
-            "name": "IT-Service Tal",
-            "lines": [
-              "Arzt Skill Labs oder Techn. Koordinator ansprechen"
-            ]
-          },
-          "desc": "",
-          "pills": [],
-          "ap2": {
-            "name": "AV-Medien",
-            "lines": []
-          }
-        }
-      },
-      {
-        "name": "Zentralabsaugung / Trockenabsaugung",
-        "status": "mixed",
-        "node": {
-          "kind": "self",
-          "title": "Zentralabsaugung / Trockenabsaugung",
-          "steps": [
-            "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“.",
-            "Knopf am System 3 Sekunden gedrückt halten"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Aufsichten / Ärzte im Raum",
-              "lines": [
-                "Aufsicht / Arzt im Raum „Besprechung Lehrende“ ansprechen",
-                "Nur sie dürfen das System ein- und ausschalten"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": [
-                "Im Raum „Besprechung Lehrende“ anschalten"
-              ]
-            }
-          }
-        }
-      },
-      {
-        "name": "Noflame Plus",
-        "manuals": [
-          {
-            "label": "Bedienungsanleitung",
-            "path": "manuals/technicum/noflame-plus.pdf"
-          }
-        ],
-        "status": "mixed",
-        "node": {
-          "kind": "self",
-          "title": "Noflame Plus",
-          "steps": [
-            "Instrument aus der Spulenöffnung nehmen",
-            "Gerät aus- und wieder einschalten",
-            "Lüftungsschlitze freiräumen",
-            "Gerät ausschalten",
-            "Einige Minuten abkühlen lassen",
-            "Neu starten"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Aufsichten / Ärzte im Raum",
-              "lines": [
-                "Reparaturauftrag ausfüllen (liegt im Technicum)",
-                "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
-                "Techn. Koordinator in cc setzen"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
-        "name": "QUATTROcare",
-        "manuals": [
-          {
-            "label": "GA QUATTROcare Plus",
-            "path": "manuals/technicum/quattrocare-plus.pdf"
-          }
-        ],
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "QUATTROcare",
-          "steps": [
-            "Ersatzkartuschen bei den Aufsichten. Kartuschen können selbst gewechselt werden."
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Aufsichten / Ärzte im Raum",
-              "lines": [
-                "Zuständige Aufsicht oder Arzt im Raum ansprechen"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
-        "name": "Bildschirme schwarz",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Bildschirme schwarz",
-          "steps": [
-            "Am Medienpanel richtiges Signal ausgewählt?",
-            "Signal neu zuweisen.",
-            "Bildschirm am Panel aus- und wieder einschalten"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "IT-Service Tal",
-              "lines": [
-                "Arzt Skill Labs oder Techn. Koordinator ansprechen",
-                "Falls nötig in CC / 2. Stelle: IT-Service Tal"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "AV-Medien",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
-        "name": "Gerät defekt melden",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Gerät defekt melden",
-          "steps": [
-            "Gerät außer Betrieb nehmen und kennzeichnen",
-            "Reparaturauftrag ausfüllen (liegt im Technicum)",
-            "Defekt mit kurzer Beschreibung melden"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Aufsichten / Ärzte im Raum",
-              "lines": [
-                "Reparaturauftrag ausfüllen (liegt im Technicum)",
-                "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
-                "Techn. Koordinator in cc setzen",
-                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
-        "name": "Buchung / Zugang",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Buchung / Zugang",
-          "steps": [
-            "Verfügbarkeit im Routineraster / Google Kalender/Moses Med prüfen",
-            "Freien Termin anfragen",
-            "Zugang über die zuständige Stelle klären"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Sekretariat / Koordination Skill Labs",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
-        }
+        },
+        "manuals": []
       },
       {
         "name": "Präpchecker / Dental Teacher",
@@ -1465,63 +1275,227 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "PC / Workstation – Funktionsstörung",
-        "status": "branch",
+        "name": "QUATTROcare",
+        "manuals": [
+          {
+            "label": "GA QUATTROcare Plus",
+            "path": "manuals/technicum/quattrocare-plus.pdf"
+          }
+        ],
+        "status": "self",
         "node": {
           "kind": "self",
-          "title": "PC / Workstation – Funktionsstörung",
+          "title": "QUATTROcare",
           "steps": [
-            "Alle Anwendungen schließen (falls möglich).",
-            "PC über das Startmenü neu starten – nicht den Netzstecker ziehen.",
-            "Falls kein Neustart möglich: Powerknopf 5 Sek. gedrückt halten.",
-            "Nach Neustart prüfen, ob das Problem behoben ist.",
-            "Kabel und Stecker prüfen (Monitor, Netzwerk, Strom).",
-            "Fehlermeldung notieren und Screenshot erstellen."
+            "Ersatzkartuschen bei den Aufsichten. Kartuschen können selbst gewechselt werden."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Zuständige Aufsicht oder Arzt im Raum ansprechen"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        }
+      },
+      {
+        "name": "Noflame Plus",
+        "manuals": [
+          {
+            "label": "Bedienungsanleitung",
+            "path": "manuals/technicum/noflame-plus.pdf"
+          }
+        ],
+        "status": "mixed",
+        "node": {
+          "kind": "self",
+          "title": "Noflame Plus",
+          "steps": [
+            "Instrument aus der Spulenöffnung nehmen",
+            "Gerät aus- und wieder einschalten",
+            "Lüftungsschlitze freiräumen",
+            "Gerät ausschalten",
+            "Einige Minuten abkühlen lassen",
+            "Neu starten"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Reparaturauftrag ausfüllen (liegt im Technicum)",
+                "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+                "Techn. Koordinator in cc setzen"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        }
+      },
+      {
+        "name": "Hotty Wax Station",
+        "manuals": [
+          {
+            "label": "Renfert – Teil 1",
+            "path": "manuals/technicum/hotty-renfert-1.pdf"
+          },
+          {
+            "label": "Renfert – Teil 2",
+            "path": "manuals/technicum/hotty-renfert-2.pdf"
+          }
+        ],
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Hotty Wax Station",
+          "steps": [
+            "Temperatur je nach Wachstyp einstellen – mind. 10 Min. vorheizen lassen.",
+            "Nur zugelassene Dentalwachse verwenden.",
+            "Instrumente im Gerät reinigen, bevor die Arbeit beginnt.",
+            "Nach Gebrauch: Gerät ausschalten und reinigen."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        }
+      },
+      {
+        "name": "Sirona SIM Intego Bench",
+        "manuals": [
+          {
+            "label": "GBA Sim Bench",
+            "path": "manuals/technicum/sirona-sim-bench.pdf"
+          },
+          {
+            "label": "Sirotorque L+ (Winkelstück)",
+            "path": "manuals/technicum/sirona-sirotorque-l-plus.pdf"
+          },
+          {
+            "label": "Phantomkopf PK-2",
+            "path": "manuals/technicum/sirona-phantomkopf-pk2.pdf"
+          },
+          {
+            "label": "Pflege & Reinigung",
+            "path": "manuals/technicum/sirona-care-cleaning.pdf"
+          },
+          {
+            "label": "Reinigungsmittel",
+            "path": "manuals/technicum/sirona-reinigungsmittel.pdf"
+          }
+        ],
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Sirona SIM Intego Bench",
+          "steps": [
+            "Fußschalter prüfen – eingesteckt und im richtigen Modus?",
+            "Handstück einsetzen bis es hörbar einrastet.",
+            "Wasser  kommt nicht?  Drehregler am Motor öffnen (3.1) Luft kommt nicht -> Aufsatz auf verstopfung prüfen→ (4) Licht am Winkelstück geht nicht? fest einstecken und Knopf an der Einheit an?",
+            "Gerät reagiert gar nicht? Hauptschalter prüfen."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        }
+      },
+      {
+        "name": "Zentralabsaugung / Trockenabsaugung",
+        "status": "mixed",
+        "node": {
+          "kind": "self",
+          "title": "Zentralabsaugung / Trockenabsaugung",
+          "steps": [
+            "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“.",
+            "Knopf am System 3 Sekunden gedrückt halten"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Aufsicht / Arzt im Raum „Besprechung Lehrende“ ansprechen",
+                "Nur sie dürfen das System ein- und ausschalten"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": [
+                "Im Raum „Besprechung Lehrende“ anschalten"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "Bildschirme schwarz",
+        "topic": true,
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Bildschirme schwarz",
+          "steps": [
+            "Am Medienpanel richtiges Signal ausgewählt?",
+            "Signal neu zuweisen.",
+            "Bildschirm am Panel aus- und wieder einschalten"
           ],
           "escalation": {
             "kind": "contact",
             "contact": {
               "name": "IT-Service Tal",
               "lines": [
-                "Serviceportal oder Telefon – Telefonliste ZMK"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
-        }
-      },
-      {
-        "name": "Labcam / Demokamera",
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Labcam / Demokamera",
-          "steps": [
-            "Kamerasteuermodul eingeschaltet? (silberne Box - Firma RIETH.)",
-            "Schutzdeckel von der Kamera entfernt?",
-            "Signal am Medienpanel korrekt zugewiesen?",
-            "Bild nur auf dem Bildschirm angezeigt? Switch unter dem Tisch rechts auf Input 2 schalten.",
-            "- Für Dozenten PC, Switch auf Input 1 schalten.-"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "AV-Medien",
-              "lines": [
-                "Serviceportal oder Telefon – Telefonliste ZMK",
-                "Falls nötig in CC / 2. Stelle: AV-Medien"
+                "Arzt Skill Labs oder Techn. Koordinator ansprechen",
+                "Falls nötig in CC / 2. Stelle: IT-Service Tal"
               ]
             },
             "desc": "",
             "pills": [],
             "ap2": {
-              "name": "Technischer Koordinator Skill Labs",
+              "name": "AV-Medien",
               "lines": []
             }
           }
-        },
-        "manuals": []
+        }
       },
       {
         "name": "Kein Strom an allen Plätzen",
@@ -1553,26 +1527,26 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         "manuals": []
       },
       {
-        "name": "Handstück dreht links",
+        "name": "Gerät defekt melden",
+        "topic": true,
         "status": "self",
         "node": {
           "kind": "self",
-          "title": "Handstück dreht links",
+          "title": "Gerät defekt melden",
           "steps": [
-            "Fehler F5: Kniesteuerung komplett ausschalten (10s warten)",
-            "Linkslauf: Gerät ist im Linksbetrieb!",
-            "Am Netzschalter (11) ausschalten",
-            "Rechtslauftaste T4 (Plustaste) gedrückt halten",
-            "Dabei Netzschalter wieder einschalten",
-            "LED T3 aus = Rechtslauf aktiv"
+            "Gerät außer Betrieb nehmen und kennzeichnen",
+            "Reparaturauftrag ausfüllen (liegt im Technicum)",
+            "Defekt mit kurzer Beschreibung melden"
           ],
           "escalation": {
             "kind": "contact",
             "contact": {
               "name": "Aufsichten / Ärzte im Raum",
               "lines": [
-                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
-                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+                "Reparaturauftrag ausfüllen (liegt im Technicum)",
+                "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+                "Techn. Koordinator in cc setzen",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
               ]
             },
             "desc": "",
@@ -1582,8 +1556,34 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
               "lines": []
             }
           }
-        },
-        "manuals": []
+        }
+      },
+      {
+        "name": "PC / Workstation – Funktionsstörung",
+        "status": "branch",
+        "node": {
+          "kind": "self",
+          "title": "PC / Workstation – Funktionsstörung",
+          "steps": [
+            "Alle Anwendungen schließen (falls möglich).",
+            "PC über das Startmenü neu starten – nicht den Netzstecker ziehen.",
+            "Falls kein Neustart möglich: Powerknopf 5 Sek. gedrückt halten.",
+            "Nach Neustart prüfen, ob das Problem behoben ist.",
+            "Kabel und Stecker prüfen (Monitor, Netzwerk, Strom).",
+            "Fehlermeldung notieren und Screenshot erstellen."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "IT-Service Tal",
+              "lines": [
+                "Serviceportal oder Telefon – Telefonliste ZMK"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
       }
     ]
   },
@@ -1591,6 +1591,50 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     "id": "phantomicum",
     "name": "Phantomicum",
     "devices": [
+      {
+        "name": "Buchung / Zugang",
+        "topic": true,
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Buchung / Zugang",
+          "steps": [
+            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+            "Freien Termin eintragen bzw. anfragen",
+            "Zugang über die zuständige Stelle klären"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sekretariat / Koordination Skill Labs",
+              "lines": [
+                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      },
+      {
+        "name": "Medienpanel / Raumsteuerung",
+        "status": "branch",
+        "node": {
+          "kind": "contact",
+          "contact": {
+            "name": "IT-Service Tal",
+            "lines": [
+              "Arzt Skill Labs oder Techn. Koordinator ansprechen"
+            ]
+          },
+          "desc": "",
+          "pills": [],
+          "ap2": {
+            "name": "AV-Medien",
+            "lines": []
+          }
+        }
+      },
       {
         "name": "Arbeitsplatzkamera",
         "status": "self",
@@ -1657,6 +1701,65 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
+        "name": "Behandlungseinheit / Turbine / Handstück",
+        "status": "mixed",
+        "node": {
+          "kind": "self",
+          "title": "Behandlungseinheit / Turbine / Handstück",
+          "steps": [
+            "Bei wasseraustritt am Schlauch, ausschalten und sofort die Werkstatt rufen! (1) Ist die Behandlungseinheit eingeschaltet?",
+            "Handstück/Turbine korrekt aufgesteckt und eingerastet?",
+            "Einheit kurz aus- und wieder einschalten",
+            "Helligkeit am Bedienfeld geprüft?  (9) Fußanlasser betätigt?",
+            "Schläuche nicht geknickt?"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        }
+      },
+      {
+        "name": "Phantomkopf & Torso (SIM-Einheit)",
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Phantomkopf & Torso (SIM-Einheit)",
+          "steps": [
+            "Nur nach lösen der Befestigungsschraube das Kugelgelenk bewegen!"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        },
+        "manuals": []
+      },
+      {
         "name": "Pentamix 3",
         "manuals": [
           {
@@ -1678,56 +1781,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
               "lines": [
                 "Zuständige Aufsicht oder Arzt im Raum ansprechen",
                 "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
-        "name": "Medienpanel / Raumsteuerung",
-        "status": "branch",
-        "node": {
-          "kind": "contact",
-          "contact": {
-            "name": "IT-Service Tal",
-            "lines": [
-              "Arzt Skill Labs oder Techn. Koordinator ansprechen"
-            ]
-          },
-          "desc": "",
-          "pills": [],
-          "ap2": {
-            "name": "AV-Medien",
-            "lines": []
-          }
-        }
-      },
-      {
-        "name": "Behandlungseinheit / Turbine / Handstück",
-        "status": "mixed",
-        "node": {
-          "kind": "self",
-          "title": "Behandlungseinheit / Turbine / Handstück",
-          "steps": [
-            "Bei wasseraustritt am Schlauch, ausschalten und sofort die Werkstatt rufen! (1) Ist die Behandlungseinheit eingeschaltet?",
-            "Handstück/Turbine korrekt aufgesteckt und eingerastet?",
-            "Einheit kurz aus- und wieder einschalten",
-            "Helligkeit am Bedienfeld geprüft?  (9) Fußanlasser betätigt?",
-            "Schläuche nicht geknickt?"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Aufsichten / Ärzte im Raum",
-              "lines": [
-                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
-                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
               ]
             },
             "desc": "",
@@ -1814,31 +1867,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Buchung / Zugang",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Buchung / Zugang",
-          "steps": [
-            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
-            "Freien Termin eintragen bzw. anfragen",
-            "Zugang über die zuständige Stelle klären"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Sekretariat / Koordination Skill Labs",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
-        }
-      },
-      {
         "name": "PC / Workstation – Funktionsstörung",
         "status": "branch",
         "node": {
@@ -1864,34 +1892,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "pills": []
           }
         }
-      },
-      {
-        "name": "Phantomkopf & Torso (SIM-Einheit)",
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Phantomkopf & Torso (SIM-Einheit)",
-          "steps": [
-            "Nur nach lösen der Befestigungsschraube das Kugelgelenk bewegen!"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Aufsichten / Ärzte im Raum",
-              "lines": [
-                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
-                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": []
-            }
-          }
-        },
-        "manuals": []
       }
     ]
   },
@@ -1936,91 +1936,49 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Steamy Mini (Abdampfer)",
-        "manuals": [
-          {
-            "label": "Gebrauchsanweisung",
-            "path": "manuals/gips/steamy-mini.pdf"
-          }
-        ],
-        "status": "self",
+        "name": "Zentralabsaugung / Trockenabsaugung",
+        "status": "mixed",
         "node": {
           "kind": "self",
-          "title": "Steamy Mini (Abdampfer)",
+          "title": "Zentralabsaugung / Trockenabsaugung",
           "steps": [
-            "Wassertank befüllen (destilliertes Wasser – nur bei abgekühltem Gerät).",
-            "Aufheizzeit abwarten – ca. 3–5 Min. bis Betriebsdruck erreicht ist.",
-            "Nach Gebrauch: Ausschalten, Restdampf ablassen."
+            "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“.",
+            "Knopf am System 3 Sekunden gedrückt halten"
           ],
           "escalation": {
             "kind": "contact",
             "contact": {
               "name": "Aufsichten / Ärzte im Raum",
               "lines": [
-                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
-                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+                "Aufsicht / Arzt im Raum „Besprechung Lehrende“ ansprechen",
+                "Nur sie dürfen das System ein- und ausschalten"
               ]
             },
             "desc": "",
             "pills": [],
             "ap2": {
               "name": "Werkstatt ZMK",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
-        "name": "Trockentrimmer",
-        "manuals": [
-          {
-            "label": "Gebrauchsanweisung",
-            "path": "manuals/gips/trockentrimmer.pdf"
-          }
-        ],
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Trockentrimmer",
-          "steps": [
-            "Hauptschalter prüfen – Absaugung muss laufen (hörbar), erst dann trimmen.",
-            "Modell flach und gerade aufsetzen, gleichmäßigen Druck ausüben – nicht verkanten.",
-            "Sollte das Schleifband verrutscht sein, bitte nicht selbst reparieren."
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Aufsichten / Ärzte im Raum",
               "lines": [
-                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
-                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+                "Im Raum „Besprechung Lehrende“ anschalten"
               ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": []
             }
           }
         }
       },
       {
-        "name": "Giroform",
+        "name": "Elmasonic S (Ultraschall)",
         "manuals": [
           {
             "label": "Gebrauchsanweisung",
-            "path": "manuals/gips/giroform.pdf"
+            "path": "manuals/gips/elmasonic-s.pdf"
           }
         ],
         "status": "self",
         "node": {
           "kind": "self",
-          "title": "Giroform",
+          "title": "Elmasonic S (Ultraschall)",
           "steps": [
-            "Nur nach erfolgter Einweisung verwenden.",
-            "Stiftposition nach Kursanleitung wählen – Stifte korrekt einsetzen und sichern.",
-            "Modell in Artikulator einsetzen: Index-Stifte korrekt ausrichten und einrasten lassen."
+            "Wasser bis zur Markierung nachfüllen, dann neu starten."
           ],
           "escalation": {
             "kind": "contact",
@@ -2113,86 +2071,19 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Polierbox",
+        "name": "Rüttler",
         "manuals": [
           {
             "label": "Gebrauchsanweisung",
-            "path": "manuals/gips/polierbox.pdf"
+            "path": "manuals/gips/ruettler.pdf"
           }
         ],
         "status": "self",
         "node": {
           "kind": "self",
-          "title": "Polierbox",
+          "title": "Rüttler",
           "steps": [
-            "Absaugung einschalten – Schalter am Gerät oder Fußpedal prüfen.",
-            "Drehzahl am Handstück je nach Werkstück wählen.",
-            "Saugleistung schwach? Filterbeutel / Sieb prüfen und ggf. reinigen.",
-            "Handstück und Schleifkörper nach Nutzung reinigen."
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Aufsichten / Ärzte im Raum",
-              "lines": [
-                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
-                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
-        "name": "Zentralabsaugung / Trockenabsaugung",
-        "status": "mixed",
-        "node": {
-          "kind": "self",
-          "title": "Zentralabsaugung / Trockenabsaugung",
-          "steps": [
-            "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“.",
-            "Knopf am System 3 Sekunden gedrückt halten"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Aufsichten / Ärzte im Raum",
-              "lines": [
-                "Aufsicht / Arzt im Raum „Besprechung Lehrende“ ansprechen",
-                "Nur sie dürfen das System ein- und ausschalten"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": [
-                "Im Raum „Besprechung Lehrende“ anschalten"
-              ]
-            }
-          }
-        }
-      },
-      {
-        "name": "Abdampfgerät D-S100A",
-        "manuals": [
-          {
-            "label": "Gebrauchsanweisung",
-            "path": "manuals/gips/abdampfer-d-s100a.pdf"
-          }
-        ],
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Abdampfgerät D-S100A",
-          "steps": [
-            "Wasserhahn aufgedreht?",
-            "Hauptschaulter am Gerät ein? (3) Aufgeheizt? (4) Fußschalter betätigen."
+            "Ein/Aus-Schalter und Intensitätsregler prüfen."
           ],
           "escalation": {
             "kind": "contact",
@@ -2246,19 +2137,21 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Rüttler",
+        "name": "Trockentrimmer",
         "manuals": [
           {
             "label": "Gebrauchsanweisung",
-            "path": "manuals/gips/ruettler.pdf"
+            "path": "manuals/gips/trockentrimmer.pdf"
           }
         ],
         "status": "self",
         "node": {
           "kind": "self",
-          "title": "Rüttler",
+          "title": "Trockentrimmer",
           "steps": [
-            "Ein/Aus-Schalter und Intensitätsregler prüfen."
+            "Hauptschalter prüfen – Absaugung muss laufen (hörbar), erst dann trimmen.",
+            "Modell flach und gerade aufsetzen, gleichmäßigen Druck ausüben – nicht verkanten.",
+            "Sollte das Schleifband verrutscht sein, bitte nicht selbst reparieren."
           ],
           "escalation": {
             "kind": "contact",
@@ -2279,19 +2172,21 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Elmasonic S (Ultraschall)",
+        "name": "Giroform",
         "manuals": [
           {
             "label": "Gebrauchsanweisung",
-            "path": "manuals/gips/elmasonic-s.pdf"
+            "path": "manuals/gips/giroform.pdf"
           }
         ],
         "status": "self",
         "node": {
           "kind": "self",
-          "title": "Elmasonic S (Ultraschall)",
+          "title": "Giroform",
           "steps": [
-            "Wasser bis zur Markierung nachfüllen, dann neu starten."
+            "Nur nach erfolgter Einweisung verwenden.",
+            "Stiftposition nach Kursanleitung wählen – Stifte korrekt einsetzen und sichern.",
+            "Modell in Artikulator einsetzen: Index-Stifte korrekt ausrichten und einrasten lassen."
           ],
           "escalation": {
             "kind": "contact",
@@ -2306,6 +2201,72 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "pills": [],
             "ap2": {
               "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        }
+      },
+      {
+        "name": "Polierbox",
+        "manuals": [
+          {
+            "label": "Gebrauchsanweisung",
+            "path": "manuals/gips/polierbox.pdf"
+          }
+        ],
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Polierbox",
+          "steps": [
+            "Absaugung einschalten – Schalter am Gerät oder Fußpedal prüfen.",
+            "Drehzahl am Handstück je nach Werkstück wählen.",
+            "Saugleistung schwach? Filterbeutel / Sieb prüfen und ggf. reinigen.",
+            "Handstück und Schleifkörper nach Nutzung reinigen."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        }
+      },
+      {
+        "name": "Gipsabscheider",
+        "topic": true,
+        "status": "contact",
+        "node": {
+          "kind": "self",
+          "title": "Gipsabscheider",
+          "steps": [
+            "Gerät nicht selbst öffnen oder entleeren.",
+            "Füllstand / Störmeldung notieren."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Werkstatt ZMK",
+              "lines": [
+                "Reparaturauftrag ausfüllen (liegt im Technicum)",
+                "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
+                "Für Lehrungen, Hauswirtschaft kontaktieren"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Hauswirtschaft",
               "lines": []
             }
           }
@@ -2327,6 +2288,107 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "Nur nach erfolgter Einweisung bedienen",
             "Folie und Einstellungen nach Kursanleitung wählen",
             "Bei Unsicherheit Einweisung anfordern"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        }
+      },
+      {
+        "name": "Erkoform 3d motion (Tiefziehgerät)",
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Erkoform 3d motion (Tiefziehgerät)",
+          "steps": [
+            "Folientyp und -stärke laut Kursanleitung wählen (Aufkleber am Gerät beachten).",
+            "Folie sorgfältig einspannen – Rahmen gleichmäßig und fest schließen.",
+            "Temperatur und Druck je nach Material einstellen.",
+            "Folie reißt? Temperatur oder Foliendicke prüfen, ggf. neu einspannen.",
+            "Nach Abkühlung Modell entnehmen, Folie vorsichtig abtrennen."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        },
+        "manuals": []
+      },
+      {
+        "name": "Steamy Mini (Abdampfer)",
+        "manuals": [
+          {
+            "label": "Gebrauchsanweisung",
+            "path": "manuals/gips/steamy-mini.pdf"
+          }
+        ],
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Steamy Mini (Abdampfer)",
+          "steps": [
+            "Wassertank befüllen (destilliertes Wasser – nur bei abgekühltem Gerät).",
+            "Aufheizzeit abwarten – ca. 3–5 Min. bis Betriebsdruck erreicht ist.",
+            "Nach Gebrauch: Ausschalten, Restdampf ablassen."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Aufsichten / Ärzte im Raum",
+              "lines": [
+                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
+                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": []
+            }
+          }
+        }
+      },
+      {
+        "name": "Abdampfgerät D-S100A",
+        "manuals": [
+          {
+            "label": "Gebrauchsanweisung",
+            "path": "manuals/gips/abdampfer-d-s100a.pdf"
+          }
+        ],
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Abdampfgerät D-S100A",
+          "steps": [
+            "Wasserhahn aufgedreht?",
+            "Hauptschaulter am Gerät ein? (3) Aufgeheizt? (4) Fußschalter betätigen."
           ],
           "escalation": {
             "kind": "contact",
@@ -2377,68 +2439,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             }
           }
         }
-      },
-      {
-        "name": "Gipsabscheider",
-        "topic": true,
-        "status": "contact",
-        "node": {
-          "kind": "self",
-          "title": "Gipsabscheider",
-          "steps": [
-            "Gerät nicht selbst öffnen oder entleeren.",
-            "Füllstand / Störmeldung notieren."
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Werkstatt ZMK",
-              "lines": [
-                "Reparaturauftrag ausfüllen (liegt im Technicum)",
-                "Telefonliste ZMK – bei Dringlichkeit Mobilnr.",
-                "Für Lehrungen, Hauswirtschaft kontaktieren"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Hauswirtschaft",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
-        "name": "Erkoform 3d motion (Tiefziehgerät)",
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Erkoform 3d motion (Tiefziehgerät)",
-          "steps": [
-            "Folientyp und -stärke laut Kursanleitung wählen (Aufkleber am Gerät beachten).",
-            "Folie sorgfältig einspannen – Rahmen gleichmäßig und fest schließen.",
-            "Temperatur und Druck je nach Material einstellen.",
-            "Folie reißt? Temperatur oder Foliendicke prüfen, ggf. neu einspannen.",
-            "Nach Abkühlung Modell entnehmen, Folie vorsichtig abtrennen."
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Aufsichten / Ärzte im Raum",
-              "lines": [
-                "Zuständige Aufsicht oder Arzt im Raum ansprechen",
-                "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": []
-            }
-          }
-        },
-        "manuals": []
       }
     ],
     "access": "Zugang im Kurs – Einweisung durch Aufsichten / Ärzte."
@@ -2447,38 +2447,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     "id": "giessen",
     "name": "Gießen & Strahlen",
     "devices": [
-      {
-        "name": "Augenspülstation",
-        "status": "safety",
-        "node": {
-          "kind": "safety",
-          "warn": "Bei Spritzern ins Auge sofort ausgiebig mit der Augenspülstation spülen (mind. 30 s) und Lehrpersonal informieren.",
-          "inner": {
-            "kind": "self",
-            "title": "Augenspülstation",
-            "steps": [
-              "Standort: im Raum Gießen & Strahlen. Betroffenes Auge sofort und ausgiebig spülen, Augenlid offen halten. Anschließend Lehrpersonal informieren und – außer bei Bagatelle – Unfallmeldung ausfüllen. Station stets frei zugänglich halten; Verfallsdatum der Spülflaschen beachten.",
-              "Keine Gewähr der Angaben"
-            ],
-            "escalation": {
-              "kind": "contact",
-              "contact": {
-                "name": "Sekretariat / Koordination Skill Labs",
-                "lines": [
-                  "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
-                  "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
-                ]
-              },
-              "desc": "",
-              "pills": [],
-              "ap2": {
-                "name": "Werkstatt ZMK",
-                "lines": []
-              }
-            }
-          }
-        }
-      },
       {
         "name": "Zentralabsaugung / Trockenabsaugung",
         "status": "mixed",
@@ -2510,22 +2478,12 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "eyevolution max",
-        "manuals": [
-          {
-            "label": "Bedienungsanleitung",
-            "path": "manuals/giessen/eyevolution-max.pdf"
-          }
-        ],
-        "status": "self",
+        "name": "Drucktopf",
+        "status": "safety",
         "node": {
-          "kind": "self",
-          "title": "eyevolution max",
-          "steps": [
-            "Ein/Aus-Schalter prüfen, Gerät neu starten. Am Strom angeschlossen?",
-            "Programm nach Kursanleitung anpassen."
-          ],
-          "escalation": {
+          "kind": "safety",
+          "warn": "Den Drucktopf niemals ohne Einweisung bedienen – immer erst Druck vollständig ablassen!",
+          "inner": {
             "kind": "contact",
             "contact": {
               "name": "Aufsichten / Ärzte im Raum",
@@ -2579,12 +2537,54 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         }
       },
       {
-        "name": "Drucktopf",
+        "name": "Augenspülstation",
         "status": "safety",
         "node": {
           "kind": "safety",
-          "warn": "Den Drucktopf niemals ohne Einweisung bedienen – immer erst Druck vollständig ablassen!",
+          "warn": "Bei Spritzern ins Auge sofort ausgiebig mit der Augenspülstation spülen (mind. 30 s) und Lehrpersonal informieren.",
           "inner": {
+            "kind": "self",
+            "title": "Augenspülstation",
+            "steps": [
+              "Standort: im Raum Gießen & Strahlen. Betroffenes Auge sofort und ausgiebig spülen, Augenlid offen halten. Anschließend Lehrpersonal informieren und – außer bei Bagatelle – Unfallmeldung ausfüllen. Station stets frei zugänglich halten; Verfallsdatum der Spülflaschen beachten.",
+              "Keine Gewähr der Angaben"
+            ],
+            "escalation": {
+              "kind": "contact",
+              "contact": {
+                "name": "Sekretariat / Koordination Skill Labs",
+                "lines": [
+                  "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
+                  "Falls nötig in CC / 2. Stelle: Werkstatt ZMK"
+                ]
+              },
+              "desc": "",
+              "pills": [],
+              "ap2": {
+                "name": "Werkstatt ZMK",
+                "lines": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "eyevolution max",
+        "manuals": [
+          {
+            "label": "Bedienungsanleitung",
+            "path": "manuals/giessen/eyevolution-max.pdf"
+          }
+        ],
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "eyevolution max",
+          "steps": [
+            "Ein/Aus-Schalter prüfen, Gerät neu starten. Am Strom angeschlossen?",
+            "Programm nach Kursanleitung anpassen."
+          ],
+          "escalation": {
             "kind": "contact",
             "contact": {
               "name": "Aufsichten / Ärzte im Raum",
@@ -2783,25 +2783,32 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     "name": "Besprechung Lehrende",
     "devices": [
       {
-        "name": "Küche & Kaffee",
-        "topic": true,
-        "status": "self",
+        "name": "Zentralabsaugung / Trockenabsaugung",
+        "status": "mixed",
         "node": {
           "kind": "self",
-          "title": "Küche & Kaffee",
+          "title": "Zentralabsaugung / Trockenabsaugung",
           "steps": [
-            "Mikrowelle, Kühlschrank und Kaffeevollautomat für Lehrende. Spül- und Reinigungsdienst für Tisch/Theke beachten – Organisation durch das Prothetik-Team."
+            "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“.",
+            "Knopf am System 3 Sekunden gedrückt halten"
           ],
           "escalation": {
             "kind": "contact",
             "contact": {
               "name": "Aufsichten / Ärzte im Raum",
               "lines": [
-                "Die Steuerung für die Zentralabsauguing/ Trockenabsaugung befindet sich in diesem Raum"
+                "Aufsicht / Arzt im Raum „Besprechung Lehrende“ ansprechen",
+                "Nur sie dürfen das System ein- und ausschalten"
               ]
             },
             "desc": "",
-            "pills": []
+            "pills": [],
+            "ap2": {
+              "name": "Werkstatt ZMK",
+              "lines": [
+                "Im Raum „Besprechung Lehrende“ anschalten"
+              ]
+            }
           }
         }
       },
@@ -2834,32 +2841,25 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
         "manuals": []
       },
       {
-        "name": "Zentralabsaugung / Trockenabsaugung",
-        "status": "mixed",
+        "name": "Küche & Kaffee",
+        "topic": true,
+        "status": "self",
         "node": {
           "kind": "self",
-          "title": "Zentralabsaugung / Trockenabsaugung",
+          "title": "Küche & Kaffee",
           "steps": [
-            "System eingeschaltet? Das Einschalten erfolgt durch die Aufsicht im Raum „Besprechung Lehrende“.",
-            "Knopf am System 3 Sekunden gedrückt halten"
+            "Mikrowelle, Kühlschrank und Kaffeevollautomat für Lehrende. Spül- und Reinigungsdienst für Tisch/Theke beachten – Organisation durch das Prothetik-Team."
           ],
           "escalation": {
             "kind": "contact",
             "contact": {
               "name": "Aufsichten / Ärzte im Raum",
               "lines": [
-                "Aufsicht / Arzt im Raum „Besprechung Lehrende“ ansprechen",
-                "Nur sie dürfen das System ein- und ausschalten"
+                "Die Steuerung für die Zentralabsauguing/ Trockenabsaugung befindet sich in diesem Raum"
               ]
             },
             "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Werkstatt ZMK",
-              "lines": [
-                "Im Raum „Besprechung Lehrende“ anschalten"
-              ]
-            }
+            "pills": []
           }
         }
       }
@@ -2870,6 +2870,78 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     "id": "cad",
     "name": "CAD-Raum",
     "devices": [
+      {
+        "name": "Buchung / Zugang",
+        "topic": true,
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "Buchung / Zugang",
+          "steps": [
+            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
+            "Freien Termin eintragen bzw. anfragen",
+            "Zugang über die zuständige Stelle klären"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Sekretariat / Koordination Skill Labs",
+              "lines": [
+                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        }
+      },
+      {
+        "name": "Medienpanel / Raumsteuerung",
+        "status": "branch",
+        "node": {
+          "kind": "contact",
+          "contact": {
+            "name": "IT-Service Tal",
+            "lines": [
+              "Arzt Skill Labs oder Techn. Koordinator ansprechen"
+            ]
+          },
+          "desc": "",
+          "pills": [],
+          "ap2": {
+            "name": "AV-Medien",
+            "lines": []
+          }
+        }
+      },
+      {
+        "name": "PC / Workstation – Funktionsstörung",
+        "status": "branch",
+        "node": {
+          "kind": "self",
+          "title": "PC / Workstation – Funktionsstörung",
+          "steps": [
+            "Alle Anwendungen schließen (falls möglich).",
+            "PC über das Startmenü neu starten – nicht den Netzstecker ziehen.",
+            "Falls kein Neustart möglich: Powerknopf 5 Sek. gedrückt halten.",
+            "Nach Neustart prüfen, ob das Problem behoben ist.",
+            "Kabel und Stecker prüfen (Monitor, Netzwerk, Strom).",
+            "Fehlermeldung notieren und Screenshot erstellen."
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "IT-Service Tal",
+              "lines": [
+                "Serviceportal oder Telefon – Telefonliste ZMK"
+              ]
+            },
+            "desc": "",
+            "pills": []
+          }
+        },
+        "manuals": []
+      },
       {
         "name": "3D-Scanner Pritimirror",
         "status": "self",
@@ -2977,25 +3049,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
               "name": "3D-Druck Mailbox",
               "lines": []
             }
-          }
-        }
-      },
-      {
-        "name": "Medienpanel / Raumsteuerung",
-        "status": "branch",
-        "node": {
-          "kind": "contact",
-          "contact": {
-            "name": "IT-Service Tal",
-            "lines": [
-              "Arzt Skill Labs oder Techn. Koordinator ansprechen"
-            ]
-          },
-          "desc": "",
-          "pills": [],
-          "ap2": {
-            "name": "AV-Medien",
-            "lines": []
           }
         }
       },
@@ -3129,7 +3182,14 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "pills": []
           }
         }
-      },
+      }
+    ],
+    "access": "Zugang nach Rücksprache mit Techn. Koordinator oder Sekretariat."
+  },
+  {
+    "id": "cam",
+    "name": "CAM-Raum",
+    "devices": [
       {
         "name": "Buchung / Zugang",
         "topic": true,
@@ -3147,7 +3207,8 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "contact": {
               "name": "Sekretariat / Koordination Skill Labs",
               "lines": [
-                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator"
+                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
               ]
             },
             "desc": "",
@@ -3182,14 +3243,7 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
           }
         },
         "manuals": []
-      }
-    ],
-    "access": "Zugang nach Rücksprache mit Techn. Koordinator oder Sekretariat."
-  },
-  {
-    "id": "cam",
-    "name": "CAM-Raum",
-    "devices": [
+      },
       {
         "name": "Ceramill Matik (Fräsmaschine)",
         "status": "safety",
@@ -3421,60 +3475,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "pills": []
           }
         }
-      },
-      {
-        "name": "Buchung / Zugang",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "Buchung / Zugang",
-          "steps": [
-            "Verfügbarkeit im Routineraster / Google Kalender prüfen",
-            "Freien Termin eintragen bzw. anfragen",
-            "Zugang über die zuständige Stelle klären"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Sekretariat / Koordination Skill Labs",
-              "lines": [
-                "Direkt ansprechen oder per Mail – cc: Techn. Koordinator",
-                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
-        }
-      },
-      {
-        "name": "PC / Workstation – Funktionsstörung",
-        "status": "branch",
-        "node": {
-          "kind": "self",
-          "title": "PC / Workstation – Funktionsstörung",
-          "steps": [
-            "Alle Anwendungen schließen (falls möglich).",
-            "PC über das Startmenü neu starten – nicht den Netzstecker ziehen.",
-            "Falls kein Neustart möglich: Powerknopf 5 Sek. gedrückt halten.",
-            "Nach Neustart prüfen, ob das Problem behoben ist.",
-            "Kabel und Stecker prüfen (Monitor, Netzwerk, Strom).",
-            "Fehlermeldung notieren und Screenshot erstellen."
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "IT-Service Tal",
-              "lines": [
-                "Serviceportal oder Telefon – Telefonliste ZMK"
-              ]
-            },
-            "desc": "",
-            "pills": []
-          }
-        },
-        "manuals": []
       }
     ],
     "warn": "Laborkittel, Schutzbrille und geschlossene Schuhe Pflicht. Nicht alleine im Labor arbeiten."
@@ -3520,35 +3520,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     "name": "Qualifizierung · Einweisung",
     "devices": [
       {
-        "name": "CAD/CAM Sicherheitseinweisung",
-        "topic": true,
-        "status": "self",
-        "node": {
-          "kind": "self",
-          "title": "CAD/CAM Sicherheitseinweisung",
-          "steps": [
-            "Termin für die Einweisung erfragen",
-            "Ohne Einweisung keine Gerätenutzung"
-          ],
-          "escalation": {
-            "kind": "contact",
-            "contact": {
-              "name": "Einweisung anfordern",
-              "lines": [
-                "Arzt Skill Labs oder Techn. Koordinator ansprechen",
-                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
-              ]
-            },
-            "desc": "",
-            "pills": [],
-            "ap2": {
-              "name": "Technischer Koordinator Skill Labs",
-              "lines": []
-            }
-          }
-        }
-      },
-      {
         "name": "Intraoralscanner (IOS) Einweisung",
         "topic": true,
         "status": "self",
@@ -3572,6 +3543,35 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
             "pills": [],
             "ap2": {
               "name": "Arzt Skill Labs oder Techn. Koordinator ansprechen",
+              "lines": []
+            }
+          }
+        }
+      },
+      {
+        "name": "CAD/CAM Sicherheitseinweisung",
+        "topic": true,
+        "status": "self",
+        "node": {
+          "kind": "self",
+          "title": "CAD/CAM Sicherheitseinweisung",
+          "steps": [
+            "Termin für die Einweisung erfragen",
+            "Ohne Einweisung keine Gerätenutzung"
+          ],
+          "escalation": {
+            "kind": "contact",
+            "contact": {
+              "name": "Einweisung anfordern",
+              "lines": [
+                "Arzt Skill Labs oder Techn. Koordinator ansprechen",
+                "Falls nötig in CC / 2. Stelle: Technischer Koordinator Skill Labs"
+              ]
+            },
+            "desc": "",
+            "pills": [],
+            "ap2": {
+              "name": "Technischer Koordinator Skill Labs",
               "lines": []
             }
           }
@@ -3782,6 +3782,30 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
     "name": "Gebäude & Infrastruktur",
     "devices": [
       {
+        "name": "Klimatisierung / Lüftung",
+        "topic": true,
+        "status": "contact",
+        "node": {
+          "kind": "direct",
+          "contact": {
+            "name": "Zuständige Stellen",
+            "lines": [
+              "TBA – Technisches Betriebsamt: 77171",
+              "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
+              "Technischer Koordinator Skill Labs – direkt ansprechen"
+            ]
+          },
+          "steps": [
+            "Betroffenen Raum und Art der Störung notieren (keine Kühlung, kein Luftstrom, Lärm, …).",
+            "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
+          ],
+          "ap2": {
+            "name": "TBA – Technisches Betriebsamt",
+            "lines": []
+          }
+        }
+      },
+      {
         "name": "Wasser",
         "topic": true,
         "status": "mixed",
@@ -3843,30 +3867,6 @@ h1{font-size:clamp(26px,5.4vw,32px);font-weight:600;letter-spacing:-.02em;line-h
                 "Technischer Koordinator Skill Labs – direkt ansprechen"
               ]
             }
-          }
-        }
-      },
-      {
-        "name": "Klimatisierung / Lüftung",
-        "topic": true,
-        "status": "contact",
-        "node": {
-          "kind": "direct",
-          "contact": {
-            "name": "Zuständige Stellen",
-            "lines": [
-              "TBA – Technisches Betriebsamt: 77171",
-              "Werkstatt ZMK – Reparaturauftrag ausfüllen (liegt im Technicum)",
-              "Technischer Koordinator Skill Labs – direkt ansprechen"
-            ]
-          },
-          "steps": [
-            "Betroffenen Raum und Art der Störung notieren (keine Kühlung, kein Luftstrom, Lärm, …).",
-            "Eine der zuständigen Stellen informieren (siehe Ansprechpartner finden)."
-          ],
-          "ap2": {
-            "name": "TBA – Technisches Betriebsamt",
-            "lines": []
           }
         }
       },
