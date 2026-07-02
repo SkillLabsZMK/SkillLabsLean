@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AM-RL Framework · Self-Assessment</title>
+<meta name="description" content="Additive Manufacturing Readiness Level self-assessment for Hospital, Medtech and Pharma organisations. 15 dimensions, 9 maturity levels.">
+<style>
+/* ============================== tokens ============================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1B365D; --blue-d:#12253f; --blue-l:#2d4f82;
+  --orange:#E8792F; --orange-d:#c5601d;
+  --bg:#f5f6f8; --surface:#ffffff; --surface2:#eef1f5;
+  --ink:#1d2733; --ink2:#54627a; --ink3:#8b96a8;
+  --line:rgba(29,39,51,.10); --line2:rgba(29,39,51,.18);
+  --ok:#2E7D5B; --warn:#B26A2B; --crit:#C0392B;
+  --r:12px; --r-sm:8px;
+  --shadow:0 1px 3px rgba(27,54,93,.08),0 10px 28px -12px rgba(27,54,93,.18);
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#141a24; --surface:#1d2532; --surface2:#26303f;
+  --ink:#e6eaf0; --ink2:#a7b2c4; --ink3:#6f7c92;
+  --line:rgba(230,234,240,.10); --line2:rgba(230,234,240,.20);
+  --blue-l:#7d9cc9; --shadow:0 1px 3px rgba(0,0,0,.3),0 10px 28px -12px rgba(0,0,0,.5);
+}}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+h1,h2,h3{line-height:1.25}
+
+/* ============================== layout ============================== */
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px 80px}
+header.app{background:var(--blue);color:#fff;padding:14px 0;position:sticky;top:0;z-index:40;box-shadow:var(--shadow)}
+header.app .wrap{display:flex;align-items:center;gap:14px;padding-bottom:0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;letter-spacing:.2px}
+.logo .mark{width:30px;height:30px;border-radius:8px;background:var(--orange);display:grid;place-items:center;font-size:.78rem;font-weight:800;color:#fff}
+.logo small{display:block;font-weight:400;font-size:.72rem;opacity:.75;letter-spacing:.4px}
+.hspace{flex:1}
+.hbtn{padding:7px 13px;border-radius:8px;font-size:.85rem;font-weight:600;color:#fff;background:rgba(255,255,255,.12);transition:background .15s}
+.hbtn:hover{background:rgba(255,255,255,.24)}
+
+/* ============================== home ============================== */
+.hero{text-align:center;padding:56px 0 34px}
+.hero h1{font-size:clamp(1.6rem,4vw,2.3rem);color:var(--blue);margin-bottom:12px}
+@media(prefers-color-scheme:dark){.hero h1{color:var(--blue-l)}}
+.hero p{max-width:640px;margin:0 auto;color:var(--ink2);font-size:1.02rem}
+.hero .meta{margin-top:14px;font-size:.8rem;color:var(--ink3)}
+.sectors{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:34px}
+.sector-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px 22px;text-align:left;box-shadow:var(--shadow);transition:transform .15s,border-color .15s;display:block;width:100%}
+.sector-card:hover{transform:translateY(-3px);border-color:var(--orange)}
+.sector-card .icon{font-size:1.9rem;margin-bottom:10px;display:block}
+.sector-card h3{color:var(--blue);font-size:1.15rem;margin-bottom:6px}
+@media(prefers-color-scheme:dark){.sector-card h3{color:var(--blue-l)}}
+.sector-card p{color:var(--ink2);font-size:.88rem;margin-bottom:12px}
+.sector-card .count{display:inline-block;font-size:.75rem;font-weight:700;color:var(--orange-d);background:rgba(232,121,47,.12);padding:3px 10px;border-radius:99px}
+.resume-note{margin-top:26px;text-align:center;font-size:.88rem;color:var(--ink2)}
+.resume-note button{color:var(--orange-d);font-weight:700;text-decoration:underline}
+
+/* ============================== assess ============================== */
+.assess-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:26px 0 14px}
+.assess-top h2{font-size:1.3rem;color:var(--blue)}
+@media(prefers-color-scheme:dark){.assess-top h2{color:var(--blue-l)}}
+.pill{font-size:.74rem;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--surface2);color:var(--ink2)}
+.progressbar{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:18px}
+.progressbar>div{height:100%;background:var(--orange);border-radius:99px;transition:width .3s}
+.dim-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.chip{padding:6px 12px;border-radius:99px;font-size:.78rem;font-weight:600;background:var(--surface);border:1px solid var(--line2);color:var(--ink2);transition:all .15s}
+.chip.done{border-color:var(--ok);color:var(--ok)}
+.chip.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.dim-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.dim-head{padding:22px 24px 18px;border-bottom:1px solid var(--line)}
+.dim-head .band{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.dim-head h3{font-size:1.25rem}
+.dim-num{font-size:.72rem;font-weight:800;letter-spacing:.6px;color:#fff;background:var(--dimcolor,var(--blue));padding:3px 9px;border-radius:6px}
+.dim-head .experts{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.dim-head .experts span{font-size:.72rem;background:var(--surface2);color:var(--ink2);padding:3px 9px;border-radius:99px}
+.dim-help{padding:12px 24px;font-size:.82rem;color:var(--ink2);background:var(--surface2);border-bottom:1px solid var(--line)}
+.ladder{list-style:none}
+.lvl{display:flex;gap:14px;align-items:flex-start;padding:13px 24px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s;width:100%;text-align:left}
+.lvl:hover{background:var(--surface2)}
+.lvl .badge{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:800;border:2px solid var(--line2);color:var(--ink3);transition:all .15s;margin-top:2px}
+.lvl .txt b{display:block;font-size:.92rem}
+.lvl .txt p{font-size:.85rem;color:var(--ink2);margin-top:2px}
+.lvl.reached .badge{background:var(--dimcolor,var(--blue));border-color:var(--dimcolor,var(--blue));color:#fff}
+.lvl.current{background:color-mix(in srgb,var(--dimcolor,var(--blue)) 8%,var(--surface))}
+.lvl.current .txt b::after{content:" · your level";color:var(--orange-d);font-size:.75rem;font-weight:700}
+.lvl.target-mark .txt b::before{content:"◎ target · ";color:var(--ok);font-size:.78rem;font-weight:800}
+.lvl-zero{padding:12px 24px;border-bottom:1px solid var(--line)}
+.lvl-zero button{font-size:.82rem;color:var(--ink3);text-decoration:underline}
+.lvl-zero button.on{color:var(--crit);font-weight:700}
+.dim-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:16px 24px}
+.dim-foot .tgt{display:flex;align-items:center;gap:8px;font-size:.88rem;color:var(--ink2)}
+.tgt select{font:inherit;font-size:.88rem;padding:5px 8px;border-radius:8px;border:1px solid var(--line2);background:var(--surface);color:var(--ink)}
+.nav-btns{margin-left:auto;display:flex;gap:10px}
+.btn{padding:9px 18px;border-radius:9px;font-size:.9rem;font-weight:700;transition:all .15s}
+.btn.primary{background:var(--orange);color:#fff}
+.btn.primary:hover{background:var(--orange-d)}
+.btn.ghost{border:1px solid var(--line2);color:var(--ink2)}
+.btn.ghost:hover{border-color:var(--ink3);color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.to-results{margin-top:22px;text-align:center}
+.to-results .hint{font-size:.8rem;color:var(--ink3);margin-top:8px}
+
+/* ============================== results ============================== */
+.res-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:28px 0 18px}
+.res-head h2{font-size:1.4rem;color:var(--blue)}
+@media(prefers-color-scheme:dark){.res-head h2{color:var(--blue-l)}}
+.res-actions{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow)}
+.stat .v{font-size:1.7rem;font-weight:800;color:var(--blue)}
+@media(prefers-color-scheme:dark){.stat .v{color:var(--blue-l)}}
+.stat .l{font-size:.78rem;color:var(--ink2);margin-top:2px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:22px 24px;margin-bottom:22px}
+.panel h3{font-size:1.05rem;color:var(--blue);margin-bottom:14px}
+@media(prefers-color-scheme:dark){.panel h3{color:var(--blue-l)}}
+.radar-box{display:flex;justify-content:center}
+.radar-box svg{max-width:560px;width:100%;height:auto}
+.legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:10px;font-size:.8rem;color:var(--ink2)}
+.legend i{display:inline-block;width:22px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.tablewrap{overflow-x:auto}
+table.gaps{width:100%;border-collapse:collapse;font-size:.87rem}
+table.gaps th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:var(--ink3);padding:8px 10px;border-bottom:2px solid var(--line2)}
+table.gaps td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.gaps td.num{text-align:center;font-variant-numeric:tabular-nums}
+.dimdot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;vertical-align:baseline}
+.gapbadge{display:inline-block;min-width:26px;text-align:center;font-weight:800;font-size:.8rem;padding:2px 8px;border-radius:99px}
+.g0{background:rgba(46,125,91,.14);color:var(--ok)}
+.g1,.g2{background:rgba(178,106,43,.14);color:var(--warn)}
+.g3,.g4{background:rgba(192,57,43,.14);color:var(--crit)}
+.experts-list{display:grid;gap:12px}
+.expert{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px}
+.expert .prio{flex:none;font-size:.68rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:99px;margin-top:2px}
+.p-critical{background:rgba(192,57,43,.15);color:var(--crit)}
+.p-high{background:rgba(232,121,47,.16);color:var(--orange-d)}
+.p-medium{background:rgba(178,106,43,.14);color:var(--warn)}
+.p-low{background:rgba(46,125,91,.13);color:var(--ok)}
+.expert b{font-size:.95rem}
+.expert p{font-size:.8rem;color:var(--ink2);margin-top:3px}
+.disclaimer{font-size:.75rem;color:var(--ink3);margin-top:6px}
+
+/* ============================== glossary & tooltip ============================== */
+abbr.gl{cursor:help;text-decoration:underline dotted var(--orange);text-underline-offset:3px;font-style:normal}
+#tooltip{position:absolute;z-index:100;max-width:300px;background:var(--blue-d);color:#fff;border-radius:9px;padding:10px 13px;font-size:.8rem;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.35);pointer-events:none;opacity:0;transition:opacity .12s}
+#tooltip.show{opacity:1}
+#tooltip b{color:#ffb27d}
+#tooltip small{display:block;opacity:.8;margin-top:3px}
+.modal-back{position:fixed;inset:0;background:rgba(15,22,32,.55);z-index:60;display:none;align-items:flex-start;justify-content:center;padding:6vh 16px}
+.modal-back.open{display:flex}
+.modal{background:var(--surface);border-radius:var(--r);max-width:640px;width:100%;max-height:82vh;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.modal header{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line)}
+.modal header h3{font-size:1.05rem;color:var(--blue);flex:1}
+@media(prefers-color-scheme:dark){.modal header h3{color:var(--blue-l)}}
+.modal header input{font:inherit;font-size:.88rem;padding:7px 12px;border-radius:8px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);width:190px}
+.modal .close{font-size:1.3rem;color:var(--ink3);line-height:1}
+.modal .body{overflow-y:auto;padding:8px 22px 20px}
+.gl-row{padding:11px 0;border-bottom:1px solid var(--line)}
+.gl-row b{color:var(--orange-d);font-size:.9rem}
+.gl-row .full{font-size:.88rem}
+.gl-row .ctx{font-size:.78rem;color:var(--ink2)}
+
+footer.app{margin-top:40px;text-align:center;font-size:.75rem;color:var(--ink3);padding:20px}
+.hidden{display:none!important}
+
+/* ============================== print ============================== */
+@media print{
+  header.app,.res-actions,.dim-chips,footer.app,#tooltip{display:none!important}
+  body{background:#fff;color:#000}
+  .panel,.stat{box-shadow:none;border-color:#ccc;break-inside:avoid}
+  .wrap{max-width:100%;padding:0}
+}
+@media(max-width:640px){
+  .dim-foot{flex-direction:column;align-items:stretch}
+  .nav-btns{margin-left:0;justify-content:space-between}
+}
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="wrap">
+    <div class="logo">
+      <span class="mark">AM</span>
+      <span>AM-RL Framework<small id="meta-line">Readiness Self-Assessment</small></span>
+    </div>
+    <div class="hspace"></div>
+    <button class="hbtn" id="btn-glossary" type="button">Glossary</button>
+    <button class="hbtn" id="btn-restart" type="button">Restart</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ HOME ============ -->
+  <section id="view-home">
+    <div class="hero">
+      <h1>How ready is your organisation for Additive&nbsp;Manufacturing?</h1>
+      <p>Assess your maturity across up to 15 dimensions — from technology and regulation to labor safety, quality management and funding. Each dimension uses a 9-level readiness scale. You'll get a gap analysis, sector benchmarks and matched expert recommendations.</p>
+      <p class="meta" id="meta-version"></p>
+    </div>
+    <div class="sectors" id="sector-cards"></div>
+    <p class="resume-note hidden" id="resume-note">A previous assessment was found. <button type="button" id="btn-resume">Continue where you left off</button></p>
+  </section>
+
+  <!-- ============ ASSESS ============ -->
+  <section id="view-assess" class="hidden">
+    <div class="assess-top">
+      <h2 id="assess-title"></h2>
+      <span class="pill" id="assess-progress-pill"></span>
+    </div>
+    <div class="progressbar"><div id="assess-progress" style="width:0%"></div></div>
+    <div class="dim-chips" id="dim-chips"></div>
+    <div class="dim-card" id="dim-card"></div>
+    <div class="to-results">
+      <button class="btn primary" id="btn-results" type="button">View results →</button>
+      <p class="hint" id="results-hint"></p>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="view-results" class="hidden">
+    <div class="res-head">
+      <h2>Your AM Readiness Profile</h2>
+      <div class="res-actions">
+        <button class="btn ghost" id="btn-back-assess" type="button">← Edit answers</button>
+        <button class="btn ghost" id="btn-export" type="button">Download JSON</button>
+        <button class="btn primary" id="btn-print" type="button">Print / PDF</button>
+      </div>
+    </div>
+    <div class="stats" id="res-stats"></div>
+    <div class="panel">
+      <h3>Readiness Radar</h3>
+      <div class="radar-box" id="radar"></div>
+      <div class="legend">
+        <span><i style="background:#E8792F"></i>Current level</span>
+        <span><i style="background:#2E7D5B"></i>Target level</span>
+        <span><i style="background:#8b96a8"></i>Sector benchmark*</span>
+      </div>
+      <p class="disclaimer">* Benchmark values are placeholders until real anonymised network data is available.</p>
+    </div>
+    <div class="panel">
+      <h3>Gap Analysis</h3>
+      <div class="tablewrap">
+        <table class="gaps">
+          <thead><tr><th>Dimension</th><th style="text-align:center">Current</th><th style="text-align:center">Target</th><th style="text-align:center">Benchmark</th><th style="text-align:center">Gap</th><th>Next step</th></tr></thead>
+          <tbody id="gap-rows"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Recommended Experts</h3>
+      <div class="experts-list" id="experts-list"></div>
+      <p class="disclaimer">Priority is derived from your largest readiness gap per expert domain: Critical ≥ 4 levels, High = 3, Medium = 2, Low = 1.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="app">AM-RL Framework — Additive Manufacturing Readiness Levels for medical &amp; healthcare organisations.</footer>
+
+<!-- glossary modal -->
+<div class="modal-back" id="glossary-modal">
+  <div class="modal" role="dialog" aria-label="Glossary">
+    <header>
+      <h3>Glossary</h3>
+      <input type="search" id="gl-search" placeholder="Search…" autocomplete="off">
+      <button class="close" id="gl-close" type="button" aria-label="Close">×</button>
+    </header>
+    <div class="body" id="gl-body"></div>
+  </div>
+</div>
+
+<div id="tooltip" role="tooltip"></div>
+
+<script src="data.js"></script>
+<script>
+"use strict";
+/* ==========================================================================
+ * AM-RL Assessment Tool v3.0
+ * Modules: DataLoader (exposes DIMS/LVLS/QS/BM/GLOSS), Gloss (tooltips),
+ *          Radar (SVG chart), App (state + rendering)
+ * ======================================================================== */
+
+/* ---------- DataLoader ---------- */
+const DATA  = window.AM_RL_DATA;
+const DIMS  = DATA.dimensions;
+const LVLS  = DATA.level_names;
+const QS    = DATA.questions;
+const BM    = DATA.benchmarks;
+const GLOSS = DATA.glossary;
+
+const SECTORS = {
+  H: { name: "Hospital", icon: "🏥", desc: "Clinics and health institutions — including point-of-care manufacturing and clinical integration." },
+  M: { name: "Medtech",  icon: "⚙️", desc: "Medical device manufacturers and suppliers — from prototyping to certified serial production." },
+  P: { name: "Pharma",   icon: "💊", desc: "Pharmaceutical manufacturers — including GMP readiness for printed dosage forms and devices." }
+};
+
+/* ---------- Gloss: abbreviation tooltips ---------- */
+const Gloss = (() => {
+  const map = new Map(GLOSS.map(g => [g.abbr, g]));
+  // longest first so "ISO 13485" wins over "ISO"
+  const pattern = GLOSS.map(g => g.abbr.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .sort((a, b) => b.length - a.length).join("|");
+  const rx = new RegExp("(?<![\\w/])(" + pattern + ")(?![\\w-])", "g");
+  const esc = s => s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  function wrap(text) {
+    return esc(text).replace(rx, m => `<abbr class="gl" tabindex="0" data-abbr="${m}">${m}</abbr>`);
+  }
+
+  const tip = document.getElementById("tooltip");
+  let hideTimer = null;
+  function show(el) {
+    const g = map.get(el.dataset.abbr);
+    if (!g) return;
+    clearTimeout(hideTimer);
+    tip.innerHTML = `<b>${esc(g.abbr)}</b> — ${esc(g.full)}<small>${esc(g.context)}</small>`;
+    tip.classList.add("show");
+    const r = el.getBoundingClientRect();
+    tip.style.left = "0px"; tip.style.top = "0px"; // reset before measuring
+    const tw = tip.offsetWidth, sx = window.scrollX, sy = window.scrollY;
+    let x = sx + r.left + r.width / 2 - tw / 2;
+    x = Math.max(sx + 8, Math.min(x, sx + document.documentElement.clientWidth - tw - 8));
+    tip.style.left = x + "px";
+    tip.style.top = (sy + r.bottom + 8) + "px";
+  }
+  function hide() { hideTimer = setTimeout(() => tip.classList.remove("show"), 80); }
+
+  document.addEventListener("mouseover", e => { const a = e.target.closest("abbr.gl"); if (a) show(a); });
+  document.addEventListener("mouseout",  e => { if (e.target.closest("abbr.gl")) hide(); });
+  document.addEventListener("focusin",   e => { const a = e.target.closest("abbr.gl"); if (a) show(a); });
+  document.addEventListener("focusout",  e => { if (e.target.closest("abbr.gl")) hide(); });
+  // touch: tap toggles
+  document.addEventListener("click", e => {
+    const a = e.target.closest("abbr.gl");
+    if (a) { e.stopPropagation(); show(a); }
+    else if (tip.classList.contains("show")) hide();
+  }, true);
+
+  return { wrap, esc };
+})();
+
+/* ---------- Radar: SVG chart ---------- */
+const Radar = (() => {
+  function polygon(points) { return points.map(p => p.join(",")).join(" "); }
+
+  function render(container, dims, series) {
+    const N = dims.length, size = 560, cx = size / 2, cy = size / 2, R = size / 2 - 74;
+    const angle = i => (Math.PI * 2 * i / N) - Math.PI / 2;
+    const pt = (i, v) => [cx + Math.cos(angle(i)) * R * v / 9, cy + Math.sin(angle(i)) * R * v / 9];
+
+    let s = `<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" font-family="inherit">`;
+    // grid rings at 3/6/9 + spokes
+    for (const ring of [3, 6, 9]) {
+      s += `<polygon points="${polygon(dims.map((_, i) => pt(i, ring)))}" fill="${ring === 9 ? "none" : "none"}" stroke="currentColor" stroke-opacity="${ring === 9 ? .35 : .15}" stroke-width="1"/>`;
+    }
+    for (let i = 0; i < N; i++) {
+      const [x, y] = pt(i, 9);
+      s += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="currentColor" stroke-opacity=".12"/>`;
+    }
+    // ring labels
+    for (const ring of [3, 6, 9]) s += `<text x="${cx + 4}" y="${cy - R * ring / 9 - 3}" font-size="10" fill="currentColor" opacity=".45">${ring}</text>`;
+    // series (draw benchmark first so current is on top)
+    for (const ser of series) {
+      const pts = polygon(dims.map((d, i) => pt(i, Math.max(0, Math.min(9, ser.values[d.id] ?? 0)))));
+      s += `<polygon points="${pts}" fill="${ser.color}" fill-opacity="${ser.fill ?? .12}" stroke="${ser.color}" stroke-width="${ser.width ?? 2}" stroke-linejoin="round"${ser.dash ? ` stroke-dasharray="${ser.dash}"` : ""}/>`;
+    }
+    // axis labels
+    dims.forEach((d, i) => {
+      const [x, y] = pt(i, 9);
+      const dx = x - cx, dy = y - cy;
+      const lx = cx + dx * 1.16, ly = cy + dy * 1.16;
+      const anchor = Math.abs(dx) < 12 ? "middle" : dx > 0 ? "start" : "end";
+      s += `<text x="${lx}" y="${ly + 4}" font-size="11.5" font-weight="600" text-anchor="${anchor}" fill="currentColor" opacity=".8">${Gloss.esc(d.short)}</text>`;
+    });
+    s += "</svg>";
+    container.innerHTML = s;
+  }
+  return { render };
+})();
+
+/* ---------- App ---------- */
+const App = (() => {
+  const LS_KEY = "am_rl_state_v3";
+  const $ = id => document.getElementById(id);
+
+  let state = { sector: null, current: {}, target: {}, dimIndex: 0 };
+
+  const activeDims = () => DIMS.filter(d => d.sector.indexOf(state.sector) >= 0);
+  const bench = id => (BM[state.sector] || {})[id];
+  const answered = id => Object.prototype.hasOwnProperty.call(state.current, id);
+  const answeredCount = () => activeDims().filter(d => answered(d.id)).length;
+
+  function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+  function load() { try { return JSON.parse(localStorage.getItem(LS_KEY)); } catch (e) { return null; } }
+
+  function show(view) {
+    for (const v of ["home", "assess", "results"]) $("view-" + v).classList.toggle("hidden", v !== view);
+    window.scrollTo({ top: 0 });
+  }
+
+  /* ----- home ----- */
+  function renderHome() {
+    $("meta-version").textContent = `${DATA._meta.framework} v${DATA._meta.version} · updated ${DATA._meta.updated}`;
+    const box = $("sector-cards");
+    box.innerHTML = "";
+    for (const key of Object.keys(SECTORS)) {
+      const sec = SECTORS[key];
+      const n = DIMS.filter(d => d.sector.indexOf(key) >= 0).length;
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "sector-card";
+      card.innerHTML = `<span class="icon">${sec.icon}</span><h3>${sec.name}</h3><p>${sec.desc}</p><span class="count">${n} dimensions</span>`;
+      card.addEventListener("click", () => startSector(key));
+      box.appendChild(card);
+    }
+    const prev = load();
+    const hasPrev = prev && prev.sector && Object.keys(prev.current || {}).length > 0;
+    $("resume-note").classList.toggle("hidden", !hasPrev);
+    if (hasPrev) $("btn-resume").onclick = () => { state = prev; show("assess"); renderAssess(); };
+    show("home");
+  }
+
+  function startSector(key) {
+    state = { sector: key, current: {}, target: {}, dimIndex: 0 };
+    // default targets: sector benchmark rounded up (min 1), else top band
+    for (const d of DIMS.filter(d => d.sector.indexOf(key) >= 0)) {
+      const b = (BM[key] || {})[d.id];
+      state.target[d.id] = b ? Math.max(1, Math.min(9, Math.ceil(b))) : 6;
+    }
+    save();
+    show("assess");
+    renderAssess();
+  }
+
+  /* ----- assess ----- */
+  function renderAssess() {
+    const dims = activeDims();
+    if (state.dimIndex >= dims.length) state.dimIndex = 0;
+    const dim = dims[state.dimIndex];
+    const done = answeredCount();
+
+    $("assess-title").textContent = SECTORS[state.sector].name + " Assessment";
+    $("assess-progress-pill").textContent = `${done} / ${dims.length} dimensions`;
+    $("assess-progress").style.width = (done / dims.length * 100) + "%";
+
+    // chips
+    const chips = $("dim-chips");
+    chips.innerHTML = "";
+    dims.forEach((d, i) => {
+      const c = document.createElement("button");
+      c.type = "button";
+      c.className = "chip" + (i === state.dimIndex ? " active" : answered(d.id) ? " done" : "");
+      c.textContent = (answered(d.id) ? "✓ " : "") + d.short;
+      c.addEventListener("click", () => { state.dimIndex = i; save(); renderAssess(); });
+      chips.appendChild(c);
+    });
+
+    // card
+    const cur = answered(dim.id) ? state.current[dim.id] : null;
+    const tgt = state.target[dim.id];
+    const b = bench(dim.id);
+    const card = $("dim-card");
+    card.style.setProperty("--dimcolor", dim.color);
+
+    let html = `
+      <div class="dim-head">
+        <div class="band">
+          <span class="dim-num">D${DIMS.indexOf(dim) + 1}</span>
+          <h3>${Gloss.wrap(dim.name)}</h3>
+          ${b ? `<span class="pill">sector benchmark ${b.toFixed(1)}</span>` : ""}
+        </div>
+        <div class="experts">${dim.experts.map(e => `<span>${Gloss.esc(e)}</span>`).join("")}</div>
+      </div>
+      <div class="dim-help">Select the <b>highest level</b> for which you can answer the question with a clear “yes”. Levels 1–3 = Exploration, 4–6 = Implementation, 7–9 = Maturity.</div>
+      <div class="lvl-zero"><button type="button" data-setlvl="0" class="${cur === 0 ? "on" : ""}">${cur === 0 ? "✓ " : ""}Not started yet — none of the levels applies (Level 0)</button></div>
+      <ul class="ladder">`;
+
+    for (let i = 0; i < 9; i++) {
+      const lv = i + 1;
+      const cls = ["lvl"];
+      if (cur !== null && lv <= cur) cls.push("reached");
+      if (cur !== null && lv === cur) cls.push("current");
+      if (lv === tgt) cls.push("target-mark");
+      html += `
+        <li><button type="button" class="${cls.join(" ")}" data-setlvl="${lv}">
+          <span class="badge">L${lv}</span>
+          <span class="txt"><b>${Gloss.wrap(LVLS[dim.id][i])}</b><p>${Gloss.wrap(QS[dim.id][i])}</p></span>
+        </button></li>`;
+    }
+
+    html += `</ul>
+      <div class="dim-foot">
+        <label class="tgt">Target level:
+          <select id="tgt-select">${Array.from({ length: 9 }, (_, i) => `<option value="${i + 1}"${i + 1 === tgt ? " selected" : ""}>L${i + 1}</option>`).join("")}</select>
+        </label>
+        <div class="nav-btns">
+          <button class="btn ghost" id="btn-prev" type="button" ${state.dimIndex === 0 ? "disabled" : ""}>← Previous</button>
+          <button class="btn primary" id="btn-next" type="button">${state.dimIndex === dims.length - 1 ? "Finish" : "Next →"}</button>
+        </div>
+      </div>`;
+
+    card.innerHTML = html;
+
+    card.querySelectorAll("[data-setlvl]").forEach(el => el.addEventListener("click", () => {
+      state.current[dim.id] = parseInt(el.dataset.setlvl, 10);
+      save();
+      renderAssess();
+    }));
+    card.querySelector("#tgt-select").addEventListener("change", e => {
+      state.target[dim.id] = parseInt(e.target.value, 10);
+      save();
+      renderAssess();
+    });
+    card.querySelector("#btn-prev").addEventListener("click", () => { state.dimIndex--; save(); renderAssess(); });
+    card.querySelector("#btn-next").addEventListener("click", () => {
+      if (state.dimIndex === dims.length - 1) { tryResults(); return; }
+      state.dimIndex++;
+      save();
+      renderAssess();
+    });
+
+    const missing = dims.length - done;
+    $("results-hint").textContent = missing > 0 ? `${missing} dimension${missing === 1 ? "" : "s"} not yet answered — they will be shown as Level 0.` : "All dimensions answered.";
+  }
+
+  function tryResults() {
+    // unanswered dims count as 0, but user is informed via hint
+    for (const d of activeDims()) if (!answered(d.id)) state.current[d.id] = state.current[d.id] ?? 0;
+    save();
+    renderResults();
+    show("results");
+  }
+
+  /* ----- results ----- */
+  function computeExperts(dims) {
+    const map = new Map();
+    for (const d of dims) {
+      const gap = Math.max(0, (state.target[d.id] ?? 0) - (state.current[d.id] ?? 0));
+      if (gap <= 0) continue;
+      for (const name of d.experts) {
+        const e = map.get(name) || { name, maxGap: 0, dims: [] };
+        e.maxGap = Math.max(e.maxGap, gap);
+        e.dims.push(d.name);
+        map.set(name, e);
+      }
+    }
+    return [...map.values()].sort((a, b) => b.maxGap - a.maxGap || b.dims.length - a.dims.length);
+  }
+
+  const PRIO = g => g >= 4 ? ["Critical", "p-critical"] : g === 3 ? ["High", "p-high"] : g === 2 ? ["Medium", "p-medium"] : ["Low", "p-low"];
+
+  function renderResults() {
+    const dims = activeDims();
+    const cur = d => state.current[d.id] ?? 0;
+    const tgt = d => state.target[d.id] ?? 0;
+    const avg = f => dims.reduce((s, d) => s + f(d), 0) / dims.length;
+    const gaps = dims.map(d => ({ d, gap: Math.max(0, tgt(d) - cur(d)) }));
+    const totalGap = gaps.reduce((s, g) => s + g.gap, 0);
+
+    $("res-stats").innerHTML = [
+      [SECTORS[state.sector].name, "Sector"],
+      [avg(cur).toFixed(1), "Ø current level"],
+      [avg(tgt).toFixed(1), "Ø target level"],
+      [totalGap, "Total gap (levels)"],
+      [gaps.filter(g => g.gap === 0).length + " / " + dims.length, "Dimensions on target"]
+    ].map(([v, l]) => `<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+
+    Radar.render($("radar"), dims, [
+      { values: Object.fromEntries(dims.map(d => [d.id, bench(d.id) ?? 0])), color: "#8b96a8", fill: 0, width: 1.5, dash: "5 4" },
+      { values: state.target, color: "#2E7D5B", fill: .05, width: 1.5 },
+      { values: state.current, color: "#E8792F", fill: .18, width: 2.5 }
+    ]);
+
+    // gap table, sorted by gap desc
+    $("gap-rows").innerHTML = gaps
+      .slice().sort((a, b) => b.gap - a.gap)
+      .map(({ d, gap }) => {
+        const next = cur(d) >= 9 ? "—" : QS[d.id][Math.min(cur(d), 8)];
+        return `<tr>
+          <td><span class="dimdot" style="background:${d.color}"></span>${Gloss.wrap(d.name)}</td>
+          <td class="num">${cur(d)}</td>
+          <td class="num">${tgt(d)}</td>
+          <td class="num">${bench(d.id)?.toFixed(1) ?? "—"}</td>
+          <td class="num"><span class="gapbadge g${Math.min(gap, 4)}">${gap}</span></td>
+          <td style="font-size:.8rem;color:var(--ink2)">${gap > 0 ? Gloss.wrap(next) : "Target reached ✓"}</td>
+        </tr>`;
+      }).join("");
+
+    // experts
+    const experts = computeExperts(dims);
+    $("experts-list").innerHTML = experts.length
+      ? experts.map(e => {
+          const [label, cls] = PRIO(e.maxGap);
+          return `<div class="expert"><span class="prio ${cls}">${label}</span>
+            <div><b>${Gloss.esc(e.name)}</b><p>Supports ${e.dims.length} dimension${e.dims.length === 1 ? "" : "s"} with open gaps: ${e.dims.map(Gloss.esc).join(", ")} · largest gap ${e.maxGap} level${e.maxGap === 1 ? "" : "s"}</p></div></div>`;
+        }).join("")
+      : `<p style="color:var(--ink2);font-size:.9rem">No open gaps — all dimensions have reached their target level. 🎉</p>`;
+  }
+
+  function exportJSON() {
+    const dims = activeDims();
+    const out = {
+      framework: DATA._meta.framework,
+      version: DATA._meta.version,
+      exported: new Date().toISOString(),
+      sector: SECTORS[state.sector].name,
+      results: dims.map(d => ({
+        id: d.id, dimension: d.name,
+        current: state.current[d.id] ?? 0,
+        current_name: (state.current[d.id] ?? 0) > 0 ? LVLS[d.id][state.current[d.id] - 1] : "Not started",
+        target: state.target[d.id] ?? null,
+        benchmark: bench(d.id) ?? null,
+        gap: Math.max(0, (state.target[d.id] ?? 0) - (state.current[d.id] ?? 0))
+      })),
+      recommended_experts: computeExperts(dims).map(e => ({ name: e.name, priority: PRIO(e.maxGap)[0], max_gap: e.maxGap, dimensions: e.dims }))
+    };
+    const blob = new Blob([JSON.stringify(out, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `AM-RL_Assessment_${state.sector}_${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  /* ----- glossary modal ----- */
+  function renderGlossary(filter) {
+    const q = (filter || "").toLowerCase();
+    $("gl-body").innerHTML = GLOSS
+      .filter(g => !q || g.abbr.toLowerCase().includes(q) || g.full.toLowerCase().includes(q) || g.context.toLowerCase().includes(q))
+      .sort((a, b) => a.abbr.localeCompare(b.abbr))
+      .map(g => `<div class="gl-row"><b>${Gloss.esc(g.abbr)}</b> <span class="full">— ${Gloss.esc(g.full)}</span><div class="ctx">${Gloss.esc(g.context)}</div></div>`)
+      .join("") || `<p style="padding:14px 0;color:var(--ink2)">No matches.</p>`;
+  }
+
+  /* ----- wiring ----- */
+  function init() {
+    $("btn-restart").addEventListener("click", () => {
+      if (confirm("Restart the assessment? Your current answers will be deleted.")) {
+        localStorage.removeItem(LS_KEY);
+        state = { sector: null, current: {}, target: {}, dimIndex: 0 };
+        renderHome();
+      }
+    });
+    $("btn-glossary").addEventListener("click", () => { renderGlossary(""); $("gl-search").value = ""; $("glossary-modal").classList.add("open"); });
+    $("gl-close").addEventListener("click", () => $("glossary-modal").classList.remove("open"));
+    $("glossary-modal").addEventListener("click", e => { if (e.target.id === "glossary-modal") $("glossary-modal").classList.remove("open"); });
+    $("gl-search").addEventListener("input", e => renderGlossary(e.target.value));
+    document.addEventListener("keydown", e => { if (e.key === "Escape") $("glossary-modal").classList.remove("open"); });
+
+    $("btn-results").addEventListener("click", tryResults);
+    $("btn-back-assess").addEventListener("click", () => { show("assess"); renderAssess(); });
+    $("btn-export").addEventListener("click", exportJSON);
+    $("btn-print").addEventListener("click", () => window.print());
+
+    renderHome();
+  }
+
+  return { init };
+})();
+
+App.init();
+</script>
+</body>
+</html>
