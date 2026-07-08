@@ -189,6 +189,12 @@ button { font: inherit; color: inherit; }
   font-variant-numeric: tabular-nums;
 }
 
+.machine-hint {
+  margin: 8px 2px 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
 /* Statistikkacheln */
 
 .stat-grid {
@@ -830,6 +836,7 @@ input[type="file"] { font-size: 0.9rem; }
   .status-chip { padding: 3px 8px; font-size: 0.7rem; }
 
   .app-footer { padding-top: 0; font-size: 0.6rem; }
+  .machine-hint { margin-top: 4px; font-size: 0.72rem; }
   .abx-mark { font-size: 0.7rem; }
 
   .qr-box-sheet { width: 150px; height: 150px; }
