@@ -27,6 +27,10 @@ const INVENTORY_ITEMS = [
   { key: 'tee', label: 'Tee' },
   { key: 'milch', label: 'Milch' },
   { key: 'tabs', label: 'Spülmaschinentabs' },
+  { key: 'salz', label: 'Spülmaschinensalz' },
+  { key: 'klarspueler', label: 'Klarspüler' },
+  { key: 'reinigungstabs', label: 'Reinigungstabletten Kaffeemaschine' },
+  { key: 'entkalker', label: 'Entkalker Kaffeemaschine' },
 ];
 
 const INVENTORY_STATES = ['ok', 'wenig', 'bestellen'];
@@ -37,7 +41,10 @@ function defaultSettings() {
     prices: { kaffee: 0.5, tee: 0.5 },
     poolUrl: DEFAULT_POOL_URL,
     pin: '',
-    inventory: { kaffee: 'ok', tee: 'ok', milch: 'ok', tabs: 'ok' },
+    inventory: {
+      kaffee: 'ok', tee: 'ok', milch: 'ok', tabs: 'ok',
+      salz: 'ok', klarspueler: 'ok', reinigungstabs: 'ok', entkalker: 'ok',
+    },
   };
 }
 
@@ -269,6 +276,10 @@ const el = {
   btnCancelBooking: $('#btn-cancel-booking'),
   btnMarkBar: $('#btn-mark-bar'),
   btnMarkPaypal: $('#btn-mark-paypal'),
+
+  btnImprint: $('#btn-imprint'),
+  overlayImprint: $('#overlay-imprint'),
+  btnCloseImprint: $('#btn-close-imprint'),
 
   btnOpenAdmin: $('#btn-open-admin'),
   overlayPin: $('#overlay-pin'),
@@ -788,6 +799,9 @@ function wireEvents() {
   el.btnCancelBooking.addEventListener('click', closeBookingSheet);
   el.btnMarkBar.addEventListener('click', () => commitBooking('bar'));
   el.btnMarkPaypal.addEventListener('click', () => commitBooking('paypal'));
+
+  el.btnImprint.addEventListener('click', () => { el.overlayImprint.hidden = false; });
+  el.btnCloseImprint.addEventListener('click', () => { el.overlayImprint.hidden = true; });
 
   el.btnOpenAdmin.addEventListener('click', () => requireAdminAccess(openAdminPanel));
   el.btnPinCancel.addEventListener('click', closePinOverlay);

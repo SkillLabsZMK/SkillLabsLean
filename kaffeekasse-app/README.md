@@ -20,7 +20,13 @@ eine gestapelte, scrollende Ansicht umgeschaltet.
 - Bereich „Heute“ mit Anzahl Kaffee/Tee, Vorgängen und Summen
   (gesamt / bar / PayPal)
 - Bereich „Nachbestellen“ mit Ampel-Status (OK / Wenig / Bestellen) für
-  Kaffee, Tee, Milch und Spülmaschinentabs – per Antippen direkt umschaltbar
+  Kaffee, Tee, Milch, Spülmaschinentabs, Spülmaschinensalz, Klarspüler,
+  Reinigungstabletten und Entkalker der Kaffeemaschine – per Antippen direkt
+  umschaltbar, mit Hinweis „Nachschub und Kanban im Raum Papier & Druck“
+- Gestaltung im Skill-Labs-/UKT-Farbschema (ZMK Tübingen): Indigo, Gold,
+  warmer Hintergrund – passend zur bestehenden Skill-Labs-Oberfläche
+- Impressum (Betrieb & Verantwortung: ABX) über den Link unten rechts im
+  Bereich „Heute“
 - Bereich „Direkt zahlen“ mit clientseitig erzeugtem QR-Code für einen
   PayPal-Pool-Link
 - Admin-Bereich (optional per PIN geschützt): Preise, Pool-Link, Bestand,

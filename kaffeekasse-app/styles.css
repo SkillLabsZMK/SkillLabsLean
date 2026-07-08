@@ -1,4 +1,6 @@
-/* Kaffeekasse – ruhiges, kontraststarkes Kiosk-Design.
+/* Kaffeekasse – Kiosk-Design im Skill-Labs-/UKT-Farbschema (ZMK Tübingen):
+   Indigo #454b6a als Markenfarbe, Tinte #232a38, Gold #baa874 als Akzent,
+   Signalrot #c00d47, warmer Hintergrund #f4f1ec.
    Ziel-Layout: Lenovo TB-X704L im Querformat (ca. 960×550 CSS-Pixel nutzbar),
    alles auf einem Bildschirm ohne Scrollen. Hochformat bleibt als
    scrollende Fallback-Ansicht erhalten. */
@@ -6,19 +8,21 @@
 :root {
   --bg: #f4f1ec;
   --surface: #ffffff;
-  --border: #ddd6ca;
-  --text: #241a12;
-  --text-muted: #6b6055;
-  --accent: #6f4324;
-  --accent-dark: #4c2d18;
+  --border: #ddd8c8;
+  --text: #232a38;
+  --text-muted: #74799d;
+  --accent: #454b6a;
+  --accent-dark: #232a38;
+  --header-bg: #454b6a;
+  --gold: #baa874;
   --paypal: #0079c1;
-  --ok-bg: #e3f3e6;
-  --ok-text: #1f6d34;
-  --warn-bg: #fdf1d8;
-  --warn-text: #8a5a00;
-  --danger-bg: #fbe2df;
-  --danger-text: #a3271b;
-  --danger: #b3261e;
+  --ok-bg: #e7f3f0;
+  --ok-text: #2f6e60;
+  --warn-bg: #f5efe2;
+  --warn-text: #8a7248;
+  --danger-bg: #fce7ee;
+  --danger-text: #c00d47;
+  --danger: #c00d47;
   --radius-lg: 18px;
   --radius-md: 12px;
   --radius-sm: 10px;
@@ -26,21 +30,23 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #17130f;
-    --surface: #221b15;
-    --border: #3a3026;
-    --text: #f3ede4;
-    --text-muted: #b9ac9c;
-    --accent: #c98a52;
-    --accent-dark: #e3a86c;
+    --bg: #11141e;
+    --surface: #222738;
+    --border: #3a4056;
+    --text: #ddd8c8;
+    --text-muted: #9ea1b9;
+    --accent: #565d84;
+    --accent-dark: #191d28;
+    --header-bg: #232a38;
+    --gold: #baa874;
     --paypal: #2f9bd6;
-    --ok-bg: #163823;
-    --ok-text: #7fdb9a;
-    --warn-bg: #3c2f0e;
-    --warn-text: #f2c65c;
-    --danger-bg: #3a1a17;
-    --danger-text: #f2948a;
-    --danger: #e35d51;
+    --ok-bg: #1c3330;
+    --ok-text: #a8d0cb;
+    --warn-bg: #33301f;
+    --warn-text: #ccb87c;
+    --danger-bg: #3a1622;
+    --danger-text: #f098b6;
+    --danger: #e06082;
   }
 }
 
@@ -84,14 +90,22 @@ button { font: inherit; color: inherit; }
   align-items: center;
   gap: 12px;
   padding: 8px 14px;
-  background: var(--accent-dark);
-  color: #fbf3ea;
+  background: var(--header-bg);
+  color: #f2f3f8;
 }
 
 .app-title {
   font-size: 1.15rem;
   font-weight: 700;
   flex: 1;
+}
+
+.app-sub {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  margin-left: 6px;
 }
 
 .app-clock {
@@ -290,11 +304,31 @@ button { font: inherit; color: inherit; }
 }
 
 .app-footer {
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
   color: var(--text-muted);
   font-size: 0.72rem;
   padding-top: 4px;
 }
+
+.imprint-btn {
+  background: none;
+  border: none;
+  padding: 4px 6px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.imprint-body {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.imprint-body p { margin: 0 0 12px; }
 
 /* Buttons */
 
@@ -588,8 +622,8 @@ input[type="file"] { font-size: 0.9rem; }
     grid-template-columns: 1.45fr 1fr;
     grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
     grid-template-areas:
-      "products pay"
-      "today    inventory";
+      "products  pay"
+      "inventory today";
     gap: 10px;
     padding: 10px;
   }
@@ -615,17 +649,32 @@ input[type="file"] { font-size: 0.9rem; }
   .stat-grid {
     flex: 1;
     min-height: 0;
-    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
   }
+
+  .stat-tile { padding: 3px 10px; }
+  .stat-value { font-size: 1.05rem; }
+  .stat-label { font-size: 0.72rem; margin-top: 0; }
 
   .inventory-list {
     flex: 1;
     min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 6px;
-    justify-content: space-evenly;
   }
 
-  .inventory-row { padding: 5px 12px; }
+  .inventory-row {
+    padding: 3px 10px;
+    min-width: 0;
+  }
+
+  .inventory-name {
+    font-size: 0.8rem;
+    line-height: 1.15;
+  }
+
+  .status-chip { padding: 4px 10px; font-size: 0.78rem; }
 
   .app-footer { padding-top: 2px; font-size: 0.68rem; }
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#241a12">
+<meta name="theme-color" content="#454b6a">
 <meta name="description" content="Kaffeekasse – digitale Selbstbedienungs-Kaffeekasse fürs Büro">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,7 +18,7 @@
 <body>
 
 <header class="app-header">
-  <div class="app-title">☕ Kaffeekasse</div>
+  <div class="app-title">☕ Kaffeekasse <span class="app-sub">ZMK Tübingen</span></div>
   <div class="app-clock" id="clock" aria-live="off"></div>
   <button class="admin-btn" id="btn-open-admin" title="Admin" aria-label="Admin-Bereich öffnen">⚙</button>
 </header>
@@ -43,22 +43,47 @@
     </div>
   </section>
 
+  <section class="panel panel-inventory" aria-labelledby="h-bestand">
+    <h2 id="h-bestand">Nachbestellen <span class="hint-inline">· Nachschub und Kanban im Raum <strong>Papier &amp; Druck</strong></span></h2>
+    <div class="inventory-list" id="inventory-list">
+      <!-- Bestandszeilen werden per JS gerendert -->
+    </div>
+  </section>
+
   <section class="panel panel-today" aria-labelledby="h-heute">
     <h2 id="h-heute">Heute</h2>
     <div class="stat-grid" id="today-stats">
       <!-- Statistikkacheln werden per JS gerendert -->
     </div>
-  </section>
-
-  <section class="panel panel-inventory" aria-labelledby="h-bestand">
-    <h2 id="h-bestand">Nachbestellen <span class="hint-inline">(antippen zum Ändern)</span></h2>
-    <div class="inventory-list" id="inventory-list">
-      <!-- Bestandszeilen werden per JS gerendert -->
+    <div class="app-footer">
+      <span id="storage-mode-badge"></span>
+      <button class="imprint-btn" id="btn-imprint">Impressum</button>
     </div>
-    <div class="app-footer"><span id="storage-mode-badge"></span></div>
   </section>
 
 </main>
+
+<!-- Impressum-Overlay -->
+<div class="overlay" id="overlay-imprint" hidden>
+  <div class="sheet sheet-narrow" role="dialog" aria-modal="true" aria-labelledby="imprint-title">
+    <div class="sheet-head">
+      <h2 id="imprint-title">Impressum</h2>
+      <button class="btn btn-ghost btn-close" id="btn-close-imprint" aria-label="Schließen">✕</button>
+    </div>
+    <div class="imprint-body">
+      <p><strong>Kaffeekasse</strong> – interne Selbstbedienungs-App der Kaffeeecke.</p>
+      <p>
+        Betrieb &amp; Verantwortung: <strong>ABX</strong><br>
+        Technischer Koordinator Skill Labs<br>
+        Poliklinik für Zahnärztliche Prothetik<br>
+        ZMK · Universitätsklinikum Tübingen
+      </p>
+      <p class="hint">Alle Daten werden ausschließlich lokal auf diesem Gerät
+      gespeichert. Es werden keine personenbezogenen Daten erhoben oder an
+      Server übertragen.</p>
+    </div>
+  </div>
+</div>
 
 <!-- Buchungs-Overlay -->
 <div class="overlay" id="overlay-booking" hidden>
