@@ -276,6 +276,13 @@ const el = {
   btnCancelBooking: $('#btn-cancel-booking'),
   btnMarkBar: $('#btn-mark-bar'),
   btnMarkPaypal: $('#btn-mark-paypal'),
+  btnMarkAbrechnung: $('#btn-mark-abrechnung'),
+  bookingStepChoose: $('#booking-step-choose'),
+  bookingStepPaypal: $('#booking-step-paypal'),
+  qrBoxSheet: $('#qr-box-sheet'),
+  paypalTotal: $('#paypal-total'),
+  btnPaypalBack: $('#btn-paypal-back'),
+  btnPaypalConfirm: $('#btn-paypal-confirm'),
 
   btnOpenAdmin: $('#btn-open-admin'),
   overlayPin: $('#overlay-pin'),
@@ -350,14 +357,16 @@ function getPeriodStats(periodType) {
     sumTotal: 0,
     sumBar: 0,
     sumPaypal: 0,
+    sumAbrechnung: 0,
   };
   for (const a of ARTICLES) stats.countByArticle[a.key] = 0;
 
   for (const b of bookings) {
     stats.sumTotal += b.total;
-    // Ältere Buchungen können noch die Status 'bezahlt'/'offen' tragen;
-    // alles außer 'paypal' zählt als Barzahlung in die Kasse.
+    // Ältere Buchungen können noch die Status 'bezahlt'/'offen' tragen:
+    // 'offen' zählt zur Abrechnung, alles Übrige außer 'paypal' als bar.
     if (b.status === 'paypal') stats.sumPaypal += b.total;
+    else if (b.status === 'abrechnung' || b.status === 'offen') stats.sumAbrechnung += b.total;
     else stats.sumBar += b.total;
     stats.countByArticle[b.article] = (stats.countByArticle[b.article] || 0) + b.qty;
   }
@@ -387,15 +396,15 @@ function renderProductGrid() {
 function renderTodayStats() {
   const stats = getPeriodStats('day');
   const tiles = [
-    { label: 'Kaffee heute', value: String(stats.countByArticle.kaffee || 0) },
-    { label: 'Tee heute', value: String(stats.countByArticle.tee || 0) },
-    { label: 'Vorgänge heute', value: String(stats.count) },
-    { label: 'Summe gesamt', value: formatMoney(stats.sumTotal) },
+    { label: 'Summe gesamt', value: formatMoney(stats.sumTotal), wide: true },
     { label: 'Bar', value: formatMoney(stats.sumBar) },
     { label: 'PayPal', value: formatMoney(stats.sumPaypal) },
+    { label: 'Auf Abrechnung', value: formatMoney(stats.sumAbrechnung), wide: true },
+    { label: 'Kaffee heute', value: String(stats.countByArticle.kaffee || 0) },
+    { label: 'Tee heute', value: String(stats.countByArticle.tee || 0) },
   ];
   el.todayStats.innerHTML = tiles.map((t) => `
-    <div class="stat-tile">
+    <div class="stat-tile${t.wide ? ' stat-tile-wide' : ''}">
       <div class="stat-value">${t.value}</div>
       <div class="stat-label">${t.label}</div>
     </div>
@@ -427,19 +436,23 @@ function renderInventory() {
   }
 }
 
-function renderQr() {
+function renderQrInto(target) {
   const url = state.settings.poolUrl || DEFAULT_POOL_URL;
-  el.btnOpenPool.href = url;
-  el.qrBox.innerHTML = '';
+  target.innerHTML = '';
   try {
     const qr = qrcode(0, 'M');
     qr.addData(url);
     qr.make();
-    el.qrBox.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 4, scalable: true });
+    target.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 4, scalable: true });
   } catch (err) {
     console.error('QR-Code konnte nicht erzeugt werden', err);
-    el.qrBox.textContent = 'QR-Code nicht verfügbar';
+    target.textContent = 'QR-Code nicht verfügbar';
   }
+}
+
+function renderQr() {
+  el.btnOpenPool.href = state.settings.poolUrl || DEFAULT_POOL_URL;
+  renderQrInto(el.qrBox);
 }
 
 function renderStorageBadge() {
@@ -455,9 +468,11 @@ function renderAdminStats() {
     ['Tagesumsatz', formatMoney(day.sumTotal)],
     ['Davon bar (heute)', formatMoney(day.sumBar)],
     ['Davon PayPal (heute)', formatMoney(day.sumPaypal)],
+    ['Davon auf Abrechnung (heute)', formatMoney(day.sumAbrechnung)],
     ['Monatsumsatz', formatMoney(month.sumTotal)],
     ['Davon bar (Monat)', formatMoney(month.sumBar)],
     ['Davon PayPal (Monat)', formatMoney(month.sumPaypal)],
+    ['Davon auf Abrechnung (Monat)', formatMoney(month.sumAbrechnung)],
     ['Buchungen gesamt (alle Zeit)', String(state.bookings.length)],
   ];
   for (const a of ARTICLES) {
@@ -527,8 +542,23 @@ function openBookingSheet(articleKey) {
   el.bookingEmoji.textContent = article.emoji;
   el.bookingLabel.textContent = article.label;
   el.bookingNote.value = '';
+  showBookingStep('choose');
   updateBookingSheetPrices();
   el.overlayBooking.hidden = false;
+}
+
+function showBookingStep(step) {
+  el.bookingStepChoose.hidden = step !== 'choose';
+  el.bookingStepPaypal.hidden = step !== 'paypal';
+}
+
+function openPaypalStep() {
+  if (!state.pendingBooking) return;
+  const { article, qty } = state.pendingBooking;
+  const unitPrice = state.settings.prices[article] || 0;
+  el.paypalTotal.textContent = formatMoney(unitPrice * qty);
+  renderQrInto(el.qrBoxSheet);
+  showBookingStep('paypal');
 }
 
 function updateBookingSheetPrices() {
@@ -565,7 +595,9 @@ async function commitBooking(status) {
   closeBookingSheet();
   renderTodayStats();
   const label = ARTICLES.find((a) => a.key === article).label;
-  showToast(`${label} × ${qty} gebucht (${status === 'paypal' ? 'PayPal' : 'bar'}).`);
+  const statusLabel = status === 'paypal' ? 'PayPal'
+    : status === 'abrechnung' ? 'auf Abrechnung' : 'bar';
+  showToast(`${label} × ${qty} gebucht (${statusLabel}).`);
 }
 
 /* -------------------------------------------------------------------------
@@ -644,7 +676,7 @@ async function performDayClose() {
   }
   const closure = {
     id: uid(), type: 'day', periodKey: todayKey(), ts: Date.now(),
-    totals: { sumTotal: stats.sumTotal, sumBar: stats.sumBar, sumPaypal: stats.sumPaypal, count: stats.count },
+    totals: { sumTotal: stats.sumTotal, sumBar: stats.sumBar, sumPaypal: stats.sumPaypal, sumAbrechnung: stats.sumAbrechnung, count: stats.count },
   };
   state.closures.push(closure);
   await Store.saveClosures(state.closures);
@@ -660,7 +692,7 @@ async function performMonthClose() {
   }
   const closure = {
     id: uid(), type: 'month', periodKey: thisMonthKey(), ts: Date.now(),
-    totals: { sumTotal: stats.sumTotal, sumBar: stats.sumBar, sumPaypal: stats.sumPaypal, count: stats.count },
+    totals: { sumTotal: stats.sumTotal, sumBar: stats.sumBar, sumPaypal: stats.sumPaypal, sumAbrechnung: stats.sumAbrechnung, count: stats.count },
   };
   state.closures.push(closure);
   await Store.saveClosures(state.closures);
@@ -794,7 +826,10 @@ function wireEvents() {
   });
   el.btnCancelBooking.addEventListener('click', closeBookingSheet);
   el.btnMarkBar.addEventListener('click', () => commitBooking('bar'));
-  el.btnMarkPaypal.addEventListener('click', () => commitBooking('paypal'));
+  el.btnMarkAbrechnung.addEventListener('click', () => commitBooking('abrechnung'));
+  el.btnMarkPaypal.addEventListener('click', openPaypalStep);
+  el.btnPaypalBack.addEventListener('click', () => showBookingStep('choose'));
+  el.btnPaypalConfirm.addEventListener('click', () => commitBooking('paypal'));
 
   el.btnOpenAdmin.addEventListener('click', () => requireAdminAccess(openAdminPanel));
   el.btnPinCancel.addEventListener('click', closePinOverlay);

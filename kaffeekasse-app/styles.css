@@ -449,6 +449,29 @@ button { font: inherit; color: inherit; }
 
 .sheet-actions .btn { flex: 1 1 auto; }
 
+#booking-step-choose,
+#booking-step-paypal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.booking-actions .btn { flex: 1 1 30%; }
+
+.pay-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.qr-box-sheet {
+  width: 190px;
+  height: 190px;
+}
+
+.stat-tile-wide { grid-column: span 2; }
+
 /* Admin */
 
 .sheet-admin {

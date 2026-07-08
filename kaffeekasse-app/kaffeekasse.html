@@ -71,23 +71,38 @@
       <button class="btn btn-ghost btn-close" id="btn-cancel-booking" aria-label="Abbrechen">✕</button>
     </div>
 
-    <div class="qty-row">
-      <button class="btn btn-round" id="btn-qty-minus" aria-label="Menge verringern">−</button>
-      <div class="qty-value" id="qty-value">1</div>
-      <button class="btn btn-round" id="btn-qty-plus" aria-label="Menge erhöhen">+</button>
+    <div id="booking-step-choose">
+      <div class="qty-row">
+        <button class="btn btn-round" id="btn-qty-minus" aria-label="Menge verringern">−</button>
+        <div class="qty-value" id="qty-value">1</div>
+        <button class="btn btn-round" id="btn-qty-plus" aria-label="Menge erhöhen">+</button>
+      </div>
+
+      <div class="price-row">
+        <div class="price-line">Einzelpreis: <span id="unit-price">0,00 €</span></div>
+        <div class="price-total" id="total-price">0,00 €</div>
+      </div>
+
+      <label class="note-label" for="booking-note">Notiz (optional)</label>
+      <input type="text" id="booking-note" class="note-input" placeholder="z. B. extern, Name, Anlass" maxlength="60">
+
+      <div class="sheet-actions booking-actions">
+        <button class="btn btn-success" id="btn-mark-bar">Bar</button>
+        <button class="btn btn-paypal" id="btn-mark-paypal">PayPal</button>
+        <button class="btn btn-outline" id="btn-mark-abrechnung">Auf Abrechnung</button>
+      </div>
     </div>
 
-    <div class="price-row">
-      <div class="price-line">Einzelpreis: <span id="unit-price">0,00 €</span></div>
-      <div class="price-total" id="total-price">0,00 €</div>
-    </div>
-
-    <label class="note-label" for="booking-note">Notiz (optional)</label>
-    <input type="text" id="booking-note" class="note-input" placeholder="z. B. extern, Name, Anlass" maxlength="60">
-
-    <div class="sheet-actions">
-      <button class="btn btn-success" id="btn-mark-bar">Bar bezahlt</button>
-      <button class="btn btn-paypal" id="btn-mark-paypal">PayPal bezahlt</button>
+    <div id="booking-step-paypal" hidden>
+      <div class="pay-step">
+        <div class="qr-box qr-box-sheet" id="qr-box-sheet" aria-label="QR-Code für den PayPal-Pool"></div>
+        <div class="price-total" id="paypal-total">0,00 €</div>
+        <p class="qr-caption">Scannen und Betrag im Pool senden</p>
+      </div>
+      <div class="sheet-actions">
+        <button class="btn btn-ghost" id="btn-paypal-back">← Zurück</button>
+        <button class="btn btn-paypal" id="btn-paypal-confirm">PayPal bezahlt</button>
+      </div>
     </div>
   </div>
 </div>
