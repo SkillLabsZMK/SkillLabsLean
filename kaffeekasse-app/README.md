@@ -25,8 +25,7 @@ eine gestapelte, scrollende Ansicht umgeschaltet.
   umschaltbar, mit Hinweis „Nachschub und Kanban im Raum Papier & Druck“
 - Gestaltung im Skill-Labs-/UKT-Farbschema (ZMK Tübingen): Indigo, Gold,
   warmer Hintergrund – passend zur bestehenden Skill-Labs-Oberfläche
-- Impressum (Betrieb & Verantwortung: ABX) über den Link unten rechts im
-  Bereich „Heute“
+- Dezente ABX-Kennung unten rechts im Bereich „Heute“
 - Bereich „Direkt zahlen“ mit clientseitig erzeugtem QR-Code für einen
   PayPal-Pool-Link
 - Admin-Bereich (optional per PIN geschützt): Preise, Pool-Link, Bestand,

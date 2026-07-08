@@ -277,10 +277,6 @@ const el = {
   btnMarkBar: $('#btn-mark-bar'),
   btnMarkPaypal: $('#btn-mark-paypal'),
 
-  btnImprint: $('#btn-imprint'),
-  overlayImprint: $('#overlay-imprint'),
-  btnCloseImprint: $('#btn-close-imprint'),
-
   btnOpenAdmin: $('#btn-open-admin'),
   overlayPin: $('#overlay-pin'),
   pinInput: $('#pin-input'),
@@ -799,9 +795,6 @@ function wireEvents() {
   el.btnCancelBooking.addEventListener('click', closeBookingSheet);
   el.btnMarkBar.addEventListener('click', () => commitBooking('bar'));
   el.btnMarkPaypal.addEventListener('click', () => commitBooking('paypal'));
-
-  el.btnImprint.addEventListener('click', () => { el.overlayImprint.hidden = false; });
-  el.btnCloseImprint.addEventListener('click', () => { el.overlayImprint.hidden = true; });
 
   el.btnOpenAdmin.addEventListener('click', () => requireAdminAccess(openAdminPanel));
   el.btnPinCancel.addEventListener('click', closePinOverlay);
