@@ -17,8 +17,8 @@ eine gestapelte, scrollende Ansicht umgeschaltet.
   Button
 - Nach Antippen: Menge über +/−, Gesamtpreis, dann **„Bar bezahlt“** oder
   **„PayPal bezahlt“** (Abbrechen über ✕)
-- Bereich „Heute“ mit Anzahl Kaffee/Tee, Vorgängen und Summen
-  (gesamt / bar / PayPal)
+- Aktueller Kassenstand (alles bar oder per PayPal Bezahlte) mittig im
+  Kopfband
 - Bereich „Nachbestellen“ mit Ampel-Status (OK / Wenig / Bestellen) für
   Kaffee, Tee, Milch, Hafermilch, Spülmaschinentabs, Spülmaschinensalz,
   Klarspüler, Reinigungstabletten und Entkalker der Kaffeemaschine – per
@@ -31,7 +31,7 @@ eine gestapelte, scrollende Ansicht umgeschaltet.
   Notizfeld, Reset durch Monatsabschluss)
 - Gestaltung im Skill-Labs-/UKT-Farbschema (ZMK Tübingen): Indigo, Gold,
   warmer Hintergrund – passend zur bestehenden Skill-Labs-Oberfläche
-- Dezente ABX-Kennung unten rechts im Bereich „Heute“
+- Dezente ABX-Kennung oben rechts im Bereich „Nachbestellen“
 - Bereich „Direkt zahlen“ mit clientseitig erzeugtem QR-Code für einen
   PayPal-Pool-Link
 - Admin-Bereich (optional per PIN geschützt): Preise, Pool-Link, Bestand,

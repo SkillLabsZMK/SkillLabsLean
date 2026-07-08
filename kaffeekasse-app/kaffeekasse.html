@@ -18,9 +18,14 @@
 <body>
 
 <header class="app-header">
-  <div class="app-title">☕ Kaffeekasse <span class="app-sub">ZMK Tübingen</span></div>
-  <div class="app-clock" id="clock" aria-live="off"></div>
-  <button class="admin-btn" id="btn-open-admin" title="Admin" aria-label="Admin-Bereich öffnen">⚙</button>
+  <div class="header-left">
+    <div class="app-title">☕ Kaffeekasse <span class="app-sub">ZMK Tübingen</span></div>
+  </div>
+  <div class="kasse-stand" id="kasse-stand"></div>
+  <div class="header-right">
+    <div class="app-clock" id="clock" aria-live="off"></div>
+    <button class="admin-btn" id="btn-open-admin" title="Admin" aria-label="Admin-Bereich öffnen">⚙</button>
+  </div>
 </header>
 
 <main id="main-view">
@@ -44,27 +49,20 @@
     </div>
   </section>
 
+  <section class="panel panel-race" aria-labelledby="h-race">
+    <h2 id="h-race">🏁 Kaffee-Rennen <span class="hint-inline">· Becher im <span id="race-month"></span> · Top 5</span></h2>
+    <div class="race-track" id="race-track"></div>
+  </section>
+
   <section class="panel panel-inventory" aria-labelledby="h-bestand">
     <h2 id="h-bestand">Nachbestellen <span class="hint-inline">· Nachschub und Kanban im Raum <strong>Papier &amp; Druck</strong></span></h2>
     <div class="inventory-list" id="inventory-list">
       <!-- Bestandszeilen werden per JS gerendert -->
     </div>
-  </section>
-
-  <section class="panel panel-today" aria-labelledby="h-heute">
-    <h2 id="h-heute">Heute</h2>
-    <div class="stat-grid" id="today-stats">
-      <!-- Statistikkacheln werden per JS gerendert -->
-    </div>
     <div class="app-footer">
       <span id="storage-mode-badge"></span>
       <span class="abx-mark">ABX</span>
     </div>
-  </section>
-
-  <section class="panel panel-race" aria-labelledby="h-race">
-    <h2 id="h-race">🏁 Kaffee-Rennen <span class="hint-inline">· Becher im <span id="race-month"></span> · Top 5</span></h2>
-    <div class="race-track" id="race-track"></div>
   </section>
 
 </main>

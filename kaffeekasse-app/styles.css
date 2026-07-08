@@ -94,10 +94,30 @@ button { font: inherit; color: inherit; }
   color: #f2f3f8;
 }
 
+.header-left,
+.header-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-right { justify-content: flex-end; }
+
 .app-title {
   font-size: 1.15rem;
   font-weight: 700;
-  flex: 1;
+}
+
+.kasse-stand {
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .app-sub {
@@ -193,36 +213,6 @@ button { font: inherit; color: inherit; }
   margin: 8px 2px 0;
   color: var(--text-muted);
   font-size: 0.82rem;
-}
-
-/* Statistikkacheln */
-
-.stat-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.stat-tile {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 8px 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.stat-value {
-  font-size: 1.3rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-.stat-label {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  margin-top: 1px;
 }
 
 /* Bestand */
@@ -476,8 +466,6 @@ button { font: inherit; color: inherit; }
   height: 190px;
 }
 
-.stat-tile-wide { grid-column: 1 / -1; }
-
 /* Namensvorschläge im Buchungsdialog */
 
 .name-suggest {
@@ -727,11 +715,11 @@ input[type="file"] { font-size: 0.9rem; }
     margin: 0;
     display: grid;
     grid-template-columns: 1.45fr 1fr;
-    grid-template-rows: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 0.73fr);
+    grid-template-rows: minmax(0, 1.85fr) minmax(0, 0.93fr) minmax(0, 1.12fr);
     grid-template-areas:
       "products  pay"
-      "inventory today"
-      "race      race";
+      "race      race"
+      "inventory inventory";
     gap: 10px;
     padding: 10px;
   }
@@ -748,32 +736,32 @@ input[type="file"] { font-size: 0.9rem; }
 
   .panel-products { grid-area: products; }
   .panel-pay { grid-area: pay; }
-  .panel-today { grid-area: today; }
-  .panel-inventory { grid-area: inventory; }
+  .panel-inventory { grid-area: inventory; position: relative; }
   .panel-race { grid-area: race; }
+
+  .panel-inventory .app-footer {
+    position: absolute;
+    right: 14px;
+    top: 12px;
+    padding: 0;
+  }
 
   .product-grid { flex: 1; min-height: 0; }
   .product-btn { min-height: 0; }
 
-  .stat-grid {
-    flex: 1;
-    min-height: 0;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 5px;
-  }
+  .product-emoji { font-size: 3.2rem; }
+  .product-label { font-size: 1.5rem; }
+  .product-price { font-size: 1.15rem; }
 
-  .stat-tile { padding: 2px 9px; }
-  .stat-value { font-size: 1rem; }
-  .stat-label { font-size: 0.68rem; margin-top: 0; }
-
-  .qr-box { width: 130px; height: 130px; }
+  .qr-box { width: 195px; height: 195px; }
+  .qr-caption { font-size: 1rem; }
 
   .inventory-list {
     flex: 1;
     min-height: 0;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px 8px;
   }
 
   .inventory-row {
@@ -797,10 +785,10 @@ input[type="file"] { font-size: 0.9rem; }
 @media (orientation: landscape) and (min-width: 760px) and (max-height: 540px) {
   /* Bei wenig Höhe (Browserleisten sichtbar) weicht das Rennen dem Kernlayout. */
   #main-view {
-    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1.3fr) minmax(0, 1fr);
     grid-template-areas:
       "products  pay"
-      "inventory today";
+      "inventory inventory";
   }
   .panel-race { display: none; }
 
@@ -825,10 +813,7 @@ input[type="file"] { font-size: 0.9rem; }
   .qr-caption { font-size: 0.8rem; }
   .panel-pay .btn { min-height: 42px; padding: 8px 14px; font-size: 0.95rem; }
 
-  .stat-grid { gap: 4px; }
-  .stat-tile { padding: 2px 8px; }
-  .stat-value { font-size: 0.95rem; }
-  .stat-label { font-size: 0.65rem; }
+  .kasse-stand { font-size: 0.95rem; padding: 4px 14px; }
 
   .inventory-list { gap: 4px; }
   .inventory-row { padding: 2px 10px; }

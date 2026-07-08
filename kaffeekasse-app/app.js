@@ -263,8 +263,8 @@ const $ = (sel) => document.querySelector(sel);
 
 const el = {
   clock: $('#clock'),
+  kasseStand: $('#kasse-stand'),
   productGrid: $('#product-grid'),
-  todayStats: $('#today-stats'),
   inventoryList: $('#inventory-list'),
   qrBox: $('#qr-box'),
   btnOpenPool: $('#btn-open-pool'),
@@ -425,23 +425,14 @@ function renderProductGrid() {
   }
 }
 
-function renderTodayStats() {
-  const stats = getPeriodStats('day');
-  const tiles = [
-    { label: 'Summe gesamt', value: formatMoney(stats.sumTotal), wide: true },
-    { label: 'Bar', value: formatMoney(stats.sumBar) },
-    { label: 'PayPal', value: formatMoney(stats.sumPaypal) },
-    { label: 'Abrechnung', value: formatMoney(stats.sumAbrechnung) },
-    { label: 'Kaffee heute', value: String(stats.countByArticle.kaffee || 0) },
-    { label: 'Tee heute', value: String(stats.countByArticle.tee || 0) },
-    { label: 'Vorgänge', value: String(stats.count) },
-  ];
-  el.todayStats.innerHTML = tiles.map((t) => `
-    <div class="stat-tile${t.wide ? ' stat-tile-wide' : ''}">
-      <div class="stat-value">${t.value}</div>
-      <div class="stat-label">${t.label}</div>
-    </div>
-  `).join('');
+// Kassenstand = alles, was tatsächlich bezahlt wurde (bar + PayPal),
+// über die gesamte Historie. Offene Abrechnungsposten zählen nicht.
+function renderKasseStand() {
+  let sum = 0;
+  for (const b of state.bookings) {
+    if (b.status !== 'abrechnung' && b.status !== 'offen') sum += b.total;
+  }
+  el.kasseStand.textContent = `Kasse: ${formatMoney(sum)}`;
 }
 
 function nextInventoryState(current) {
@@ -586,7 +577,7 @@ function renderAdminInventory() {
 
 function renderAll() {
   renderProductGrid();
-  renderTodayStats();
+  renderKasseStand();
   renderInventory();
   renderQr();
   renderRace();
@@ -663,7 +654,7 @@ async function commitBooking(status) {
   await Store.addBooking(booking);
   state.bookings.push(booking);
   closeBookingSheet();
-  renderTodayStats();
+  renderKasseStand();
   renderRace();
   const label = ARTICLES.find((a) => a.key === article).label;
   const statusLabel = status === 'paypal' ? 'PayPal'
@@ -751,7 +742,7 @@ async function performDayClose() {
   };
   state.closures.push(closure);
   await Store.saveClosures(state.closures);
-  renderTodayStats();
+  renderKasseStand();
   renderAdminStats();
   showToast('Tagesdaten zurückgesetzt.');
 }
