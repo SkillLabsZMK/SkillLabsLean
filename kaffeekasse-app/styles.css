@@ -316,6 +316,11 @@ button { font: inherit; color: inherit; }
   letter-spacing: 0.14em;
 }
 
+.app-header .abx-mark {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.75rem;
+}
+
 /* Buttons */
 
 .btn {

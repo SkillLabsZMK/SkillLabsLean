@@ -3,7 +3,7 @@
 // Einfacher Cache-first-Service-Worker für die statische Kaffeekasse-PWA.
 // Bei jeder inhaltlichen Änderung an den App-Dateien CACHE_VERSION erhöhen,
 // damit Geräte den neuen App-Shell-Cache laden.
-const CACHE_VERSION = 'kaffeekasse-v9';
+const CACHE_VERSION = 'kaffeekasse-v10';
 
 const APP_SHELL = [
   './kaffeekasse.html',
