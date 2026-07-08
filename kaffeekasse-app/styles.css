@@ -1,4 +1,7 @@
-/* Kaffeekasse – ruhiges, kontraststarkes Kiosk-Design für alte Android-Tablets */
+/* Kaffeekasse – ruhiges, kontraststarkes Kiosk-Design.
+   Ziel-Layout: Lenovo TB-X704L im Querformat (ca. 960×550 CSS-Pixel nutzbar),
+   alles auf einem Bildschirm ohne Scrollen. Hochformat bleibt als
+   scrollende Fallback-Ansicht erhalten. */
 
 :root {
   --bg: #f4f1ec;
@@ -8,6 +11,7 @@
   --text-muted: #6b6055;
   --accent: #6f4324;
   --accent-dark: #4c2d18;
+  --paypal: #0079c1;
   --ok-bg: #e3f3e6;
   --ok-text: #1f6d34;
   --warn-bg: #fdf1d8;
@@ -15,9 +19,8 @@
   --danger-bg: #fbe2df;
   --danger-text: #a3271b;
   --danger: #b3261e;
-  --focus: #2f6fed;
-  --radius-lg: 20px;
-  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-md: 12px;
   --radius-sm: 10px;
 }
 
@@ -30,6 +33,7 @@
     --text-muted: #b9ac9c;
     --accent: #c98a52;
     --accent-dark: #e3a86c;
+    --paypal: #2f9bd6;
     --ok-bg: #163823;
     --ok-text: #7fdb9a;
     --warn-bg: #3c2f0e;
@@ -45,35 +49,33 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
   background: var(--bg);
   color: var(--text);
   font-family: -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif;
-  font-size: 18px;
+  font-size: 17px;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: contain;
 }
 
-body {
-  padding-bottom: 24px;
-}
-
 h2 {
-  margin: 0 0 12px;
-  font-size: 1.25rem;
+  margin: 0 0 10px;
+  font-size: 1.1rem;
   letter-spacing: 0.01em;
 }
 
 .hint {
   margin: -6px 0 12px;
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
-button {
-  font: inherit;
-  color: inherit;
+.hint-inline {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 400;
 }
+
+button { font: inherit; color: inherit; }
 
 /* Header */
 
@@ -81,23 +83,20 @@ button {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 16px;
+  padding: 8px 14px;
   background: var(--accent-dark);
   color: #fbf3ea;
-  position: sticky;
-  top: 0;
-  z-index: 5;
 }
 
 .app-title {
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   font-weight: 700;
   flex: 1;
 }
 
 .app-clock {
   font-variant-numeric: tabular-nums;
-  font-size: 1rem;
+  font-size: 0.95rem;
   opacity: 0.9;
 }
 
@@ -106,32 +105,32 @@ button {
   border: 1px solid rgba(255,255,255,0.25);
   color: inherit;
   border-radius: var(--radius-sm);
-  width: 48px;
-  height: 48px;
-  font-size: 1.3rem;
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
   line-height: 1;
   cursor: pointer;
 }
 
-/* Layout */
+/* Grundlayout: Hochformat / schmale Fenster = gestapelt und scrollbar */
 
 #main-view {
   max-width: 720px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .panel {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 18px;
+  padding: 14px;
 }
 
-/* Produktgrid */
+/* Produktbuttons */
 
 .product-grid {
   display: grid;
@@ -144,29 +143,36 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  min-height: 116px;
+  gap: 4px;
+  min-height: 130px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: var(--bg);
   cursor: pointer;
-  transition: transform 0.05s ease;
 }
 
 .product-btn:active {
-  transform: scale(0.97);
   background: var(--accent);
   color: #fff;
 }
 
+.product-btn:active .product-price { color: #fff; }
+
 .product-emoji {
-  font-size: 2.2rem;
-  line-height: 1;
+  font-size: 2.6rem;
+  line-height: 1.1;
 }
 
 .product-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.product-price {
   font-size: 1.05rem;
   font-weight: 600;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 /* Statistikkacheln */
@@ -174,26 +180,29 @@ button {
 .stat-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 8px;
 }
 
 .stat-tile {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 12px 14px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .stat-value {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
 .stat-label {
   color: var(--text-muted);
-  font-size: 0.85rem;
-  margin-top: 2px;
+  font-size: 0.8rem;
+  margin-top: 1px;
 }
 
 /* Bestand */
@@ -201,7 +210,7 @@ button {
 .inventory-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .inventory-row {
@@ -209,7 +218,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 14px;
+  padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg);
@@ -218,13 +227,14 @@ button {
 
 .inventory-name {
   font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .status-chip {
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: 999px;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   white-space: nowrap;
 }
 
@@ -232,28 +242,24 @@ button {
 .status-wenig { background: var(--warn-bg); color: var(--warn-text); }
 .status-bestellen { background: var(--danger-bg); color: var(--danger-text); }
 
-/* Direkt zahlen */
-
-.panel-pay {
-  text-align: center;
-}
+/* Direkt zahlen (QR oben rechts im Querformat) */
 
 .qr-wrap {
+  flex: 1;
+  min-height: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
 
 .qr-box {
-  width: 220px;
-  height: 220px;
   background: #fff;
   border-radius: var(--radius-md);
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: 1px solid var(--border);
+  padding: 6px;
+  width: 170px;
+  height: 170px;
+  flex-shrink: 0;
 }
 
 .qr-box svg {
@@ -262,16 +268,32 @@ button {
   display: block;
 }
 
+.qr-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .qr-caption {
   color: var(--text-muted);
   margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Hochformat: QR-Bereich untereinander und zentriert */
+@media (orientation: portrait), (max-width: 759px) {
+  .qr-wrap { flex-direction: column; }
+  .qr-box { width: 210px; height: 210px; }
+  .qr-side { align-items: stretch; width: 100%; }
+  .qr-caption { text-align: center; }
 }
 
 .app-footer {
-  text-align: center;
+  text-align: right;
   color: var(--text-muted);
-  font-size: 0.8rem;
-  padding: 4px 0 0;
+  font-size: 0.72rem;
+  padding-top: 4px;
 }
 
 /* Buttons */
@@ -279,20 +301,27 @@ button {
 .btn {
   border: none;
   border-radius: var(--radius-md);
-  padding: 14px 18px;
-  font-size: 1.05rem;
+  padding: 12px 16px;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  min-height: 56px;
+  min-height: 50px;
 }
 
 .btn-wide { width: 100%; display: block; text-align: center; text-decoration: none; }
 
 .btn-primary { background: var(--accent); color: #fff; }
 .btn-success { background: #1f8a45; color: #fff; }
+.btn-paypal { background: var(--paypal); color: #fff; }
 .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
 .btn-ghost { background: transparent; color: var(--text-muted); }
 .btn-danger { background: var(--danger); color: #fff; width: 100%; }
+
+.btn-close {
+  font-size: 1.3rem;
+  min-height: 44px;
+  padding: 6px 14px;
+}
 
 .btn-round {
   width: 64px;
@@ -302,6 +331,7 @@ button {
   color: #fff;
   font-size: 1.8rem;
   line-height: 1;
+  padding: 0;
 }
 
 /* Overlays / Sheets */
@@ -311,16 +341,10 @@ button {
   inset: 0;
   background: rgba(20, 14, 8, 0.55);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   z-index: 20;
-  padding: 0;
-}
-
-@media (min-width: 640px) {
-  .overlay {
-    align-items: center;
-  }
+  padding: 12px;
 }
 
 .sheet {
@@ -328,22 +352,24 @@ button {
   color: var(--text);
   width: 100%;
   max-width: 520px;
-  max-height: 92vh;
+  max-height: 94vh;
   overflow-y: auto;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  padding: 22px;
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
-@media (min-width: 640px) {
-  .sheet {
-    border-radius: var(--radius-lg);
-  }
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.sheet-narrow { max-width: 360px; margin: 0 auto; }
+.sheet-head h2 { margin: 0; font-size: 1.3rem; }
+
+.sheet-narrow { max-width: 360px; }
 
 .qty-row {
   display: flex;
@@ -353,35 +379,31 @@ button {
 }
 
 .qty-value {
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   font-weight: 700;
   min-width: 60px;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
 
-.price-row {
-  text-align: center;
-}
+.price-row { text-align: center; }
 
-.price-line {
-  color: var(--text-muted);
-}
+.price-line { color: var(--text-muted); font-size: 0.95rem; }
 
 .price-total {
-  font-size: 2rem;
+  font-size: 1.9rem;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
 }
 
 .note-label {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
 }
 
 .note-input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 11px 14px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   background: var(--bg);
@@ -407,7 +429,7 @@ button {
 
 .sheet-admin {
   max-width: 640px;
-  height: 92vh;
+  height: 94vh;
 }
 
 .admin-head {
@@ -416,22 +438,25 @@ button {
   justify-content: space-between;
 }
 
+.admin-head h2 { margin: 0; }
+
 .admin-scroll {
   overflow-y: auto;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
   padding-right: 2px;
 }
 
 .admin-block {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 14px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: 0;
 }
 
 .admin-block legend {
@@ -505,7 +530,7 @@ button {
 .toast {
   position: fixed;
   left: 50%;
-  bottom: 24px;
+  bottom: 20px;
   transform: translateX(-50%);
   background: var(--accent-dark);
   color: #fbf3ea;
@@ -534,8 +559,73 @@ select {
   color: var(--text);
 }
 
-input[type="file"] {
-  font-size: 0.9rem;
-}
+input[type="file"] { font-size: 0.9rem; }
 
 [hidden] { display: none !important; }
+
+/* Querformat-Kiosk: alles auf einem Bildschirm, QR oben rechts.
+   Steht bewusst am Dateiende, damit diese Regeln die Basiswerte
+   (z. B. Spaltenzahl der Statistik) sicher überschreiben. */
+
+@media (orientation: landscape) and (min-width: 760px) {
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #main-view {
+    flex: 1;
+    min-height: 0;
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "products pay"
+      "today    inventory";
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .panel {
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 14px;
+  }
+
+  h2 { margin-bottom: 6px; font-size: 1.05rem; }
+
+  .panel-products { grid-area: products; }
+  .panel-pay { grid-area: pay; }
+  .panel-today { grid-area: today; }
+  .panel-inventory { grid-area: inventory; }
+
+  .product-grid { flex: 1; min-height: 0; }
+  .product-btn { min-height: 0; }
+
+  .stat-grid {
+    flex: 1;
+    min-height: 0;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .inventory-list {
+    flex: 1;
+    min-height: 0;
+    gap: 6px;
+    justify-content: space-evenly;
+  }
+
+  .inventory-row { padding: 5px 12px; }
+
+  .app-footer { padding-top: 2px; font-size: 0.68rem; }
+}

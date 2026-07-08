@@ -25,25 +25,10 @@
 
 <main id="main-view">
 
-  <section class="panel" aria-labelledby="h-buchen">
+  <section class="panel panel-products" aria-labelledby="h-buchen">
     <h2 id="h-buchen">Entnahme buchen</h2>
     <div class="product-grid" id="product-grid">
       <!-- Produktbuttons werden per JS gerendert -->
-    </div>
-  </section>
-
-  <section class="panel" aria-labelledby="h-heute">
-    <h2 id="h-heute">Heute</h2>
-    <div class="stat-grid" id="today-stats">
-      <!-- Statistikkacheln werden per JS gerendert -->
-    </div>
-  </section>
-
-  <section class="panel" aria-labelledby="h-bestand">
-    <h2 id="h-bestand">Nachbestellen</h2>
-    <p class="hint">Antippen, um den Status zu ändern.</p>
-    <div class="inventory-list" id="inventory-list">
-      <!-- Bestandszeilen werden per JS gerendert -->
     </div>
   </section>
 
@@ -51,21 +36,37 @@
     <h2 id="h-zahlen">Direkt zahlen</h2>
     <div class="qr-wrap">
       <div class="qr-box" id="qr-box" aria-label="QR-Code für den PayPal-Pool"></div>
-      <p class="qr-caption">Scannen oder antippen zum Bezahlen</p>
-      <a class="btn btn-primary btn-wide" id="btn-open-pool" href="#" target="_blank" rel="noopener">Pool öffnen</a>
+      <div class="qr-side">
+        <p class="qr-caption">Scannen oder antippen zum Bezahlen</p>
+        <a class="btn btn-primary btn-wide" id="btn-open-pool" href="#" target="_blank" rel="noopener">Pool öffnen</a>
+      </div>
     </div>
   </section>
 
-  <footer class="app-footer">
-    <span id="storage-mode-badge"></span>
-  </footer>
+  <section class="panel panel-today" aria-labelledby="h-heute">
+    <h2 id="h-heute">Heute</h2>
+    <div class="stat-grid" id="today-stats">
+      <!-- Statistikkacheln werden per JS gerendert -->
+    </div>
+  </section>
+
+  <section class="panel panel-inventory" aria-labelledby="h-bestand">
+    <h2 id="h-bestand">Nachbestellen <span class="hint-inline">(antippen zum Ändern)</span></h2>
+    <div class="inventory-list" id="inventory-list">
+      <!-- Bestandszeilen werden per JS gerendert -->
+    </div>
+    <div class="app-footer"><span id="storage-mode-badge"></span></div>
+  </section>
 
 </main>
 
 <!-- Buchungs-Overlay -->
 <div class="overlay" id="overlay-booking" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="booking-title">
-    <h2 id="booking-title"><span id="booking-emoji"></span> <span id="booking-label"></span></h2>
+    <div class="sheet-head">
+      <h2 id="booking-title"><span id="booking-emoji"></span> <span id="booking-label"></span></h2>
+      <button class="btn btn-ghost btn-close" id="btn-cancel-booking" aria-label="Abbrechen">✕</button>
+    </div>
 
     <div class="qty-row">
       <button class="btn btn-round" id="btn-qty-minus" aria-label="Menge verringern">−</button>
@@ -82,9 +83,8 @@
     <input type="text" id="booking-note" class="note-input" placeholder="z. B. extern, Name, Anlass" maxlength="60">
 
     <div class="sheet-actions">
-      <button class="btn btn-ghost" id="btn-cancel-booking">Abbrechen</button>
-      <button class="btn btn-outline" id="btn-mark-open">Als offen markieren</button>
-      <button class="btn btn-success" id="btn-mark-paid">Bezahlt</button>
+      <button class="btn btn-success" id="btn-mark-bar">Bar bezahlt</button>
+      <button class="btn btn-paypal" id="btn-mark-paypal">PayPal bezahlt</button>
     </div>
   </div>
 </div>

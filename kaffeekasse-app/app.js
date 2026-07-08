@@ -19,13 +19,12 @@ const DEFAULT_POOL_URL = 'https://www.paypal.com/pools/c/DEIN_POOL_LINK';
 
 const ARTICLES = [
   { key: 'kaffee', label: 'Kaffee', emoji: '☕' },
-  { key: 'milch', label: 'Milch', emoji: '🥛' },
-  { key: 'snack', label: 'Snack', emoji: '🍪' },
-  { key: 'sonstiges', label: 'Sonstiges', emoji: '➕' },
+  { key: 'tee', label: 'Tee', emoji: '🍵' },
 ];
 
 const INVENTORY_ITEMS = [
   { key: 'kaffee', label: 'Kaffee' },
+  { key: 'tee', label: 'Tee' },
   { key: 'milch', label: 'Milch' },
   { key: 'tabs', label: 'Spülmaschinentabs' },
 ];
@@ -35,10 +34,10 @@ const INVENTORY_STATE_LABELS = { ok: 'OK', wenig: 'Wenig', bestellen: 'Bestellen
 
 function defaultSettings() {
   return {
-    prices: { kaffee: 0.5, milch: 0.3, snack: 1.0, sonstiges: 1.0 },
+    prices: { kaffee: 0.5, tee: 0.5 },
     poolUrl: DEFAULT_POOL_URL,
     pin: '',
-    inventory: { kaffee: 'ok', milch: 'ok', tabs: 'ok' },
+    inventory: { kaffee: 'ok', tee: 'ok', milch: 'ok', tabs: 'ok' },
   };
 }
 
@@ -268,8 +267,8 @@ const el = {
   btnQtyMinus: $('#btn-qty-minus'),
   btnQtyPlus: $('#btn-qty-plus'),
   btnCancelBooking: $('#btn-cancel-booking'),
-  btnMarkOpen: $('#btn-mark-open'),
-  btnMarkPaid: $('#btn-mark-paid'),
+  btnMarkBar: $('#btn-mark-bar'),
+  btnMarkPaypal: $('#btn-mark-paypal'),
 
   btnOpenAdmin: $('#btn-open-admin'),
   overlayPin: $('#overlay-pin'),
@@ -342,15 +341,17 @@ function getPeriodStats(periodType) {
     count: bookings.length,
     countByArticle: {},
     sumTotal: 0,
-    sumPaid: 0,
-    sumOpen: 0,
+    sumBar: 0,
+    sumPaypal: 0,
   };
   for (const a of ARTICLES) stats.countByArticle[a.key] = 0;
 
   for (const b of bookings) {
     stats.sumTotal += b.total;
-    if (b.status === 'bezahlt') stats.sumPaid += b.total;
-    else stats.sumOpen += b.total;
+    // Ältere Buchungen können noch die Status 'bezahlt'/'offen' tragen;
+    // alles außer 'paypal' zählt als Barzahlung in die Kasse.
+    if (b.status === 'paypal') stats.sumPaypal += b.total;
+    else stats.sumBar += b.total;
     stats.countByArticle[b.article] = (stats.countByArticle[b.article] || 0) + b.qty;
   }
   return stats;
@@ -363,10 +364,14 @@ function getPeriodStats(periodType) {
 function renderProductGrid() {
   el.productGrid.innerHTML = '';
   for (const article of ARTICLES) {
+    const price = state.settings.prices[article.key] || 0;
     const btn = document.createElement('button');
     btn.className = 'product-btn';
     btn.type = 'button';
-    btn.innerHTML = `<span class="product-emoji">${article.emoji}</span><span class="product-label">${article.label}</span>`;
+    btn.innerHTML = `
+      <span class="product-emoji">${article.emoji}</span>
+      <span class="product-label">${article.label}</span>
+      <span class="product-price">${formatMoney(price)}</span>`;
     btn.addEventListener('click', () => openBookingSheet(article.key));
     el.productGrid.appendChild(btn);
   }
@@ -376,10 +381,11 @@ function renderTodayStats() {
   const stats = getPeriodStats('day');
   const tiles = [
     { label: 'Kaffee heute', value: String(stats.countByArticle.kaffee || 0) },
+    { label: 'Tee heute', value: String(stats.countByArticle.tee || 0) },
     { label: 'Vorgänge heute', value: String(stats.count) },
     { label: 'Summe gesamt', value: formatMoney(stats.sumTotal) },
-    { label: 'Bezahlt', value: formatMoney(stats.sumPaid) },
-    { label: 'Offen', value: formatMoney(stats.sumOpen) },
+    { label: 'Bar', value: formatMoney(stats.sumBar) },
+    { label: 'PayPal', value: formatMoney(stats.sumPaypal) },
   ];
   el.todayStats.innerHTML = tiles.map((t) => `
     <div class="stat-tile">
@@ -440,9 +446,11 @@ function renderAdminStats() {
   const month = getPeriodStats('month');
   const rows = [
     ['Tagesumsatz', formatMoney(day.sumTotal)],
-    ['Davon offen (heute)', formatMoney(day.sumOpen)],
+    ['Davon bar (heute)', formatMoney(day.sumBar)],
+    ['Davon PayPal (heute)', formatMoney(day.sumPaypal)],
     ['Monatsumsatz', formatMoney(month.sumTotal)],
-    ['Davon offen (Monat)', formatMoney(month.sumOpen)],
+    ['Davon bar (Monat)', formatMoney(month.sumBar)],
+    ['Davon PayPal (Monat)', formatMoney(month.sumPaypal)],
     ['Buchungen gesamt (alle Zeit)', String(state.bookings.length)],
   ];
   for (const a of ARTICLES) {
@@ -550,7 +558,7 @@ async function commitBooking(status) {
   closeBookingSheet();
   renderTodayStats();
   const label = ARTICLES.find((a) => a.key === article).label;
-  showToast(`${label} × ${qty} als ${status === 'bezahlt' ? 'bezahlt' : 'offen'} gebucht.`);
+  showToast(`${label} × ${qty} gebucht (${status === 'paypal' ? 'PayPal' : 'bar'}).`);
 }
 
 /* -------------------------------------------------------------------------
@@ -604,6 +612,7 @@ async function saveAdminPrices() {
     state.settings.prices[article.key] = Number.isFinite(value) && value >= 0 ? value : 0;
   }
   await Store.saveSettings(state.settings);
+  renderProductGrid();
   showToast('Preise gespeichert.');
 }
 
@@ -628,7 +637,7 @@ async function performDayClose() {
   }
   const closure = {
     id: uid(), type: 'day', periodKey: todayKey(), ts: Date.now(),
-    totals: { sumTotal: stats.sumTotal, sumPaid: stats.sumPaid, sumOpen: stats.sumOpen, count: stats.count },
+    totals: { sumTotal: stats.sumTotal, sumBar: stats.sumBar, sumPaypal: stats.sumPaypal, count: stats.count },
   };
   state.closures.push(closure);
   await Store.saveClosures(state.closures);
@@ -644,7 +653,7 @@ async function performMonthClose() {
   }
   const closure = {
     id: uid(), type: 'month', periodKey: thisMonthKey(), ts: Date.now(),
-    totals: { sumTotal: stats.sumTotal, sumPaid: stats.sumPaid, sumOpen: stats.sumOpen, count: stats.count },
+    totals: { sumTotal: stats.sumTotal, sumBar: stats.sumBar, sumPaypal: stats.sumPaypal, count: stats.count },
   };
   state.closures.push(closure);
   await Store.saveClosures(state.closures);
@@ -777,8 +786,8 @@ function wireEvents() {
     updateBookingSheetPrices();
   });
   el.btnCancelBooking.addEventListener('click', closeBookingSheet);
-  el.btnMarkOpen.addEventListener('click', () => commitBooking('offen'));
-  el.btnMarkPaid.addEventListener('click', () => commitBooking('bezahlt'));
+  el.btnMarkBar.addEventListener('click', () => commitBooking('bar'));
+  el.btnMarkPaypal.addEventListener('click', () => commitBooking('paypal'));
 
   el.btnOpenAdmin.addEventListener('click', () => requireAdminAccess(openAdminPanel));
   el.btnPinCancel.addEventListener('click', closePinOverlay);

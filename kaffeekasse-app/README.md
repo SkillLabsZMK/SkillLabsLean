@@ -5,16 +5,22 @@ Büro-Kaffeekasse. Läuft ohne Konten, ohne Backend, ohne Cloud – alle Daten
 bleiben lokal auf dem Tablet. Gedacht als dauerhaft installiertes
 Selbstbedienungs-Terminal an der Kaffeeecke, auch für externe Besucher.
 
-Getestet für alte Android-Tablets (u. a. Android 7.1.1 „Nougat“ und Android 8
-„Oreo“) mit Google Chrome.
+Ausgelegt auf das Lenovo TB-X704L (10,1", 1920×1200) im **Querformat**: alle
+Bereiche passen ohne Scrollen auf einen Bildschirm, der QR-Code zum Bezahlen
+sitzt oben rechts. Läuft auch auf anderen alten Android-Tablets (Android
+7.1.1 „Nougat“ / Android 8 „Oreo“) mit Google Chrome; im Hochformat wird auf
+eine gestapelte, scrollende Ansicht umgeschaltet.
 
 ## Funktionen
 
-- Große Produktbuttons: Kaffee, Milch, Snack, Sonstiges
-- Menge, Einzel- und Gesamtpreis, Buchung als „Bezahlt“ oder „Offen“
-- Bereich „Heute“ mit Anzahl, Summen (gesamt/bezahlt/offen)
+- Große Produktbuttons **Kaffee** und **Tee**, jeweils mit Preis direkt im
+  Button
+- Nach Antippen: Menge über +/−, Gesamtpreis, dann **„Bar bezahlt“** oder
+  **„PayPal bezahlt“** (Abbrechen über ✕)
+- Bereich „Heute“ mit Anzahl Kaffee/Tee, Vorgängen und Summen
+  (gesamt / bar / PayPal)
 - Bereich „Nachbestellen“ mit Ampel-Status (OK / Wenig / Bestellen) für
-  Kaffee, Milch und Spülmaschinentabs – per Antippen direkt umschaltbar
+  Kaffee, Tee, Milch und Spülmaschinentabs – per Antippen direkt umschaltbar
 - Bereich „Direkt zahlen“ mit clientseitig erzeugtem QR-Code für einen
   PayPal-Pool-Link
 - Admin-Bereich (optional per PIN geschützt): Preise, Pool-Link, Bestand,
