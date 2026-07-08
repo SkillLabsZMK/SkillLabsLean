@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#241a12">
+<meta name="description" content="Kaffeekasse – digitale Selbstbedienungs-Kaffeekasse fürs Büro">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kaffeekasse">
+<title>Kaffeekasse</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="app-title">☕ Kaffeekasse</div>
+  <div class="app-clock" id="clock" aria-live="off"></div>
+  <button class="admin-btn" id="btn-open-admin" title="Admin" aria-label="Admin-Bereich öffnen">⚙</button>
+</header>
+
+<main id="main-view">
+
+  <section class="panel" aria-labelledby="h-buchen">
+    <h2 id="h-buchen">Entnahme buchen</h2>
+    <div class="product-grid" id="product-grid">
+      <!-- Produktbuttons werden per JS gerendert -->
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-heute">
+    <h2 id="h-heute">Heute</h2>
+    <div class="stat-grid" id="today-stats">
+      <!-- Statistikkacheln werden per JS gerendert -->
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-bestand">
+    <h2 id="h-bestand">Nachbestellen</h2>
+    <p class="hint">Antippen, um den Status zu ändern.</p>
+    <div class="inventory-list" id="inventory-list">
+      <!-- Bestandszeilen werden per JS gerendert -->
+    </div>
+  </section>
+
+  <section class="panel panel-pay" aria-labelledby="h-zahlen">
+    <h2 id="h-zahlen">Direkt zahlen</h2>
+    <div class="qr-wrap">
+      <div class="qr-box" id="qr-box" aria-label="QR-Code für den PayPal-Pool"></div>
+      <p class="qr-caption">Scannen oder antippen zum Bezahlen</p>
+      <a class="btn btn-primary btn-wide" id="btn-open-pool" href="#" target="_blank" rel="noopener">Pool öffnen</a>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <span id="storage-mode-badge"></span>
+  </footer>
+
+</main>
+
+<!-- Buchungs-Overlay -->
+<div class="overlay" id="overlay-booking" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="booking-title">
+    <h2 id="booking-title"><span id="booking-emoji"></span> <span id="booking-label"></span></h2>
+
+    <div class="qty-row">
+      <button class="btn btn-round" id="btn-qty-minus" aria-label="Menge verringern">−</button>
+      <div class="qty-value" id="qty-value">1</div>
+      <button class="btn btn-round" id="btn-qty-plus" aria-label="Menge erhöhen">+</button>
+    </div>
+
+    <div class="price-row">
+      <div class="price-line">Einzelpreis: <span id="unit-price">0,00 €</span></div>
+      <div class="price-total" id="total-price">0,00 €</div>
+    </div>
+
+    <label class="note-label" for="booking-note">Notiz (optional)</label>
+    <input type="text" id="booking-note" class="note-input" placeholder="z. B. extern, Name, Anlass" maxlength="60">
+
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" id="btn-cancel-booking">Abbrechen</button>
+      <button class="btn btn-outline" id="btn-mark-open">Als offen markieren</button>
+      <button class="btn btn-success" id="btn-mark-paid">Bezahlt</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin PIN Overlay -->
+<div class="overlay" id="overlay-pin" hidden>
+  <div class="sheet sheet-narrow" role="dialog" aria-modal="true" aria-labelledby="pin-title">
+    <h2 id="pin-title">Admin-PIN</h2>
+    <input type="password" inputmode="numeric" id="pin-input" class="note-input" placeholder="PIN eingeben" autocomplete="off">
+    <p class="error-text" id="pin-error" hidden>Falsche PIN.</p>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" id="btn-pin-cancel">Abbrechen</button>
+      <button class="btn btn-primary" id="btn-pin-confirm">Bestätigen</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin-Bereich -->
+<div class="overlay" id="overlay-admin" hidden>
+  <div class="sheet sheet-admin" role="dialog" aria-modal="true" aria-labelledby="admin-title">
+    <div class="admin-head">
+      <h2 id="admin-title">Admin-Bereich</h2>
+      <button class="btn btn-ghost" id="btn-close-admin">✕ Schließen</button>
+    </div>
+
+    <div class="admin-scroll">
+
+      <fieldset class="admin-block">
+        <legend>Auswertungen</legend>
+        <div class="kv-list" id="admin-stats"></div>
+      </fieldset>
+
+      <fieldset class="admin-block">
+        <legend>Preise</legend>
+        <div class="admin-form-grid" id="admin-prices"></div>
+        <button class="btn btn-primary" id="btn-save-prices">Preise speichern</button>
+      </fieldset>
+
+      <fieldset class="admin-block">
+        <legend>PayPal-Pool-Link</legend>
+        <input type="url" id="admin-pool-url" class="note-input" placeholder="https://www.paypal.com/pools/c/...">
+        <button class="btn btn-primary" id="btn-save-pool">Pool-Link speichern</button>
+      </fieldset>
+
+      <fieldset class="admin-block">
+        <legend>Bestand setzen</legend>
+        <div class="admin-inventory" id="admin-inventory"></div>
+      </fieldset>
+
+      <fieldset class="admin-block">
+        <legend>Admin-PIN</legend>
+        <p class="hint">Leer lassen, um den PIN-Schutz zu deaktivieren.</p>
+        <input type="password" inputmode="numeric" id="admin-pin" class="note-input" placeholder="z. B. 1234" autocomplete="off">
+        <button class="btn btn-primary" id="btn-save-pin">PIN speichern</button>
+      </fieldset>
+
+      <fieldset class="admin-block">
+        <legend>Abschluss</legend>
+        <div class="admin-btn-row">
+          <button class="btn btn-outline" id="btn-day-close">Tagesdaten zurücksetzen</button>
+          <button class="btn btn-outline" id="btn-month-close">Monat abschließen</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="admin-block">
+        <legend>Export &amp; Sicherung</legend>
+        <div class="admin-btn-row">
+          <button class="btn btn-outline" id="btn-export-csv">CSV exportieren</button>
+          <button class="btn btn-outline" id="btn-export-json">JSON-Backup exportieren</button>
+        </div>
+        <label class="import-label" for="import-file">JSON-Backup importieren</label>
+        <input type="file" id="import-file" accept="application/json,.json">
+      </fieldset>
+
+      <fieldset class="admin-block admin-danger">
+        <legend>Gefahrenzone</legend>
+        <button class="btn btn-danger" id="btn-wipe-all">Alle lokalen Daten löschen</button>
+      </fieldset>
+
+    </div>
+  </div>
+</div>
+
+<!-- Einfaches Toast für Rückmeldungen -->
+<div class="toast" id="toast" hidden></div>
+
+<script src="vendor/qrcode.js"></script>
+<script src="vendor/qrcode_UTF8.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
