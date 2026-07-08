@@ -4,7 +4,7 @@
   "description": "Offline-fähige Selbstbedienungs-Kaffeekasse fürs Büro",
   "start_url": "./kaffeekasse.html",
   "scope": "./",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "landscape",
   "background_color": "#f4f1ec",
   "theme_color": "#454b6a",

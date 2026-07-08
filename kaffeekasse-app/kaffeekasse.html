@@ -61,6 +61,11 @@
     </div>
   </section>
 
+  <section class="panel panel-race" aria-labelledby="h-race">
+    <h2 id="h-race">🏁 Kaffee-Rennen <span class="hint-inline">· Becher im <span id="race-month"></span> · Top 5</span></h2>
+    <div class="race-track" id="race-track"></div>
+  </section>
+
 </main>
 
 <!-- Buchungs-Overlay -->
@@ -83,8 +88,10 @@
         <div class="price-total" id="total-price">0,00 €</div>
       </div>
 
-      <label class="note-label" for="booking-note">Notiz (optional)</label>
-      <input type="text" id="booking-note" class="note-input" placeholder="z. B. extern, Name, Anlass" maxlength="60">
+      <div class="name-suggest" id="name-suggest" hidden></div>
+
+      <label class="note-label" for="booking-note">Name / Notiz (optional)</label>
+      <input type="text" id="booking-note" class="note-input" placeholder="z. B. Max – zählt fürs Kaffee-Rennen" maxlength="60">
 
       <div class="sheet-actions booking-actions">
         <button class="btn btn-success" id="btn-mark-bar">Bar</button>

@@ -20,9 +20,15 @@ eine gestapelte, scrollende Ansicht umgeschaltet.
 - Bereich „Heute“ mit Anzahl Kaffee/Tee, Vorgängen und Summen
   (gesamt / bar / PayPal)
 - Bereich „Nachbestellen“ mit Ampel-Status (OK / Wenig / Bestellen) für
-  Kaffee, Tee, Milch, Spülmaschinentabs, Spülmaschinensalz, Klarspüler,
-  Reinigungstabletten und Entkalker der Kaffeemaschine – per Antippen direkt
-  umschaltbar, mit Hinweis „Nachschub und Kanban im Raum Papier & Druck“
+  Kaffee, Tee, Milch, Hafermilch, Spülmaschinentabs, Spülmaschinensalz,
+  Klarspüler, Reinigungstabletten und Entkalker der Kaffeemaschine – per
+  Antippen direkt umschaltbar, mit Hinweis „Nachschub und Kanban im Raum
+  Papier & Druck“
+- Namensvorschläge im Buchungsdialog: einmal eingegebene Namen erscheinen ab
+  dem zweiten Becher als antippbare Chips, sortiert nach Becherzahl
+- „Kaffee-Rennen“ auf der Startseite: die fünf größten Kaffee-/Teetrinker des
+  Monats laufen als Schildkröten auf die Ziellinie zu (Namen aus dem
+  Notizfeld, Reset durch Monatsabschluss)
 - Gestaltung im Skill-Labs-/UKT-Farbschema (ZMK Tübingen): Indigo, Gold,
   warmer Hintergrund – passend zur bestehenden Skill-Labs-Oberfläche
 - Dezente ABX-Kennung unten rechts im Bereich „Heute“

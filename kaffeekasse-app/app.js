@@ -26,6 +26,7 @@ const INVENTORY_ITEMS = [
   { key: 'kaffee', label: 'Kaffee' },
   { key: 'tee', label: 'Tee' },
   { key: 'milch', label: 'Milch' },
+  { key: 'hafermilch', label: 'Hafermilch' },
   { key: 'tabs', label: 'Spülmaschinentabs' },
   { key: 'salz', label: 'Spülmaschinensalz' },
   { key: 'klarspueler', label: 'Klarspüler' },
@@ -42,7 +43,7 @@ function defaultSettings() {
     poolUrl: DEFAULT_POOL_URL,
     pin: '',
     inventory: {
-      kaffee: 'ok', tee: 'ok', milch: 'ok', tabs: 'ok',
+      kaffee: 'ok', tee: 'ok', milch: 'ok', hafermilch: 'ok', tabs: 'ok',
       salz: 'ok', klarspueler: 'ok', reinigungstabs: 'ok', entkalker: 'ok',
     },
   };
@@ -65,6 +66,12 @@ function thisMonthKey() { return monthKey(Date.now()); }
 
 function uid() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
 }
 
 /* -------------------------------------------------------------------------
@@ -261,6 +268,9 @@ const el = {
   inventoryList: $('#inventory-list'),
   qrBox: $('#qr-box'),
   btnOpenPool: $('#btn-open-pool'),
+  raceTrack: $('#race-track'),
+  raceMonth: $('#race-month'),
+  nameSuggest: $('#name-suggest'),
   storageBadge: $('#storage-mode-badge'),
   toast: $('#toast'),
 
@@ -339,16 +349,38 @@ function tickClock() {
    jeweiligen Zeitraum, ohne historische Buchungen zu löschen.
    ------------------------------------------------------------------------- */
 
-function getPeriodStats(periodType) {
+function getPeriodBookings(periodType) {
   const key = periodType === 'day' ? todayKey() : thisMonthKey();
   const keyFn = periodType === 'day' ? dateKey : monthKey;
   const lastClosureTs = state.closures
     .filter((c) => c.type === periodType && c.periodKey === key)
     .reduce((max, c) => Math.max(max, c.ts), 0);
 
-  const bookings = state.bookings.filter(
+  return state.bookings.filter(
     (b) => keyFn(b.ts) === key && b.ts > lastClosureTs
   );
+}
+
+// Aggregiert Namen aus dem Notizfeld (Groß-/Kleinschreibung egal) und liefert
+// nur Namen ab 2 Bechern, absteigend sortiert – so bleibt die Liste ruhig.
+function aggregateNames(bookings) {
+  const map = {};
+  for (const b of bookings) {
+    const raw = (b.note || '').trim();
+    if (!raw) continue;
+    const key = raw.toLowerCase();
+    if (!map[key]) map[key] = { name: raw, cups: 0 };
+    map[key].cups += b.qty;
+  }
+  return Object.keys(map)
+    .map((k) => map[k])
+    .filter((e) => e.cups >= 2)
+    .sort((a, b) => b.cups - a.cups);
+}
+
+function getPeriodStats(periodType) {
+  const key = periodType === 'day' ? todayKey() : thisMonthKey();
+  const bookings = getPeriodBookings(periodType);
 
   const stats = {
     key,
@@ -399,9 +431,10 @@ function renderTodayStats() {
     { label: 'Summe gesamt', value: formatMoney(stats.sumTotal), wide: true },
     { label: 'Bar', value: formatMoney(stats.sumBar) },
     { label: 'PayPal', value: formatMoney(stats.sumPaypal) },
-    { label: 'Auf Abrechnung', value: formatMoney(stats.sumAbrechnung), wide: true },
+    { label: 'Abrechnung', value: formatMoney(stats.sumAbrechnung) },
     { label: 'Kaffee heute', value: String(stats.countByArticle.kaffee || 0) },
     { label: 'Tee heute', value: String(stats.countByArticle.tee || 0) },
+    { label: 'Vorgänge', value: String(stats.count) },
   ];
   el.todayStats.innerHTML = tiles.map((t) => `
     <div class="stat-tile${t.wide ? ' stat-tile-wide' : ''}">
@@ -453,6 +486,41 @@ function renderQrInto(target) {
 function renderQr() {
   el.btnOpenPool.href = state.settings.poolUrl || DEFAULT_POOL_URL;
   renderQrInto(el.qrBox);
+}
+
+function renderRace() {
+  const entries = aggregateNames(getPeriodBookings('month')).slice(0, 5);
+  el.raceMonth.textContent = new Date().toLocaleDateString('de-DE', { month: 'long' });
+  if (!entries.length) {
+    el.raceTrack.innerHTML = '<p class="race-empty">🐢 Noch keine Läufer – beim Buchen einen Namen angeben und mitrennen!</p>';
+    return;
+  }
+  const max = entries[0].cups;
+  el.raceTrack.innerHTML = entries.map((e) => {
+    // Führende Schildkröte steht kurz vor der Ziellinie, die übrigen
+    // proportional zu ihrer Becherzahl dahinter.
+    const right = 4 + (1 - e.cups / max) * 68;
+    return `
+      <div class="race-lane">
+        <div class="race-turtle" style="right:${right.toFixed(1)}%">
+          <span class="race-tag">${escapeHtml(e.name)} · ${e.cups}</span>
+          <span class="race-emoji">🐢</span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderNameSuggestions() {
+  const entries = aggregateNames(state.bookings).slice(0, 8);
+  if (!entries.length) {
+    el.nameSuggest.hidden = true;
+    el.nameSuggest.innerHTML = '';
+    return;
+  }
+  el.nameSuggest.hidden = false;
+  el.nameSuggest.innerHTML = entries.map((e) =>
+    `<button type="button" class="name-chip" data-name="${escapeHtml(e.name)}">${escapeHtml(e.name)}</button>`
+  ).join('');
 }
 
 function renderStorageBadge() {
@@ -521,6 +589,7 @@ function renderAll() {
   renderTodayStats();
   renderInventory();
   renderQr();
+  renderRace();
   renderStorageBadge();
 }
 
@@ -542,6 +611,7 @@ function openBookingSheet(articleKey) {
   el.bookingEmoji.textContent = article.emoji;
   el.bookingLabel.textContent = article.label;
   el.bookingNote.value = '';
+  renderNameSuggestions();
   showBookingStep('choose');
   updateBookingSheetPrices();
   el.overlayBooking.hidden = false;
@@ -594,6 +664,7 @@ async function commitBooking(status) {
   state.bookings.push(booking);
   closeBookingSheet();
   renderTodayStats();
+  renderRace();
   const label = ARTICLES.find((a) => a.key === article).label;
   const statusLabel = status === 'paypal' ? 'PayPal'
     : status === 'abrechnung' ? 'auf Abrechnung' : 'bar';
@@ -824,6 +895,15 @@ function wireEvents() {
     state.pendingBooking.qty = Math.min(50, state.pendingBooking.qty + 1);
     updateBookingSheetPrices();
   });
+  el.nameSuggest.addEventListener('click', (ev) => {
+    const chip = ev.target.closest('.name-chip');
+    if (!chip) return;
+    el.bookingNote.value = chip.dataset.name;
+    const chips = el.nameSuggest.querySelectorAll('.name-chip');
+    for (let i = 0; i < chips.length; i++) chips[i].classList.remove('selected');
+    chip.classList.add('selected');
+  });
+
   el.btnCancelBooking.addEventListener('click', closeBookingSheet);
   el.btnMarkBar.addEventListener('click', () => commitBooking('bar'));
   el.btnMarkAbrechnung.addEventListener('click', () => commitBooking('abrechnung'));
