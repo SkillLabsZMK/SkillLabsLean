@@ -427,19 +427,24 @@ function renderProductGrid() {
   }
 }
 
-// Kassenstand = alles, was tatsächlich bezahlt wurde (bar + PayPal), daneben
-// die Summe der offenen Anschreiben ("Auf Abrechnung"), jeweils über die
-// gesamte Historie – so fällt eine Differenz sofort auf.
-function renderKasseStand() {
+// Bilanz über die gesamte Historie: eingegangen (bar + PayPal), offene
+// Anschreiben (als Verbindlichkeit negativ) und der Gesamtwert aller
+// Entnahmen. Es gilt: Gesamtwert = Kasse + offene Anschreiben.
+function getBalance() {
   let paid = 0;
   let open = 0;
   for (const b of state.bookings) {
     if (b.status === 'abrechnung' || b.status === 'offen') open += b.total;
     else paid += b.total;
   }
+  return { paid, open, total: paid + open };
+}
+
+function renderKasseStand() {
+  const bal = getBalance();
   el.kasseStand.innerHTML =
-    `Kasse: ${formatMoney(paid)}` +
-    ` <span class="kasse-open">· Anschreiben: ${formatMoney(open)}</span>`;
+    `Kasse: ${formatMoney(bal.paid)}` +
+    ` <span class="kasse-open">· Anschreiben: ${formatMoney(-bal.open)}</span>`;
 }
 
 function nextInventoryState(current) {
@@ -525,7 +530,11 @@ function renderStorageBadge() {
 function renderAdminStats() {
   const day = getPeriodStats('day');
   const month = getPeriodStats('month');
+  const bal = getBalance();
   const rows = [
+    ['Bilanz: Gesamtwert aller Entnahmen', formatMoney(bal.total)],
+    ['Davon eingegangen (Kasse)', formatMoney(bal.paid)],
+    ['Davon offene Anschreiben', formatMoney(-bal.open)],
     ['Tagesumsatz', formatMoney(day.sumTotal)],
     ['Davon bar (heute)', formatMoney(day.sumBar)],
     ['Davon PayPal (heute)', formatMoney(day.sumPaypal)],
