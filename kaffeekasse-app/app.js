@@ -361,9 +361,11 @@ function getPeriodBookings(periodType) {
   );
 }
 
-// Aggregiert Namen aus dem Notizfeld (Groß-/Kleinschreibung egal) und liefert
-// nur Namen ab 2 Bechern, absteigend sortiert – so bleibt die Liste ruhig.
-function aggregateNames(bookings) {
+// Aggregiert Namen aus dem Notizfeld (Groß-/Kleinschreibung egal), absteigend
+// nach Becherzahl sortiert. minCups steuert, ab wie vielen Bechern ein Name
+// auftaucht: das Rennen startet ab dem ersten Becher, die Vorschlags-Chips
+// erst ab dem zweiten, damit die Liste ruhig bleibt.
+function aggregateNames(bookings, minCups) {
   const map = {};
   for (const b of bookings) {
     const raw = (b.note || '').trim();
@@ -374,7 +376,7 @@ function aggregateNames(bookings) {
   }
   return Object.keys(map)
     .map((k) => map[k])
-    .filter((e) => e.cups >= 2)
+    .filter((e) => e.cups >= minCups)
     .sort((a, b) => b.cups - a.cups);
 }
 
@@ -480,7 +482,7 @@ function renderQrInto(target) {
 }
 
 function renderRace() {
-  const entries = aggregateNames(getPeriodBookings('month')).slice(0, 5);
+  const entries = aggregateNames(getPeriodBookings('month'), 1).slice(0, 5);
   el.raceMonth.textContent = new Date().toLocaleDateString('de-DE', { month: 'long' });
   if (!entries.length) {
     el.raceTrack.innerHTML = '<p class="race-empty">🐢 Noch keine Läufer – beim Buchen einen Namen angeben und mitrennen!</p>';
@@ -502,7 +504,7 @@ function renderRace() {
 }
 
 function renderNameSuggestions() {
-  const entries = aggregateNames(state.bookings).slice(0, 8);
+  const entries = aggregateNames(state.bookings, 2).slice(0, 8);
   if (!entries.length) {
     el.nameSuggest.hidden = true;
     el.nameSuggest.innerHTML = '';
