@@ -34,8 +34,10 @@ const INVENTORY_ITEMS = [
   { key: 'entkalker', label: 'Entkalker Kaffeemaschine' },
 ];
 
-const INVENTORY_STATES = ['ok', 'wenig', 'bestellen'];
-const INVENTORY_STATE_LABELS = { ok: 'OK', wenig: 'Wenig', bestellen: 'Bestellen' };
+const INVENTORY_STATES = ['ok', 'wenig', 'bestellen', 'bestellung'];
+const INVENTORY_STATE_LABELS = {
+  ok: 'OK', wenig: 'Wenig', bestellen: 'Bestellen', bestellung: 'In Bestellung',
+};
 
 function defaultSettings() {
   return {
@@ -266,8 +268,6 @@ const el = {
   kasseStand: $('#kasse-stand'),
   productGrid: $('#product-grid'),
   inventoryList: $('#inventory-list'),
-  qrBox: $('#qr-box'),
-  btnOpenPool: $('#btn-open-pool'),
   raceTrack: $('#race-track'),
   raceMonth: $('#race-month'),
   nameSuggest: $('#name-suggest'),
@@ -425,14 +425,19 @@ function renderProductGrid() {
   }
 }
 
-// Kassenstand = alles, was tatsächlich bezahlt wurde (bar + PayPal),
-// über die gesamte Historie. Offene Abrechnungsposten zählen nicht.
+// Kassenstand = alles, was tatsächlich bezahlt wurde (bar + PayPal), daneben
+// die Summe der offenen Anschreiben ("Auf Abrechnung"), jeweils über die
+// gesamte Historie – so fällt eine Differenz sofort auf.
 function renderKasseStand() {
-  let sum = 0;
+  let paid = 0;
+  let open = 0;
   for (const b of state.bookings) {
-    if (b.status !== 'abrechnung' && b.status !== 'offen') sum += b.total;
+    if (b.status === 'abrechnung' || b.status === 'offen') open += b.total;
+    else paid += b.total;
   }
-  el.kasseStand.textContent = `Kasse: ${formatMoney(sum)}`;
+  el.kasseStand.innerHTML =
+    `Kasse: ${formatMoney(paid)}` +
+    ` <span class="kasse-open">· Anschreiben: ${formatMoney(open)}</span>`;
 }
 
 function nextInventoryState(current) {
@@ -472,11 +477,6 @@ function renderQrInto(target) {
     console.error('QR-Code konnte nicht erzeugt werden', err);
     target.textContent = 'QR-Code nicht verfügbar';
   }
-}
-
-function renderQr() {
-  el.btnOpenPool.href = state.settings.poolUrl || DEFAULT_POOL_URL;
-  renderQrInto(el.qrBox);
 }
 
 function renderRace() {
@@ -579,7 +579,6 @@ function renderAll() {
   renderProductGrid();
   renderKasseStand();
   renderInventory();
-  renderQr();
   renderRace();
   renderStorageBadge();
 }
@@ -721,7 +720,6 @@ async function saveAdminPool() {
   const url = el.adminPoolUrl.value.trim() || DEFAULT_POOL_URL;
   state.settings.poolUrl = url;
   await Store.saveSettings(state.settings);
-  renderQr();
   showToast('Pool-Link gespeichert.');
 }
 

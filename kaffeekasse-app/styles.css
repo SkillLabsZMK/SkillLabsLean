@@ -20,6 +20,8 @@
   --ok-text: #2f6e60;
   --warn-bg: #f5efe2;
   --warn-text: #8a7248;
+  --info-bg: #e2f2f8;
+  --info-text: #006b95;
   --danger-bg: #fce7ee;
   --danger-text: #c00d47;
   --danger: #c00d47;
@@ -44,6 +46,8 @@
     --ok-text: #a8d0cb;
     --warn-bg: #33301f;
     --warn-text: #ccb87c;
+    --info-bg: #16303c;
+    --info-text: #8dcce3;
     --danger-bg: #3a1622;
     --danger-text: #f098b6;
     --danger: #e06082;
@@ -107,6 +111,11 @@ button { font: inherit; color: inherit; }
 .app-title {
   font-size: 1.15rem;
   font-weight: 700;
+}
+
+.kasse-stand .kasse-open {
+  color: var(--gold);
+  font-weight: 600;
 }
 
 .kasse-stand {
@@ -251,16 +260,9 @@ button { font: inherit; color: inherit; }
 .status-ok { background: var(--ok-bg); color: var(--ok-text); }
 .status-wenig { background: var(--warn-bg); color: var(--warn-text); }
 .status-bestellen { background: var(--danger-bg); color: var(--danger-text); }
+.status-bestellung { background: var(--info-bg); color: var(--info-text); }
 
 /* Direkt zahlen (QR oben rechts im Querformat) */
-
-.qr-wrap {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
 
 .qr-box {
   background: #fff;
@@ -278,25 +280,10 @@ button { font: inherit; color: inherit; }
   display: block;
 }
 
-.qr-side {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
 .qr-caption {
   color: var(--text-muted);
   margin: 0;
   font-size: 0.9rem;
-}
-
-/* Hochformat: QR-Bereich untereinander und zentriert */
-@media (orientation: portrait), (max-width: 759px) {
-  .qr-wrap { flex-direction: column; }
-  .qr-box { width: 210px; height: 210px; }
-  .qr-side { align-items: stretch; width: 100%; }
-  .qr-caption { text-align: center; }
 }
 
 .app-footer {
@@ -722,7 +709,7 @@ input[type="file"] { font-size: 0.9rem; }
     grid-template-columns: 1.45fr 1fr;
     grid-template-rows: minmax(0, 1.85fr) minmax(0, 0.93fr) minmax(0, 1.12fr);
     grid-template-areas:
-      "products  pay"
+      "products  products"
       "race      race"
       "inventory inventory";
     gap: 10px;
@@ -740,7 +727,6 @@ input[type="file"] { font-size: 0.9rem; }
   h2 { margin-bottom: 6px; font-size: 1.05rem; }
 
   .panel-products { grid-area: products; }
-  .panel-pay { grid-area: pay; }
   .panel-inventory { grid-area: inventory; position: relative; }
   .panel-race { grid-area: race; }
 
@@ -757,9 +743,6 @@ input[type="file"] { font-size: 0.9rem; }
   .product-emoji { font-size: 3.2rem; }
   .product-label { font-size: 1.5rem; }
   .product-price { font-size: 1.15rem; }
-
-  .qr-box { width: 195px; height: 195px; }
-  .qr-caption { font-size: 1rem; }
 
   .inventory-list {
     flex: 1;
@@ -792,7 +775,7 @@ input[type="file"] { font-size: 0.9rem; }
   #main-view {
     grid-template-rows: minmax(0, 1.3fr) minmax(0, 1fr);
     grid-template-areas:
-      "products  pay"
+      "products  products"
       "inventory inventory";
   }
   .panel-race { display: none; }
@@ -812,11 +795,6 @@ input[type="file"] { font-size: 0.9rem; }
   .product-emoji { font-size: 1.8rem; }
   .product-label { font-size: 1.1rem; }
   .product-price { font-size: 0.9rem; }
-
-  .qr-box { width: 140px; height: 140px; padding: 4px; }
-  .qr-wrap { gap: 10px; }
-  .qr-caption { font-size: 0.8rem; }
-  .panel-pay .btn { min-height: 42px; padding: 8px 14px; font-size: 0.95rem; }
 
   .kasse-stand { font-size: 0.95rem; padding: 4px 14px; }
 
