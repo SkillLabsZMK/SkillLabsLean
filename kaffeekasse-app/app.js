@@ -311,6 +311,7 @@ const el = {
   adminInventory: $('#admin-inventory'),
   adminPin: $('#admin-pin'),
   btnSavePin: $('#btn-save-pin'),
+  btnSettleOpen: $('#btn-settle-open'),
   btnDayClose: $('#btn-day-close'),
   btnMonthClose: $('#btn-month-close'),
   btnExportCsv: $('#btn-export-csv'),
@@ -740,6 +741,30 @@ async function saveAdminPin() {
   showToast(state.settings.pin ? 'PIN gespeichert.' : 'PIN-Schutz deaktiviert.');
 }
 
+// Markiert alle offenen Anschreiben als beglichen – z. B. nach der
+// Sammelrunde, wenn das Geld in Kasse oder Pool gelandet ist. Der Status
+// 'beglichen' bleibt im Export als Nachweis erhalten.
+async function performSettleOpen() {
+  const bal = getBalance();
+  if (bal.open <= 0) {
+    showToast('Keine offenen Anschreiben.');
+    return;
+  }
+  if (!confirm(`Alle offenen Anschreiben (${formatMoney(bal.open)}) als beglichen markieren?\n\nDas Geld sollte jetzt bar in der Kasse oder im PayPal-Pool liegen.`)) {
+    return;
+  }
+  const now = Date.now();
+  state.bookings = state.bookings.map((b) => (
+    (b.status === 'abrechnung' || b.status === 'offen')
+      ? Object.assign({}, b, { status: 'beglichen', beglichenTs: now })
+      : b
+  ));
+  await Store.replaceAllBookings(state.bookings);
+  renderKasseStand();
+  renderAdminStats();
+  showToast(`Anschreiben über ${formatMoney(bal.open)} ausgeglichen.`);
+}
+
 async function performDayClose() {
   const stats = getPeriodStats('day');
   if (!confirm(`Tagesdaten zurücksetzen?\n\nHeutige Summe: ${formatMoney(stats.sumTotal)}\nBuchungen bleiben in der Historie und in Exporten erhalten, die "Heute"-Anzeige startet neu.`)) {
@@ -920,6 +945,7 @@ function wireEvents() {
   el.btnSavePrices.addEventListener('click', saveAdminPrices);
   el.btnSavePool.addEventListener('click', saveAdminPool);
   el.btnSavePin.addEventListener('click', saveAdminPin);
+  el.btnSettleOpen.addEventListener('click', performSettleOpen);
   el.btnDayClose.addEventListener('click', performDayClose);
   el.btnMonthClose.addEventListener('click', performMonthClose);
   el.btnExportCsv.addEventListener('click', exportCsv);
