@@ -17,9 +17,35 @@
 // Einstellungen hat danach Vorrang vor diesem Standardwert).
 const DEFAULT_POOL_URL = 'https://www.paypal.com/pools/c/DEIN_POOL_LINK';
 
+
+// Eingebettete SVG-Icons statt Emojis: Emojis hängen von der Systemschrift
+// des Geräts ab und fehlen auf älteren Android-Versionen teilweise – SVG
+// rendert überall identisch. Farben kommen aus den CSS-Variablen.
+const ICON_COFFEE = '<svg viewBox="0 0 48 48" aria-hidden="true">'
+  + '<path d="M14 5c0 3-2.5 4-2.5 7M22 5c0 3-2.5 4-2.5 7M30 5c0 3-2.5 4-2.5 7" fill="none" stroke="var(--text-muted)" stroke-width="2.6" stroke-linecap="round"/>'
+  + '<rect x="7" y="16" width="26" height="22" rx="4" fill="var(--accent)"/>'
+  + '<path d="M33 20h3a6.5 6.5 0 0 1 0 13h-3" fill="none" stroke="var(--accent)" stroke-width="3.4"/>'
+  + '</svg>';
+
+const ICON_TEA = '<svg viewBox="0 0 48 48" aria-hidden="true">'
+  + '<path d="M17 6c0 3-2.5 4-2.5 7M27 6c0 3-2.5 4-2.5 7" fill="none" stroke="var(--text-muted)" stroke-width="2.6" stroke-linecap="round"/>'
+  + '<path d="M8 19h28v5a14 14 0 0 1-28 0v-5z" fill="var(--ok-text)"/>'
+  + '<path d="M14 42h20" stroke="var(--text-muted)" stroke-width="2.6" stroke-linecap="round"/>'
+  + '</svg>';
+
+const ICON_TURTLE = '<svg viewBox="0 0 34 20" aria-hidden="true">'
+  + '<path d="M4.5 8L1 9.5 4.5 11z" fill="#5c9a4e"/>'
+  + '<rect x="7" y="14.5" width="3.4" height="4.5" rx="1.5" fill="#5c9a4e"/>'
+  + '<rect x="17" y="14.5" width="3.4" height="4.5" rx="1.5" fill="#5c9a4e"/>'
+  + '<circle cx="27" cy="8.5" r="3.6" fill="#5c9a4e"/>'
+  + '<circle cx="28.3" cy="7.5" r="0.8" fill="#1e3a1c"/>'
+  + '<ellipse cx="14" cy="9.5" rx="10" ry="7" fill="#3f7d3a"/>'
+  + '<path d="M6.5 6.5c5-3 10-3 15 0M6.5 12.5c5 3 10 3 15 0" stroke="#2e5c2a" stroke-width="1.1" fill="none"/>'
+  + '</svg>';
+
 const ARTICLES = [
-  { key: 'kaffee', label: 'Kaffee', emoji: '☕' },
-  { key: 'tee', label: 'Tee', emoji: '🍵' },
+  { key: 'kaffee', label: 'Kaffee', icon: ICON_COFFEE },
+  { key: 'tee', label: 'Tee', icon: ICON_TEA },
 ];
 
 const INVENTORY_ITEMS = [
@@ -420,7 +446,7 @@ function renderProductGrid() {
     btn.className = 'product-btn';
     btn.type = 'button';
     btn.innerHTML = `
-      <span class="product-emoji">${article.emoji}</span>
+      <span class="product-emoji">${article.icon}</span>
       <span class="product-label">${article.label}</span>
       <span class="product-price">${formatMoney(price)}</span>`;
     btn.addEventListener('click', () => openBookingSheet(article.key));
@@ -491,7 +517,7 @@ function renderRace() {
   const entries = aggregateNames(getPeriodBookings('month'), 1).slice(0, 5);
   el.raceMonth.textContent = new Date().toLocaleDateString('de-DE', { month: 'long' });
   if (!entries.length) {
-    el.raceTrack.innerHTML = '<p class="race-empty">🐢 Noch keine Läufer – beim Buchen einen Namen angeben und mitrennen!</p>';
+    el.raceTrack.innerHTML = `<p class="race-empty"><span class="race-emoji">${ICON_TURTLE}</span> Noch keine Läufer – beim Buchen einen Namen angeben und mitrennen!</p>`;
     return;
   }
   const max = entries[0].cups;
@@ -503,7 +529,7 @@ function renderRace() {
       <div class="race-lane">
         <div class="race-turtle" style="right:${right.toFixed(1)}%">
           <span class="race-tag">${escapeHtml(e.name)} · ${e.cups}</span>
-          <span class="race-emoji">🐢</span>
+          <span class="race-emoji">${ICON_TURTLE}</span>
         </div>
       </div>`;
   }).join('');
@@ -610,7 +636,7 @@ function renderAdminPanel() {
 function openBookingSheet(articleKey) {
   const article = ARTICLES.find((a) => a.key === articleKey);
   state.pendingBooking = { article: article.key, qty: 1 };
-  el.bookingEmoji.textContent = article.emoji;
+  el.bookingEmoji.innerHTML = article.icon;
   el.bookingLabel.textContent = article.label;
   el.bookingNote.value = '';
   renderNameSuggestions();

@@ -73,6 +73,12 @@ h2 {
   letter-spacing: 0.01em;
 }
 
+h2 .icon-flag {
+  width: 1.05em;
+  height: 1.05em;
+  vertical-align: -0.15em;
+}
+
 .hint {
   margin: -6px 0 12px;
   color: var(--text-muted);
@@ -111,6 +117,14 @@ button { font: inherit; color: inherit; }
 .app-title {
   font-size: 1.15rem;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-title .icon-mug {
+  width: 1.2em;
+  height: 1.2em;
 }
 
 .kasse-stand .kasse-open {
@@ -141,6 +155,13 @@ button { font: inherit; color: inherit; }
   font-variant-numeric: tabular-nums;
   font-size: 0.95rem;
   opacity: 0.9;
+}
+
+.admin-btn .icon-gear {
+  width: 22px;
+  height: 22px;
+  display: block;
+  margin: 0 auto;
 }
 
 .admin-btn {
@@ -204,6 +225,19 @@ button { font: inherit; color: inherit; }
 .product-emoji {
   font-size: 2.6rem;
   line-height: 1.1;
+}
+
+.product-emoji svg {
+  width: 1.15em;
+  height: 1.15em;
+  display: block;
+}
+
+#booking-emoji svg {
+  width: 1.15em;
+  height: 1.15em;
+  display: inline-block;
+  vertical-align: -0.22em;
 }
 
 .product-label {
@@ -536,7 +570,17 @@ button { font: inherit; color: inherit; }
   font-size: 1.05rem;
   line-height: 1;
   display: inline-block;
-  transform: scaleX(-1); /* Schildkröte blickt Richtung Ziel */
+}
+
+.race-emoji svg {
+  width: 1.7em;
+  height: 1em;
+  display: block;
+}
+
+.race-empty .race-emoji svg {
+  display: inline-block;
+  vertical-align: -0.15em;
 }
 
 .race-empty {

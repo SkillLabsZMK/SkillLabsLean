@@ -19,13 +19,13 @@
 
 <header class="app-header">
   <div class="header-left">
-    <div class="app-title">☕ Kaffeekasse <span class="app-sub">Skill Labs ZMK</span></div>
+    <div class="app-title"><svg class="icon-mug" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 5c0 3-2.5 4-2.5 7M22 5c0 3-2.5 4-2.5 7M30 5c0 3-2.5 4-2.5 7" fill="none" stroke="#baa874" stroke-width="3" stroke-linecap="round"/><rect x="7" y="16" width="26" height="22" rx="4" fill="#f2f3f8"/><path d="M33 20h3a6.5 6.5 0 0 1 0 13h-3" fill="none" stroke="#f2f3f8" stroke-width="3.4"/></svg> Kaffeekasse <span class="app-sub">Skill Labs ZMK</span></div>
   </div>
   <div class="kasse-stand" id="kasse-stand"></div>
   <div class="header-right">
     <span class="abx-mark">ABΞ</span>
     <div class="app-clock" id="clock" aria-live="off"></div>
-    <button class="admin-btn" id="btn-open-admin" title="Admin" aria-label="Admin-Bereich öffnen">⚙</button>
+    <button class="admin-btn" id="btn-open-admin" title="Admin" aria-label="Admin-Bereich öffnen"><svg class="icon-gear" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button>
   </div>
 </header>
 
@@ -36,11 +36,11 @@
     <div class="product-grid" id="product-grid">
       <!-- Produktbuttons werden per JS gerendert -->
     </div>
-    <p class="machine-hint">Bitte Kaffeemaschine freitags ausschalten und offen stehen lassen, damit sich kein Schimmel bildet 🙂</p>
+    <p class="machine-hint">Bitte Kaffeemaschine freitags ausschalten und offen stehen lassen, damit sich kein Schimmel bildet :)</p>
   </section>
 
   <section class="panel panel-race" aria-labelledby="h-race">
-    <h2 id="h-race">🏁 Kaffee-Rennen <span class="hint-inline">· Becher im <span id="race-month"></span> · Top 5</span></h2>
+    <h2 id="h-race"><svg class="icon-flag" viewBox="0 0 22 22" aria-hidden="true"><path d="M3.2 1.5v19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><g fill="currentColor"><rect x="5" y="2" width="4" height="4"/><rect x="13" y="2" width="4" height="4"/><rect x="9" y="6" width="4" height="4"/><rect x="17" y="6" width="4" height="4"/><rect x="5" y="10" width="4" height="4"/><rect x="13" y="10" width="4" height="4"/></g><rect x="5" y="2" width="16" height="12" fill="none" stroke="currentColor" stroke-width="1.2"/></svg> Kaffee-Rennen <span class="hint-inline">· Becher im <span id="race-month"></span> · Top 5</span></h2>
     <div class="race-track" id="race-track"></div>
   </section>
 
@@ -61,7 +61,7 @@
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="booking-title">
     <div class="sheet-head">
       <h2 id="booking-title"><span id="booking-emoji"></span> <span id="booking-label"></span></h2>
-      <button class="btn btn-ghost btn-close" id="btn-cancel-booking" aria-label="Abbrechen">✕</button>
+      <button class="btn btn-ghost btn-close" id="btn-cancel-booking" aria-label="Abbrechen">×</button>
     </div>
 
     <div id="booking-step-choose">
@@ -120,7 +120,7 @@
   <div class="sheet sheet-admin" role="dialog" aria-modal="true" aria-labelledby="admin-title">
     <div class="admin-head">
       <h2 id="admin-title">Admin-Bereich</h2>
-      <button class="btn btn-ghost" id="btn-close-admin">✕ Schließen</button>
+      <button class="btn btn-ghost" id="btn-close-admin">× Schließen</button>
     </div>
 
     <div class="admin-scroll">
