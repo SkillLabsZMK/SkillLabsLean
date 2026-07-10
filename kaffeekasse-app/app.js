@@ -581,12 +581,10 @@ function renderRace() {
 
 function renderNameSuggestions() {
   const creditMap = getCreditMap();
-  // Ab 2 Bechern vorgeschlagen – wer Guthaben hat, erscheint immer.
-  const all = aggregateNames(state.bookings, 1);
-  const entries = all.filter((e) => {
-    const c = creditMap[e.name.toLowerCase()];
-    return e.cups >= 2 || (c && c.credit > 0.004);
-  });
+  // Jeder Name erscheint ab dem ersten Becher als Chip, sortiert nach
+  // Häufigkeit (Vieltrinker zuerst). Guthaben-Inhaber erscheinen auch
+  // ohne Becher.
+  const entries = aggregateNames(state.bookings, 1);
   for (const key in creditMap) {
     const c = creditMap[key];
     if (c.credit > 0.004 && !entries.some((e) => e.name.toLowerCase() === key)) {
@@ -594,7 +592,7 @@ function renderNameSuggestions() {
     }
   }
   entries.sort((a, b) => b.cups - a.cups);
-  const top = entries.slice(0, 8);
+  const top = entries.slice(0, 12);
   if (!top.length) {
     el.nameSuggest.hidden = true;
     el.nameSuggest.innerHTML = '';
