@@ -313,6 +313,7 @@ const el = {
   btnMarkBar: $('#btn-mark-bar'),
   btnMarkPaypal: $('#btn-mark-paypal'),
   btnMarkAbrechnung: $('#btn-mark-abrechnung'),
+  btnMarkGuthaben: $('#btn-mark-guthaben'),
   bookingStepChoose: $('#booking-step-choose'),
   bookingStepPaypal: $('#booking-step-paypal'),
   qrBoxSheet: $('#qr-box-sheet'),
@@ -337,6 +338,12 @@ const el = {
   adminInventory: $('#admin-inventory'),
   adminPin: $('#admin-pin'),
   btnSavePin: $('#btn-save-pin'),
+  creditName: $('#credit-name'),
+  creditAmount: $('#credit-amount'),
+  creditNames: $('#credit-names'),
+  btnCreditBar: $('#btn-credit-bar'),
+  btnCreditPaypal: $('#btn-credit-paypal'),
+  adminCreditList: $('#admin-credit-list'),
   btnSettleOpen: $('#btn-settle-open'),
   btnDayClose: $('#btn-day-close'),
   btnMonthClose: $('#btn-month-close'),
@@ -395,6 +402,7 @@ function getPeriodBookings(periodType) {
 function aggregateNames(bookings, minCups) {
   const map = {};
   for (const b of bookings) {
+    if (b.article === 'guthaben') continue; // Aufladungen sind keine Becher
     const raw = (b.note || '').trim();
     if (!raw) continue;
     const key = raw.toLowerCase();
@@ -407,9 +415,29 @@ function aggregateNames(bookings, minCups) {
     .sort((a, b) => b.cups - a.cups);
 }
 
+// Guthaben je Name: Aufladungen (article 'guthaben') minus Verbrauch
+// (Getränkebuchungen mit Status 'guthaben'). Namen case-insensitiv.
+function getCreditMap() {
+  const map = {};
+  for (const b of state.bookings) {
+    const raw = (b.note || '').trim();
+    if (!raw) continue;
+    const key = raw.toLowerCase();
+    if (!map[key]) map[key] = { name: raw, credit: 0 };
+    if (b.article === 'guthaben') map[key].credit += b.total;
+    else if (b.status === 'guthaben') map[key].credit -= b.total;
+  }
+  return map;
+}
+
+function getCreditFor(name) {
+  const entry = getCreditMap()[name.trim().toLowerCase()];
+  return entry ? entry.credit : 0;
+}
+
 function getPeriodStats(periodType) {
   const key = periodType === 'day' ? todayKey() : thisMonthKey();
-  const bookings = getPeriodBookings(periodType);
+  const bookings = getPeriodBookings(periodType).filter((b) => b.article !== 'guthaben');
 
   const stats = {
     key,
@@ -418,6 +446,7 @@ function getPeriodStats(periodType) {
     sumTotal: 0,
     sumBar: 0,
     sumPaypal: 0,
+    sumGuthaben: 0,
     sumAbrechnung: 0,
   };
   for (const a of ARTICLES) stats.countByArticle[a.key] = 0;
@@ -427,6 +456,7 @@ function getPeriodStats(periodType) {
     // Ältere Buchungen können noch die Status 'bezahlt'/'offen' tragen:
     // 'offen' zählt zur Abrechnung, alles Übrige außer 'paypal' als bar.
     if (b.status === 'paypal') stats.sumPaypal += b.total;
+    else if (b.status === 'guthaben') stats.sumGuthaben += b.total;
     else if (b.status === 'abrechnung' || b.status === 'offen') stats.sumAbrechnung += b.total;
     else stats.sumBar += b.total;
     stats.countByArticle[b.article] = (stats.countByArticle[b.article] || 0) + b.qty;
@@ -454,24 +484,38 @@ function renderProductGrid() {
   }
 }
 
-// Bilanz über die gesamte Historie: eingegangen (bar + PayPal), offene
-// Anschreiben (als Verbindlichkeit negativ) und der Gesamtwert aller
-// Entnahmen. Es gilt: Gesamtwert = Kasse + offene Anschreiben.
+// Bilanz über die gesamte Historie: eingegangen ist alles tatsächlich
+// erhaltene Geld (bar/PayPal bezahlte Getränke, beglichene Anschreiben und
+// Guthaben-Aufladungen). Vom Guthaben getrunkene Becher zählen nicht erneut.
+// Es gilt: Kasse = Gesamtwert Entnahmen − offene Anschreiben + Restguthaben.
 function getBalance() {
   let paid = 0;
   let open = 0;
+  let topups = 0;
+  let creditUsed = 0;
+  let drinksTotal = 0;
   for (const b of state.bookings) {
+    if (b.article === 'guthaben') {
+      topups += b.total;
+      paid += b.total;
+      continue;
+    }
+    drinksTotal += b.total;
     if (b.status === 'abrechnung' || b.status === 'offen') open += b.total;
+    else if (b.status === 'guthaben') creditUsed += b.total;
     else paid += b.total;
   }
-  return { paid, open, total: paid + open };
+  return { paid, open, drinksTotal, creditRest: topups - creditUsed };
 }
 
 function renderKasseStand() {
   const bal = getBalance();
-  el.kasseStand.innerHTML =
-    `Kasse: ${formatMoney(bal.paid)}` +
-    ` <span class="kasse-open">· Anschreiben: ${formatMoney(-bal.open)}</span>`;
+  let html = `Kasse: ${formatMoney(bal.paid)}`
+    + ` <span class="kasse-open">· Anschreiben: ${formatMoney(-bal.open)}</span>`;
+  if (bal.creditRest > 0.004) {
+    html += ` <span class="kasse-open">· Guthaben: ${formatMoney(bal.creditRest)}</span>`;
+  }
+  el.kasseStand.innerHTML = html;
 }
 
 function nextInventoryState(current) {
@@ -536,16 +580,49 @@ function renderRace() {
 }
 
 function renderNameSuggestions() {
-  const entries = aggregateNames(state.bookings, 2).slice(0, 8);
-  if (!entries.length) {
+  const creditMap = getCreditMap();
+  // Ab 2 Bechern vorgeschlagen – wer Guthaben hat, erscheint immer.
+  const all = aggregateNames(state.bookings, 1);
+  const entries = all.filter((e) => {
+    const c = creditMap[e.name.toLowerCase()];
+    return e.cups >= 2 || (c && c.credit > 0.004);
+  });
+  for (const key in creditMap) {
+    const c = creditMap[key];
+    if (c.credit > 0.004 && !entries.some((e) => e.name.toLowerCase() === key)) {
+      entries.push({ name: c.name, cups: 0 });
+    }
+  }
+  entries.sort((a, b) => b.cups - a.cups);
+  const top = entries.slice(0, 8);
+  if (!top.length) {
     el.nameSuggest.hidden = true;
     el.nameSuggest.innerHTML = '';
     return;
   }
   el.nameSuggest.hidden = false;
-  el.nameSuggest.innerHTML = entries.map((e) =>
-    `<button type="button" class="name-chip" data-name="${escapeHtml(e.name)}">${escapeHtml(e.name)}</button>`
-  ).join('');
+  el.nameSuggest.innerHTML = top.map((e) => {
+    const c = creditMap[e.name.toLowerCase()];
+    const credit = c && c.credit > 0.004 ? ` · ${formatMoney(c.credit)}` : '';
+    return `<button type="button" class="name-chip" data-name="${escapeHtml(e.name)}">${escapeHtml(e.name)}${credit}</button>`;
+  }).join('');
+}
+
+// Blendet den Guthaben-Button ein, sobald der eingegebene Name ein Guthaben
+// hat; deaktiviert ihn, wenn es für die aktuelle Menge nicht reicht.
+function updateGuthabenButton() {
+  if (!state.pendingBooking) return;
+  const name = el.bookingNote.value.trim();
+  const credit = name ? getCreditFor(name) : 0;
+  if (credit > 0.004) {
+    const { article, qty } = state.pendingBooking;
+    const total = (state.settings.prices[article] || 0) * qty;
+    el.btnMarkGuthaben.hidden = false;
+    el.btnMarkGuthaben.textContent = `Guthaben (${formatMoney(credit)})`;
+    el.btnMarkGuthaben.disabled = credit + 0.004 < total;
+  } else {
+    el.btnMarkGuthaben.hidden = true;
+  }
 }
 
 function renderStorageBadge() {
@@ -559,16 +636,19 @@ function renderAdminStats() {
   const month = getPeriodStats('month');
   const bal = getBalance();
   const rows = [
-    ['Bilanz: Gesamtwert aller Entnahmen', formatMoney(bal.total)],
-    ['Davon eingegangen (Kasse)', formatMoney(bal.paid)],
-    ['Davon offene Anschreiben', formatMoney(-bal.open)],
+    ['Bilanz: Eingegangen (Kasse)', formatMoney(bal.paid)],
+    ['Gesamtwert aller Entnahmen', formatMoney(bal.drinksTotal)],
+    ['Offene Anschreiben', formatMoney(-bal.open)],
+    ['Offenes Guthaben', formatMoney(bal.creditRest)],
     ['Tagesumsatz', formatMoney(day.sumTotal)],
     ['Davon bar (heute)', formatMoney(day.sumBar)],
     ['Davon PayPal (heute)', formatMoney(day.sumPaypal)],
+    ['Davon Guthaben (heute)', formatMoney(day.sumGuthaben)],
     ['Davon auf Abrechnung (heute)', formatMoney(day.sumAbrechnung)],
     ['Monatsumsatz', formatMoney(month.sumTotal)],
     ['Davon bar (Monat)', formatMoney(month.sumBar)],
     ['Davon PayPal (Monat)', formatMoney(month.sumPaypal)],
+    ['Davon Guthaben (Monat)', formatMoney(month.sumGuthaben)],
     ['Davon auf Abrechnung (Monat)', formatMoney(month.sumAbrechnung)],
     ['Buchungen gesamt (alle Zeit)', String(state.bookings.length)],
   ];
@@ -623,6 +703,7 @@ function renderAll() {
 
 function renderAdminPanel() {
   renderAdminStats();
+  renderAdminCredits();
   renderAdminPrices();
   el.adminPoolUrl.value = state.settings.poolUrl || '';
   renderAdminInventory();
@@ -642,6 +723,7 @@ function openBookingSheet(articleKey) {
   renderNameSuggestions();
   showBookingStep('choose');
   updateBookingSheetPrices();
+  updateGuthabenButton();
   el.overlayBooking.hidden = false;
 }
 
@@ -665,6 +747,7 @@ function updateBookingSheetPrices() {
   el.qtyValue.textContent = String(qty);
   el.unitPrice.textContent = formatMoney(unitPrice);
   el.totalPrice.textContent = formatMoney(unitPrice * qty);
+  updateGuthabenButton();
 }
 
 function closeBookingSheet() {
@@ -676,6 +759,16 @@ async function commitBooking(status) {
   if (!state.pendingBooking) return;
   const { article, qty } = state.pendingBooking;
   const unitPrice = state.settings.prices[article] || 0;
+  let creditBefore = 0;
+  if (status === 'guthaben') {
+    const name = el.bookingNote.value.trim();
+    if (!name) { showToast('Für Guthaben bitte einen Namen angeben.'); return; }
+    creditBefore = getCreditFor(name);
+    if (creditBefore + 0.004 < unitPrice * qty) {
+      showToast('Guthaben reicht dafür nicht aus.');
+      return;
+    }
+  }
   const booking = {
     id: uid(),
     ts: Date.now(),
@@ -694,9 +787,13 @@ async function commitBooking(status) {
   renderKasseStand();
   renderRace();
   const label = ARTICLES.find((a) => a.key === article).label;
-  const statusLabel = status === 'paypal' ? 'PayPal'
-    : status === 'abrechnung' ? 'auf Abrechnung' : 'bar';
-  showToast(`${label} × ${qty} gebucht (${statusLabel}).`);
+  if (status === 'guthaben') {
+    showToast(`${label} × ${qty} vom Guthaben (Rest: ${formatMoney(creditBefore - booking.total)}).`);
+  } else {
+    const statusLabel = status === 'paypal' ? 'PayPal'
+      : status === 'abrechnung' ? 'auf Abrechnung' : 'bar';
+    showToast(`${label} × ${qty} gebucht (${statusLabel}).`);
+  }
 }
 
 /* -------------------------------------------------------------------------
@@ -770,6 +867,44 @@ async function saveAdminPin() {
 // Markiert alle offenen Anschreiben als beglichen – z. B. nach der
 // Sammelrunde, wenn das Geld in Kasse oder Pool gelandet ist. Der Status
 // 'beglichen' bleibt im Export als Nachweis erhalten.
+function renderAdminCredits() {
+  const map = getCreditMap();
+  const entries = Object.keys(map).map((k) => map[k])
+    .filter((e) => Math.abs(e.credit) > 0.004)
+    .sort((a, b) => b.credit - a.credit);
+  el.adminCreditList.innerHTML = entries.length
+    ? entries.map((e) => `<div class="kv-row"><span class="kv-label">${escapeHtml(e.name)}</span><span class="kv-value">${formatMoney(e.credit)}</span></div>`).join('')
+    : '<p class="hint">Noch kein Guthaben angelegt.</p>';
+  const names = aggregateNames(state.bookings, 1);
+  el.creditNames.innerHTML = names.map((e) => `<option value="${escapeHtml(e.name)}"></option>`).join('');
+}
+
+async function addCredit(method) {
+  const name = el.creditName.value.trim();
+  const amount = parseFloat((el.creditAmount.value || '').replace(',', '.'));
+  if (!name) { showToast('Bitte einen Namen angeben.'); return; }
+  if (!Number.isFinite(amount) || amount <= 0) { showToast('Bitte einen gültigen Betrag angeben.'); return; }
+  const booking = {
+    id: uid(),
+    ts: Date.now(),
+    article: 'guthaben',
+    qty: 1,
+    unitPrice: Math.round(amount * 100) / 100,
+    total: Math.round(amount * 100) / 100,
+    status: method,
+    note: name,
+    dayClosureId: null,
+    monthClosureId: null,
+  };
+  await Store.addBooking(booking);
+  state.bookings.push(booking);
+  el.creditAmount.value = '';
+  renderAdminCredits();
+  renderAdminStats();
+  renderKasseStand();
+  showToast(`Guthaben für ${name} um ${formatMoney(booking.total)} aufgeladen (${method === 'paypal' ? 'PayPal' : 'bar'}).`);
+}
+
 async function performSettleOpen() {
   const bal = getBalance();
   if (bal.open <= 0) {
@@ -953,11 +1088,14 @@ function wireEvents() {
     const chips = el.nameSuggest.querySelectorAll('.name-chip');
     for (let i = 0; i < chips.length; i++) chips[i].classList.remove('selected');
     chip.classList.add('selected');
+    updateGuthabenButton();
   });
 
   el.btnCancelBooking.addEventListener('click', closeBookingSheet);
   el.btnMarkBar.addEventListener('click', () => commitBooking('bar'));
   el.btnMarkAbrechnung.addEventListener('click', () => commitBooking('abrechnung'));
+  el.btnMarkGuthaben.addEventListener('click', () => commitBooking('guthaben'));
+  el.bookingNote.addEventListener('input', updateGuthabenButton);
   el.btnMarkPaypal.addEventListener('click', openPaypalStep);
   el.btnPaypalBack.addEventListener('click', () => showBookingStep('choose'));
   el.btnPaypalConfirm.addEventListener('click', () => commitBooking('paypal'));
@@ -971,6 +1109,8 @@ function wireEvents() {
   el.btnSavePrices.addEventListener('click', saveAdminPrices);
   el.btnSavePool.addEventListener('click', saveAdminPool);
   el.btnSavePin.addEventListener('click', saveAdminPin);
+  el.btnCreditBar.addEventListener('click', () => addCredit('bar'));
+  el.btnCreditPaypal.addEventListener('click', () => addCredit('paypal'));
   el.btnSettleOpen.addEventListener('click', performSettleOpen);
   el.btnDayClose.addEventListener('click', performDayClose);
   el.btnMonthClose.addEventListener('click', performMonthClose);

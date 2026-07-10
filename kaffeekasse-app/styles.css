@@ -360,6 +360,8 @@ button { font: inherit; color: inherit; }
 .btn-success { background: #1f8a45; color: #fff; }
 .btn-paypal { background: var(--paypal); color: #fff; }
 .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
+.btn-guthaben { background: var(--gold); color: #232a38; }
+.btn[disabled] { opacity: 0.45; cursor: default; }
 .btn-ghost { background: transparent; color: var(--text-muted); }
 .btn-danger { background: var(--danger); color: #fff; width: 100%; }
 

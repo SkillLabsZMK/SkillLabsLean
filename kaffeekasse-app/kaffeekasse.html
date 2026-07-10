@@ -84,6 +84,7 @@
       <div class="sheet-actions booking-actions">
         <button class="btn btn-success" id="btn-mark-bar">Bar</button>
         <button class="btn btn-paypal" id="btn-mark-paypal">PayPal</button>
+        <button class="btn btn-guthaben" id="btn-mark-guthaben" hidden>Guthaben</button>
         <button class="btn btn-outline" id="btn-mark-abrechnung">Auf Abrechnung</button>
       </div>
     </div>
@@ -152,6 +153,28 @@
         <p class="hint">Leer lassen, um den PIN-Schutz zu deaktivieren.</p>
         <input type="password" inputmode="numeric" id="admin-pin" class="note-input" placeholder="z. B. 1234" autocomplete="off">
         <button class="btn btn-primary" id="btn-save-pin">PIN speichern</button>
+      </fieldset>
+
+      <fieldset class="admin-block">
+        <legend>Guthaben</legend>
+        <p class="hint">Vorab gezahltes Geld (bar oder in den Pool gesendet) als
+        Guthaben anlegen – beim Buchen erscheint dann der Guthaben-Button.</p>
+        <div id="admin-credit-list" class="kv-list"></div>
+        <div class="admin-form-grid">
+          <div class="admin-price-field">
+            <label for="credit-name">Name</label>
+            <input type="text" id="credit-name" class="note-input" list="credit-names" placeholder="z. B. Igor" maxlength="60">
+            <datalist id="credit-names"></datalist>
+          </div>
+          <div class="admin-price-field">
+            <label for="credit-amount">Betrag (€)</label>
+            <input type="number" id="credit-amount" class="note-input" step="0.5" min="0" placeholder="5.00">
+          </div>
+        </div>
+        <div class="admin-btn-row">
+          <button class="btn btn-outline" id="btn-credit-bar">Bar erhalten</button>
+          <button class="btn btn-outline" id="btn-credit-paypal">Per PayPal erhalten</button>
+        </div>
       </fieldset>
 
       <fieldset class="admin-block">
