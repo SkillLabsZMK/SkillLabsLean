@@ -375,6 +375,8 @@ button { font: inherit; color: inherit; }
 .note-input--error { border-color: var(--danger); }
 .acct-debt { color: var(--danger); font-weight: 700; }
 .acct-credit { color: var(--gold); font-weight: 700; }
+.cashcount-ok { color: var(--ok-text); font-weight: 700; }
+.cashcount-bad { color: var(--danger); font-weight: 700; }
 
 .purchase-line {
   display: grid;

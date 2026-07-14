@@ -373,6 +373,9 @@ const el = {
   adminPurchaseList: $('#admin-purchase-list'),
   adminRecentList: $('#admin-recent-list'),
   adminAccountList: $('#admin-account-list'),
+  cashcountCash: $('#cashcount-cash'),
+  cashcountPaypal: $('#cashcount-paypal'),
+  cashcountResult: $('#cashcount-result'),
   btnSettleOpen: $('#btn-settle-open'),
   btnDayClose: $('#btn-day-close'),
   btnMonthClose: $('#btn-month-close'),
@@ -581,6 +584,22 @@ function renderProductGrid() {
     btn.addEventListener('click', () => openBookingSheet(article.key));
     el.productGrid.appendChild(btn);
   }
+}
+
+// Erwartetes Geld getrennt nach Kanal – Basis für Kassensturz und für
+// die Frage, wie viel bar erstattet werden kann.
+function getCashBreakdown() {
+  let cashSoll = 0;
+  let paypalSoll = 0;
+  for (const b of state.bookings) {
+    if (b.article === 'einkauf') {
+      if (b.status === 'erstattet') cashSoll -= b.total; // bar aus der Box
+      continue;
+    }
+    if (b.status === 'paypal') paypalSoll += b.total;
+    else if (b.status === 'bar' || b.status === 'bezahlt') cashSoll += b.total;
+  }
+  return { cashSoll, paypalSoll };
 }
 
 // Bilanz über die gesamte Historie: eingegangen ist alles tatsächlich
@@ -946,6 +965,7 @@ function refreshAdmin() {
   renderAdminPurchases();
   renderAdminSpend();
   renderAdminAccounts();
+  renderCashCount();
 }
 
 function renderAdminPanel() {
@@ -958,6 +978,7 @@ function renderAdminPanel() {
   renderPurchaseLines();
   renderAdminSpend();
   renderAdminAccounts();
+  renderCashCount();
   renderAdminPrices();
   el.adminPoolUrl.value = state.settings.poolUrl || '';
   renderAdminInventory();
@@ -1143,15 +1164,48 @@ function renderAdminPurchases() {
     el.adminPurchaseList.innerHTML = '<p class="hint">Noch keine Einkäufe erfasst.</p>';
     return;
   }
-  el.adminPurchaseList.innerHTML = purchases.map((p) => {
+  const cash = getCashBreakdown().cashSoll;
+  const offenSum = state.bookings
+    .filter((b) => b.article === 'einkauf' && b.status === 'offen')
+    .reduce((s, b) => s + b.total, 0);
+  const head = offenSum > 0.004
+    ? `<p class="hint">Bar verfügbar: <strong>${formatMoney(Math.max(0, cash))}</strong> · offene Auslagen: <strong>${formatMoney(offenSum)}</strong></p>`
+    : '';
+  const rows = purchases.map((p) => {
     const d = new Date(p.ts);
     const date = `${pad2(d.getDate())}.${pad2(d.getMonth() + 1)}.`;
     const info = p.info ? ` – ${escapeHtml(p.info)}` : '';
-    const action = p.status === 'offen'
-      ? ` <button type="button" class="purchase-refund-btn" data-id="${p.id}">Erstatten</button>`
-      : '';
+    let action = '';
+    if (p.status === 'offen') {
+      if (cash > 0.004) {
+        const z = Math.min(p.total, cash);
+        action = ` <button type="button" class="purchase-refund-btn" data-id="${p.id}">Erstatten (max ${formatMoney(z)})</button>`;
+      } else {
+        action = ' <span class="pl-x">— kein Bargeld</span>';
+      }
+    }
     return `<div class="kv-row"><span class="kv-label">${date} ${escapeHtml(p.note || '')}${info} (${PURCHASE_STATUS_LABELS[p.status] || p.status})${action}</span><span class="kv-value">${formatMoney(-p.total)}</span></div>`;
   }).join('');
+  el.adminPurchaseList.innerHTML = head + rows;
+}
+
+// Kassensturz: gezähltes Bargeld/PayPal gegen das Soll aus den Buchungen.
+function renderCashCount() {
+  const { cashSoll, paypalSoll } = getCashBreakdown();
+  const line = (label, soll, istRaw) => {
+    const ist = parseFloat((istRaw || '').replace(',', '.'));
+    let diffHtml = '';
+    if (Number.isFinite(ist)) {
+      const diff = Math.round((ist - soll) * 100) / 100;
+      const cls = Math.abs(diff) < 0.005 ? 'cashcount-ok' : 'cashcount-bad';
+      const sign = diff > 0 ? '+' : '';
+      diffHtml = ` · Ist ${formatMoney(ist)} · <span class="${cls}">Diff ${sign}${formatMoney(diff)}</span>`;
+    }
+    return `<div class="kv-row"><span class="kv-label">${label}: Soll ${formatMoney(soll)}${diffHtml}</span></div>`;
+  };
+  el.cashcountResult.innerHTML =
+    line('Bargeld', cashSoll, el.cashcountCash.value) +
+    line('PayPal-Pool', paypalSoll, el.cashcountPaypal.value);
 }
 
 // Einkauf erfassen: 'erstattet' senkt die Kasse sofort, 'guthaben' schreibt
@@ -1224,13 +1278,35 @@ async function addPurchase(mode) {
 async function refundPurchase(id) {
   const b = state.bookings.find((x) => x.id === id);
   if (!b || b.article !== 'einkauf' || b.status !== 'offen') return;
-  if (!confirm(`Einkauf von ${b.note} über ${formatMoney(b.total)} jetzt bar aus der Kasse erstatten?`)) return;
-  b.status = 'erstattet';
-  b.erstattetTs = Date.now();
-  await Store.updateBooking(id, { status: 'erstattet', erstattetTs: b.erstattetTs });
+  const cash = getCashBreakdown().cashSoll;
+  if (cash <= 0.004) { showToast('Nicht genug Bargeld in der Kasse.'); return; }
+  const maxPay = Math.min(b.total, cash);
+  const input = prompt(`Wie viel an ${b.note} erstatten? (offen ${formatMoney(b.total)}, bar verfügbar ${formatMoney(cash)})`, maxPay.toFixed(2));
+  if (input === null) return;
+  let amount = parseFloat((input || '').replace(',', '.'));
+  if (!Number.isFinite(amount) || amount <= 0) { showToast('Bitte einen gültigen Betrag angeben.'); return; }
+  amount = Math.round(amount * 100) / 100;
+  if (amount >= b.total - 0.004) {
+    // vollständig
+    b.status = 'erstattet';
+    b.erstattetTs = Date.now();
+    await Store.updateBooking(id, { status: 'erstattet', erstattetTs: b.erstattetTs });
+  } else {
+    // Teilerstattung: Rest bleibt offen, ausgezahlter Teil als neue Buchung
+    b.total = Math.round((b.total - amount) * 100) / 100;
+    await Store.updateBooking(id, { total: b.total });
+    const part = {
+      id: uid(), ts: Date.now(), article: 'einkauf', qty: 1,
+      unitPrice: amount, total: amount, status: 'erstattet',
+      note: b.note, info: 'Teilerstattung', items: [],
+      erstattetTs: Date.now(), dayClosureId: null, monthClosureId: null,
+    };
+    await Store.addBooking(part);
+    state.bookings.push(part);
+  }
   refreshAdmin();
   renderKasseStand();
-  showToast(`${formatMoney(b.total)} erstattet – bitte aus der Kasse entnehmen.`);
+  showToast(`${formatMoney(amount)} an ${b.note} erstattet – bitte aus der Kasse entnehmen.`);
 }
 
 function renderAdminCredits() {
@@ -1616,6 +1692,8 @@ function wireEvents() {
     const btn = ev.target.closest('[data-settle]');
     if (btn) settlePerson(btn.dataset.settle);
   });
+  el.cashcountCash.addEventListener('input', renderCashCount);
+  el.cashcountPaypal.addEventListener('input', renderCashCount);
   el.btnSettleOpen.addEventListener('click', performSettleOpen);
   el.btnDayClose.addEventListener('click', performDayClose);
   el.btnMonthClose.addEventListener('click', performMonthClose);

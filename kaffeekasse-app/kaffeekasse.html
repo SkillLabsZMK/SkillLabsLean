@@ -244,6 +244,23 @@
       </fieldset>
 
       <fieldset class="admin-block">
+        <legend>Kassensturz</legend>
+        <p class="hint">Gezähltes Bargeld und PayPal-Pool-Stand eintragen –
+        die App zeigt die Differenz zum Soll.</p>
+        <div class="admin-form-grid">
+          <div class="admin-price-field">
+            <label for="cashcount-cash">Bargeld gezählt (€)</label>
+            <input type="number" id="cashcount-cash" class="note-input" step="0.01" min="0" placeholder="z. B. 42.50">
+          </div>
+          <div class="admin-price-field">
+            <label for="cashcount-paypal">PayPal-Pool (€)</label>
+            <input type="number" id="cashcount-paypal" class="note-input" step="0.01" min="0" placeholder="z. B. 18.00">
+          </div>
+        </div>
+        <div class="kv-list" id="cashcount-result"></div>
+      </fieldset>
+
+      <fieldset class="admin-block">
         <legend>Konten</legend>
         <p class="hint">Offene Schulden (Anschreiben) und Guthaben pro Person.
         „Beglichen" setzt die Schulden der Person auf 0.</p>
