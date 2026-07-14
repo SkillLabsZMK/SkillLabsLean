@@ -195,18 +195,20 @@
             <input type="text" id="purchase-name" class="note-input" list="credit-names" maxlength="60" placeholder="Name">
           </div>
           <div class="admin-price-field">
-            <label for="purchase-amount">Betrag (€)</label>
+            <label for="purchase-amount">Betrag gesamt (€)</label>
             <input type="number" id="purchase-amount" class="note-input" step="0.5" min="0" placeholder="12.50">
           </div>
         </div>
         <div class="admin-price-field">
-          <label>Was wurde gekauft? (antippen)</label>
+          <label>Was wurde gekauft? (antippen für Menge × Stückpreis)</label>
           <div class="name-suggest" id="purchase-products"></div>
+          <div id="purchase-lines"></div>
         </div>
         <div class="admin-price-field">
           <label for="purchase-info">Sonstiges / Notiz (optional)</label>
           <input type="text" id="purchase-info" class="note-input" maxlength="80" placeholder="z. B. Filter, Zucker">
         </div>
+        <div class="purchase-total-row">Gesamt: <span id="purchase-total">0,00 €</span></div>
         <div class="admin-btn-row">
           <button class="btn btn-outline" id="btn-purchase-refunded">Bar erstattet</button>
           <button class="btn btn-outline" id="btn-purchase-credit">Als Guthaben</button>
@@ -232,6 +234,13 @@
         </div>
         <label class="check-row"><input type="checkbox" id="standby-weekend"> Am Wochenende ganztägig</label>
         <button class="btn btn-primary" id="btn-save-standby">Ruhemodus speichern</button>
+      </fieldset>
+
+      <fieldset class="admin-block">
+        <legend>Ausgaben je Produkt</legend>
+        <p class="hint">Kostenbasis fürs spätere Berechnen eines fairen
+        Kaffeepreises – wächst mit jedem erfassten Einkauf.</p>
+        <div class="kv-list" id="admin-spend-list"></div>
       </fieldset>
 
       <fieldset class="admin-block">

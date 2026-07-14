@@ -75,6 +75,7 @@ function defaultSettings() {
       salz: 'ok', klarspueler: 'ok', reinigungstabs: 'ok', entkalker: 'ok',
     },
     standby: { enabled: true, start: '19:00', end: '06:30', weekend: true },
+    lastUnitPrice: {},
   };
 }
 
@@ -253,6 +254,7 @@ const Store = {
       settings.prices = Object.assign(defaultSettings().prices, settings.prices);
       settings.inventory = Object.assign(defaultSettings().inventory, settings.inventory);
       settings.standby = Object.assign(defaultSettings().standby, settings.standby);
+      settings.lastUnitPrice = Object.assign({}, settings.lastUnitPrice);
     }
     let closures = await this.backend.getKv('closures');
     if (!closures) {
@@ -359,6 +361,9 @@ const el = {
   creditNameSuggest: $('#credit-name-suggest'),
   purchaseNameSuggest: $('#purchase-name-suggest'),
   purchaseProducts: $('#purchase-products'),
+  purchaseLines: $('#purchase-lines'),
+  purchaseTotal: $('#purchase-total'),
+  adminSpendList: $('#admin-spend-list'),
   purchaseName: $('#purchase-name'),
   purchaseAmount: $('#purchase-amount'),
   purchaseInfo: $('#purchase-info'),
@@ -749,6 +754,62 @@ function renderPurchaseProducts() {
   ).join('');
 }
 
+// Je gewähltem Produkt eine Positionszeile: Anzahl × Stückpreis.
+// Der zuletzt gezahlte Stückpreis wird vorbefüllt (Preisgedächtnis).
+function renderPurchaseLines() {
+  const keys = INVENTORY_ITEMS.filter((it) => state.purchaseSelection[it.key]);
+  if (!keys.length) {
+    el.purchaseLines.innerHTML = '';
+    recalcPurchaseTotal();
+    return;
+  }
+  const last = state.settings.lastUnitPrice || {};
+  el.purchaseLines.innerHTML = keys.map((it) => {
+    const sel = state.purchaseSelection[it.key];
+    const qty = (sel && sel.qty != null) ? sel.qty : 1;
+    const price = (sel && sel.unitPrice != null) ? sel.unitPrice
+      : (last[it.key] != null ? last[it.key] : '');
+    return `<div class="purchase-line" data-key="${it.key}">
+      <span class="pl-label">${it.label}</span>
+      <input type="number" class="note-input pl-qty" min="0" step="1" value="${qty}" data-key="${it.key}">
+      <span class="pl-x">×</span>
+      <input type="number" class="note-input pl-price" min="0" step="0.05" placeholder="€/Stk" value="${price}" data-key="${it.key}">
+      <span class="pl-sum" data-key="${it.key}">0,00 €</span>
+    </div>`;
+  }).join('');
+  // aktuelle Werte in state spiegeln, damit sie erhalten bleiben
+  for (const it of keys) {
+    if (!state.purchaseSelection[it.key] || state.purchaseSelection[it.key] === true) {
+      state.purchaseSelection[it.key] = { qty: 1, unitPrice: (last[it.key] != null ? last[it.key] : null) };
+    }
+  }
+  recalcPurchaseTotal();
+}
+
+function recalcPurchaseTotal() {
+  let sum = 0;
+  const rows = el.purchaseLines.querySelectorAll('.purchase-line');
+  rows.forEach((row) => {
+    const key = row.dataset.key;
+    const qty = parseFloat((row.querySelector('.pl-qty').value || '').replace(',', '.')) || 0;
+    const price = parseFloat((row.querySelector('.pl-price').value || '').replace(',', '.')) || 0;
+    const lineSum = Math.round(qty * price * 100) / 100;
+    row.querySelector('.pl-sum').textContent = formatMoney(lineSum);
+    sum += lineSum;
+    if (state.purchaseSelection[key] && state.purchaseSelection[key] !== true) {
+      state.purchaseSelection[key].qty = qty;
+      state.purchaseSelection[key].unitPrice = price;
+    }
+  });
+  if (rows.length) {
+    el.purchaseAmount.value = sum ? sum.toFixed(2) : '';
+    el.purchaseAmount.disabled = true;
+  } else {
+    el.purchaseAmount.disabled = false;
+  }
+  if (el.purchaseTotal) el.purchaseTotal.textContent = formatMoney(sum);
+}
+
 // Steuert die Buchungs-Buttons: "Auf Abrechnung" braucht zwingend einen
 // Namen (sonst anonyme Schulden); der Guthaben-Button erscheint, sobald
 // der Name ein Guthaben hat, und deaktiviert sich bei zu wenig Deckung.
@@ -846,6 +907,39 @@ function renderAll() {
   renderStorageBadge();
 }
 
+// Ausgaben je Produkt aus den Einkauf-items (Basis fürs spätere
+// Kaffeepreis-Rechnen). Alte Einkäufe ohne items werden übersprungen.
+function getProductSpend() {
+  const map = {};
+  for (const b of state.bookings) {
+    if (b.article !== 'einkauf' || !Array.isArray(b.items)) continue;
+    for (const it of b.items) {
+      if (!it.product) continue;
+      if (!map[it.product]) map[it.product] = { label: it.label, spend: 0, qty: 0, lastTs: 0 };
+      map[it.product].spend += Math.round((it.qty || 0) * (it.unitPrice || 0) * 100) / 100;
+      map[it.product].qty += (it.qty || 0);
+      if (b.ts > map[it.product].lastTs) map[it.product].lastTs = b.ts;
+    }
+  }
+  return INVENTORY_ITEMS
+    .filter((it) => map[it.key])
+    .map((it) => Object.assign({ key: it.key }, map[it.key]));
+}
+
+function renderAdminSpend() {
+  const spend = getProductSpend();
+  if (!spend.length) {
+    el.adminSpendList.innerHTML = '<p class="hint">Sobald Einkäufe mit Menge und Stückpreis erfasst sind, entsteht hier die Kostenbasis für einen fairen Kaffeepreis.</p>';
+    return;
+  }
+  const now = Date.now();
+  el.adminSpendList.innerHTML = spend.map((s) => {
+    const days = Math.floor((now - s.lastTs) / 86400000);
+    const ago = days <= 0 ? 'heute' : `vor ${days} Tag${days === 1 ? '' : 'en'}`;
+    return `<div class="kv-row"><span class="kv-label">${escapeHtml(s.label)} · ${s.qty} Stk · zuletzt ${ago}</span><span class="kv-value">${formatMoney(s.spend)}</span></div>`;
+  }).join('');
+}
+
 // Aktualisiert alle Admin-Listen nach einer Aktion (Buchung/Storno/…),
 // solange der Admin-Bereich offen ist.
 function refreshAdmin() {
@@ -855,6 +949,7 @@ function refreshAdmin() {
   renderAdminCredits();
   renderAdminNameChips();
   renderAdminPurchases();
+  renderAdminSpend();
   renderAdminAccounts();
 }
 
@@ -865,6 +960,8 @@ function renderAdminPanel() {
   renderAdminNameChips();
   renderAdminPurchases();
   renderPurchaseProducts();
+  renderPurchaseLines();
+  renderAdminSpend();
   renderAdminAccounts();
   renderAdminPrices();
   el.adminPoolUrl.value = state.settings.poolUrl || '';
@@ -1067,38 +1164,60 @@ function renderAdminPurchases() {
 // Geld), 'offen' bleibt als Erstattungsschuld sichtbar.
 async function addPurchase(mode) {
   const name = el.purchaseName.value.trim();
-  const amount = parseFloat((el.purchaseAmount.value || '').replace(',', '.'));
   if (!name) { showToast('Bitte einen Namen angeben.'); return; }
-  if (!Number.isFinite(amount) || amount <= 0) { showToast('Bitte einen gültigen Betrag angeben.'); return; }
   const products = INVENTORY_ITEMS.filter((it) => state.purchaseSelection[it.key]);
-  const infoParts = products.map((it) => it.label);
+  // Positionen mit Menge > 0 zu items zusammenbauen
+  const items = [];
+  let itemsSum = 0;
+  for (const it of products) {
+    const sel = state.purchaseSelection[it.key];
+    const qty = sel && sel.qty ? sel.qty : 0;
+    const unitPrice = sel && sel.unitPrice ? sel.unitPrice : 0;
+    if (qty > 0) {
+      const lineTotal = Math.round(qty * unitPrice * 100) / 100;
+      items.push({ product: it.key, label: it.label, qty, unitPrice });
+      itemsSum += lineTotal;
+    }
+  }
   const freitext = el.purchaseInfo.value.trim();
+  const manual = parseFloat((el.purchaseAmount.value || '').replace(',', '.'));
+  // Gesamtbetrag: Positionssumme, sonst manueller Betrag (nur Freitext-Einkauf)
+  const total = items.length ? Math.round(itemsSum * 100) / 100
+    : (Number.isFinite(manual) ? Math.round(manual * 100) / 100 : 0);
+  if (total <= 0) { showToast('Bitte Menge und Preis oder einen Betrag angeben.'); return; }
+  const infoParts = items.map((i) => `${i.qty}× ${i.label}`);
   if (freitext) infoParts.push(freitext);
   const booking = {
     id: uid(),
     ts: Date.now(),
     article: 'einkauf',
     qty: 1,
-    unitPrice: Math.round(amount * 100) / 100,
-    total: Math.round(amount * 100) / 100,
+    unitPrice: total,
+    total,
     status: mode,
     note: name,
     info: infoParts.join(', '),
+    items,
     dayClosureId: null,
     monthClosureId: null,
   };
   await Store.addBooking(booking);
   state.bookings.push(booking);
-  // Eingekaufte Artikel sind wieder da -> Ampel zurück auf OK
-  if (products.length) {
+  // Eingekaufte Artikel sind wieder da -> Ampel zurück auf OK,
+  // zuletzt gezahlten Stückpreis je Produkt merken
+  if (items.length || products.length) {
+    if (!state.settings.lastUnitPrice) state.settings.lastUnitPrice = {};
     for (const it of products) state.settings.inventory[it.key] = 'ok';
+    for (const i of items) if (i.unitPrice > 0) state.settings.lastUnitPrice[i.product] = i.unitPrice;
     await Store.saveSettings(state.settings);
     renderInventory();
     renderAdminInventory();
   }
   state.purchaseSelection = {};
   renderPurchaseProducts();
+  renderPurchaseLines();
   el.purchaseAmount.value = '';
+  el.purchaseAmount.disabled = false;
   el.purchaseInfo.value = '';
   refreshAdmin();
   renderKasseStand();
@@ -1482,9 +1601,11 @@ function wireEvents() {
     if (!chip) return;
     const key = chip.dataset.key;
     if (state.purchaseSelection[key]) delete state.purchaseSelection[key];
-    else state.purchaseSelection[key] = true;
+    else state.purchaseSelection[key] = { qty: 1, unitPrice: null };
     renderPurchaseProducts();
+    renderPurchaseLines();
   });
+  el.purchaseLines.addEventListener('input', recalcPurchaseTotal);
   el.btnPurchaseRefunded.addEventListener('click', () => addPurchase('erstattet'));
   el.btnPurchaseCredit.addEventListener('click', () => addPurchase('guthaben'));
   el.btnPurchaseOpen.addEventListener('click', () => addPurchase('offen'));

@@ -375,6 +375,19 @@ button { font: inherit; color: inherit; }
 .note-input--error { border-color: var(--danger); }
 .acct-debt { color: var(--danger); font-weight: 700; }
 .acct-credit { color: var(--gold); font-weight: 700; }
+
+.purchase-line {
+  display: grid;
+  grid-template-columns: 1fr 68px auto 88px 82px;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+.purchase-line .pl-label { font-size: 0.9rem; font-weight: 600; }
+.purchase-line .pl-qty, .purchase-line .pl-price { padding: 8px 8px; font-size: 0.95rem; }
+.purchase-line .pl-x { color: var(--text-muted); }
+.purchase-line .pl-sum { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; font-size: 0.9rem; }
+.purchase-total-row { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
 .btn-ghost { background: transparent; color: var(--text-muted); }
 .btn-danger { background: var(--danger); color: #fff; width: 100%; }
 
