@@ -74,6 +74,7 @@ function defaultSettings() {
       kaffee: 'ok', tee: 'ok', milch: 'ok', hafermilch: 'ok', tabs: 'ok',
       salz: 'ok', klarspueler: 'ok', reinigungstabs: 'ok', entkalker: 'ok',
     },
+    standby: { enabled: true, start: '19:00', end: '06:30', weekend: true },
   };
 }
 
@@ -251,6 +252,7 @@ const Store = {
       settings = Object.assign(defaultSettings(), settings);
       settings.prices = Object.assign(defaultSettings().prices, settings.prices);
       settings.inventory = Object.assign(defaultSettings().inventory, settings.inventory);
+      settings.standby = Object.assign(defaultSettings().standby, settings.standby);
     }
     let closures = await this.backend.getKv('closures');
     if (!closures) {
@@ -281,6 +283,8 @@ const state = {
   closures: [],
   pendingBooking: null, // { article, qty }
   pinUnlockAction: null, // Funktion, die nach erfolgreicher PIN-Eingabe läuft
+  standbyAwakeUntil: 0, // bis wann der Ruhemodus nach Antippen pausiert
+  standbyActive: false,
 };
 
 /* -------------------------------------------------------------------------
@@ -322,6 +326,13 @@ const el = {
   btnPaypalConfirm: $('#btn-paypal-confirm'),
 
   btnOpenAdmin: $('#btn-open-admin'),
+  standbyOverlay: $('#standby-overlay'),
+  standbyClock: $('#standby-clock'),
+  standbyEnabled: $('#standby-enabled'),
+  standbyStart: $('#standby-start'),
+  standbyEnd: $('#standby-end'),
+  standbyWeekend: $('#standby-weekend'),
+  btnSaveStandby: $('#btn-save-standby'),
   overlayPin: $('#overlay-pin'),
   pinInput: $('#pin-input'),
   pinError: $('#pin-error'),
@@ -344,6 +355,13 @@ const el = {
   btnCreditBar: $('#btn-credit-bar'),
   btnCreditPaypal: $('#btn-credit-paypal'),
   adminCreditList: $('#admin-credit-list'),
+  purchaseName: $('#purchase-name'),
+  purchaseAmount: $('#purchase-amount'),
+  purchaseInfo: $('#purchase-info'),
+  btnPurchaseRefunded: $('#btn-purchase-refunded'),
+  btnPurchaseCredit: $('#btn-purchase-credit'),
+  btnPurchaseOpen: $('#btn-purchase-open'),
+  adminPurchaseList: $('#admin-purchase-list'),
   btnSettleOpen: $('#btn-settle-open'),
   btnDayClose: $('#btn-day-close'),
   btnMonthClose: $('#btn-month-close'),
@@ -375,6 +393,74 @@ function tickClock() {
     weekday: 'short', day: '2-digit', month: '2-digit',
     hour: '2-digit', minute: '2-digit',
   });
+  checkStandby();
+}
+
+/* -------------------------------------------------------------------------
+   Ruhemodus: außerhalb der Nutzungszeiten dunkles Overlay (und in der
+   APK zusätzlich native Bildschirm-Dimmung), Antippen weckt für 10 min.
+   ------------------------------------------------------------------------- */
+
+function parseTimeToMinutes(s) {
+  const m = /^(\d{1,2}):(\d{2})$/.exec(s || '');
+  return m ? (Number(m[1]) * 60 + Number(m[2])) : null;
+}
+
+function inStandbyWindow(date, standby) {
+  if (!standby || !standby.enabled) return false;
+  const day = date.getDay();
+  if (standby.weekend && (day === 0 || day === 6)) return true;
+  const start = parseTimeToMinutes(standby.start);
+  const end = parseTimeToMinutes(standby.end);
+  if (start === null || end === null || start === end) return false;
+  const mins = date.getHours() * 60 + date.getMinutes();
+  // start > end bedeutet: Fenster läuft über Mitternacht (z. B. 19:00–06:30)
+  return start < end ? (mins >= start && mins < end) : (mins >= start || mins < end);
+}
+
+function setNativeBrightness(value) {
+  try {
+    if (window.KaffeekasseNative && typeof window.KaffeekasseNative.setBrightness === 'function') {
+      window.KaffeekasseNative.setBrightness(value);
+    }
+  } catch (err) { /* Bridge optional – PWA läuft ohne */ }
+}
+
+function checkStandby() {
+  const now = new Date();
+  const shouldSleep = inStandbyWindow(now, state.settings.standby)
+    && now.getTime() > state.standbyAwakeUntil;
+  if (shouldSleep) {
+    el.standbyClock.textContent = `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
+  }
+  if (shouldSleep === state.standbyActive) return;
+  state.standbyActive = shouldSleep;
+  el.standbyOverlay.hidden = !shouldSleep;
+  setNativeBrightness(shouldSleep ? 0.05 : -1);
+}
+
+function wakeFromStandby() {
+  state.standbyAwakeUntil = Date.now() + 10 * 60 * 1000;
+  checkStandby();
+}
+
+async function saveStandbySettings() {
+  const start = el.standbyStart.value;
+  const end = el.standbyEnd.value;
+  if (parseTimeToMinutes(start) === null || parseTimeToMinutes(end) === null) {
+    showToast('Bitte gültige Zeiten angeben (HH:MM).');
+    return;
+  }
+  state.settings.standby = {
+    enabled: el.standbyEnabled.checked,
+    start,
+    end,
+    weekend: el.standbyWeekend.checked,
+  };
+  await Store.saveSettings(state.settings);
+  state.standbyAwakeUntil = 0;
+  checkStandby();
+  showToast('Ruhemodus gespeichert.');
 }
 
 /* -------------------------------------------------------------------------
@@ -402,7 +488,7 @@ function getPeriodBookings(periodType) {
 function aggregateNames(bookings, minCups) {
   const map = {};
   for (const b of bookings) {
-    if (b.article === 'guthaben') continue; // Aufladungen sind keine Becher
+    if (b.article === 'guthaben' || b.article === 'einkauf') continue; // keine Becher
     const raw = (b.note || '').trim();
     if (!raw) continue;
     const key = raw.toLowerCase();
@@ -425,7 +511,9 @@ function getCreditMap() {
     const key = raw.toLowerCase();
     if (!map[key]) map[key] = { name: raw, credit: 0 };
     if (b.article === 'guthaben') map[key].credit += b.total;
-    else if (b.status === 'guthaben') map[key].credit -= b.total;
+    else if (b.article === 'einkauf') {
+      if (b.status === 'guthaben') map[key].credit += b.total;
+    } else if (b.status === 'guthaben') map[key].credit -= b.total;
   }
   return map;
 }
@@ -437,7 +525,7 @@ function getCreditFor(name) {
 
 function getPeriodStats(periodType) {
   const key = periodType === 'day' ? todayKey() : thisMonthKey();
-  const bookings = getPeriodBookings(periodType).filter((b) => b.article !== 'guthaben');
+  const bookings = getPeriodBookings(periodType).filter((b) => b.article !== 'guthaben' && b.article !== 'einkauf');
 
   const stats = {
     key,
@@ -491,13 +579,22 @@ function renderProductGrid() {
 function getBalance() {
   let paid = 0;
   let open = 0;
-  let topups = 0;
+  let creditTop = 0;
   let creditUsed = 0;
   let drinksTotal = 0;
+  let purchasesTotal = 0;
+  let refundsOpen = 0;
   for (const b of state.bookings) {
     if (b.article === 'guthaben') {
-      topups += b.total;
+      creditTop += b.total;
       paid += b.total;
+      continue;
+    }
+    if (b.article === 'einkauf') {
+      purchasesTotal += b.total;
+      if (b.status === 'erstattet') paid -= b.total;
+      else if (b.status === 'guthaben') creditTop += b.total;
+      else refundsOpen += b.total;
       continue;
     }
     drinksTotal += b.total;
@@ -505,17 +602,32 @@ function getBalance() {
     else if (b.status === 'guthaben') creditUsed += b.total;
     else paid += b.total;
   }
-  return { paid, open, drinksTotal, creditRest: topups - creditUsed };
+  return {
+    paid, open, drinksTotal, purchasesTotal, refundsOpen,
+    creditRest: creditTop - creditUsed,
+  };
 }
 
 function renderKasseStand() {
   const bal = getBalance();
-  let html = `Kasse: ${formatMoney(bal.paid)}`
-    + ` <span class="kasse-open">· Anschreiben: ${formatMoney(-bal.open)}</span>`;
-  if (bal.creditRest > 0.004) {
-    html += ` <span class="kasse-open">· Guthaben: ${formatMoney(bal.creditRest)}</span>`;
+  const segments = [['Anschreiben', -bal.open], ['Einkäufe', -bal.purchasesTotal]];
+  if (bal.creditRest > 0.004) segments.push(['Guthaben', bal.creditRest]);
+  if (bal.refundsOpen > 0.004) segments.push(['Erstattung offen', -bal.refundsOpen]);
+  // Bei vielen Segmenten kurze Labels + kleinere Schrift, damit Uhr und
+  // Zahnrad rechts nie aus dem Kopfband gedrängt werden.
+  const long = segments.length >= 3;
+  const shortLabels = {
+    'Anschreiben': 'Offen', 'Einkäufe': 'Eink.',
+    'Guthaben': 'Guth.', 'Erstattung offen': 'Erstatt.',
+  };
+  let html = `Kasse: ${formatMoney(bal.paid)}`;
+  for (const seg of segments) {
+    const label = long ? shortLabels[seg[0]] : seg[0];
+    html += ` <span class="kasse-open">· ${label}: ${formatMoney(seg[1])}</span>`;
   }
   el.kasseStand.innerHTML = html;
+  el.kasseStand.classList.toggle('kasse-stand--long', long);
+  document.querySelector('.app-header').classList.toggle('header--tight', long);
 }
 
 function nextInventoryState(current) {
@@ -638,6 +750,8 @@ function renderAdminStats() {
     ['Gesamtwert aller Entnahmen', formatMoney(bal.drinksTotal)],
     ['Offene Anschreiben', formatMoney(-bal.open)],
     ['Offenes Guthaben', formatMoney(bal.creditRest)],
+    ['Einkäufe gesamt', formatMoney(-bal.purchasesTotal)],
+    ['Offene Erstattungen', formatMoney(-bal.refundsOpen)],
     ['Tagesumsatz', formatMoney(day.sumTotal)],
     ['Davon bar (heute)', formatMoney(day.sumBar)],
     ['Davon PayPal (heute)', formatMoney(day.sumPaypal)],
@@ -702,10 +816,15 @@ function renderAll() {
 function renderAdminPanel() {
   renderAdminStats();
   renderAdminCredits();
+  renderAdminPurchases();
   renderAdminPrices();
   el.adminPoolUrl.value = state.settings.poolUrl || '';
   renderAdminInventory();
   el.adminPin.value = state.settings.pin || '';
+  el.standbyEnabled.checked = !!state.settings.standby.enabled;
+  el.standbyStart.value = state.settings.standby.start || '19:00';
+  el.standbyEnd.value = state.settings.standby.end || '06:30';
+  el.standbyWeekend.checked = !!state.settings.standby.weekend;
 }
 
 /* -------------------------------------------------------------------------
@@ -865,6 +984,75 @@ async function saveAdminPin() {
 // Markiert alle offenen Anschreiben als beglichen – z. B. nach der
 // Sammelrunde, wenn das Geld in Kasse oder Pool gelandet ist. Der Status
 // 'beglichen' bleibt im Export als Nachweis erhalten.
+const PURCHASE_STATUS_LABELS = {
+  erstattet: 'bar erstattet', guthaben: 'als Guthaben', offen: 'offen',
+};
+
+function renderAdminPurchases() {
+  const purchases = state.bookings.filter((b) => b.article === 'einkauf')
+    .slice().sort((a, b) => b.ts - a.ts).slice(0, 10);
+  if (!purchases.length) {
+    el.adminPurchaseList.innerHTML = '<p class="hint">Noch keine Einkäufe erfasst.</p>';
+    return;
+  }
+  el.adminPurchaseList.innerHTML = purchases.map((p) => {
+    const d = new Date(p.ts);
+    const date = `${pad2(d.getDate())}.${pad2(d.getMonth() + 1)}.`;
+    const info = p.info ? ` – ${escapeHtml(p.info)}` : '';
+    const action = p.status === 'offen'
+      ? ` <button type="button" class="purchase-refund-btn" data-id="${p.id}">Erstatten</button>`
+      : '';
+    return `<div class="kv-row"><span class="kv-label">${date} ${escapeHtml(p.note || '')}${info} (${PURCHASE_STATUS_LABELS[p.status] || p.status})${action}</span><span class="kv-value">${formatMoney(-p.total)}</span></div>`;
+  }).join('');
+}
+
+// Einkauf erfassen: 'erstattet' senkt die Kasse sofort, 'guthaben' schreibt
+// dem Einkäufer Trinkguthaben gut (ohne Kasseneffekt – es kam Ware statt
+// Geld), 'offen' bleibt als Erstattungsschuld sichtbar.
+async function addPurchase(mode) {
+  const name = el.purchaseName.value.trim();
+  const amount = parseFloat((el.purchaseAmount.value || '').replace(',', '.'));
+  if (!name) { showToast('Bitte einen Namen angeben.'); return; }
+  if (!Number.isFinite(amount) || amount <= 0) { showToast('Bitte einen gültigen Betrag angeben.'); return; }
+  const booking = {
+    id: uid(),
+    ts: Date.now(),
+    article: 'einkauf',
+    qty: 1,
+    unitPrice: Math.round(amount * 100) / 100,
+    total: Math.round(amount * 100) / 100,
+    status: mode,
+    note: name,
+    info: el.purchaseInfo.value.trim(),
+    dayClosureId: null,
+    monthClosureId: null,
+  };
+  await Store.addBooking(booking);
+  state.bookings.push(booking);
+  el.purchaseAmount.value = '';
+  el.purchaseInfo.value = '';
+  renderAdminPurchases();
+  renderAdminCredits();
+  renderAdminStats();
+  renderKasseStand();
+  const label = mode === 'erstattet' ? 'bar erstattet'
+    : mode === 'guthaben' ? 'als Guthaben gutgeschrieben' : 'als offen vermerkt';
+  showToast(`Einkauf über ${formatMoney(booking.total)} erfasst (${label}).`);
+}
+
+async function refundPurchase(id) {
+  const b = state.bookings.find((x) => x.id === id);
+  if (!b || b.article !== 'einkauf' || b.status !== 'offen') return;
+  if (!confirm(`Einkauf von ${b.note} über ${formatMoney(b.total)} jetzt bar aus der Kasse erstatten?`)) return;
+  b.status = 'erstattet';
+  b.erstattetTs = Date.now();
+  await Store.updateBooking(id, { status: 'erstattet', erstattetTs: b.erstattetTs });
+  renderAdminPurchases();
+  renderAdminStats();
+  renderKasseStand();
+  showToast(`${formatMoney(b.total)} erstattet – bitte aus der Kasse entnehmen.`);
+}
+
 function renderAdminCredits() {
   const map = getCreditMap();
   const entries = Object.keys(map).map((k) => map[k])
@@ -915,6 +1103,7 @@ async function performSettleOpen() {
   const now = Date.now();
   state.bookings = state.bookings.map((b) => (
     (b.status === 'abrechnung' || b.status === 'offen')
+      && b.article !== 'einkauf' && b.article !== 'guthaben'
       ? Object.assign({}, b, { status: 'beglichen', beglichenTs: now })
       : b
   ));
@@ -993,7 +1182,7 @@ function csvEscape(value) {
 }
 
 function exportCsv() {
-  const header = ['ID', 'Datum', 'Uhrzeit', 'Artikel', 'Menge', 'Einzelpreis', 'Gesamtpreis', 'Status', 'Notiz'];
+  const header = ['ID', 'Datum', 'Uhrzeit', 'Artikel', 'Menge', 'Einzelpreis', 'Gesamtpreis', 'Status', 'Notiz', 'Info'];
   const rows = state.bookings
     .slice()
     .sort((a, b) => a.ts - b.ts)
@@ -1009,6 +1198,7 @@ function exportCsv() {
         b.total.toFixed(2).replace('.', ','),
         b.status,
         b.note || '',
+        b.info || '',
       ];
     });
   const csv = [header, ...rows].map((r) => r.map(csvEscape).join(';')).join('\r\n');
@@ -1098,6 +1288,9 @@ function wireEvents() {
   el.btnPaypalBack.addEventListener('click', () => showBookingStep('choose'));
   el.btnPaypalConfirm.addEventListener('click', () => commitBooking('paypal'));
 
+  el.standbyOverlay.addEventListener('click', wakeFromStandby);
+  el.btnSaveStandby.addEventListener('click', saveStandbySettings);
+
   el.btnOpenAdmin.addEventListener('click', () => requireAdminAccess(openAdminPanel));
   el.btnPinCancel.addEventListener('click', closePinOverlay);
   el.btnPinConfirm.addEventListener('click', confirmPin);
@@ -1109,6 +1302,13 @@ function wireEvents() {
   el.btnSavePin.addEventListener('click', saveAdminPin);
   el.btnCreditBar.addEventListener('click', () => addCredit('bar'));
   el.btnCreditPaypal.addEventListener('click', () => addCredit('paypal'));
+  el.btnPurchaseRefunded.addEventListener('click', () => addPurchase('erstattet'));
+  el.btnPurchaseCredit.addEventListener('click', () => addPurchase('guthaben'));
+  el.btnPurchaseOpen.addEventListener('click', () => addPurchase('offen'));
+  el.adminPurchaseList.addEventListener('click', (ev) => {
+    const btn = ev.target.closest('.purchase-refund-btn');
+    if (btn) refundPurchase(btn.dataset.id);
+  });
   el.btnSettleOpen.addEventListener('click', performSettleOpen);
   el.btnDayClose.addEventListener('click', performDayClose);
   el.btnMonthClose.addEventListener('click', performMonthClose);

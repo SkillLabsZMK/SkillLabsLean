@@ -83,6 +83,14 @@
 
     invoke-virtual {p0, v0}, Lde/zmk/kaffeekasse/MainActivity;->setContentView(Landroid/view/View;)V
 
+    new-instance v3, Lde/zmk/kaffeekasse/Bridge;
+
+    invoke-direct {v3, p0}, Lde/zmk/kaffeekasse/Bridge;-><init>(Landroid/app/Activity;)V
+
+    const-string v2, "KaffeekasseNative"
+
+    invoke-virtual {v0, v3, v2}, Landroid/webkit/WebView;->addJavascriptInterface(Ljava/lang/Object;Ljava/lang/String;)V
+
     const-string v3, "file:///android_asset/www/kaffeekasse.html"
 
     invoke-virtual {v0, v3}, Landroid/webkit/WebView;->loadUrl(Ljava/lang/String;)V

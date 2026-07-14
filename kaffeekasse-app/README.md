@@ -34,9 +34,18 @@ eine gestapelte, scrollende Ansicht umgeschaltet.
 - Dezente ABX-Kennung oben rechts im Bereich „Nachbestellen“
 - Bereich „Direkt zahlen“ mit clientseitig erzeugtem QR-Code für einen
   PayPal-Pool-Link
+- Einkäufe erfassen (Admin): Ausgaben für die Kaffeeecke eintragen und
+  wählen, wie sie verrechnet werden – bar aus der Kasse erstattet, als
+  Trinkguthaben gutgeschrieben oder offen gelassen (mit „Erstatten"-Knopf).
+  Der Kassenstand im Kopfband ist damit das echte Netto; Einkäufe gesamt
+  werden dauerhaft mit angezeigt
+- Ruhemodus: außerhalb der Nutzungszeiten (Standard 19:00–06:30 und am
+  Wochenende) wird der Bildschirm schwarz, Antippen weckt für 10 Minuten;
+  Zeiten im Admin einstellbar. In der APK-Variante wird zusätzlich die
+  Bildschirmhelligkeit nativ gedimmt
 - Admin-Bereich (optional per PIN geschützt): Preise, Pool-Link, Bestand,
-  Tagesabschluss, Monatsabschluss, CSV-Export, JSON-Backup Export/Import,
-  Daten löschen
+  Guthaben, Einkäufe, Ruhemodus, Tagesabschluss, Monatsabschluss,
+  CSV-Export, JSON-Backup Export/Import, Daten löschen
 - Funktioniert nach dem ersten Laden auch offline (Service Worker)
 - Speicherung in IndexedDB, automatischer Fallback auf `localStorage`, falls
   IndexedDB nicht verfügbar ist
@@ -141,6 +150,21 @@ er sich direkt; mit gesetztem PIN wird vorher danach gefragt. Der PIN ist ein
 einfacher Zugriffsschutz für den gemeinsamen Tablet-Betrieb, keine echte
 Verschlüsselung – er verhindert versehentliche oder spontane Änderungen durch
 Kaffeeecken-Besucher, nicht gezielten Missbrauch.
+
+## 24/7-Betrieb
+
+Der Ruhemodus reduziert Display-Verschleiß und Stromverbrauch in den
+Nachtstunden. Das größte Risiko beim Dauerbetrieb ist aber der **Akku**:
+permanent am Netz bei 100 % altern die Zellen schnell und können sich bei
+alten Geräten aufblähen. Empfehlung:
+
+- Netzteil an eine **Zeitschaltuhr / Smart-Plug** hängen, die nur ein
+  tägliches Ladefenster von ca. 2–4 Stunden freigibt – der Akku pendelt
+  dann grob zwischen 40 und 80 %.
+- Original- oder Marken-Netzteil verwenden, Tablet nicht in praller Sonne
+  oder einer dicht schließenden Hülle betreiben (Wärme).
+- Gelegentlich den Akkuzustand prüfen (Gehäuse wölbt sich? Sofort vom
+  Netz nehmen).
 
 ## Lizenzhinweis
 

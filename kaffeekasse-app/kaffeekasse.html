@@ -178,6 +178,51 @@
       </fieldset>
 
       <fieldset class="admin-block">
+        <legend>Einkauf erfassen</legend>
+        <p class="hint">Ausgaben für die Kaffeeecke eintragen und wählen, wie
+        sie verrechnet werden.</p>
+        <div class="admin-form-grid">
+          <div class="admin-price-field">
+            <label for="purchase-name">Wer hat gekauft?</label>
+            <input type="text" id="purchase-name" class="note-input" list="credit-names" maxlength="60" placeholder="Name">
+          </div>
+          <div class="admin-price-field">
+            <label for="purchase-amount">Betrag (€)</label>
+            <input type="number" id="purchase-amount" class="note-input" step="0.5" min="0" placeholder="12.50">
+          </div>
+        </div>
+        <div class="admin-price-field">
+          <label for="purchase-info">Was wurde gekauft? (optional)</label>
+          <input type="text" id="purchase-info" class="note-input" maxlength="80" placeholder="z. B. 2× Kaffee, Hafermilch">
+        </div>
+        <div class="admin-btn-row">
+          <button class="btn btn-outline" id="btn-purchase-refunded">Bar erstattet</button>
+          <button class="btn btn-outline" id="btn-purchase-credit">Als Guthaben</button>
+          <button class="btn btn-outline" id="btn-purchase-open">Offen lassen</button>
+        </div>
+        <div id="admin-purchase-list" class="kv-list"></div>
+      </fieldset>
+
+      <fieldset class="admin-block">
+        <legend>Ruhemodus</legend>
+        <p class="hint">Außerhalb der Nutzungszeiten wird der Bildschirm
+        dunkel; Antippen weckt für 10 Minuten.</p>
+        <label class="check-row"><input type="checkbox" id="standby-enabled"> Ruhemodus aktiv</label>
+        <div class="admin-form-grid">
+          <div class="admin-price-field">
+            <label for="standby-start">Beginn</label>
+            <input type="time" id="standby-start" class="note-input">
+          </div>
+          <div class="admin-price-field">
+            <label for="standby-end">Ende</label>
+            <input type="time" id="standby-end" class="note-input">
+          </div>
+        </div>
+        <label class="check-row"><input type="checkbox" id="standby-weekend"> Am Wochenende ganztägig</label>
+        <button class="btn btn-primary" id="btn-save-standby">Ruhemodus speichern</button>
+      </fieldset>
+
+      <fieldset class="admin-block">
         <legend>Abschluss</legend>
         <div class="admin-btn-row">
           <button class="btn btn-outline" id="btn-settle-open">Anschreiben ausgleichen</button>
@@ -203,6 +248,12 @@
 
     </div>
   </div>
+</div>
+
+<!-- Ruhemodus-Overlay -->
+<div class="standby-overlay" id="standby-overlay" hidden>
+  <div class="standby-clock" id="standby-clock"></div>
+  <p class="standby-hint">Antippen zum Aufwecken</p>
 </div>
 
 <!-- Einfaches Toast für Rückmeldungen -->
