@@ -20,6 +20,52 @@
 
 
 # virtual methods
+.method public saveFile(Ljava/lang/String;Ljava/lang/String;)Z
+    .locals 5
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+
+    :try_start_0
+    sget-object v0, Landroid/os/Environment;->DIRECTORY_DOWNLOADS:Ljava/lang/String;
+
+    invoke-static {v0}, Landroid/os/Environment;->getExternalStoragePublicDirectory(Ljava/lang/String;)Ljava/io/File;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/io/File;->mkdirs()Z
+
+    new-instance v1, Ljava/io/File;
+
+    invoke-direct {v1, v0, p1}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    new-instance v2, Ljava/io/FileOutputStream;
+
+    invoke-direct {v2, v1}, Ljava/io/FileOutputStream;-><init>(Ljava/io/File;)V
+
+    const-string v3, "UTF-8"
+
+    invoke-virtual {p2, v3}, Ljava/lang/String;->getBytes(Ljava/lang/String;)[B
+
+    move-result-object v4
+
+    invoke-virtual {v2, v4}, Ljava/io/FileOutputStream;->write([B)V
+
+    invoke-virtual {v2}, Ljava/io/FileOutputStream;->close()V
+    :try_end_0
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+
+    const/4 v0, 0x1
+
+    return v0
+
+    :catch_0
+    move-exception v0
+
+    const/4 v0, 0x0
+
+    return v0
+.end method
+
 .method public setBrightness(F)V
     .locals 3
     .annotation runtime Landroid/webkit/JavascriptInterface;

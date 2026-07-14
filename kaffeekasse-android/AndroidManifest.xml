@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="de.zmk.kaffeekasse">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application android:allowBackup="true" android:hardwareAccelerated="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         <activity android:configChanges="orientation|screenSize|keyboardHidden" android:exported="true" android:launchMode="singleTask" android:name="de.zmk.kaffeekasse.MainActivity" android:screenOrientation="sensorLandscape">
             <intent-filter>

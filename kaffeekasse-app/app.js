@@ -285,6 +285,7 @@ const state = {
   pinUnlockAction: null, // Funktion, die nach erfolgreicher PIN-Eingabe läuft
   standbyAwakeUntil: 0, // bis wann der Ruhemodus nach Antippen pausiert
   standbyActive: false,
+  purchaseSelection: {}, // im Einkaufs-Block angetippte Lager-Artikel
 };
 
 /* -------------------------------------------------------------------------
@@ -355,6 +356,9 @@ const el = {
   btnCreditBar: $('#btn-credit-bar'),
   btnCreditPaypal: $('#btn-credit-paypal'),
   adminCreditList: $('#admin-credit-list'),
+  creditNameSuggest: $('#credit-name-suggest'),
+  purchaseNameSuggest: $('#purchase-name-suggest'),
+  purchaseProducts: $('#purchase-products'),
   purchaseName: $('#purchase-name'),
   purchaseAmount: $('#purchase-amount'),
   purchaseInfo: $('#purchase-info'),
@@ -691,11 +695,12 @@ function renderRace() {
   }).join('');
 }
 
-function renderNameSuggestions() {
+// Jeder Name erscheint ab dem ersten Becher als Chip, sortiert nach
+// Häufigkeit (Vieltrinker zuerst). Guthaben-Inhaber erscheinen auch ohne
+// Becher, mit Restbetrag am Chip. Wird im Buchungsdialog und in den
+// Admin-Blöcken (Guthaben, Einkauf) identisch verwendet.
+function buildNameChipHtml() {
   const creditMap = getCreditMap();
-  // Jeder Name erscheint ab dem ersten Becher als Chip, sortiert nach
-  // Häufigkeit (Vieltrinker zuerst). Guthaben-Inhaber erscheinen auch
-  // ohne Becher.
   const entries = aggregateNames(state.bookings, 1);
   for (const key in creditMap) {
     const c = creditMap[key];
@@ -704,25 +709,51 @@ function renderNameSuggestions() {
     }
   }
   entries.sort((a, b) => b.cups - a.cups);
-  const top = entries.slice(0, 12);
-  if (!top.length) {
-    el.nameSuggest.hidden = true;
-    el.nameSuggest.innerHTML = '';
-    return;
-  }
-  el.nameSuggest.hidden = false;
-  el.nameSuggest.innerHTML = top.map((e) => {
+  return entries.slice(0, 12).map((e) => {
     const c = creditMap[e.name.toLowerCase()];
     const credit = c && c.credit > 0.004 ? ` · ${formatMoney(c.credit)}` : '';
     return `<button type="button" class="name-chip" data-name="${escapeHtml(e.name)}">${escapeHtml(e.name)}${credit}</button>`;
   }).join('');
 }
 
-// Blendet den Guthaben-Button ein, sobald der eingegebene Name ein Guthaben
-// hat; deaktiviert ihn, wenn es für die aktuelle Menge nicht reicht.
-function updateGuthabenButton() {
+function renderNameSuggestions() {
+  const html = buildNameChipHtml();
+  el.nameSuggest.hidden = !html;
+  el.nameSuggest.innerHTML = html;
+}
+
+function renderAdminNameChips() {
+  const html = buildNameChipHtml();
+  el.creditNameSuggest.innerHTML = html;
+  el.purchaseNameSuggest.innerHTML = html;
+}
+
+// Verdrahtet eine Chip-Reihe mit ihrem Eingabefeld (Antippen = übernehmen).
+function wireChipRow(container, input) {
+  container.addEventListener('click', (ev) => {
+    const chip = ev.target.closest('.name-chip');
+    if (!chip) return;
+    input.value = chip.dataset.name;
+    const chips = container.querySelectorAll('.name-chip');
+    for (let i = 0; i < chips.length; i++) chips[i].classList.remove('selected');
+    chip.classList.add('selected');
+  });
+}
+
+// Produkt-Chips im Einkaufs-Block: Mehrfachauswahl aus dem Lagerbestand.
+function renderPurchaseProducts() {
+  el.purchaseProducts.innerHTML = INVENTORY_ITEMS.map((it) =>
+    `<button type="button" class="name-chip${state.purchaseSelection[it.key] ? ' selected' : ''}" data-key="${it.key}">${it.label}</button>`
+  ).join('');
+}
+
+// Steuert die Buchungs-Buttons: "Auf Abrechnung" braucht zwingend einen
+// Namen (sonst anonyme Schulden); der Guthaben-Button erscheint, sobald
+// der Name ein Guthaben hat, und deaktiviert sich bei zu wenig Deckung.
+function updateBookingButtons() {
   if (!state.pendingBooking) return;
   const name = el.bookingNote.value.trim();
+  el.btnMarkAbrechnung.disabled = name === '';
   const credit = name ? getCreditFor(name) : 0;
   if (credit > 0.004) {
     const { article, qty } = state.pendingBooking;
@@ -816,7 +847,9 @@ function renderAll() {
 function renderAdminPanel() {
   renderAdminStats();
   renderAdminCredits();
+  renderAdminNameChips();
   renderAdminPurchases();
+  renderPurchaseProducts();
   renderAdminPrices();
   el.adminPoolUrl.value = state.settings.poolUrl || '';
   renderAdminInventory();
@@ -840,7 +873,7 @@ function openBookingSheet(articleKey) {
   renderNameSuggestions();
   showBookingStep('choose');
   updateBookingSheetPrices();
-  updateGuthabenButton();
+  updateBookingButtons();
   el.overlayBooking.hidden = false;
 }
 
@@ -864,7 +897,7 @@ function updateBookingSheetPrices() {
   el.qtyValue.textContent = String(qty);
   el.unitPrice.textContent = formatMoney(unitPrice);
   el.totalPrice.textContent = formatMoney(unitPrice * qty);
-  updateGuthabenButton();
+  updateBookingButtons();
 }
 
 function closeBookingSheet() {
@@ -876,6 +909,10 @@ async function commitBooking(status) {
   if (!state.pendingBooking) return;
   const { article, qty } = state.pendingBooking;
   const unitPrice = state.settings.prices[article] || 0;
+  if (status === 'abrechnung' && !el.bookingNote.value.trim()) {
+    showToast('Für Anschreiben bitte einen Namen angeben.');
+    return;
+  }
   let creditBefore = 0;
   if (status === 'guthaben') {
     const name = el.bookingNote.value.trim();
@@ -1014,6 +1051,10 @@ async function addPurchase(mode) {
   const amount = parseFloat((el.purchaseAmount.value || '').replace(',', '.'));
   if (!name) { showToast('Bitte einen Namen angeben.'); return; }
   if (!Number.isFinite(amount) || amount <= 0) { showToast('Bitte einen gültigen Betrag angeben.'); return; }
+  const products = INVENTORY_ITEMS.filter((it) => state.purchaseSelection[it.key]);
+  const infoParts = products.map((it) => it.label);
+  const freitext = el.purchaseInfo.value.trim();
+  if (freitext) infoParts.push(freitext);
   const booking = {
     id: uid(),
     ts: Date.now(),
@@ -1023,16 +1064,26 @@ async function addPurchase(mode) {
     total: Math.round(amount * 100) / 100,
     status: mode,
     note: name,
-    info: el.purchaseInfo.value.trim(),
+    info: infoParts.join(', '),
     dayClosureId: null,
     monthClosureId: null,
   };
   await Store.addBooking(booking);
   state.bookings.push(booking);
+  // Eingekaufte Artikel sind wieder da -> Ampel zurück auf OK
+  if (products.length) {
+    for (const it of products) state.settings.inventory[it.key] = 'ok';
+    await Store.saveSettings(state.settings);
+    renderInventory();
+    renderAdminInventory();
+  }
+  state.purchaseSelection = {};
+  renderPurchaseProducts();
   el.purchaseAmount.value = '';
   el.purchaseInfo.value = '';
   renderAdminPurchases();
   renderAdminCredits();
+  renderAdminNameChips();
   renderAdminStats();
   renderKasseStand();
   const label = mode === 'erstattet' ? 'bar erstattet'
@@ -1086,6 +1137,7 @@ async function addCredit(method) {
   state.bookings.push(booking);
   el.creditAmount.value = '';
   renderAdminCredits();
+  renderAdminNameChips();
   renderAdminStats();
   renderKasseStand();
   showToast(`Guthaben für ${name} um ${formatMoney(booking.total)} aufgeladen (${method === 'paypal' ? 'PayPal' : 'bar'}).`);
@@ -1164,6 +1216,15 @@ async function performWipeAll() {
    ------------------------------------------------------------------------- */
 
 function downloadBlob(filename, content, mime) {
+  // In der APK gibt es keine Browser-Downloads: dort schreibt die native
+  // Bridge die Datei in den Download-Ordner des Tablets.
+  if (window.KaffeekasseNative && typeof window.KaffeekasseNative.saveFile === 'function') {
+    let ok = false;
+    try { ok = window.KaffeekasseNative.saveFile(filename, content); } catch (err) { ok = false; }
+    showToast(ok ? `Gespeichert unter Download/${filename}`
+      : 'Speichern fehlgeschlagen – ist die Speicher-Berechtigung erteilt?');
+    return;
+  }
   const blob = new Blob([content], { type: mime });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -1173,6 +1234,7 @@ function downloadBlob(filename, content, mime) {
   a.click();
   document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 4000);
+  showToast(`Download gestartet: ${filename}`);
 }
 
 function csvEscape(value) {
@@ -1203,7 +1265,6 @@ function exportCsv() {
     });
   const csv = [header, ...rows].map((r) => r.map(csvEscape).join(';')).join('\r\n');
   downloadBlob(`kaffeekasse-${todayKey()}.csv`, '﻿' + csv, 'text/csv;charset=utf-8');
-  showToast('CSV-Export gestartet.');
 }
 
 function exportJson() {
@@ -1215,7 +1276,6 @@ function exportJson() {
     bookings: state.bookings,
   };
   downloadBlob(`kaffeekasse-backup-${todayKey()}.json`, JSON.stringify(payload, null, 2), 'application/json');
-  showToast('JSON-Backup exportiert.');
 }
 
 function importJsonFile(file) {
@@ -1276,14 +1336,14 @@ function wireEvents() {
     const chips = el.nameSuggest.querySelectorAll('.name-chip');
     for (let i = 0; i < chips.length; i++) chips[i].classList.remove('selected');
     chip.classList.add('selected');
-    updateGuthabenButton();
+    updateBookingButtons();
   });
 
   el.btnCancelBooking.addEventListener('click', closeBookingSheet);
   el.btnMarkBar.addEventListener('click', () => commitBooking('bar'));
   el.btnMarkAbrechnung.addEventListener('click', () => commitBooking('abrechnung'));
   el.btnMarkGuthaben.addEventListener('click', () => commitBooking('guthaben'));
-  el.bookingNote.addEventListener('input', updateGuthabenButton);
+  el.bookingNote.addEventListener('input', updateBookingButtons);
   el.btnMarkPaypal.addEventListener('click', openPaypalStep);
   el.btnPaypalBack.addEventListener('click', () => showBookingStep('choose'));
   el.btnPaypalConfirm.addEventListener('click', () => commitBooking('paypal'));
@@ -1302,6 +1362,16 @@ function wireEvents() {
   el.btnSavePin.addEventListener('click', saveAdminPin);
   el.btnCreditBar.addEventListener('click', () => addCredit('bar'));
   el.btnCreditPaypal.addEventListener('click', () => addCredit('paypal'));
+  wireChipRow(el.creditNameSuggest, el.creditName);
+  wireChipRow(el.purchaseNameSuggest, el.purchaseName);
+  el.purchaseProducts.addEventListener('click', (ev) => {
+    const chip = ev.target.closest('.name-chip');
+    if (!chip) return;
+    const key = chip.dataset.key;
+    if (state.purchaseSelection[key]) delete state.purchaseSelection[key];
+    else state.purchaseSelection[key] = true;
+    renderPurchaseProducts();
+  });
   el.btnPurchaseRefunded.addEventListener('click', () => addPurchase('erstattet'));
   el.btnPurchaseCredit.addEventListener('click', () => addPurchase('guthaben'));
   el.btnPurchaseOpen.addEventListener('click', () => addPurchase('offen'));

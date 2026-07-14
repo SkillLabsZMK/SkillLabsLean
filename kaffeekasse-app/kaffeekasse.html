@@ -160,6 +160,7 @@
         <p class="hint">Vorab gezahltes Geld (bar oder in den Pool gesendet) als
         Guthaben anlegen – beim Buchen erscheint dann der Guthaben-Button.</p>
         <div id="admin-credit-list" class="kv-list"></div>
+        <div class="name-suggest" id="credit-name-suggest"></div>
         <div class="admin-form-grid">
           <div class="admin-price-field">
             <label for="credit-name">Name</label>
@@ -181,6 +182,7 @@
         <legend>Einkauf erfassen</legend>
         <p class="hint">Ausgaben für die Kaffeeecke eintragen und wählen, wie
         sie verrechnet werden.</p>
+        <div class="name-suggest" id="purchase-name-suggest"></div>
         <div class="admin-form-grid">
           <div class="admin-price-field">
             <label for="purchase-name">Wer hat gekauft?</label>
@@ -192,8 +194,12 @@
           </div>
         </div>
         <div class="admin-price-field">
-          <label for="purchase-info">Was wurde gekauft? (optional)</label>
-          <input type="text" id="purchase-info" class="note-input" maxlength="80" placeholder="z. B. 2× Kaffee, Hafermilch">
+          <label>Was wurde gekauft? (antippen)</label>
+          <div class="name-suggest" id="purchase-products"></div>
+        </div>
+        <div class="admin-price-field">
+          <label for="purchase-info">Sonstiges / Notiz (optional)</label>
+          <input type="text" id="purchase-info" class="note-input" maxlength="80" placeholder="z. B. Filter, Zucker">
         </div>
         <div class="admin-btn-row">
           <button class="btn btn-outline" id="btn-purchase-refunded">Bar erstattet</button>

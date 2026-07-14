@@ -4,6 +4,8 @@
 
 
 # instance fields
+.field public fileCallback:Landroid/webkit/ValueCallback;
+
 .field private web:Landroid/webkit/WebView;
 
 
@@ -81,6 +83,12 @@
 
     invoke-virtual {v0, v3}, Landroid/webkit/WebView;->setWebViewClient(Landroid/webkit/WebViewClient;)V
 
+    new-instance v3, Lde/zmk/kaffeekasse/ChromeClient;
+
+    invoke-direct {v3, p0}, Lde/zmk/kaffeekasse/ChromeClient;-><init>(Lde/zmk/kaffeekasse/MainActivity;)V
+
+    invoke-virtual {v0, v3}, Landroid/webkit/WebView;->setWebChromeClient(Landroid/webkit/WebChromeClient;)V
+
     invoke-virtual {p0, v0}, Lde/zmk/kaffeekasse/MainActivity;->setContentView(Landroid/view/View;)V
 
     new-instance v3, Lde/zmk/kaffeekasse/Bridge;
@@ -97,6 +105,54 @@
 
     invoke-direct {p0}, Lde/zmk/kaffeekasse/MainActivity;->hideBars()V
 
+    const-string v1, "android.permission.WRITE_EXTERNAL_STORAGE"
+
+    invoke-virtual {p0, v1}, Lde/zmk/kaffeekasse/MainActivity;->checkSelfPermission(Ljava/lang/String;)I
+
+    move-result v2
+
+    if-eqz v2, :cond_perm
+
+    const/4 v2, 0x1
+
+    new-array v0, v2, [Ljava/lang/String;
+
+    const/4 v2, 0x0
+
+    aput-object v1, v0, v2
+
+    const/16 v2, 0x2b
+
+    invoke-virtual {p0, v0, v2}, Lde/zmk/kaffeekasse/MainActivity;->requestPermissions([Ljava/lang/String;I)V
+
+    :cond_perm
+    return-void
+.end method
+
+.method protected onActivityResult(IILandroid/content/Intent;)V
+    .locals 3
+
+    invoke-super {p0, p1, p2, p3}, Landroid/app/Activity;->onActivityResult(IILandroid/content/Intent;)V
+
+    const/16 v0, 0x2a
+
+    if-ne p1, v0, :cond_done
+
+    iget-object v1, p0, Lde/zmk/kaffeekasse/MainActivity;->fileCallback:Landroid/webkit/ValueCallback;
+
+    if-eqz v1, :cond_done
+
+    invoke-static {p2, p3}, Landroid/webkit/WebChromeClient$FileChooserParams;->parseResult(ILandroid/content/Intent;)[Landroid/net/Uri;
+
+    move-result-object v2
+
+    invoke-interface {v1, v2}, Landroid/webkit/ValueCallback;->onReceiveValue(Ljava/lang/Object;)V
+
+    const/4 v2, 0x0
+
+    iput-object v2, p0, Lde/zmk/kaffeekasse/MainActivity;->fileCallback:Landroid/webkit/ValueCallback;
+
+    :cond_done
     return-void
 .end method
 
