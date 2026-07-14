@@ -366,6 +366,8 @@ const el = {
   btnPurchaseCredit: $('#btn-purchase-credit'),
   btnPurchaseOpen: $('#btn-purchase-open'),
   adminPurchaseList: $('#admin-purchase-list'),
+  adminRecentList: $('#admin-recent-list'),
+  adminAccountList: $('#admin-account-list'),
   btnSettleOpen: $('#btn-settle-open'),
   btnDayClose: $('#btn-day-close'),
   btnMonthClose: $('#btn-month-close'),
@@ -753,7 +755,7 @@ function renderPurchaseProducts() {
 function updateBookingButtons() {
   if (!state.pendingBooking) return;
   const name = el.bookingNote.value.trim();
-  el.btnMarkAbrechnung.disabled = name === '';
+  el.btnMarkAbrechnung.classList.toggle('btn--locked', name === '');
   const credit = name ? getCreditFor(name) : 0;
   if (credit > 0.004) {
     const { article, qty } = state.pendingBooking;
@@ -844,12 +846,26 @@ function renderAll() {
   renderStorageBadge();
 }
 
+// Aktualisiert alle Admin-Listen nach einer Aktion (Buchung/Storno/…),
+// solange der Admin-Bereich offen ist.
+function refreshAdmin() {
+  if (el.overlayAdmin.hidden) return;
+  renderAdminRecent();
+  renderAdminStats();
+  renderAdminCredits();
+  renderAdminNameChips();
+  renderAdminPurchases();
+  renderAdminAccounts();
+}
+
 function renderAdminPanel() {
+  renderAdminRecent();
   renderAdminStats();
   renderAdminCredits();
   renderAdminNameChips();
   renderAdminPurchases();
   renderPurchaseProducts();
+  renderAdminAccounts();
   renderAdminPrices();
   el.adminPoolUrl.value = state.settings.poolUrl || '';
   renderAdminInventory();
@@ -911,6 +927,9 @@ async function commitBooking(status) {
   const unitPrice = state.settings.prices[article] || 0;
   if (status === 'abrechnung' && !el.bookingNote.value.trim()) {
     showToast('Für Anschreiben bitte einen Namen angeben.');
+    el.bookingNote.classList.add('note-input--error');
+    el.bookingNote.focus();
+    setTimeout(() => el.bookingNote.classList.remove('note-input--error'), 1500);
     return;
   }
   let creditBefore = 0;
@@ -1081,10 +1100,7 @@ async function addPurchase(mode) {
   renderPurchaseProducts();
   el.purchaseAmount.value = '';
   el.purchaseInfo.value = '';
-  renderAdminPurchases();
-  renderAdminCredits();
-  renderAdminNameChips();
-  renderAdminStats();
+  refreshAdmin();
   renderKasseStand();
   const label = mode === 'erstattet' ? 'bar erstattet'
     : mode === 'guthaben' ? 'als Guthaben gutgeschrieben' : 'als offen vermerkt';
@@ -1098,8 +1114,7 @@ async function refundPurchase(id) {
   b.status = 'erstattet';
   b.erstattetTs = Date.now();
   await Store.updateBooking(id, { status: 'erstattet', erstattetTs: b.erstattetTs });
-  renderAdminPurchases();
-  renderAdminStats();
+  refreshAdmin();
   renderKasseStand();
   showToast(`${formatMoney(b.total)} erstattet – bitte aus der Kasse entnehmen.`);
 }
@@ -1136,11 +1151,109 @@ async function addCredit(method) {
   await Store.addBooking(booking);
   state.bookings.push(booking);
   el.creditAmount.value = '';
-  renderAdminCredits();
-  renderAdminNameChips();
-  renderAdminStats();
+  refreshAdmin();
   renderKasseStand();
   showToast(`Guthaben für ${name} um ${formatMoney(booking.total)} aufgeladen (${method === 'paypal' ? 'PayPal' : 'bar'}).`);
+}
+
+// --- Storno: letzte Buchungen rückgängig machen ------------------------
+
+function bookingDescription(b) {
+  const name = (b.note || '').trim();
+  if (b.article === 'guthaben') return `Guthaben${name ? ' ' + name : ''}`;
+  if (b.article === 'einkauf') {
+    const info = b.info ? ` – ${b.info}` : '';
+    return `Einkauf${name ? ' ' + name : ''}${info}`;
+  }
+  const art = ARTICLES.find((a) => a.key === b.article);
+  const label = art ? art.label : b.article;
+  const statusMap = { bar: 'bar', paypal: 'PayPal', guthaben: 'Guthaben',
+    abrechnung: 'Anschreiben', offen: 'Anschreiben', beglichen: 'beglichen' };
+  return `${label} ×${b.qty}${name ? ' · ' + name : ''} · ${statusMap[b.status] || b.status}`;
+}
+
+function renderAdminRecent() {
+  const recent = state.bookings.slice().sort((a, b) => b.ts - a.ts).slice(0, 15);
+  if (!recent.length) {
+    el.adminRecentList.innerHTML = '<p class="hint">Noch keine Buchungen.</p>';
+    return;
+  }
+  el.adminRecentList.innerHTML = recent.map((b) => {
+    const d = new Date(b.ts);
+    const t = `${pad2(d.getDate())}.${pad2(d.getMonth() + 1)}. ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+    return `<div class="kv-row"><span class="kv-label">${t} · ${escapeHtml(bookingDescription(b))} <button type="button" class="purchase-refund-btn" data-undo="${b.id}">Storno</button></span><span class="kv-value">${formatMoney(b.total)}</span></div>`;
+  }).join('');
+}
+
+async function undoBooking(id) {
+  const b = state.bookings.find((x) => x.id === id);
+  if (!b) return;
+  if (!confirm(`Buchung stornieren?\n\n${bookingDescription(b)} (${formatMoney(b.total)})`)) return;
+  state.bookings = state.bookings.filter((x) => x.id !== id);
+  await Store.replaceAllBookings(state.bookings);
+  renderAll();
+  refreshAdmin();
+  showToast('Buchung storniert.');
+}
+
+// --- Konten: Schulden (Anschreiben) und Guthaben pro Person ------------
+
+function getAccounts() {
+  const creditMap = getCreditMap();
+  const map = {};
+  for (const b of state.bookings) {
+    if (b.article === 'guthaben' || b.article === 'einkauf') continue;
+    if (b.status !== 'abrechnung' && b.status !== 'offen') continue;
+    const name = (b.note || '').trim();
+    if (!name) continue;
+    const key = name.toLowerCase();
+    if (!map[key]) map[key] = { name, debt: 0, credit: 0 };
+    map[key].debt += b.total;
+  }
+  for (const key in creditMap) {
+    const c = creditMap[key];
+    if (c.credit <= 0.004) continue;
+    if (!map[key]) map[key] = { name: c.name, debt: 0, credit: 0 };
+    map[key].credit = c.credit;
+  }
+  return Object.keys(map).map((k) => Object.assign({ key: k }, map[k]))
+    .filter((e) => e.debt > 0.004 || e.credit > 0.004)
+    .sort((a, b) => b.debt - a.debt);
+}
+
+function renderAdminAccounts() {
+  const accounts = getAccounts();
+  if (!accounts.length) {
+    el.adminAccountList.innerHTML = '<p class="hint">Keine offenen Konten.</p>';
+    return;
+  }
+  el.adminAccountList.innerHTML = accounts.map((a) => {
+    const parts = [];
+    if (a.debt > 0.004) parts.push(`<span class="acct-debt">schuldet ${formatMoney(a.debt)}</span>`);
+    if (a.credit > 0.004) parts.push(`<span class="acct-credit">Guthaben ${formatMoney(a.credit)}</span>`);
+    const btn = a.debt > 0.004
+      ? ` <button type="button" class="purchase-refund-btn" data-settle="${escapeHtml(a.key)}">Beglichen</button>`
+      : '';
+    return `<div class="kv-row"><span class="kv-label">${escapeHtml(a.name)} · ${parts.join(' · ')}${btn}</span></div>`;
+  }).join('');
+}
+
+async function settlePerson(nameKey) {
+  const acct = getAccounts().find((a) => a.key === nameKey);
+  if (!acct || acct.debt <= 0.004) return;
+  if (!confirm(`Anschreiben von ${acct.name} (${formatMoney(acct.debt)}) als beglichen markieren?\n\nDas Geld sollte jetzt bar in der Kasse oder im PayPal-Pool liegen.`)) return;
+  const now = Date.now();
+  state.bookings = state.bookings.map((b) => (
+    (b.status === 'abrechnung' || b.status === 'offen')
+      && b.article !== 'einkauf' && b.article !== 'guthaben'
+      && (b.note || '').trim().toLowerCase() === nameKey
+      ? Object.assign({}, b, { status: 'beglichen', beglichenTs: now })
+      : b
+  ));
+  await Store.replaceAllBookings(state.bookings);
+  refreshAdmin();
+  renderKasseStand();
+  showToast(`Anschreiben von ${acct.name} über ${formatMoney(acct.debt)} beglichen.`);
 }
 
 async function performSettleOpen() {
@@ -1161,7 +1274,7 @@ async function performSettleOpen() {
   ));
   await Store.replaceAllBookings(state.bookings);
   renderKasseStand();
-  renderAdminStats();
+  refreshAdmin();
   showToast(`Anschreiben über ${formatMoney(bal.open)} ausgeglichen.`);
 }
 
@@ -1378,6 +1491,14 @@ function wireEvents() {
   el.adminPurchaseList.addEventListener('click', (ev) => {
     const btn = ev.target.closest('.purchase-refund-btn');
     if (btn) refundPurchase(btn.dataset.id);
+  });
+  el.adminRecentList.addEventListener('click', (ev) => {
+    const btn = ev.target.closest('[data-undo]');
+    if (btn) undoBooking(btn.dataset.undo);
+  });
+  el.adminAccountList.addEventListener('click', (ev) => {
+    const btn = ev.target.closest('[data-settle]');
+    if (btn) settlePerson(btn.dataset.settle);
   });
   el.btnSettleOpen.addEventListener('click', performSettleOpen);
   el.btnDayClose.addEventListener('click', performDayClose);

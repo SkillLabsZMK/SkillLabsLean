@@ -127,6 +127,12 @@
     <div class="admin-scroll">
 
       <fieldset class="admin-block">
+        <legend>Letzte Buchungen / Storno</legend>
+        <p class="hint">Fehleingaben hier rückgängig machen.</p>
+        <div class="kv-list" id="admin-recent-list"></div>
+      </fieldset>
+
+      <fieldset class="admin-block">
         <legend>Auswertungen</legend>
         <div class="kv-list" id="admin-stats"></div>
       </fieldset>
@@ -226,6 +232,13 @@
         </div>
         <label class="check-row"><input type="checkbox" id="standby-weekend"> Am Wochenende ganztägig</label>
         <button class="btn btn-primary" id="btn-save-standby">Ruhemodus speichern</button>
+      </fieldset>
+
+      <fieldset class="admin-block">
+        <legend>Konten</legend>
+        <p class="hint">Offene Schulden (Anschreiben) und Guthaben pro Person.
+        „Beglichen" setzt die Schulden der Person auf 0.</p>
+        <div class="kv-list" id="admin-account-list"></div>
       </fieldset>
 
       <fieldset class="admin-block">

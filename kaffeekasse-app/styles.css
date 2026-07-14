@@ -371,6 +371,10 @@ button { font: inherit; color: inherit; }
 .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
 .btn-guthaben { background: var(--gold); color: #232a38; }
 .btn[disabled] { opacity: 0.45; cursor: default; }
+.btn--locked { opacity: 0.5; }
+.note-input--error { border-color: var(--danger); }
+.acct-debt { color: var(--danger); font-weight: 700; }
+.acct-credit { color: var(--gold); font-weight: 700; }
 .btn-ghost { background: transparent; color: var(--text-muted); }
 .btn-danger { background: var(--danger); color: #fff; width: 100%; }
 
