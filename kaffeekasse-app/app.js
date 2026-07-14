@@ -619,26 +619,21 @@ function getBalance() {
   };
 }
 
+// Kopfband: zwei Werte.
+//   Kasse = alles bar oder direkt per PayPal Eingezahlte (Getränke + Guthaben-
+//           Aufladungen).
+//   Offen = offene Anschreiben (Forderungen der Kasse, +) minus alle
+//           Einkaufsausgaben (−). So gilt: Kasse + Offen = Gesamtbilanz.
 function renderKasseStand() {
-  const bal = getBalance();
-  const segments = [['Anschreiben', -bal.open], ['Einkäufe', -bal.purchasesTotal]];
-  if (bal.creditRest > 0.004) segments.push(['Guthaben', bal.creditRest]);
-  if (bal.refundsOpen > 0.004) segments.push(['Erstattung offen', -bal.refundsOpen]);
-  // Bei vielen Segmenten kurze Labels + kleinere Schrift, damit Uhr und
-  // Zahnrad rechts nie aus dem Kopfband gedrängt werden.
-  const long = segments.length >= 3;
-  const shortLabels = {
-    'Anschreiben': 'Offen', 'Einkäufe': 'Eink.',
-    'Guthaben': 'Guth.', 'Erstattung offen': 'Erstatt.',
-  };
-  let html = `Kasse: ${formatMoney(bal.paid)}`;
-  for (const seg of segments) {
-    const label = long ? shortLabels[seg[0]] : seg[0];
-    html += ` <span class="kasse-open">· ${label}: ${formatMoney(seg[1])}</span>`;
+  let kasse = 0;
+  let offen = 0;
+  for (const b of state.bookings) {
+    if (b.article === 'einkauf') { offen -= b.total; continue; }
+    if (b.status === 'bar' || b.status === 'paypal' || b.status === 'bezahlt') kasse += b.total;
+    else if (b.status === 'abrechnung' || b.status === 'offen') offen += b.total;
   }
-  el.kasseStand.innerHTML = html;
-  el.kasseStand.classList.toggle('kasse-stand--long', long);
-  document.querySelector('.app-header').classList.toggle('header--tight', long);
+  el.kasseStand.innerHTML = `Kasse: ${formatMoney(kasse)}`
+    + ` <span class="kasse-open">· Offen: ${formatMoney(offen)}</span>`;
 }
 
 function nextInventoryState(current) {
