@@ -599,8 +599,8 @@ function getCashBreakdown() {
       if (b.status === 'erstattet') cashSoll -= b.total; // bar aus der Box
       continue;
     }
-    if (b.status === 'paypal') paypalSoll += b.total;
-    else if (b.status === 'bar' || b.status === 'bezahlt') cashSoll += b.total;
+    if (b.status === 'paypal' || (b.status === 'beglichen' && b.paidMethod === 'paypal')) paypalSoll += b.total;
+    else if (b.status === 'bar' || b.status === 'bezahlt' || b.status === 'beglichen') cashSoll += b.total;
   }
   return { cashSoll, paypalSoll };
 }
@@ -652,7 +652,7 @@ function renderKasseStand() {
   let offen = 0;
   for (const b of state.bookings) {
     if (b.article === 'einkauf') continue; // Einkäufe zählen nicht ins Kopfband
-    if (b.status === 'bar' || b.status === 'paypal' || b.status === 'bezahlt') kasse += b.total;
+    if (b.status === 'bar' || b.status === 'paypal' || b.status === 'bezahlt' || b.status === 'beglichen') kasse += b.total;
     else if (b.status === 'abrechnung' || b.status === 'offen') offen += b.total;
   }
   el.kasseStand.innerHTML = `Kasse: ${formatMoney(kasse)}`
@@ -1608,19 +1608,21 @@ async function verrechnenPerson(nameKey) {
 async function settlePerson(nameKey) {
   const acct = getAccounts().find((a) => a.key === nameKey);
   if (!acct || acct.debt <= 0.004) return;
-  if (!confirm(`Anschreiben von ${acct.name} (${formatMoney(acct.debt)}) als beglichen markieren?\n\nDas Geld sollte jetzt bar in der Kasse oder im PayPal-Pool liegen.`)) return;
+  const ans = prompt(`Anschreiben von ${acct.name} (${formatMoney(acct.debt)}) beglichen – wie bezahlt? „bar" oder „paypal":`, 'bar');
+  if (ans === null) return;
+  const method = /^p/i.test(ans.trim()) ? 'paypal' : 'bar';
   const now = Date.now();
   state.bookings = state.bookings.map((b) => (
     (b.status === 'abrechnung' || b.status === 'offen')
       && b.article !== 'einkauf' && b.article !== 'guthaben'
       && (b.note || '').trim().toLowerCase() === nameKey
-      ? Object.assign({}, b, { status: 'beglichen', beglichenTs: now })
+      ? Object.assign({}, b, { status: 'beglichen', beglichenTs: now, paidMethod: method })
       : b
   ));
   await Store.replaceAllBookings(state.bookings);
   refreshAdmin();
   renderKasseStand();
-  showToast(`Anschreiben von ${acct.name} über ${formatMoney(acct.debt)} beglichen.`);
+  showToast(`Anschreiben von ${acct.name} über ${formatMoney(acct.debt)} beglichen (${method === 'paypal' ? 'PayPal' : 'bar'}) – in Kasse gebucht.`);
 }
 
 async function performSettleOpen() {
@@ -1629,20 +1631,20 @@ async function performSettleOpen() {
     showToast('Keine offenen Anschreiben.');
     return;
   }
-  if (!confirm(`Alle offenen Anschreiben (${formatMoney(bal.open)}) als beglichen markieren?\n\nDas Geld sollte jetzt bar in der Kasse oder im PayPal-Pool liegen.`)) {
-    return;
-  }
+  const ans = prompt(`Alle offenen Anschreiben (${formatMoney(bal.open)}) beglichen – wie bezahlt? „bar" oder „paypal":`, 'bar');
+  if (ans === null) return;
+  const method = /^p/i.test(ans.trim()) ? 'paypal' : 'bar';
   const now = Date.now();
   state.bookings = state.bookings.map((b) => (
     (b.status === 'abrechnung' || b.status === 'offen')
       && b.article !== 'einkauf' && b.article !== 'guthaben'
-      ? Object.assign({}, b, { status: 'beglichen', beglichenTs: now })
+      ? Object.assign({}, b, { status: 'beglichen', beglichenTs: now, paidMethod: method })
       : b
   ));
   await Store.replaceAllBookings(state.bookings);
   renderKasseStand();
   refreshAdmin();
-  showToast(`Anschreiben über ${formatMoney(bal.open)} ausgeglichen.`);
+  showToast(`Anschreiben über ${formatMoney(bal.open)} beglichen (${method === 'paypal' ? 'PayPal' : 'bar'}) – in Kasse gebucht.`);
 }
 
 async function performDayClose() {
