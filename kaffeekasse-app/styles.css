@@ -709,8 +709,18 @@ button { font: inherit; color: inherit; }
 .kv-row {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
 }
+#admin-account-list .kv-row,
+#admin-credit-list .kv-row {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+}
+#admin-account-list .kv-row:last-child,
+#admin-credit-list .kv-row:last-child { border-bottom: none; }
+#admin-account-list .kv-label { line-height: 1.7; }
 
 .kv-row .kv-label { color: var(--text-muted); }
 .kv-row .kv-value { font-weight: 700; font-variant-numeric: tabular-nums; }

@@ -376,6 +376,7 @@ const el = {
   cashcountCash: $('#cashcount-cash'),
   cashcountPaypal: $('#cashcount-paypal'),
   cashcountResult: $('#cashcount-result'),
+  btnCashcountApply: $('#btn-cashcount-apply'),
   btnSettleOpen: $('#btn-settle-open'),
   btnDayClose: $('#btn-day-close'),
   btnMonthClose: $('#btn-month-close'),
@@ -627,6 +628,7 @@ function getBalance() {
       else refundsOpen += b.total;
       continue;
     }
+    if (b.article === 'korrektur') { paid += b.total; continue; }
     drinksTotal += b.total;
     if (b.status === 'abrechnung' || b.status === 'offen') open += b.total;
     else if (b.status === 'guthaben') creditUsed += b.total;
@@ -1208,6 +1210,43 @@ function renderCashCount() {
     line('PayPal-Pool', paypalSoll, el.cashcountPaypal.value);
 }
 
+// Bucht die Differenz zwischen gezähltem Ist und Soll als Korrektur,
+// sodass die App-Kasse dem tatsächlichen Bestand entspricht. Zum Nullen
+// einfach 0 eintragen.
+async function applyCashCorrection() {
+  const { cashSoll, paypalSoll } = getCashBreakdown();
+  const istBar = parseFloat((el.cashcountCash.value || '').replace(',', '.'));
+  const istPP = parseFloat((el.cashcountPaypal.value || '').replace(',', '.'));
+  const round = (x) => Math.round(x * 100) / 100;
+  const todo = [];
+  if (Number.isFinite(istBar)) {
+    const d = round(istBar - cashSoll);
+    if (Math.abs(d) > 0.004) todo.push(['bar', d, `Bargeld auf ${formatMoney(istBar)} korrigiert`]);
+  }
+  if (Number.isFinite(istPP)) {
+    const d = round(istPP - paypalSoll);
+    if (Math.abs(d) > 0.004) todo.push(['paypal', d, `PayPal-Pool auf ${formatMoney(istPP)} korrigiert`]);
+  }
+  if (!todo.length) { showToast('Kein Ist-Wert eingegeben oder bereits korrekt.'); return; }
+  const lines = todo.map((t) => `${t[0] === 'bar' ? 'Bargeld' : 'PayPal'}: ${t[1] > 0 ? '+' : ''}${formatMoney(t[1])}`).join('\n');
+  if (!confirm(`Kasse an gezählten Bestand angleichen? Als Korrektur wird gebucht:\n\n${lines}`)) return;
+  const now = Date.now();
+  for (const [status, delta, label] of todo) {
+    const b = {
+      id: uid(), ts: now, article: 'korrektur', qty: 1,
+      unitPrice: delta, total: delta, status, note: 'Kassenkorrektur',
+      info: label, dayClosureId: null, monthClosureId: null,
+    };
+    await Store.addBooking(b);
+    state.bookings.push(b);
+  }
+  el.cashcountCash.value = '';
+  el.cashcountPaypal.value = '';
+  refreshAdmin();
+  renderKasseStand();
+  showToast(`Kasse korrigiert (${todo.length} Buchung${todo.length > 1 ? 'en' : ''}).`);
+}
+
 // Einkauf erfassen: 'erstattet' senkt die Kasse sofort, 'guthaben' schreibt
 // dem Einkäufer Trinkguthaben gut (ohne Kasseneffekt – es kam Ware statt
 // Geld), 'offen' bleibt als Erstattungsschuld sichtbar.
@@ -1357,7 +1396,11 @@ async function addCredit(method) {
 
 function bookingDescription(b) {
   const name = (b.note || '').trim();
-  if (b.article === 'guthaben') return `Guthaben${name ? ' ' + name : ''}`;
+  if (b.article === 'korrektur') return b.info || 'Kassenkorrektur';
+  if (b.article === 'guthaben') {
+    if (b.payout) return `Auszahlung${name ? ' ' + name : ''}`;
+    return `Guthaben${name ? ' ' + name : ''}`;
+  }
   if (b.article === 'einkauf') {
     const info = b.info ? ` – ${b.info}` : '';
     return `Einkauf${name ? ' ' + name : ''}${info}`;
@@ -1775,6 +1818,7 @@ function wireEvents() {
   });
   el.cashcountCash.addEventListener('input', renderCashCount);
   el.cashcountPaypal.addEventListener('input', renderCashCount);
+  el.btnCashcountApply.addEventListener('click', applyCashCorrection);
   el.btnSettleOpen.addEventListener('click', performSettleOpen);
   el.btnDayClose.addEventListener('click', performDayClose);
   el.btnMonthClose.addEventListener('click', performMonthClose);
