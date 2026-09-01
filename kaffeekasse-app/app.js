@@ -378,6 +378,7 @@ const el = {
   cashcountPaypal: $('#cashcount-paypal'),
   cashcountResult: $('#cashcount-result'),
   btnCashcountApply: $('#btn-cashcount-apply'),
+  btnCashZero: $('#btn-cash-zero'),
   btnSettleOpen: $('#btn-settle-open'),
   btnDayClose: $('#btn-day-close'),
   btnMonthClose: $('#btn-month-close'),
@@ -647,12 +648,14 @@ function getBalance() {
 //   Offen = offene Anschreiben, also was die Leute der Kasse noch schulden.
 //           Einkäufe/Vorrat/Guthaben gehören nicht hierher (siehe Admin).
 function renderKasseStand() {
-  let kasse = 0;
+  // Kasse exakt wie im Kassensturz (getCashBreakdown), damit Kopfband und
+  // Kassensturz nie auseinanderlaufen und „auf Ist buchen" sauber nullt.
+  const cb = getCashBreakdown();
+  const kasse = cb.cashSoll + cb.paypalSoll;
   let offen = 0;
   for (const b of state.bookings) {
-    if (b.article === 'einkauf') continue; // Einkäufe zählen nicht ins Kopfband
-    if (b.status === 'bar' || b.status === 'paypal' || b.status === 'bezahlt' || b.status === 'beglichen') kasse += b.total;
-    else if (b.status === 'abrechnung' || b.status === 'offen') offen += b.total;
+    if (b.article === 'einkauf' || b.article === 'guthaben' || b.article === 'korrektur') continue;
+    if (b.status === 'abrechnung' || b.status === 'offen') offen += b.total;
   }
   el.kasseStand.innerHTML = `Kasse: ${formatMoney(kasse)}`
     + ` <span class="kasse-open">· Offen: ${formatMoney(offen)}</span>`;
@@ -749,20 +752,24 @@ function renderRace() {
     return;
   }
   const max = entries[0].cups;
-  el.raceTrack.innerHTML = entries.map((e) => {
+  const lanes = [];
+  for (let i = 0; i < 5; i++) {
+    const e = entries[i];
+    if (!e) { lanes.push('<div class="race-lane"></div>'); continue; }
     // Führende Schildkröte steht kurz vor der Ziellinie, die übrigen
     // proportional zu ihrer Becherzahl dahinter.
     const right = 4 + (1 - e.cups / max) * 68;
     const crown = (champKey && e.name.trim().toLowerCase() === champKey)
       ? '<span class="race-crown" title="Champion Vormonat">\u{1F451}</span>' : '';
-    return `
+    lanes.push(`
       <div class="race-lane">
         <div class="race-turtle" style="right:${right.toFixed(1)}%">
           <span class="race-tag">${escapeHtml(e.name)} · ${e.cups}</span>
           <span class="race-animal">${crown}<span class="race-emoji">${ICON_TURTLE}</span></span>
         </div>
-      </div>`;
-  }).join('');
+      </div>`);
+  }
+  el.raceTrack.innerHTML = lanes.join('');
 }
 
 // Jeder Name erscheint ab dem ersten Becher als Chip, sortiert nach
@@ -1292,6 +1299,31 @@ async function applyCashCorrection() {
   refreshAdmin();
   renderKasseStand();
   showToast(`Kasse korrigiert (${todo.length} Buchung${todo.length > 1 ? 'en' : ''}).`);
+}
+
+// Ein-Tipp: Kasse und PayPal-Pool auf 0 setzen (z. B. nach Leeren/Auszahlen).
+async function zeroCash() {
+  const { cashSoll, paypalSoll } = getCashBreakdown();
+  if (Math.abs(cashSoll) < 0.005 && Math.abs(paypalSoll) < 0.005) {
+    showToast('Kasse und Pool stehen bereits auf 0.');
+    return;
+  }
+  if (!confirm(`Kasse (${formatMoney(cashSoll)}) und PayPal-Pool (${formatMoney(paypalSoll)}) auf 0 setzen?\n\nDie Differenz wird als Korrektur gebucht – nutze das, wenn du das Geld entnommen/ausgezahlt hast.`)) return;
+  const now = Date.now();
+  const mk = (status, delta, label) => ({
+    id: uid(), ts: now, article: 'korrektur', qty: 1,
+    unitPrice: delta, total: delta, status, note: 'Kassenkorrektur',
+    info: label, dayClosureId: null, monthClosureId: null,
+  });
+  const todo = [];
+  if (Math.abs(cashSoll) > 0.005) todo.push(mk('bar', Math.round(-cashSoll * 100) / 100, 'Bargeld auf 0,00 € gesetzt'));
+  if (Math.abs(paypalSoll) > 0.005) todo.push(mk('paypal', Math.round(-paypalSoll * 100) / 100, 'PayPal-Pool auf 0,00 € gesetzt'));
+  for (const b of todo) { await Store.addBooking(b); state.bookings.push(b); }
+  el.cashcountCash.value = '';
+  el.cashcountPaypal.value = '';
+  refreshAdmin();
+  renderKasseStand();
+  showToast('Kasse und PayPal-Pool auf 0 gesetzt.');
 }
 
 // Einkauf erfassen: 'erstattet' senkt die Kasse sofort, 'guthaben' schreibt
@@ -1868,6 +1900,7 @@ function wireEvents() {
   el.cashcountCash.addEventListener('input', renderCashCount);
   el.cashcountPaypal.addEventListener('input', renderCashCount);
   el.btnCashcountApply.addEventListener('click', applyCashCorrection);
+  el.btnCashZero.addEventListener('click', zeroCash);
   el.btnSettleOpen.addEventListener('click', performSettleOpen);
   el.btnDayClose.addEventListener('click', performDayClose);
   el.btnMonthClose.addEventListener('click', performMonthClose);
