@@ -940,3 +940,38 @@ input[type="file"] { font-size: 0.9rem; }
 
   .qr-box-sheet { width: 150px; height: 150px; }
 }
+
+.admin-group {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  background: var(--bg);
+}
+.admin-group > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 16px;
+  min-height: 44px;
+  font-weight: 800;
+  font-size: 1.02rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--radius-md);
+  user-select: none;
+}
+.admin-group > summary::-webkit-details-marker { display: none; }
+.admin-group > summary::before {
+  content: "▸";
+  color: var(--accent);
+  font-size: 0.9em;
+  transition: transform 0.15s ease;
+}
+.admin-group[open] > summary::before { transform: rotate(90deg); }
+.admin-group[open] > summary {
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+.admin-group .admin-block { margin: 12px; border: none; padding: 0; }
+.admin-group .admin-block + .admin-block { border-top: 1px solid var(--border); padding-top: 12px; }

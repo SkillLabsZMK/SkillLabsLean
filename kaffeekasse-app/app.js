@@ -1268,6 +1268,7 @@ async function addPurchase(mode) {
   el.purchaseAmount.value = '';
   el.purchaseAmount.disabled = false;
   el.purchaseInfo.value = '';
+  if (mode === 'guthaben') await settleDebtsFromCredit(name.toLowerCase());
   refreshAdmin();
   renderKasseStand();
   const label = mode === 'erstattet' ? 'bar erstattet'
@@ -1341,9 +1342,15 @@ async function addCredit(method) {
   await Store.addBooking(booking);
   state.bookings.push(booking);
   el.creditAmount.value = '';
+  const res = await settleDebtsFromCredit(name.toLowerCase());
   refreshAdmin();
   renderKasseStand();
-  showToast(`Guthaben für ${name} um ${formatMoney(booking.total)} aufgeladen (${method === 'paypal' ? 'PayPal' : 'bar'}).`);
+  const kanal = method === 'paypal' ? 'PayPal' : 'bar';
+  if (res.settled > 0.004) {
+    showToast(`${formatMoney(booking.total)} für ${name} aufgeladen (${kanal}) · davon ${formatMoney(res.settled)} mit Schulden verrechnet · Restguthaben ${formatMoney(res.rest)}.`);
+  } else {
+    showToast(`Guthaben für ${name} um ${formatMoney(booking.total)} aufgeladen (${kanal}).`);
+  }
 }
 
 // --- Storno: letzte Buchungen rückgängig machen ------------------------
@@ -1388,6 +1395,61 @@ async function undoBooking(id) {
 
 // --- Konten: Schulden (Anschreiben) und Guthaben pro Person ------------
 
+// Verrechnet offene Anschreiben einer Person mit ihrem Guthaben:
+// die ältesten Anschreiben-Getränke werden auf 'guthaben' umgebucht
+// (vom Guthaben bezahlt), soweit das Guthaben reicht. Bilanzneutral.
+async function settleDebtsFromCredit(nameKey) {
+  const map = getCreditMap();
+  let avail = (map[nameKey] && map[nameKey].credit) || 0;
+  if (avail <= 0.004) return { settled: 0, rest: avail };
+  const debts = state.bookings
+    .filter((b) => b.article !== 'guthaben' && b.article !== 'einkauf'
+      && (b.status === 'abrechnung' || b.status === 'offen')
+      && (b.note || '').trim().toLowerCase() === nameKey)
+    .sort((a, b) => a.ts - b.ts);
+  let settled = 0;
+  const now = Date.now();
+  for (const b of debts) {
+    if (b.total <= avail + 0.004) {
+      b.status = 'guthaben';
+      b.beglichenTs = now;
+      b.settledFromCredit = true;
+      await Store.updateBooking(b.id, { status: 'guthaben', beglichenTs: now, settledFromCredit: true });
+      avail = Math.round((avail - b.total) * 100) / 100;
+      settled = Math.round((settled + b.total) * 100) / 100;
+    }
+  }
+  return { settled, rest: avail };
+}
+
+// Zahlt einer Person (einen Teil) ihres Guthabens bar aus der Kasse aus:
+// negative Guthaben-Buchung -> Guthaben sinkt und Kasse sinkt.
+async function payoutCredit(nameKey) {
+  const acct = getAccounts().find((a) => a.key === nameKey);
+  const map = getCreditMap();
+  const credit = (map[nameKey] && map[nameKey].credit) || 0;
+  const name = (map[nameKey] && map[nameKey].name) || (acct && acct.name) || nameKey;
+  if (credit <= 0.004) { showToast('Kein Guthaben vorhanden.'); return; }
+  const input = prompt(`Wie viel von ${name}s Guthaben (${formatMoney(credit)}) bar auszahlen?`, credit.toFixed(2));
+  if (input === null) return;
+  let a = parseFloat((input || '').replace(',', '.'));
+  if (!Number.isFinite(a) || a <= 0) { showToast('Bitte einen gültigen Betrag angeben.'); return; }
+  a = Math.round(a * 100) / 100;
+  if (a > credit + 0.004) { showToast(`Höchstens ${formatMoney(credit)} auszahlbar.`); return; }
+  const cash = getCashBreakdown().cashSoll;
+  const booking = {
+    id: uid(), ts: Date.now(), article: 'guthaben', qty: 1,
+    unitPrice: -a, total: -a, status: 'bar', note: name,
+    info: 'Auszahlung', payout: true, dayClosureId: null, monthClosureId: null,
+  };
+  await Store.addBooking(booking);
+  state.bookings.push(booking);
+  refreshAdmin();
+  renderKasseStand();
+  const warn = a > cash + 0.004 ? ' (mehr als bar vorhanden – ggf. aus PayPal-Pool entnehmen)' : '';
+  showToast(`${formatMoney(a)} an ${name} ausgezahlt · Restguthaben ${formatMoney(credit - a)}${warn}.`);
+}
+
 function getAccounts() {
   const creditMap = getCreditMap();
   const map = {};
@@ -1421,11 +1483,26 @@ function renderAdminAccounts() {
     const parts = [];
     if (a.debt > 0.004) parts.push(`<span class="acct-debt">schuldet ${formatMoney(a.debt)}</span>`);
     if (a.credit > 0.004) parts.push(`<span class="acct-credit">Guthaben ${formatMoney(a.credit)}</span>`);
-    const btn = a.debt > 0.004
-      ? ` <button type="button" class="purchase-refund-btn" data-settle="${escapeHtml(a.key)}">Beglichen</button>`
-      : '';
-    return `<div class="kv-row"><span class="kv-label">${escapeHtml(a.name)} · ${parts.join(' · ')}${btn}</span></div>`;
+    let btns = '';
+    if (a.debt > 0.004 && a.credit > 0.004) {
+      btns += ` <button type="button" class="purchase-refund-btn" data-net="${escapeHtml(a.key)}">Verrechnen</button>`;
+    }
+    if (a.debt > 0.004) {
+      btns += ` <button type="button" class="purchase-refund-btn" data-settle="${escapeHtml(a.key)}">Beglichen</button>`;
+    }
+    if (a.credit > 0.004) {
+      btns += ` <button type="button" class="purchase-refund-btn" data-payout="${escapeHtml(a.key)}">Auszahlen</button>`;
+    }
+    return `<div class="kv-row"><span class="kv-label">${escapeHtml(a.name)} · ${parts.join(' · ')}${btns}</span></div>`;
   }).join('');
+}
+
+async function verrechnenPerson(nameKey) {
+  const res = await settleDebtsFromCredit(nameKey);
+  refreshAdmin();
+  renderKasseStand();
+  if (res.settled > 0.004) showToast(`${formatMoney(res.settled)} Schulden mit Guthaben verrechnet · Restguthaben ${formatMoney(res.rest)}.`);
+  else showToast('Nichts zu verrechnen (kein Guthaben).');
 }
 
 async function settlePerson(nameKey) {
@@ -1689,8 +1766,12 @@ function wireEvents() {
     if (btn) undoBooking(btn.dataset.undo);
   });
   el.adminAccountList.addEventListener('click', (ev) => {
-    const btn = ev.target.closest('[data-settle]');
-    if (btn) settlePerson(btn.dataset.settle);
+    const settleBtn = ev.target.closest('[data-settle]');
+    if (settleBtn) { settlePerson(settleBtn.dataset.settle); return; }
+    const netBtn = ev.target.closest('[data-net]');
+    if (netBtn) { verrechnenPerson(netBtn.dataset.net); return; }
+    const payBtn = ev.target.closest('[data-payout]');
+    if (payBtn) { payoutCredit(payBtn.dataset.payout); return; }
   });
   el.cashcountCash.addEventListener('input', renderCashCount);
   el.cashcountPaypal.addEventListener('input', renderCashCount);

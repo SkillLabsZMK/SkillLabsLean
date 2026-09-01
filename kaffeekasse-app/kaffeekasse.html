@@ -126,41 +126,8 @@
 
     <div class="admin-scroll">
 
-      <fieldset class="admin-block">
-        <legend>Letzte Buchungen / Storno</legend>
-        <p class="hint">Fehleingaben hier rückgängig machen.</p>
-        <div class="kv-list" id="admin-recent-list"></div>
-      </fieldset>
-
-      <fieldset class="admin-block">
-        <legend>Auswertungen</legend>
-        <div class="kv-list" id="admin-stats"></div>
-      </fieldset>
-
-      <fieldset class="admin-block">
-        <legend>Preise</legend>
-        <div class="admin-form-grid" id="admin-prices"></div>
-        <button class="btn btn-primary" id="btn-save-prices">Preise speichern</button>
-      </fieldset>
-
-      <fieldset class="admin-block">
-        <legend>PayPal-Pool-Link</legend>
-        <input type="url" id="admin-pool-url" class="note-input" placeholder="https://www.paypal.com/pools/c/...">
-        <button class="btn btn-primary" id="btn-save-pool">Pool-Link speichern</button>
-      </fieldset>
-
-      <fieldset class="admin-block">
-        <legend>Bestand setzen</legend>
-        <div class="admin-inventory" id="admin-inventory"></div>
-      </fieldset>
-
-      <fieldset class="admin-block">
-        <legend>Admin-PIN</legend>
-        <p class="hint">Leer lassen, um den PIN-Schutz zu deaktivieren.</p>
-        <input type="password" inputmode="numeric" id="admin-pin" class="note-input" placeholder="z. B. 1234" autocomplete="off">
-        <button class="btn btn-primary" id="btn-save-pin">PIN speichern</button>
-      </fieldset>
-
+      <details class="admin-group" open>
+        <summary>Alltag</summary>
       <fieldset class="admin-block">
         <legend>Guthaben</legend>
         <p class="hint">Vorab gezahltes Geld (bar oder in den Pool gesendet) als
@@ -183,7 +150,6 @@
           <button class="btn btn-outline" id="btn-credit-paypal">Per PayPal erhalten</button>
         </div>
       </fieldset>
-
       <fieldset class="admin-block">
         <legend>Einkauf erfassen</legend>
         <p class="hint">Ausgaben für die Kaffeeecke eintragen und wählen, wie
@@ -216,7 +182,65 @@
         </div>
         <div id="admin-purchase-list" class="kv-list"></div>
       </fieldset>
+      <fieldset class="admin-block">
+        <legend>Konten</legend>
+        <p class="hint">Offene Schulden (Anschreiben) und Guthaben pro Person.
+        „Beglichen" = bar bezahlt · „Verrechnen" = Schuld mit Guthaben tilgen · „Auszahlen" = Guthaben bar zurückgeben.</p>
+        <div class="kv-list" id="admin-account-list"></div>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Kassensturz</legend>
+        <p class="hint">Gezähltes Bargeld und PayPal-Pool-Stand eintragen –
+        die App zeigt die Differenz zum Soll.</p>
+        <div class="admin-form-grid">
+          <div class="admin-price-field">
+            <label for="cashcount-cash">Bargeld gezählt (€)</label>
+            <input type="number" id="cashcount-cash" class="note-input" step="0.01" min="0" placeholder="z. B. 42.50">
+          </div>
+          <div class="admin-price-field">
+            <label for="cashcount-paypal">PayPal-Pool (€)</label>
+            <input type="number" id="cashcount-paypal" class="note-input" step="0.01" min="0" placeholder="z. B. 18.00">
+          </div>
+        </div>
+        <div class="kv-list" id="cashcount-result"></div>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Letzte Buchungen / Storno</legend>
+        <p class="hint">Fehleingaben hier rückgängig machen.</p>
+        <div class="kv-list" id="admin-recent-list"></div>
+      </fieldset>
+      </details>
 
+      <details class="admin-group">
+        <summary>Auswertung</summary>
+      <fieldset class="admin-block">
+        <legend>Auswertungen</legend>
+        <div class="kv-list" id="admin-stats"></div>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Ausgaben je Produkt</legend>
+        <p class="hint">Kostenbasis fürs spätere Berechnen eines fairen
+        Kaffeepreises – wächst mit jedem erfassten Einkauf.</p>
+        <div class="kv-list" id="admin-spend-list"></div>
+      </fieldset>
+      </details>
+
+      <details class="admin-group">
+        <summary>Einstellungen</summary>
+      <fieldset class="admin-block">
+        <legend>Preise</legend>
+        <div class="admin-form-grid" id="admin-prices"></div>
+        <button class="btn btn-primary" id="btn-save-prices">Preise speichern</button>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Bestand setzen</legend>
+        <div class="admin-inventory" id="admin-inventory"></div>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>PayPal-Pool-Link</legend>
+        <input type="url" id="admin-pool-url" class="note-input" placeholder="https://www.paypal.com/pools/c/...">
+        <button class="btn btn-primary" id="btn-save-pool">Pool-Link speichern</button>
+      </fieldset>
       <fieldset class="admin-block">
         <legend>Ruhemodus</legend>
         <p class="hint">Außerhalb der Nutzungszeiten wird der Bildschirm
@@ -235,38 +259,16 @@
         <label class="check-row"><input type="checkbox" id="standby-weekend"> Am Wochenende ganztägig</label>
         <button class="btn btn-primary" id="btn-save-standby">Ruhemodus speichern</button>
       </fieldset>
-
       <fieldset class="admin-block">
-        <legend>Ausgaben je Produkt</legend>
-        <p class="hint">Kostenbasis fürs spätere Berechnen eines fairen
-        Kaffeepreises – wächst mit jedem erfassten Einkauf.</p>
-        <div class="kv-list" id="admin-spend-list"></div>
+        <legend>Admin-PIN</legend>
+        <p class="hint">Leer lassen, um den PIN-Schutz zu deaktivieren.</p>
+        <input type="password" inputmode="numeric" id="admin-pin" class="note-input" placeholder="z. B. 1234" autocomplete="off">
+        <button class="btn btn-primary" id="btn-save-pin">PIN speichern</button>
       </fieldset>
+      </details>
 
-      <fieldset class="admin-block">
-        <legend>Kassensturz</legend>
-        <p class="hint">Gezähltes Bargeld und PayPal-Pool-Stand eintragen –
-        die App zeigt die Differenz zum Soll.</p>
-        <div class="admin-form-grid">
-          <div class="admin-price-field">
-            <label for="cashcount-cash">Bargeld gezählt (€)</label>
-            <input type="number" id="cashcount-cash" class="note-input" step="0.01" min="0" placeholder="z. B. 42.50">
-          </div>
-          <div class="admin-price-field">
-            <label for="cashcount-paypal">PayPal-Pool (€)</label>
-            <input type="number" id="cashcount-paypal" class="note-input" step="0.01" min="0" placeholder="z. B. 18.00">
-          </div>
-        </div>
-        <div class="kv-list" id="cashcount-result"></div>
-      </fieldset>
-
-      <fieldset class="admin-block">
-        <legend>Konten</legend>
-        <p class="hint">Offene Schulden (Anschreiben) und Guthaben pro Person.
-        „Beglichen" setzt die Schulden der Person auf 0.</p>
-        <div class="kv-list" id="admin-account-list"></div>
-      </fieldset>
-
+      <details class="admin-group">
+        <summary>Daten & Abschluss</summary>
       <fieldset class="admin-block">
         <legend>Abschluss</legend>
         <div class="admin-btn-row">
@@ -275,7 +277,6 @@
           <button class="btn btn-outline" id="btn-month-close">Monat abschließen</button>
         </div>
       </fieldset>
-
       <fieldset class="admin-block">
         <legend>Export &amp; Sicherung</legend>
         <div class="admin-btn-row">
@@ -285,11 +286,11 @@
         <label class="import-label" for="import-file">JSON-Backup importieren</label>
         <input type="file" id="import-file" accept="application/json,.json">
       </fieldset>
-
       <fieldset class="admin-block admin-danger">
         <legend>Gefahrenzone</legend>
         <button class="btn btn-danger" id="btn-wipe-all">Alle lokalen Daten löschen</button>
       </fieldset>
+      </details>
 
     </div>
   </div>
