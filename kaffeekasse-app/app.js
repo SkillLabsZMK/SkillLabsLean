@@ -303,7 +303,6 @@ const el = {
   inventoryList: $('#inventory-list'),
   raceTrack: $('#race-track'),
   raceMonth: $('#race-month'),
-  raceChampion: $('#race-champion'),
   adminChampionList: $('#admin-champion-list'),
   nameSuggest: $('#name-suggest'),
   storageBadge: $('#storage-mode-badge'),
@@ -725,17 +724,6 @@ function monthLabel(mk, withYear) {
   return d.toLocaleDateString('de-DE', withYear ? { month: 'long', year: 'numeric' } : { month: 'long' });
 }
 
-// Kompakte Auszeichnung des letzten abgeschlossenen Monats im Renn-Panel.
-function renderRaceChampion() {
-  if (!el.raceChampion) return;
-  const champs = getMonthlyChampions();
-  const cur = thisMonthKey();
-  const last = champs.find((c) => c.monthKey !== cur);
-  if (!last) { el.raceChampion.hidden = true; el.raceChampion.innerHTML = ''; return; }
-  el.raceChampion.hidden = false;
-  el.raceChampion.innerHTML = `<span class="champ-cup">\u{1F3C6}</span> Champion ${escapeHtml(monthLabel(last.monthKey))}: <strong>${escapeHtml(last.name)}</strong> \u00b7 ${last.cups} Becher`;
-}
-
 // Ruhmeshalle im Admin: alle bisherigen Monatssieger.
 function renderAdminChampions() {
   if (!el.adminChampionList) return;
@@ -751,7 +739,9 @@ function renderAdminChampions() {
 }
 
 function renderRace() {
-  renderRaceChampion();
+  const champs = getMonthlyChampions();
+  const lastChamp = champs.find((c) => c.monthKey !== thisMonthKey());
+  const champKey = lastChamp ? lastChamp.name.toLowerCase() : null;
   const entries = aggregateNames(getPeriodBookings('month'), 1).slice(0, 5);
   el.raceMonth.textContent = new Date().toLocaleDateString('de-DE', { month: 'long' });
   if (!entries.length) {
@@ -763,11 +753,13 @@ function renderRace() {
     // Führende Schildkröte steht kurz vor der Ziellinie, die übrigen
     // proportional zu ihrer Becherzahl dahinter.
     const right = 4 + (1 - e.cups / max) * 68;
+    const crown = (champKey && e.name.trim().toLowerCase() === champKey)
+      ? '<span class="race-crown" title="Champion Vormonat">\u{1F451}</span>' : '';
     return `
       <div class="race-lane">
         <div class="race-turtle" style="right:${right.toFixed(1)}%">
           <span class="race-tag">${escapeHtml(e.name)} · ${e.cups}</span>
-          <span class="race-emoji">${ICON_TURTLE}</span>
+          <span class="race-animal">${crown}<span class="race-emoji">${ICON_TURTLE}</span></span>
         </div>
       </div>`;
   }).join('');
@@ -910,31 +902,29 @@ function renderAdminStats() {
   const day = getPeriodStats('day');
   const month = getPeriodStats('month');
   const bal = getBalance();
-  const rows = [
-    ['Bilanz: Eingegangen (Kasse)', formatMoney(bal.paid)],
-    ['Gesamtwert aller Entnahmen', formatMoney(bal.drinksTotal)],
-    ['Offene Anschreiben', formatMoney(-bal.open)],
-    ['Offenes Guthaben', formatMoney(bal.creditRest)],
-    ['Einkäufe gesamt', formatMoney(-bal.purchasesTotal)],
-    ['Offene Erstattungen', formatMoney(-bal.refundsOpen)],
-    ['Tagesumsatz', formatMoney(day.sumTotal)],
-    ['Davon bar (heute)', formatMoney(day.sumBar)],
-    ['Davon PayPal (heute)', formatMoney(day.sumPaypal)],
-    ['Davon Guthaben (heute)', formatMoney(day.sumGuthaben)],
-    ['Davon auf Abrechnung (heute)', formatMoney(day.sumAbrechnung)],
-    ['Monatsumsatz', formatMoney(month.sumTotal)],
-    ['Davon bar (Monat)', formatMoney(month.sumBar)],
-    ['Davon PayPal (Monat)', formatMoney(month.sumPaypal)],
-    ['Davon Guthaben (Monat)', formatMoney(month.sumGuthaben)],
-    ['Davon auf Abrechnung (Monat)', formatMoney(month.sumAbrechnung)],
-    ['Buchungen gesamt (alle Zeit)', String(state.bookings.length)],
-  ];
-  for (const a of ARTICLES) {
-    rows.push([`Menge ${a.label} (Monat)`, String(month.countByArticle[a.key] || 0)]);
-  }
-  el.adminStats.innerHTML = rows.map(([label, value]) => `
-    <div class="kv-row"><span class="kv-label">${label}</span><span class="kv-value">${value}</span></div>
-  `).join('');
+  const cb = getCashBreakdown();
+  const m = (v) => formatMoney(v);
+  const sect = (t) => `<div class="kv-head">${t}</div>`;
+  const row = (l, v) => `<div class="kv-row"><span class="kv-label">${l}</span><span class="kv-value">${v}</span></div>`;
+  let h = '';
+  h += sect('Aktueller Stand');
+  h += row('Bargeld', m(cb.cashSoll));
+  h += row('PayPal-Pool', m(cb.paypalSoll));
+  h += row('<strong>Kasse gesamt</strong>', `<strong>${m(cb.cashSoll + cb.paypalSoll)}</strong>`);
+  h += row('Offene Anschreiben', m(bal.open));
+  h += row('Offenes Guthaben', m(bal.creditRest));
+  h += sect('Umsatz diesen Monat');
+  h += row('Getränke gesamt', m(month.sumTotal));
+  h += row('· bar', m(month.sumBar));
+  h += row('· PayPal', m(month.sumPaypal));
+  h += row('· vom Guthaben', m(month.sumGuthaben));
+  h += row('· auf Abrechnung', m(month.sumAbrechnung));
+  h += sect('Heute');
+  h += row('Getränke gesamt', m(day.sumTotal));
+  h += row('· bar / PayPal', `${m(day.sumBar)} / ${m(day.sumPaypal)}`);
+  h += sect('Becher diesen Monat');
+  for (const a of ARTICLES) h += row(a.label, String(month.countByArticle[a.key] || 0));
+  el.adminStats.innerHTML = h;
 }
 
 function renderAdminPrices() {
