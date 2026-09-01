@@ -985,3 +985,19 @@ input[type="file"] { font-size: 0.9rem; }
 }
 .admin-group .admin-block { margin: 12px; border: none; padding: 0; }
 .admin-group .admin-block + .admin-block { border-top: 1px solid var(--border); padding-top: 12px; }
+
+.race-champion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(186,168,116,0.22), rgba(186,168,116,0.06));
+  border: 1px solid var(--gold);
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.race-champion .champ-cup { font-size: 1.15rem; line-height: 1; }
+.race-champion strong { color: var(--gold); }

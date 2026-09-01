@@ -303,6 +303,8 @@ const el = {
   inventoryList: $('#inventory-list'),
   raceTrack: $('#race-track'),
   raceMonth: $('#race-month'),
+  raceChampion: $('#race-champion'),
+  adminChampionList: $('#admin-champion-list'),
   nameSuggest: $('#name-suggest'),
   storageBadge: $('#storage-mode-badge'),
   toast: $('#toast'),
@@ -696,7 +698,60 @@ function renderQrInto(target) {
   }
 }
 
+// Ermittelt je Monat den Top-Trinker aus der gesamten Historie – so bleibt
+// der Vormonats-Sieger auch nach dem Monatswechsel erhalten.
+function getMonthlyChampions() {
+  const byMonth = {};
+  for (const b of state.bookings) {
+    if (b.article === 'guthaben' || b.article === 'einkauf' || b.article === 'korrektur') continue;
+    const raw = (b.note || '').trim();
+    if (!raw) continue;
+    const mk = monthKey(b.ts);
+    const k = raw.toLowerCase();
+    if (!byMonth[mk]) byMonth[mk] = {};
+    if (!byMonth[mk][k]) byMonth[mk][k] = { name: raw, cups: 0 };
+    byMonth[mk][k].cups += b.qty;
+  }
+  return Object.keys(byMonth).sort().reverse().map((mk) => {
+    const top = Object.keys(byMonth[mk]).map((k) => byMonth[mk][k])
+      .sort((a, b) => b.cups - a.cups)[0];
+    return { monthKey: mk, name: top.name, cups: top.cups };
+  });
+}
+
+function monthLabel(mk, withYear) {
+  const parts = mk.split('-');
+  const d = new Date(Number(parts[0]), Number(parts[1]) - 1, 1);
+  return d.toLocaleDateString('de-DE', withYear ? { month: 'long', year: 'numeric' } : { month: 'long' });
+}
+
+// Kompakte Auszeichnung des letzten abgeschlossenen Monats im Renn-Panel.
+function renderRaceChampion() {
+  if (!el.raceChampion) return;
+  const champs = getMonthlyChampions();
+  const cur = thisMonthKey();
+  const last = champs.find((c) => c.monthKey !== cur);
+  if (!last) { el.raceChampion.hidden = true; el.raceChampion.innerHTML = ''; return; }
+  el.raceChampion.hidden = false;
+  el.raceChampion.innerHTML = `<span class="champ-cup">\u{1F3C6}</span> Champion ${escapeHtml(monthLabel(last.monthKey))}: <strong>${escapeHtml(last.name)}</strong> \u00b7 ${last.cups} Becher`;
+}
+
+// Ruhmeshalle im Admin: alle bisherigen Monatssieger.
+function renderAdminChampions() {
+  if (!el.adminChampionList) return;
+  const champs = getMonthlyChampions();
+  if (!champs.length) {
+    el.adminChampionList.innerHTML = '<p class="hint">Noch keine Monatsdaten.</p>';
+    return;
+  }
+  el.adminChampionList.innerHTML = champs.map((c) => {
+    const cur = c.monthKey === thisMonthKey() ? ' <span class="hint-inline">(l\u00e4uft)</span>' : '';
+    return `<div class="kv-row"><span class="kv-label">${escapeHtml(monthLabel(c.monthKey, true))}${cur}</span><span class="kv-value">${escapeHtml(c.name)} \u00b7 ${c.cups}</span></div>`;
+  }).join('');
+}
+
 function renderRace() {
+  renderRaceChampion();
   const entries = aggregateNames(getPeriodBookings('month'), 1).slice(0, 5);
   el.raceMonth.textContent = new Date().toLocaleDateString('de-DE', { month: 'long' });
   if (!entries.length) {
@@ -961,6 +1016,7 @@ function renderAdminSpend() {
 function refreshAdmin() {
   if (el.overlayAdmin.hidden) return;
   renderAdminRecent();
+  renderAdminChampions();
   renderAdminStats();
   renderAdminCredits();
   renderAdminNameChips();
@@ -972,6 +1028,7 @@ function refreshAdmin() {
 
 function renderAdminPanel() {
   renderAdminRecent();
+  renderAdminChampions();
   renderAdminStats();
   renderAdminCredits();
   renderAdminNameChips();
