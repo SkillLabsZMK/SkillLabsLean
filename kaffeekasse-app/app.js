@@ -642,14 +642,14 @@ function getBalance() {
 
 // Kopfband: zwei Werte.
 //   Kasse = alles bar oder direkt per PayPal Eingezahlte (Getränke + Guthaben-
-//           Aufladungen).
-//   Offen = offene Anschreiben (Forderungen der Kasse, +) minus alle
-//           Einkaufsausgaben (−). So gilt: Kasse + Offen = Gesamtbilanz.
+//           Aufladungen + Kassenkorrekturen − Auszahlungen).
+//   Offen = offene Anschreiben, also was die Leute der Kasse noch schulden.
+//           Einkäufe/Vorrat/Guthaben gehören nicht hierher (siehe Admin).
 function renderKasseStand() {
   let kasse = 0;
   let offen = 0;
   for (const b of state.bookings) {
-    if (b.article === 'einkauf') { offen -= b.total; continue; }
+    if (b.article === 'einkauf') continue; // Einkäufe zählen nicht ins Kopfband
     if (b.status === 'bar' || b.status === 'paypal' || b.status === 'bezahlt') kasse += b.total;
     else if (b.status === 'abrechnung' || b.status === 'offen') offen += b.total;
   }
