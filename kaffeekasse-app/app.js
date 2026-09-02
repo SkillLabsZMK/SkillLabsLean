@@ -505,7 +505,7 @@ function getPeriodBookings(periodType) {
 function aggregateNames(bookings, minCups) {
   const map = {};
   for (const b of bookings) {
-    if (b.article === 'guthaben' || b.article === 'einkauf') continue; // keine Becher
+    if (b.article === 'guthaben' || b.article === 'einkauf' || b.article === 'korrektur') continue; // keine Becher
     const raw = (b.note || '').trim();
     if (!raw) continue;
     const key = raw.toLowerCase();
@@ -523,6 +523,7 @@ function aggregateNames(bookings, minCups) {
 function getCreditMap() {
   const map = {};
   for (const b of state.bookings) {
+    if (b.article === 'korrektur') continue;
     const raw = (b.note || '').trim();
     if (!raw) continue;
     const key = raw.toLowerCase();
@@ -542,7 +543,7 @@ function getCreditFor(name) {
 
 function getPeriodStats(periodType) {
   const key = periodType === 'day' ? todayKey() : thisMonthKey();
-  const bookings = getPeriodBookings(periodType).filter((b) => b.article !== 'guthaben' && b.article !== 'einkauf');
+  const bookings = getPeriodBookings(periodType).filter((b) => b.article !== 'guthaben' && b.article !== 'einkauf' && b.article !== 'korrektur');
 
   const stats = {
     key,
@@ -1288,7 +1289,7 @@ async function applyCashCorrection() {
   for (const [status, delta, label] of todo) {
     const b = {
       id: uid(), ts: now, article: 'korrektur', qty: 1,
-      unitPrice: delta, total: delta, status, note: 'Kassenkorrektur',
+      unitPrice: delta, total: delta, status, note: '',
       info: label, dayClosureId: null, monthClosureId: null,
     };
     await Store.addBooking(b);
@@ -1312,7 +1313,7 @@ async function zeroCash() {
   const now = Date.now();
   const mk = (status, delta, label) => ({
     id: uid(), ts: now, article: 'korrektur', qty: 1,
-    unitPrice: delta, total: delta, status, note: 'Kassenkorrektur',
+    unitPrice: delta, total: delta, status, note: '',
     info: label, dayClosureId: null, monthClosureId: null,
   });
   const todo = [];
