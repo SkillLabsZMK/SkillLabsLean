@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#454b6a">
+<meta name="description" content="Kaffeekasse – digitale Selbstbedienungs-Kaffeekasse fürs Büro">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kaffeekasse">
+<title>Kaffeekasse</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-left">
+    <div class="app-title"><svg class="icon-mug" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 5c0 3-2.5 4-2.5 7M22 5c0 3-2.5 4-2.5 7M30 5c0 3-2.5 4-2.5 7" fill="none" stroke="#baa874" stroke-width="3" stroke-linecap="round"/><rect x="7" y="16" width="26" height="22" rx="4" fill="#f2f3f8"/><path d="M33 20h3a6.5 6.5 0 0 1 0 13h-3" fill="none" stroke="#f2f3f8" stroke-width="3.4"/></svg> Kaffeekasse <span class="app-sub">Skill Labs ZMK</span></div>
+  </div>
+  <div class="kasse-stand" id="kasse-stand"></div>
+  <div class="header-right">
+    <span class="abx-mark">ABΞ</span>
+    <div class="app-clock" id="clock" aria-live="off"></div>
+    <button class="admin-btn" id="btn-open-admin" title="Admin" aria-label="Admin-Bereich öffnen"><svg class="icon-gear" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></button>
+  </div>
+</header>
+
+<main id="main-view">
+
+  <section class="panel panel-products" aria-labelledby="h-buchen">
+    <h2 id="h-buchen">Entnahme buchen</h2>
+    <div class="product-grid" id="product-grid">
+      <!-- Produktbuttons werden per JS gerendert -->
+    </div>
+    <p class="machine-hint">Bitte Kaffeemaschine freitags ausschalten und offen stehen lassen, damit sich kein Schimmel bildet :)</p>
+  </section>
+
+  <section class="panel panel-race" aria-labelledby="h-race">
+    <h2 id="h-race"><svg class="icon-flag" viewBox="0 0 22 22" aria-hidden="true"><path d="M3.2 1.5v19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><g fill="currentColor"><rect x="5" y="2" width="4" height="4"/><rect x="13" y="2" width="4" height="4"/><rect x="9" y="6" width="4" height="4"/><rect x="17" y="6" width="4" height="4"/><rect x="5" y="10" width="4" height="4"/><rect x="13" y="10" width="4" height="4"/></g><rect x="5" y="2" width="16" height="12" fill="none" stroke="currentColor" stroke-width="1.2"/></svg> Kaffee-Rennen <span class="hint-inline">· Becher im <span id="race-month"></span> · Top 5</span></h2>
+    <div class="race-track" id="race-track"></div>
+  </section>
+
+  <section class="panel panel-inventory" aria-labelledby="h-bestand">
+    <h2 id="h-bestand">Nachbestellen <span class="hint-inline">· Nachschub und Kanban im Raum <strong>Papier &amp; Druck</strong></span></h2>
+    <div class="inventory-list" id="inventory-list">
+      <!-- Bestandszeilen werden per JS gerendert -->
+    </div>
+    <div class="app-footer">
+      <span id="storage-mode-badge"></span>
+    </div>
+  </section>
+
+</main>
+
+<!-- Buchungs-Overlay -->
+<div class="overlay" id="overlay-booking" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="booking-title">
+    <div class="sheet-head">
+      <h2 id="booking-title"><span id="booking-emoji"></span> <span id="booking-label"></span></h2>
+      <button class="btn btn-ghost btn-close" id="btn-cancel-booking" aria-label="Abbrechen">×</button>
+    </div>
+
+    <div id="booking-step-choose">
+      <div class="qty-row">
+        <button class="btn btn-round" id="btn-qty-minus" aria-label="Menge verringern">−</button>
+        <div class="qty-value" id="qty-value">1</div>
+        <button class="btn btn-round" id="btn-qty-plus" aria-label="Menge erhöhen">+</button>
+      </div>
+
+      <div class="price-row">
+        <div class="price-line">Einzelpreis: <span id="unit-price">0,00 €</span></div>
+        <div class="price-total" id="total-price">0,00 €</div>
+      </div>
+
+      <div class="name-suggest" id="name-suggest" hidden></div>
+
+      <label class="note-label" for="booking-note">Name / Notiz (optional)</label>
+      <input type="text" id="booking-note" class="note-input" placeholder="z. B. Max – zählt fürs Kaffee-Rennen" maxlength="60">
+
+      <div class="sheet-actions booking-actions">
+        <button class="btn btn-success" id="btn-mark-bar">Bar</button>
+        <button class="btn btn-paypal" id="btn-mark-paypal">PayPal</button>
+        <button class="btn btn-guthaben" id="btn-mark-guthaben" hidden>Guthaben</button>
+        <button class="btn btn-outline" id="btn-mark-abrechnung">Auf Abrechnung</button>
+      </div>
+    </div>
+
+    <div id="booking-step-paypal" hidden>
+      <div class="pay-step">
+        <div class="qr-box qr-box-sheet" id="qr-box-sheet" aria-label="QR-Code für den PayPal-Pool"></div>
+        <div class="price-total" id="paypal-total">0,00 €</div>
+        <p class="qr-caption">Scannen und Betrag im Pool senden</p>
+      </div>
+      <div class="sheet-actions">
+        <button class="btn btn-ghost" id="btn-paypal-back">← Zurück</button>
+        <button class="btn btn-paypal" id="btn-paypal-confirm">PayPal bezahlt</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Admin PIN Overlay -->
+<div class="overlay" id="overlay-pin" hidden>
+  <div class="sheet sheet-narrow" role="dialog" aria-modal="true" aria-labelledby="pin-title">
+    <h2 id="pin-title">Admin-PIN</h2>
+    <input type="password" inputmode="numeric" id="pin-input" class="note-input" placeholder="PIN eingeben" autocomplete="off">
+    <p class="error-text" id="pin-error" hidden>Falsche PIN.</p>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" id="btn-pin-cancel">Abbrechen</button>
+      <button class="btn btn-primary" id="btn-pin-confirm">Bestätigen</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin-Bereich -->
+<div class="overlay" id="overlay-admin" hidden>
+  <div class="sheet sheet-admin" role="dialog" aria-modal="true" aria-labelledby="admin-title">
+    <div class="admin-head">
+      <h2 id="admin-title">Admin-Bereich</h2>
+      <button class="btn btn-ghost" id="btn-close-admin">× Schließen</button>
+    </div>
+
+    <div class="admin-scroll">
+
+      <details class="admin-group" open>
+        <summary>Alltag</summary>
+      <fieldset class="admin-block">
+        <legend>Guthaben</legend>
+        <p class="hint">Vorab gezahltes Geld (bar oder in den Pool gesendet) als
+        Guthaben anlegen – beim Buchen erscheint dann der Guthaben-Button.</p>
+        <div id="admin-credit-list" class="kv-list"></div>
+        <div class="name-suggest" id="credit-name-suggest"></div>
+        <div class="admin-form-grid">
+          <div class="admin-price-field">
+            <label for="credit-name">Name</label>
+            <input type="text" id="credit-name" class="note-input" list="credit-names" placeholder="z. B. Igor" maxlength="60">
+            <datalist id="credit-names"></datalist>
+          </div>
+          <div class="admin-price-field">
+            <label for="credit-amount">Betrag (€)</label>
+            <input type="number" id="credit-amount" class="note-input" step="0.5" min="0" placeholder="5.00">
+          </div>
+        </div>
+        <div class="admin-btn-row">
+          <button class="btn btn-outline" id="btn-credit-bar">Bar erhalten</button>
+          <button class="btn btn-outline" id="btn-credit-paypal">Per PayPal erhalten</button>
+        </div>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Einkauf erfassen</legend>
+        <p class="hint">Ausgaben für die Kaffeeecke eintragen und wählen, wie
+        sie verrechnet werden.</p>
+        <div class="name-suggest" id="purchase-name-suggest"></div>
+        <div class="admin-form-grid">
+          <div class="admin-price-field">
+            <label for="purchase-name">Wer hat gekauft?</label>
+            <input type="text" id="purchase-name" class="note-input" list="credit-names" maxlength="60" placeholder="Name">
+          </div>
+          <div class="admin-price-field">
+            <label for="purchase-amount">Betrag gesamt (€)</label>
+            <input type="number" id="purchase-amount" class="note-input" step="0.5" min="0" placeholder="12.50">
+          </div>
+        </div>
+        <div class="admin-price-field">
+          <label>Was wurde gekauft? (antippen für Menge × Stückpreis)</label>
+          <div class="name-suggest" id="purchase-products"></div>
+          <div id="purchase-lines"></div>
+        </div>
+        <div class="admin-price-field">
+          <label for="purchase-info">Sonstiges / Notiz (optional)</label>
+          <input type="text" id="purchase-info" class="note-input" maxlength="80" placeholder="z. B. Filter, Zucker">
+        </div>
+        <div class="purchase-total-row">Gesamt: <span id="purchase-total">0,00 €</span></div>
+        <div class="admin-btn-row">
+          <button class="btn btn-outline" id="btn-purchase-refunded">Bar erstattet</button>
+          <button class="btn btn-outline" id="btn-purchase-credit">Als Guthaben</button>
+          <button class="btn btn-outline" id="btn-purchase-open">Offen lassen</button>
+        </div>
+        <div id="admin-purchase-list" class="kv-list"></div>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Konten</legend>
+        <p class="hint">Offene Schulden (Anschreiben) und Guthaben pro Person.
+        „Beglichen" = bar bezahlt · „Verrechnen" = Schuld mit Guthaben tilgen · „Auszahlen" = Guthaben bar zurückgeben.</p>
+        <div class="kv-list" id="admin-account-list"></div>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Kassensturz</legend>
+        <p class="hint">Gezähltes Bargeld und PayPal-Pool-Stand eintragen –
+        die App zeigt die Differenz zum Soll.</p>
+        <div class="admin-form-grid">
+          <div class="admin-price-field">
+            <label for="cashcount-cash">Bargeld gezählt (€)</label>
+            <input type="number" id="cashcount-cash" class="note-input" step="0.01" min="0" placeholder="z. B. 42.50">
+          </div>
+          <div class="admin-price-field">
+            <label for="cashcount-paypal">PayPal-Pool (€)</label>
+            <input type="number" id="cashcount-paypal" class="note-input" step="0.01" min="0" placeholder="z. B. 18.00">
+          </div>
+        </div>
+        <div class="kv-list" id="cashcount-result"></div>
+        <button class="btn btn-primary" id="btn-cashcount-apply">Bestand auf Ist buchen (Kasse setzen)</button>
+        <button class="btn btn-outline" id="btn-cash-zero">Kasse &amp; Pool auf 0 (geleert)</button>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Letzte Buchungen / Storno</legend>
+        <p class="hint">Fehleingaben hier rückgängig machen.</p>
+        <div class="kv-list" id="admin-recent-list"></div>
+      </fieldset>
+      </details>
+
+      <details class="admin-group">
+        <summary>Auswertung</summary>
+      <fieldset class="admin-block">
+        <legend>Auswertungen</legend>
+        <div class="kv-list" id="admin-stats"></div>
+      </fieldset>
+
+      <fieldset class="admin-block">
+        <legend>Monatssieger · Ruhmeshalle</legend>
+        <div class="kv-list" id="admin-champion-list"></div>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Ausgaben je Produkt</legend>
+        <p class="hint">Kostenbasis fürs spätere Berechnen eines fairen
+        Kaffeepreises – wächst mit jedem erfassten Einkauf.</p>
+        <div class="kv-list" id="admin-spend-list"></div>
+      </fieldset>
+      </details>
+
+      <details class="admin-group">
+        <summary>Einstellungen</summary>
+      <fieldset class="admin-block">
+        <legend>Preise</legend>
+        <div class="admin-form-grid" id="admin-prices"></div>
+        <button class="btn btn-primary" id="btn-save-prices">Preise speichern</button>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Bestand setzen</legend>
+        <div class="admin-inventory" id="admin-inventory"></div>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>PayPal-Pool-Link</legend>
+        <input type="url" id="admin-pool-url" class="note-input" placeholder="https://www.paypal.com/pools/c/...">
+        <button class="btn btn-primary" id="btn-save-pool">Pool-Link speichern</button>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Ruhemodus</legend>
+        <p class="hint">Außerhalb der Nutzungszeiten wird der Bildschirm
+        dunkel; Antippen weckt für 10 Minuten.</p>
+        <label class="check-row"><input type="checkbox" id="standby-enabled"> Ruhemodus aktiv</label>
+        <div class="admin-form-grid">
+          <div class="admin-price-field">
+            <label for="standby-start">Beginn</label>
+            <input type="time" id="standby-start" class="note-input">
+          </div>
+          <div class="admin-price-field">
+            <label for="standby-end">Ende</label>
+            <input type="time" id="standby-end" class="note-input">
+          </div>
+        </div>
+        <label class="check-row"><input type="checkbox" id="standby-weekend"> Am Wochenende ganztägig</label>
+        <button class="btn btn-primary" id="btn-save-standby">Ruhemodus speichern</button>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Admin-PIN</legend>
+        <p class="hint">Leer lassen, um den PIN-Schutz zu deaktivieren.</p>
+        <input type="password" inputmode="numeric" id="admin-pin" class="note-input" placeholder="z. B. 1234" autocomplete="off">
+        <button class="btn btn-primary" id="btn-save-pin">PIN speichern</button>
+      </fieldset>
+      </details>
+
+      <details class="admin-group">
+        <summary>Daten & Abschluss</summary>
+      <fieldset class="admin-block">
+        <legend>Abschluss</legend>
+        <div class="admin-btn-row">
+          <button class="btn btn-outline" id="btn-settle-open">Anschreiben ausgleichen</button>
+          <button class="btn btn-outline" id="btn-day-close">Tagesdaten zurücksetzen</button>
+          <button class="btn btn-outline" id="btn-month-close">Monat abschließen</button>
+        </div>
+      </fieldset>
+      <fieldset class="admin-block">
+        <legend>Export &amp; Sicherung</legend>
+        <div class="admin-btn-row">
+          <button class="btn btn-outline" id="btn-export-csv">CSV exportieren</button>
+          <button class="btn btn-outline" id="btn-export-json">JSON-Backup exportieren</button>
+        </div>
+        <label class="import-label" for="import-file">JSON-Backup importieren</label>
+        <input type="file" id="import-file" accept="application/json,.json">
+      </fieldset>
+      <fieldset class="admin-block admin-danger">
+        <legend>Gefahrenzone</legend>
+        <button class="btn btn-danger" id="btn-wipe-all">Alle lokalen Daten löschen</button>
+      </fieldset>
+      </details>
+
+    </div>
+  </div>
+</div>
+
+<!-- Ruhemodus-Overlay -->
+<div class="standby-overlay" id="standby-overlay" hidden>
+  <div class="standby-clock" id="standby-clock"></div>
+  <p class="standby-hint">Antippen zum Aufwecken</p>
+</div>
+
+<!-- Einfaches Toast für Rückmeldungen -->
+<div class="toast" id="toast" hidden></div>
+
+<script src="vendor/qrcode.js"></script>
+<script src="vendor/qrcode_UTF8.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
