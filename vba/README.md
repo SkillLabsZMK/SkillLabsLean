@@ -105,11 +105,13 @@ Zusätzlich war die Spiegelung um einen festen Rand gerechnet
 - Bei `VIS_FlipLongEdge = False` werden stattdessen die Zeilen
   (oben/unten) gespiegelt, ohne Drehung.
 
-**Annahme, bitte prüfen.** Die PPTX-Vorlagen sind passwortverschlüsselt,
-ich konnte das Layout nicht sehen. Die 90°-Drehung des Kartenlayouts ist
-aus dem Code abgeleitet. Sollte das Rückseiten-Layout in der Vorlage
-bereits gedreht sein, wäre `img.Rotation = 180` zu entfernen; der Testdruck
-zeigt das sofort.
+**Verifiziert an den Vorlagen.** In `KanbanSlides_Visitenkarte.pptx`
+(Folie 8,5 × 5,4 cm) sind alle Platzhalter der Layouts „1_Front layout"
+und „1_Vertical Title and Text" um 270° gedreht, Vorder- und Rückseite
+gleich. `Druckvorlage_Visitenkarte.pptx` ist 21,0 × 29,7 cm. In der
+Ausgabedatei `Saved_VIS_20260929_180509.pptx` liegen die Rückseiten bei
+x = 10,9 cm bzw. 1,4 cm (nur Spalten getauscht, Rotation 0), was genau
+den beschriebenen Fehler erzeugt.
 
 ## 5. Kleine Zusatzänderung
 
