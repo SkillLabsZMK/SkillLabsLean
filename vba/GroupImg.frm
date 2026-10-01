@@ -28,7 +28,7 @@ Private Sub btnOK_Click()
         Set img = ws.Shapes(newImgs(1).Name)
         
     Else
-        MsgBox "Es wurde kein Produktbild eingefÃ¼gt.", vbExclamation
+        MsgBox "Es wurde kein Produktbild eingefügt.", vbExclamation
         CloseUserForms
     End If
     
@@ -46,7 +46,7 @@ Private Sub btnOK_Click()
         BlockEditing
         
         Me.Hide
-        MsgBox "Es wurde kein Produktbild eingefÃ¼gt.", vbExclamation
+        MsgBox "Es wurde kein Produktbild eingefügt.", vbExclamation
         CloseUserForms
     End If
           
@@ -86,7 +86,7 @@ Private Sub btnOK_Click()
     
     Application.ScreenUpdating = True
     
-    MsgBox "Das Produktbild wurde erfolgreich eingefÃ¼gt.", vbInformation
+    MsgBox "Das Produktbild wurde erfolgreich eingefügt.", vbInformation
     
     CloseUserForms
     

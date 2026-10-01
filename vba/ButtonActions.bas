@@ -59,8 +59,8 @@ Public Sub DeleteImg()
     ' Extract row number from name
     tblRow = Mid(btnName, 14)
     
-    ' BestÃ¤tigungsabfrage
-    If MsgBox("MÃ¶chten Sie das Bild wirklich lÃ¶schen?", vbOKCancel + vbQuestion, "LÃ¶schen bestÃ¤tigen") = vbCancel Then
+    ' Bestätigungsabfrage
+    If MsgBox("Möchten Sie das Bild wirklich löschen?", vbOKCancel + vbQuestion, "Löschen bestätigen") = vbCancel Then
         Exit Sub
     End If
     
@@ -71,7 +71,7 @@ Public Sub DeleteImg()
     End If
 
     If tbl.DataBodyRange Is Nothing Then
-        MsgBox "Die Tabelle enthÃ¤lt keine Datenzeilen."
+        MsgBox "Die Tabelle enthält keine Datenzeilen."
         Exit Sub
     End If
     

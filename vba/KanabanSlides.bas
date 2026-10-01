@@ -981,7 +981,7 @@ Private Sub InputRange()
     Dim startValue As Long, endValue As Long
     Dim numericRange As Long
 
-    inputText = InputBox("Bitte geben Sie die Zeilennummern oder -bereiche der Materialien ein, fÃ¼r welche Sie Kanban-Karten erstellen mÃ¶chten (z.B. 1, 2-5, 8):", "Materialien AuswÃ¤hlen")
+    inputText = InputBox("Bitte geben Sie die Zeilennummern oder -bereiche der Materialien ein, für welche Sie Kanban-Karten erstellen möchten (z.B. 1, 2-5, 8):", "Materialien Auswählen")
 
     If inputText <> "" Then
         val = Split(inputText, ",")
