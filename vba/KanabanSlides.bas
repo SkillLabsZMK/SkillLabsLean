@@ -22,10 +22,16 @@ Private Const VIS_ColGapCm As Double = 1
 Private Const VIS_Cols As Long = 2
 Private Const VIS_Rows As Long = 5
 
-' Whether the back page's column order should be mirrored (left<->right) so that
-' front and back line up correctly after a double-sided print flips the page.
-' True = correct for printers that flip "on the long edge" (most common default).
-Private Const VIS_MirrorBackColumns As Boolean = True
+' Duplex mode of the printer used for the Visitenkarten sheets.
+'   True  = "Lange Kante spiegeln" (flip on long edge, the usual default)
+'   False = "Kurze Kante spiegeln" (flip on short edge)
+' The card artwork on the VIS slides is rotated by 90 degrees (the card is read in
+' portrait orientation although the slide is landscape). Therefore:
+'   long edge  -> columns mirrored AND back image rotated by 180 degrees
+'   short edge -> rows mirrored, no rotation
+' Back positions are mirrored around the real slide size, so asymmetric margins
+' (1.4 cm left vs. 1.6 cm right on a 21 cm wide A4 page) no longer shift the back.
+Private Const VIS_FlipLongEdge As Boolean = True
 
 
 ' Called from every Sub's error handler label.
@@ -45,6 +51,33 @@ End Sub
 ' Converts a centimeter value to PowerPoint points (72 pt / 2.54 cm per inch)
 Private Function CmToPt(cm As Double) As Single
     CmToPt = cm * 72 / 2.54
+End Function
+
+
+' Returns the product image file name (e.g. "Image_12.png") for a table row.
+'
+' The image files are named after the table row index (row.Index, see
+' GroupImg.btnOK_Click / UpdateImgNames), and that name is stored in the column
+' "Produktbild". Column 1 ("Nr") must NOT be used for this: AdaptRowIndex numbers
+' only the VISIBLE rows (hidden/filtered rows get 0), so with an active filter
+' "Nr" and row.Index differ and the image of a different product would be used.
+Private Function ProductImageName(row As ListRow) As String
+
+    Dim imgName As String
+    Dim imgCol As Long
+
+    On Error Resume Next
+    imgCol = row.Parent.ListColumns("Produktbild").Index
+    On Error GoTo 0
+    If imgCol = 0 Then imgCol = 17 ' fallback: column Q
+
+    imgName = Trim(CStr(row.Range.Cells(imgCol).Value))
+
+    ' Row without stored name: fall back to the naming convention
+    If imgName = "" Then imgName = "Image_" & row.Index & ".png"
+
+    ProductImageName = imgName
+
 End Function
 
 
@@ -271,7 +304,7 @@ Private Sub CreateCanbanSlides_A6(tbl As ListObject, row As ListRow)
         Dim imgSaveFolder As String
 
         imgSaveFolder = BasisPfad & "ProductImages\"
-        bildName = "Image_" & row.Range.Cells(1).Value & ".png"
+        bildName = ProductImageName(row) ' from column "Produktbild", not from "Nr"
         Call InsertImage_A6(imgSaveFolder, bildName, pptSlide, pptPres)
 
     End With
@@ -565,7 +598,7 @@ Private Sub CreateCanbanSlides_VIS(tbl As ListObject, row As ListRow)
 
     Dim bildName As String
     imgSaveFolder = BasisPfad & "ProductImages\"
-    bildName = "Image_" & row.Range.Cells(1).Value & ".png"
+    bildName = ProductImageName(row) ' from column "Produktbild", not from "Nr"
 
     Call InsertImage_VIS(imgSaveFolder, bildName, pptSlide, pptPres)
 
@@ -777,7 +810,10 @@ Private Sub EMFsIntoTemplate_VIS(emfFolder As String, visRow As Collection, addD
     Dim globalNr As Long
     Dim rowInGrid As Long
     Dim colInGrid As Long
-    Dim colInGridBack As Long
+    Dim frontLeftPt As Single
+    Dim frontTopPt As Single
+    Dim slideW As Single
+    Dim slideH As Single
     Dim frontSlide As PowerPoint.Slide
     Dim backSlide As PowerPoint.Slide
     Dim frontEMF As String
@@ -806,11 +842,16 @@ Private Sub EMFsIntoTemplate_VIS(emfFolder As String, visRow As Collection, addD
                                                   WithWindow:=msoTrue, _
                                                   Untitled:=msoTrue)
 
+    ' Own name ("_Druck") so it can never collide with the card deck saved by RunVIS
+    ' a moment earlier under Saved_VIS_<same timestamp>.pptx
     Dim newFileName As String
-    newFileName = BasisPfad & "KanbanSlides_PPTX\Saved_VIS_" & Format(Now, "yyyymmdd_HHMMSS") & ".pptx"
+    newFileName = BasisPfad & "KanbanSlides_PPTX\Saved_VIS_Druck_" & Format(Now, "yyyymmdd_HHMMSS") & ".pptx"
     templatePres.SaveAs newFileName
 
     slideIndex = templatePres.Slides.Count + 1
+
+    slideW = templatePres.PageSetup.SlideWidth
+    slideH = templatePres.PageSetup.SlideHeight
 
     For pageNr = 1 To numberOfPages
 
@@ -834,29 +875,31 @@ Private Sub EMFsIntoTemplate_VIS(emfFolder As String, visRow As Collection, addD
             colInGrid = ((posInPage - 1) Mod VIS_Cols) + 1
 
             ' Front image: placed directly at its grid position
-            leftPt = CmToPt(VIS_MarginLeftCm + (colInGrid - 1) * (VIS_CardWidthCm + VIS_ColGapCm))
-            topPt = CmToPt(VIS_MarginTopCm + (rowInGrid - 1) * VIS_CardHeightCm)
+            frontLeftPt = CmToPt(VIS_MarginLeftCm + (colInGrid - 1) * (VIS_CardWidthCm + VIS_ColGapCm))
+            frontTopPt = CmToPt(VIS_MarginTopCm + (rowInGrid - 1) * VIS_CardHeightCm)
 
             frontEMF = emfFolder & "KanbanSlides_" & addDate & "_Slide_" & visRow(globalNr) & "_1.emf"
             If Dir(frontEMF) <> "" Then
                 Set img = frontSlide.Shapes.AddPicture(Filename:=frontEMF, _
                                                         LinkToFile:=msoFalse, _
                                                         SaveWithDocument:=msoTrue, _
-                                                        Left:=leftPt, Top:=topPt, _
+                                                        Left:=frontLeftPt, Top:=frontTopPt, _
                                                         Width:=CmToPt(VIS_CardWidthCm), _
                                                         Height:=CmToPt(VIS_CardHeightCm))
             
             End If
 
-            ' Back image: column mirrored (if enabled) so front/back align
-            If VIS_MirrorBackColumns Then
-                colInGridBack = VIS_Cols - colInGrid + 1
+            ' Back image: mirrored around the real page size so that it lands exactly
+            ' behind its front after the printer flips the sheet (see VIS_FlipLongEdge).
+            If VIS_FlipLongEdge Then
+                ' Sheet is flipped around its long (vertical) edge: left <-> right
+                leftPt = slideW - frontLeftPt - CmToPt(VIS_CardWidthCm)
+                topPt = frontTopPt
             Else
-                colInGridBack = colInGrid
+                ' Sheet is flipped around its short (horizontal) edge: top <-> bottom
+                leftPt = frontLeftPt
+                topPt = slideH - frontTopPt - CmToPt(VIS_CardHeightCm)
             End If
-
-            leftPt = CmToPt(VIS_MarginLeftCm + (colInGridBack - 1) * (VIS_CardWidthCm + VIS_ColGapCm))
-            topPt = CmToPt(VIS_MarginTopCm + (rowInGrid - 1) * VIS_CardHeightCm)
 
             backEMF = emfFolder & "KanbanSlides_" & addDate & "_Slide_" & visRow(globalNr) & "_2.emf"
             If Dir(backEMF) <> "" Then
@@ -866,6 +909,13 @@ Private Sub EMFsIntoTemplate_VIS(emfFolder As String, visRow As Collection, addD
                                                        Left:=leftPt, Top:=topPt, _
                                                        Width:=CmToPt(VIS_CardWidthCm), _
                                                        Height:=CmToPt(VIS_CardHeightCm))
+
+                ' The card artwork is rotated by 90 degrees on the slide, so a long-edge
+                ' flip of the sheet is a SHORT-edge flip of the card itself. Turning the
+                ' back by 180 degrees makes it readable when the card is flipped around
+                ' its long edge like a page. (Rotation is around the centre, so the
+                ' bounding box and therefore the position stay the same.)
+                If VIS_FlipLongEdge Then img.Rotation = 180
             End If
         Next posInPage
 
