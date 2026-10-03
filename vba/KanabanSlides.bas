@@ -81,31 +81,6 @@ Private Function ProductImageName(row As ListRow) As String
 End Function
 
 
-' Switches bullets off for every text placeholder of a slide.
-' The VIS template layouts only disable bullets on the layout's prompt text, not in
-' the placeholder's list style, so new slides inherit the master's bullet ("•").
-Private Sub RemoveBullets_VIS(pptSlide As Object)
-
-    On Error GoTo ErrHandler
-
-    Dim i As Long
-
-    With pptSlide.Shapes
-        For i = 1 To .Placeholders.Count
-            If .Placeholders(i).HasTextFrame Then
-                .Placeholders(i).TextFrame.TextRange.ParagraphFormat.Bullet.Visible = msoFalse
-            End If
-        Next i
-    End With
-
-    Exit Sub
-
-ErrHandler:
-    Call HandleError("RemoveBullets_VIS")
-
-End Sub
-
-
 ' Opens the given folder in Windows Explorer. Used at the end of the whole process so the user lands directly on the generated PDFs.
 Private Sub OpenFolderInExplorer(folderPath As String)
 
@@ -669,8 +644,6 @@ Private Sub AddData_Front_VIS(tbl As ListObject, row As ListRow, pptSlide As Obj
         .Placeholders(12).TextFrame.TextRange.Text = row.Range.Cells(10).Value
 
     End With
-
-    Call RemoveBullets_VIS(pptSlide)
     
     Exit Sub
 
@@ -715,8 +688,6 @@ Private Sub AddData_Back_VIS(supportTbl2 As ListObject, tbl As ListObject, row A
         .Placeholders(11).TextFrame.TextRange.Text = tbl.HeaderRowRange.Cells(15).Value & ": " & row.Range.Cells(15).Value
 
     End With
-
-    Call RemoveBullets_VIS(pptSlide)
     
     Exit Sub
 
