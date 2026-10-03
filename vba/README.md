@@ -140,3 +140,24 @@ den beschriebenen Fehler erzeugt.
    Rückseite lesbar und deckungsgleich mit der Vorderseite.
 4. Optional: `VIS_FlipLongEdge = False` setzen und mit „Kurze Kante
    spiegeln" drucken; Ergebnis muss gleich sein.
+
+## 8. Nachtrag: Aufzählungspunkte vor den Einträgen
+
+**Ursache (Vorlage).** Im Layout „1_Front layout" von
+`KanbanSlides_Visitenkarte.pptx` ist „keine Aufzählung" (`<a:buNone/>`) bei
+9 von 12 Platzhaltern nur am Beispieltext des Layouts gesetzt, nicht im
+Listenformat (`lstStyle`) des Platzhalters. Neue Folien erben daher das
+Aufzählungszeichen „•" (Arial) aus dem Folienmaster. Nur „Text Placeholder
+12" (Wert von Bestell-Menge) ist korrekt definiert. Die EMFs der Datei
+`Saved_VIS_20260929_180509.pptx` enthalten die Punkte bereits, der Fehler
+ist also älter als die Änderungen oben.
+
+**Änderung (VBA).** Neue Prozedur `RemoveBullets_VIS`, die nach dem
+Befüllen für alle Platzhalter der Folie
+`ParagraphFormat.Bullet.Visible = msoFalse` setzt. Sie wird am Ende von
+`AddData_Front_VIS` und `AddData_Back_VIS` aufgerufen.
+
+**Alternative (Vorlage).** Im Folienmaster, Layout „1_Front layout", bei
+jedem Platzhalter die Aufzählung ausschalten; damit die Einstellung in das
+Listenformat geschrieben wird, muss sie über den Platzhalter (Rahmen
+markieren), nicht über den Text gesetzt werden.
