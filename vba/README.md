@@ -140,3 +140,25 @@ den beschriebenen Fehler erzeugt.
    Rückseite lesbar und deckungsgleich mit der Vorderseite.
 4. Optional: `VIS_FlipLongEdge = False` setzen und mit „Kurze Kante
    spiegeln" drucken; Ergebnis muss gleich sein.
+
+## 8. Nachtrag: Aufzählungspunkte vor den Einträgen
+
+**Ursache (Vorlage).** Im Layout „1_Front layout" von
+`KanbanSlides_Visitenkarte.pptx` ist „keine Aufzählung" (`<a:buNone/>`) bei
+9 von 12 Platzhaltern nur am Beispieltext des Layouts gesetzt, nicht im
+Listenformat (`lstStyle`) des Platzhalters. Neue Folien erben daher das
+Aufzählungszeichen „•" (Arial) aus dem Folienmaster. Nur Bezeichnung,
+Einkauf und „Text Placeholder 12" (Wert von Bestell-Menge) sind korrekt
+definiert. Die EMFs der Datei `Saved_VIS_20260929_180509.pptx` enthalten
+die Punkte bereits, der Fehler ist also älter als die Änderungen oben.
+
+**Änderung (Vorlage, kein VBA).** `templates/KanbanSlides_Visitenkarte.pptx`
+ist die korrigierte Vorlage: In den 9 betroffenen Platzhaltern des Layouts
+„1_Front layout" wurde im Listenformat `lvl1pPr marL="0" indent="0"` mit
+`<a:buNone/>` ergänzt, passend zu den Werten, die der Beispieltext des
+Layouts bereits hatte. Sonst ist nichts verändert. Die Datei ist wie das
+Original mit dem Passwort „Kanban" verschlüsselt. Sie ersetzt
+`KanbanSlides_Visitenkarte.pptx` im Basisordner (Original vorher sichern).
+
+Ein VBA-Workaround (`RemoveBullets_VIS`) wurde kurz eingebaut und wieder
+entfernt, weil die Vorlage die eigentliche Ursache ist.
